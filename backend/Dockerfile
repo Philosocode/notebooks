@@ -4,9 +4,7 @@ WORKDIR /app
 
 COPY package.json .
 
-RUN npm install && \
-    npx knex migrate:latest && \
-    npx knex seed:run
+RUN npm install
 
 COPY . .
 
