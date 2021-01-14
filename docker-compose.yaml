@@ -1,0 +1,47 @@
+version: "3.8"
+
+volumes:
+  data:
+
+services:
+  db:
+    image: "postgres:13.1-alpine"
+    ports:
+      - "5432:5432"
+    volumes:
+      # named volume
+      - data:/var/lib/postgresql/data
+      # use to run init script in DB container
+      - ./backend/db/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    env_file:
+      - ./env/db.env
+
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    volumes:
+      # bind mount for source code
+      - ./backend:/app
+      # anonymous volume
+      - /app/node_modules
+    env_file:
+      - ./env/db.env
+      - ./env/backend.env
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    ports: 
+      - "3000:3000"
+    # -it. Needed for React dev server
+    stdin_open: true
+    tty: true
+    volumes:
+      # bind mount for source code
+      - ./frontend/src:/app/src
+    env_file:
+      - ./env/frontend.env
+    depends_on:
+      - backend
