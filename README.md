@@ -1,4 +1,11 @@
 # Project Readme
+## Setup
+1. Install Docker: https://www.docker.com/. `docker-compose` is used to run the
+app in development.
+2. In the `env` folder, change the name from `*.env.example` to `*.env`. Make
+sure to change the information in `db.env` as needed.
+3. At the root directory, run `npm start` to install dependencies and start the app.
+
 ## `docker-compose` Commands
 ``` shell
 # start the app, (re)-building images as needed

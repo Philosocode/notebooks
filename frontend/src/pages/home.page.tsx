@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TAppState } from "redux/store";
 
-import { fetchUsers } from "redux/user/user.thunk";
+import { fetchUsers } from "user/redux/user.thunks";
 
 export const HomePage = () => {
   const dispatch = useDispatch();

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { fetchUsers } from "./user.thunk";
+import { fetchUsers } from "./user.thunks";
 
 interface IUserState {
   users?: any[];
