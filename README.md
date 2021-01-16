@@ -10,8 +10,8 @@ run `npm start` to install dependencies and start the app.
 
 ### Run Migrations & Seeds
 4. Start the db & backend containers: `docker-compose up -d backend`. This also starts the db container since the backend depends on it.
-5. Migrations: run `docker-compose exec backend sh -c "cd db && npx knex migrate:latest"`
-6. Seed: run `docker-compose exec backend sh -c "cd db && npx knex seed:run"`
+5. Migrations: run `docker-compose exec backend sh -c "npx knex migrate:latest"`
+6. Seed: run `docker-compose exec backend sh -c "npx knex seed:run"`
 7. Run `docker-compose down` to stop running containers
 
 ### Start The App
@@ -19,6 +19,23 @@ run `npm start` to install dependencies and start the app.
   - if you have Node.js installed, you can run `npm start`
   - if not, run `docker-compose up --build -d` to start the app in detached mode
 
+### Setup Google OAuth
+https://console.developers.google.com
+1. Create a New Project. If this is your first time creating a project, choose "Select a project" in the top left corner, then "NEW PROJECT"
+2. In the left sidebar, choose "OAuth Consent Screen"
+  - page 1: External > Create
+  - page 2 (OAuth consent screen): Fill in "App name", "User support email", and "Developer contact information"
+  - page 3 (Scopes): choose "Save and Continue"
+  - page 4 (Test Users): choose "Save and Continue"
+  - page 5: choose "Back to Dashboard"
+3. In the left sidebar, choose "Credentials"
+  - Create Credentials -> OAuth Client ID
+  - Application Type: Web application
+  - Fill in "Name"
+  - Authorized JavaScript origins: http://localhost:3000
+  - Authorized redirect URIs: http://localhost:3000, http://localhost:3000/auth
+  - Create
+4. Store the Client ID & Secret
 
 ## `docker-compose` Commands
 ``` shell

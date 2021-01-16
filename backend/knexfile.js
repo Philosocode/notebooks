@@ -8,8 +8,8 @@ module.exports = {
       database: process.env.POSTGRES_DB,
       charset: "utf8",
     },
-    migrations: { directory: "./migrations" },
-    seeds: { directory: "./seeds" },
+    migrations: { directory: "./db/migrations" },
+    seeds: { directory: "./db/seeds" },
   },
   production: {
     client: 'postgresql',
