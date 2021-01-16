@@ -1,9 +1,9 @@
 exports.up = function (knex) {
   return knex.schema.createTable("user", (tbl) => {
     tbl.uuid("id").primary().defaultTo(knex.raw('uuid_generate_v4()'));;
-    tbl.string("google_id", 50).notNullable();
+    tbl.string("google_id", 50).notNullable().unique();
     tbl.string("name", 100).notNullable();
-    tbl.string("email").notNullable();
+    tbl.string("email").notNullable().unique();
     tbl.string("photo_url");
     tbl.timestamp("created_at").notNullable().defaultTo(knex.fn.now())
   });

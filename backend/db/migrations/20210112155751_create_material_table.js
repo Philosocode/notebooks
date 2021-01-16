@@ -4,7 +4,7 @@ exports.up = function (knex) {
     tbl.string("name", 100).notNullable();
     // adds created_at, updated_at
     tbl.timestamps(true, true);
-    tbl.string("user_id").notNullable().references("google_id").inTable("user");
+    tbl.uuid("user_id").notNullable().references("id").inTable("user");
   });
 };
 
