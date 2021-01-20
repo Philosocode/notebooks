@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { LOCAL_STORAGE_TOKEN_KEY } from "shared/constants.shared";
-import { IAuthState, ILoginPayload } from "./auth.interfaces";
+import { IAuthState, ILoginPayload } from "../auth.types";
 
 import { loginGoogle } from "./auth.thunks";
 

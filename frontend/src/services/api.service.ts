@@ -1,4 +1,4 @@
-import { logout } from "auth/auth.slice";
+import { logout } from "auth/redux/auth.slice";
 import axios from "axios";
 import { store } from "redux/store";
 

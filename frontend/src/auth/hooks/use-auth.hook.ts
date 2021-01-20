@@ -4,8 +4,8 @@ import { useHistory } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
 import { LOCAL_STORAGE_TOKEN_KEY } from "shared/constants.shared";
-import { login, logout } from "auth/auth.slice";
-import { IAuthToken } from "auth/auth.interfaces";
+import { login, logout } from "auth/redux/auth.slice";
+import { IAuthToken } from "auth/auth.types";
 
 export const useAuth = () => {
   const dispatch = useDispatch();

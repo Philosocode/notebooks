@@ -2,8 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { api } from "services/api.service";
 import { TResStatus } from "shared/types.shared";
-import { ILoginPayload } from "./auth.interfaces";
+import { ILoginPayload } from "../auth.types";
 import { login } from "./auth.slice";
+import { startLoading, stopLoading } from "loading/redux/loading.slice";
 
 interface ILoginRes {
   data: ILoginPayload;
@@ -18,11 +19,14 @@ export const loginGoogle = createAsyncThunk(
       const { token: jwtToken, user } = res.data.data;
 
       thunkAPI.dispatch(login({ token: jwtToken, user }));
+      thunkAPI.dispatch(startLoading());
 
       return jwtToken;
     } catch (err) {
       console.error(err);
       thunkAPI.rejectWithValue(err);
+    } finally {
+      thunkAPI.dispatch(stopLoading())
     }
   }
 );

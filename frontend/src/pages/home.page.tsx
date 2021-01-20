@@ -4,14 +4,15 @@ import GoogleLogin from "react-google-login";
 
 import { TAppState } from "redux/store";
 // import { fetchUsers } from "user/redux/user.thunks";
-import { loginGoogle } from "auth/auth.thunks";
-import { logout } from "auth/auth.slice";
+import { loginGoogle } from "auth/redux/auth.thunks";
+import { logout } from "auth/redux/auth.slice";
 import { Link } from "react-router-dom";
+import { selectIsLoading } from "loading/redux/loading.selectors";
 
 export const HomePage = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: TAppState) => state.auth.user);
-  // const users = useSelector((state: TAppState) => state.user.users);
+  const isLoading = useSelector(selectIsLoading);
 
   async function handleGoogleSuccess(googleData: any) {
     dispatch(loginGoogle(googleData.tokenId));
@@ -24,6 +25,8 @@ export const HomePage = () => {
   function handleLogout() {
     dispatch(logout());
   }
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="text-center pt-16">
