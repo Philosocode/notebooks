@@ -13,20 +13,25 @@ import { MaterialDetailPage } from "pages/material-detail.page";
 import { PracticePage } from "pages/practice.page";
 import { SettingsPage } from "pages/settings.page";
 
+import { useAuth } from "auth/hooks/use-auth.hook";
+import { PrivateRoute } from "shared/components/private-route.component";
+
 export function App() {
+  useAuth();
+
   return (
     <div className="app-container font-san">
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route exact path="/concepts" component={ConceptsPage} />
-        <Route exact path="/concepts/:conceptId" component={ConceptDetailPage} />
-        <Route exact path="/materials" component={MaterialsPage} />
-        <Route exact path="/materials/:materialId" component={MaterialDetailPage} />
-        <Route exact path="/part/:partId" component={PartDetailPage} />
-        <Route exact path="/practice" component={PracticePage} />
-        <Route exact path="/settings" component={SettingsPage} />
         <Route exact path="/library" component={LibraryPage} />
         <Route exact path="/library/:page" component={LibraryDetailPage} />
+        <PrivateRoute exact path="/concepts" component={ConceptsPage} />
+        <PrivateRoute exact path="/concepts/:conceptId" component={ConceptDetailPage} />
+        <PrivateRoute exact path="/materials" component={MaterialsPage} />
+        <PrivateRoute exact path="/materials/:materialId" component={MaterialDetailPage} />
+        <PrivateRoute exact path="/part/:partId" component={PartDetailPage} />
+        <PrivateRoute exact path="/practice" component={PracticePage} />
+        <PrivateRoute exact path="/settings" component={SettingsPage} />
         <Route component={NotFoundPage} />
       </Switch>
     </div>
