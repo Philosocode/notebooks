@@ -35,7 +35,7 @@ https://console.developers.google.com
   - Authorized JavaScript origins: http://localhost:3000
   - Authorized redirect URIs: http://localhost:3000, http://localhost:3000/auth
   - Create
-4. Store the Client ID & Secret
+4. Store the Client ID in `frontend.env` and `backend.env`
 
 ## `docker-compose` Commands
 ``` shell
