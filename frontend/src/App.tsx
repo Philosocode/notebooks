@@ -14,6 +14,7 @@ import { PracticePage } from "pages/practice.page";
 import { SettingsPage } from "pages/settings.page";
 
 import { useAuth } from "auth/hooks/use-auth.hook";
+import { GlobalLoader } from "loading/components/global-loader.component";
 import { PrivateRoute } from "shared/components/private-route.component";
 
 export function App() {
@@ -21,6 +22,7 @@ export function App() {
 
   return (
     <div className="app-container font-san">
+      <GlobalLoader />
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/library" component={LibraryPage} />

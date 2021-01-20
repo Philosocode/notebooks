@@ -1,4 +1,7 @@
 @import "tailwindcss/components";
+
+@import "./components/loader.css";
+
 /* @import "grid";
 @import "hero";
 @import "section";
