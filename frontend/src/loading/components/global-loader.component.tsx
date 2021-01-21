@@ -1,11 +1,11 @@
-import { selectIsLoading } from "loading/redux/loading.selectors";
 import React from "react";
 import ReactDOM from "react-dom";
 import { useSelector } from "react-redux";
 
+import { selectIsLoading } from "loading/redux/loading.selectors";
+
 export const GlobalLoader = () => {
   const isLoading = useSelector(selectIsLoading);
-
   if (!isLoading) return null;
 
   return ReactDOM.createPortal(
