@@ -4,19 +4,16 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 
 import { store } from "redux/store";
-
-// imports for Tailwind CSS
-import "styles/base.css";
-import "styles/components.css";
-import "styles/utilities.css";
-
 import { App } from "./App";
+import { GlobalStyles } from "shared/styles/global.styles";
+
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
+        <GlobalStyles />
         <App />
       </BrowserRouter>
     </Provider>
