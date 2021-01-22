@@ -29,41 +29,35 @@ export const HomePage = () => {
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div className="text-center pt-16">
+    <div>
       <h1>Home Page</h1>
-      <Link to="/">Home</Link>
-      <Link to="/library">Library</Link>
-      {
-        !user && (
-          <>
-            <h1 className="font-bold">You are not logged in.</h1>
-            <GoogleLogin
-              clientId={`${process.env.REACT_APP_OAUTH_CLIENT_ID}`}
-              buttonText="Login With Google"
-              onSuccess={handleGoogleSuccess}
-              onFailure={handleGoogleFailure}
-              cookiePolicy={"single_host_origin"}
-            />
-          </>
-        )
-      }
-      {
-        user && (
-          <>
-            <h1>Welcome, {user.name}</h1>
-            <h3>Google ID: {user.google_id}</h3>
-            <h3>Email: {user.email}</h3>
-            <img src={user.photo_url} alt={user.name} className="m-auto" />
-            <Link to="/users">Users</Link>
-            <p
-              onClick={handleLogout}
-              className="underline text-green-700 cursor-pointer"
-            >
-              Logout
-            </p>
-          </>
-        )
-      }
+      {!user && (
+        <>
+          <h3>You are not logged in.</h3>
+          <GoogleLogin
+            clientId={`${process.env.REACT_APP_OAUTH_CLIENT_ID}`}
+            buttonText="Login With Google"
+            onSuccess={handleGoogleSuccess}
+            onFailure={handleGoogleFailure}
+            cookiePolicy={"single_host_origin"}
+          />
+        </>
+      )}
+      {user && (
+        <>
+          <h1>Welcome, {user.name}</h1>
+          <h3>Google ID: {user.google_id}</h3>
+          <h3>Email: {user.email}</h3>
+          <img src={user.photo_url} alt={user.name} className="m-auto" />
+          <Link to="/users">Users</Link>
+          <p
+            onClick={handleLogout}
+            className="underline text-green-700 cursor-pointer"
+          >
+            Logout
+          </p>
+        </>
+      )}
     </div>
   );
 };
