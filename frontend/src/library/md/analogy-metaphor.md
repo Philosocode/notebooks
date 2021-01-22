@@ -1,4 +1,4 @@
-# Interleaving
+# Analogy / Metaphor
 
 ## What is this?
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a maximus ex. Vivamus aliquet sem vitae lorem fringilla ultricies. Aenean non neque non massa malesuada venenatis a vel ipsum. Donec quis lorem ac velit efficitur auctor. Aenean fermentum ex nec leo cursus, at lacinia neque pretium. Aliquam tincidunt purus odio, vel fringilla nisl tristique mollis. Etiam urna mi, sollicitudin sit amet consectetur at, ultricies sed mauris. Ut quam nisi, aliquam vitae ipsum ac, commodo cursus libero. Sed sed congue ipsum. Aenean lacinia molestie dictum. Fusce massa magna, commodo molestie mi ut, placerat ornare lectus.

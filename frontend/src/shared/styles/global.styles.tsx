@@ -5,23 +5,22 @@ import { theme } from "./theme.styles";
 
 export const GlobalStyles = createGlobalStyle`
   ${normalize}
-
   :root {
     box-sizing: border-box;
   }
-  
+
   *,
   *::before,
   *::after {
     box-sizing: inherit;
   }
-  
+
   html {
     font-size: 62.5%; /* 1rem = 10px, 10/16 = 62.5% */
-    font-family: Avenir, "Open Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, 
-                 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: Avenir, "Open Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   }
-  
+
   body {
     font-size: 1.6rem;
     line-height: 1.5;
@@ -30,23 +29,23 @@ export const GlobalStyles = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-      monospace;
+    monospace;
   }
 
   a {
-    color: ${theme.colors.green};
+    color: #333;
     text-decoration: none;
   }
 
   /* https://tailwindcss.com/docs/preflight */
-  blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre {
+  blockquote, dl, dd, h1, h2, h3, h4, h5, h6, hr, figure, p, pre {
     margin: 0;
   }
 
-  h1,h2,h3,h4,h5,h6 {
+  h1, h2, h3, h4, h5, h6 {
     font-size: inherit;
   }
 
@@ -56,7 +55,7 @@ export const GlobalStyles = createGlobalStyle`
     list-style-type: none;
   }
 
-  svg,video,canvas,audio,iframe,embed,object {
+  svg, video, canvas, audio, iframe, embed, object {
     display: block;
   }
 

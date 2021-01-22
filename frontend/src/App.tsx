@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import { appRoutes } from "./shared/app.routes";
 import { useAuth } from "auth/hooks/use-auth.hook";
+import { useScrollToTop } from "shared/hooks/use-scroll-to-top.hook";
 
 import { GlobalLoader } from "loading/components/global-loader.component";
 import { PrivateRoute } from "shared/components/private-route.component";
@@ -14,28 +15,41 @@ import { theme } from "shared/styles/theme.styles";
 
 export function App() {
   useAuth();
+  useScrollToTop();
 
   function renderRoutes() {
-    return appRoutes.map(route => {
+    return appRoutes.map((route) => {
       if (route.isPrivate) {
-        return <PrivateRoute exact path={route.path} component={route.component} />;
+        return (
+          <PrivateRoute
+            exact
+            path={route.path}
+            component={route.component}
+            key={route.path}
+          />
+        );
       }
 
-      return <Route exact path={route.path} component={route.component} />;
-    })
+      return (
+        <Route
+          exact
+          path={route.path}
+          component={route.component}
+          key={route.path}
+        />
+      );
+    });
   }
 
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <Sidebar />
       <Switch>
-        <SMainContent>
-          { renderRoutes() }
-        </SMainContent>
-        <Route component={NotFoundPage}/>
+        <SMainContent>{renderRoutes()}</SMainContent>
+        <Route component={NotFoundPage} />
       </Switch>
-      <GlobalLoader/>
+      <GlobalLoader />
     </>
   );
 }
