@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { normalize } from "styled-normalize";
+import { theme } from "./theme.styles";
 // import { theme } from "shared/styles/theme.styles";
 
 export const GlobalStyles = createGlobalStyle`
@@ -36,6 +37,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   a {
+    color: ${theme.colors.green};
     text-decoration: none;
   }
 

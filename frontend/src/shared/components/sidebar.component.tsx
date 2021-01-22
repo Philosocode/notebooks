@@ -13,8 +13,9 @@ export const Sidebar = () => {
 const SAside = styled.aside`
   background: #ddd;
   display: block;
+  height: 100vh; width: ${theme.other.sidebarWidth};
   position: fixed;
-  left: 0;
-  height: 100vh;
-  width: ${theme.other.sidebarWidth};
+    top: ${theme.other.navbarHeight};
+    left: 0;
+  overflow-y: auto;
 `;

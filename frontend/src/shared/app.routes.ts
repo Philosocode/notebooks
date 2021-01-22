@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 import { HomePage } from "../pages/home.page";
-import { LibraryPage } from "../pages/library.page";
+import { LibraryPage } from "../library/pages/library.page";
 import { LibraryDetailPage } from "../pages/library-detail.page";
 import { ConceptDetailPage } from "../pages/concept-detail.page";
 import { ConceptsPage } from "../pages/concepts.page";

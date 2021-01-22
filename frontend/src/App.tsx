@@ -42,4 +42,5 @@ export function App() {
 
 const SMainContent = styled.main`
   padding-left: ${theme.other.sidebarWidth};
+  padding-bottom: ${theme.spacing.lg};
 `;

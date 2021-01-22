@@ -27,6 +27,7 @@ export const theme = {
     xl: `${BASE_SPACING_SIZE * 4}rem`,
   },
   other: {
+    navbarHeight: "5rem",
     sideGap: "2.5%",
     sidebarWidth: "25rem"
   }

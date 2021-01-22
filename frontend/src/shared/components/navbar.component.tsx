@@ -20,9 +20,15 @@ export const Navbar = () => {
 
 const SNav = styled.nav`
   background: #eee;
-  margin-right: ${theme.other.sideGap};
-  padding-top: ${theme.spacing.sm};
-  padding-bottom: ${theme.spacing.sm};
+  display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  height: ${theme.other.navbarHeight};
+  padding-right: ${theme.other.sideGap};
+  position: fixed;
+    top: 0;
+    left: 0;
+  width: 100vw;
 `;
 
 const SNavList = styled.ul`
