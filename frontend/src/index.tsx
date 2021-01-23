@@ -7,6 +7,8 @@ import { store } from "redux/store";
 import { App } from "./App";
 import { GlobalStyles } from "shared/styles/global.styles";
 
+import "shared/config/font-awesome.config";
+
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(

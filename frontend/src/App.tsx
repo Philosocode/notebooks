@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
-import { appRoutes } from "./shared/app.routes";
+import { appRoutes } from "./shared/config/app.routes";
 import { useAuth } from "auth/hooks/use-auth.hook";
 import { useScrollToTop } from "shared/hooks/use-scroll-to-top.hook";
 
