@@ -2,6 +2,6 @@ import React from "react";
 
 export const ConceptsPage = () => {
   return (
-    <h1>Concepts Page</h1>
+    <h1>Concepts</h1>
   );
  };

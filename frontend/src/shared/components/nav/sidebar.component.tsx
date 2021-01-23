@@ -1,17 +1,17 @@
-import React from "react";
+import React, { FC } from "react";
 import styled from "styled-components";
 
 import { theme } from "shared/styles/theme.styles";
-import { sections } from "library/library.routes";
-import { LibrarySidebarSection } from "../../library/components/library-sidebar-section.component";
-import { SidebarFooter } from "./nav/sidebar-footer.component";
+import { SidebarFooter } from "./sidebar-footer.component";
 
-export const Sidebar = () => {
+interface IProps {
+  children?: React.ReactNode;
+}
+
+export const Sidebar: FC<IProps> = ({ children }) => {
   return (
     <SSidebar>
-      {sections.map((section, idx) => (
-        <LibrarySidebarSection section={section} key={section.name + idx} />
-      ))}
+      {children}
       <SidebarFooter />
     </SSidebar>
   );
