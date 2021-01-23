@@ -8,7 +8,7 @@ export const Navbar = () => {
     <SNav>
       <SNavList>
         <SNavItem>
-          <SNavLink exact to="/">Home</SNavLink>
+          <SNavLink exact to="/login">Login</SNavLink>
         </SNavItem>
         <SNavItem>
           <SNavLink to="/library">Library</SNavLink>

@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 
 import { theme } from "shared/styles/theme.styles";
 import { useRouteMatch } from "react-router-dom";
+import { SPageContentCenter } from "shared/styles/layout.styles";
 
 interface IMatchParams {
   page: string;
@@ -19,6 +20,7 @@ export const LibraryDetailPage = () => {
     loadMdFile();
 
     async function loadMdFile() {
+      // @ts-ignore
       const file = await import(`../md/${page}.md`);
       const res = await fetch(file.default);
       const text = await res.text();
@@ -27,11 +29,11 @@ export const LibraryDetailPage = () => {
   }, [page]);
 
   return (
-    <SLibraryPageContent>
+    <SPageContentCenter>
       <SMarkdownStyles>
         <ReactMarkdown source={mdText} />
       </SMarkdownStyles>
-    </SLibraryPageContent>
+    </SPageContentCenter>
   );
 };
 
@@ -39,7 +41,6 @@ const SMarkdownStyles = styled.div`
   & > h1 {
     font-size: ${theme.fontSizes.xl};
     font-weight: 800;
-    margin-top: ${theme.spacing.lg};
     margin-bottom: -${theme.spacing.sm};
   }
 
@@ -63,10 +64,5 @@ const SMarkdownStyles = styled.div`
   & a {
     text-decoration: underline;
   }
-`;
+`
 
-const SLibraryPageContent = styled.div`
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 0 ${theme.spacing.base} 0 ${theme.spacing.base};
-`;

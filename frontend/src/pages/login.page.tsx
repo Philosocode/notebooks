@@ -3,13 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import GoogleLogin from "react-google-login";
 
 import { TAppState } from "redux/store";
-// import { fetchUsers } from "user/redux/user.thunks";
 import { loginGoogle } from "auth/redux/auth.thunks";
-import { logout } from "auth/redux/auth.slice";
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { selectIsLoading } from "loading/redux/loading.selectors";
+import { SPageContentCenter } from "shared/styles/layout.styles";
+import { SHeadingTitle } from "../shared/styles/typography.styles";
+import styled from "styled-components";
+import { theme } from "../shared/styles/theme.styles";
 
-export const HomePage = () => {
+export const LoginPage = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: TAppState) => state.auth.user);
   const isLoading = useSelector(selectIsLoading);
@@ -22,19 +24,15 @@ export const HomePage = () => {
     alert("ERROR: Failed to sign in with Google");
   }
 
-  function handleLogout() {
-    dispatch(logout());
-  }
-
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div>
-      <h1>Home Page</h1>
+    <SPageContentCenter centerContent>
+      { user && <Redirect to={"/concepts"} /> }
+      <SHeadingTitle>Login Page</SHeadingTitle>
       {!user && (
         <>
-          <h3>You are not logged in.</h3>
-          <GoogleLogin
+          <SGoogleLogin
             clientId={`${process.env.REACT_APP_OAUTH_CLIENT_ID}`}
             buttonText="Login With Google"
             onSuccess={handleGoogleSuccess}
@@ -43,21 +41,10 @@ export const HomePage = () => {
           />
         </>
       )}
-      {user && (
-        <>
-          <h1>Welcome, {user.name}</h1>
-          <h3>Google ID: {user.google_id}</h3>
-          <h3>Email: {user.email}</h3>
-          <img src={user.photo_url} alt={user.name} className="m-auto" />
-          <Link to="/users">Users</Link>
-          <p
-            onClick={handleLogout}
-            className="underline text-green-700 cursor-pointer"
-          >
-            Logout
-          </p>
-        </>
-      )}
-    </div>
+    </SPageContentCenter>
   );
 };
+
+const SGoogleLogin = styled(GoogleLogin)`
+  margin-top: ${theme.spacing.sm};
+`;

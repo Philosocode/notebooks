@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { HomePage } from "../pages/home.page";
+import { LoginPage } from "../pages/login.page";
 import { LibraryPage } from "library/pages/library.page";
 import { LibraryDetailPage } from "../library/pages/library-detail.page";
 import { ConceptDetailPage } from "concepts/pages/concept-detail.page";
@@ -17,9 +17,9 @@ interface IAppRoute {
   isPrivate?: boolean;
 }
 
-const home: IAppRoute = {
-  component: HomePage,
-  path: "/",
+const login: IAppRoute = {
+  component: LoginPage,
+  path: "/login",
 };
 
 const library: IAppRoute = {
@@ -75,7 +75,7 @@ const settings: IAppRoute = {
 };
 
 export const appRoutes = [
-  home,
+  login,
   library,
   libraryDetail,
   concepts,
