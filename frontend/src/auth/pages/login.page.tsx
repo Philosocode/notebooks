@@ -1,20 +1,18 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 import GoogleLogin from "react-google-login";
+import styled from "styled-components";
 
 import { TAppState } from "shared/redux/store";
 import { loginGoogle } from "auth/redux/auth.thunks";
-import { Redirect } from "react-router-dom";
-import { selectIsLoading } from "loading/redux/loading.selectors";
 import { SPageContentCenter } from "shared/styles/layout.styles";
-import { SHeadingTitle } from "../../shared/styles/typography.styles";
-import styled from "styled-components";
-import { theme } from "../../shared/styles/theme.styles";
+import { SHeadingTitle } from "shared/styles/typography.styles";
+import { theme } from "shared/styles/theme.styles";
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: TAppState) => state.auth.user);
-  const isLoading = useSelector(selectIsLoading);
 
   async function handleGoogleSuccess(googleData: any) {
     dispatch(loginGoogle(googleData.tokenId));
@@ -23,8 +21,6 @@ export const LoginPage = () => {
   function handleGoogleFailure() {
     alert("ERROR: Failed to sign in with Google");
   }
-
-  if (isLoading) return <div>Loading...</div>;
 
   return (
     <SPageContentCenter centerContent>
