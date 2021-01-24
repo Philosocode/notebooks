@@ -47,6 +47,6 @@ const SCloseIcon = styled(FontAwesomeIcon)`
   cursor: pointer;
   font-size: 2.4rem;
   position: absolute;
-  top: 0.4em;
-  right: 0.6em;
+    top: 0.4em;
+    right: 0.6em;
 `;

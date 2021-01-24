@@ -1,9 +1,20 @@
 import React from "react";
 
+import { SHeadingSubtitle } from "shared/styles/typography.styles";
+import { SButtonGreen } from "shared/styles/button.styles";
+import styled from "styled-components";
+import { theme } from "shared/styles/theme.styles";
+
 export const AddConcept = () => (
-  <div>
-    <h2>Add Concept</h2>
+  <SContent>
+    <SHeadingSubtitle>Add Concept</SHeadingSubtitle>
     <p>Time to add a concept.</p>
-    <button>Add Concept</button>
-  </div>
+    <SButtonGreen>Add Concept</SButtonGreen>
+  </SContent>
 );
+
+const SContent = styled.div`
+  & * + * {
+    margin-top: ${theme.spacing.base};
+  }
+`;

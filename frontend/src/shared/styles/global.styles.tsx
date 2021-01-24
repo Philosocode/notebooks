@@ -16,7 +16,7 @@ export const GlobalStyles = createGlobalStyle`
 
   html {
     font-size: 62.5%; /* 1rem = 10px, 10/16 = 62.5% */
-    font-family: Avenir, "Open Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    font-family: "Avenir Next", "Open Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   }
 

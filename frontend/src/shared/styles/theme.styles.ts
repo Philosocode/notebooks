@@ -3,6 +3,9 @@ const FONT_MULTIPLIER = 1.3;
 const BASE_SPACING_SIZE = 2.5;
 
 export const theme = {
+  animations: {
+    transitionAppend: "0.3s ease-in-out",
+  },
   boxShadows: {
     light: "0 0.25rem 0.75rem rgba(0,0,0,0.2)",
     default: "0 1rem 2rem rgba(0,0,0,0.2)",

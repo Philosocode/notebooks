@@ -1,7 +1,21 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { theme } from "./theme.styles";
+
+const SBold = css`
+  font-weight: bold;
+`;
 
 export const SHeadingTitle = styled.h1`
   font-size: ${theme.fontSizes.xl};
-  font-weight: bold;
+  ${SBold};
+`;
+
+export const SHeadingSubtitle = styled.h2`
+  font-size: ${theme.fontSizes.lg};
+  ${SBold}
+`;
+
+export const SHeadingSubSubtitle = styled.h3`
+  font-size: ${theme.fontSizes.md};
+  ${SBold}
 `;
