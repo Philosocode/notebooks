@@ -1,4 +1,4 @@
-export type TModalType = "test";
+export type TModalType = "add-concept";
 
 export interface IModalState {
   modalShowing: boolean;
