@@ -4,8 +4,8 @@ import { theme } from "./theme.styles";
 
 // padding-left for sidebar, margin-top for navbar
 export const SMainContent = styled.main`
-  margin-top: ${theme.other.navbarHeight};
-  padding-left: ${theme.other.sidebarWidth};
+  margin-top: ${theme.componentSizes.navbarHeight};
+  padding-left: ${theme.componentSizes.sidebarWidth};
   padding-bottom: ${theme.spacing.lg};
 `;
 

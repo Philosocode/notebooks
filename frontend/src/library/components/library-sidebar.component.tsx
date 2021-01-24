@@ -1,7 +1,6 @@
 import React, { FC } from "react";
-import styled from "styled-components";
 
-import { ILibrarySection, sections } from "../library.routes";
+import { sections } from "../library.routes";
 import { LibrarySidebarSection } from "./library-sidebar-section.component";
 import { Sidebar } from "../../shared/components/nav/sidebar.component";
 

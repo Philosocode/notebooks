@@ -3,15 +3,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch } from "react-redux";
 
 import { SPageContent } from "../../shared/styles/layout.styles";
-import { showModal } from "modal/redux/modal.slice";
+// import { showModal } from "modal/redux/modal.slice";
+// import { showAndHideAlert } from "alert/redux/alert.thunks";
+import { showAndHideAlert } from "alert/redux/alert.thunks";
 
 export const ConceptsPage = () => {
   const dispatch = useDispatch();
 
   function handleClick() {
-    dispatch(showModal({
-      modalType: "add-concept"
-    }));
+    // dispatch(showModal({
+    //   modalType: "add-concept"
+    // }));
+
+    dispatch(showAndHideAlert({
+      message: "Created Concept",
+      type: "success"
+    }))
   }
 
   return (

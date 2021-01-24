@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { TAppState } from "shared/redux/store";
@@ -20,9 +20,9 @@ export const ModalRoot = () => {
   const { modalType, modalShowing, modalProps } = modalState;
   const dispatch = useDispatch();
 
-  const handleClose = useCallback(() => {
+  function handleClose() {
     dispatch(hideModal());
-  }, []);
+  };
 
   if (!modalType) return null;
 

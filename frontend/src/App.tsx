@@ -14,6 +14,7 @@ import { LibrarySidebar } from "./library/components/library-sidebar.component";
 
 import { SMainContent } from "./shared/styles/layout.styles";
 import { ModalRoot } from "./modal/components/modal-root.component";
+import { Alert } from "alert/components/alert.component";
 
 export function App() {
   const location = useLocation();
@@ -60,6 +61,7 @@ export function App() {
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalLoader />
+      <Alert />
       <ModalRoot />
     </>
   );

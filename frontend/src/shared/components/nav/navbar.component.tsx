@@ -18,9 +18,9 @@ export const Navbar = () => {
   const handleLogout = useCallback((e) => {
     e.preventDefault();
     dispatch(logout());
-  }, []);
+  }, [dispatch]);
 
-  const getLoggedInLinks = useCallback(() => {
+  function getLoggedInLinks() {
     return (
       <>
         <SNavItem>
@@ -32,7 +32,7 @@ export const Navbar = () => {
         </SNavItem>
       </>
     );
-  }, []);
+  };
 
   return (
     <SNav>
@@ -50,7 +50,7 @@ const SNav = styled.nav`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  height: ${theme.other.navbarHeight};
+  height: ${theme.componentSizes.navbarHeight};
   padding-right: ${theme.other.sideGap};
   position: fixed;
   top: 0;

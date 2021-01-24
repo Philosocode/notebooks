@@ -21,11 +21,11 @@ const SSidebar = styled.aside`
   background: #ddd;
   display: block;
   height: 100vh;
-  width: ${theme.other.sidebarWidth};
+  width: ${theme.componentSizes.sidebarWidth};
   padding: ${theme.spacing.base};
   padding-bottom: ${theme.spacing.lg};
   position: fixed;
-  top: ${theme.other.navbarHeight};
+  top: ${theme.componentSizes.navbarHeight};
   left: 0;
   overflow-y: auto;
 `;

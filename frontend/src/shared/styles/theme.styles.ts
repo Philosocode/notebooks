@@ -3,8 +3,19 @@ const FONT_MULTIPLIER = 1.3;
 const BASE_SPACING_SIZE = 2.5;
 
 export const theme = {
+  boxShadows: {
+    light: "0 0.25rem 0.75rem rgba(0,0,0,0.2)",
+    default: "0 1rem 2rem rgba(0,0,0,0.2)",
+    pressed: "0 0.5rem 1rem rgba(0,0,0,0.2)",
+    alt: "0 5px 1.5rem rgba(0,0,0, 0.3)",
+  },
   colors: {
     green: "#00B27D",
+    red: "#EC4643",
+  },
+  componentSizes: {
+    navbarHeight: "5rem",
+    sidebarWidth: "25rem",
   },
   fonts: {},
   fontSizes: {
@@ -26,9 +37,10 @@ export const theme = {
     lg: `${BASE_SPACING_SIZE * 3}rem`,
     xl: `${BASE_SPACING_SIZE * 4}rem`,
   },
+  timing: {
+    alertShowTime: 3000,
+  },
   other: {
-    navbarHeight: "5rem",
     sideGap: "2.5%",
-    sidebarWidth: "25rem"
   }
 };
