@@ -9,7 +9,7 @@ import { GlobalLoader } from "loading/components/global-loader.component";
 import { PrivateRoute } from "shared/components/nav/private-route.component";
 import { Navbar } from "shared/components/nav/navbar.component";
 import { Sidebar } from "shared/components/nav/sidebar.component";
-import { NotFoundPage } from "pages/not-found.page";
+import { NotFoundPage } from "shared/pages/not-found.page";
 import { LibrarySidebar } from "./library/components/library-sidebar.component";
 
 import { SMainContent } from "./shared/styles/layout.styles";

@@ -1,10 +1,10 @@
 import { FC } from "react";
 
-import { LoginPage } from "../../pages/login.page";
+import { LoginPage } from "../../auth/pages/login.page";
 import { LibraryPage } from "library/pages/library.page";
 import { LibraryDetailPage } from "../../library/pages/library-detail.page";
-import { ConceptDetailPage } from "concepts/pages/concept-detail.page";
-import { ConceptsPage } from "concepts/pages/concepts.page";
+import { ConceptDetailPage } from "concept/pages/concept-detail.page";
+import { ConceptsPage } from "concept/pages/concepts.page";
 import { MaterialsPage } from "../../pages/materials.page";
 import { MaterialDetailPage } from "../../pages/material-detail.page";
 import { PartDetailPage } from "../../pages/part-detail.page";

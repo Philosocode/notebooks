@@ -2,14 +2,14 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import GoogleLogin from "react-google-login";
 
-import { TAppState } from "redux/store";
+import { TAppState } from "shared/redux/store";
 import { loginGoogle } from "auth/redux/auth.thunks";
 import { Redirect } from "react-router-dom";
 import { selectIsLoading } from "loading/redux/loading.selectors";
 import { SPageContentCenter } from "shared/styles/layout.styles";
-import { SHeadingTitle } from "../shared/styles/typography.styles";
+import { SHeadingTitle } from "../../shared/styles/typography.styles";
 import styled from "styled-components";
-import { theme } from "../shared/styles/theme.styles";
+import { theme } from "../../shared/styles/theme.styles";
 
 export const LoginPage = () => {
   const dispatch = useDispatch();

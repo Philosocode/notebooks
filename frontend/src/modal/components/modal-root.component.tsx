@@ -1,10 +1,10 @@
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { TAppState } from "redux/store";
+import { TAppState } from "shared/redux/store";
 import { hideModal } from "modal/redux/modal.slice";
 import { TModalType } from "../redux/modal.types";
-import { AddConcept } from "../../concepts/components/add-concept.component";
+import { AddConcept } from "../../concept/components/add-concept.component";
 import { ModalWrapper } from "./modal-wrapper.component";
 
 type TModalComponents = {

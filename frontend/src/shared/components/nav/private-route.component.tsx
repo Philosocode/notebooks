@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Route, Redirect, RouteProps } from "react-router-dom";
-import { TAppState } from "redux/store";
+import { TAppState } from "shared/redux/store";
 
 interface PrivateRouteProps extends RouteProps {
   component: any;
