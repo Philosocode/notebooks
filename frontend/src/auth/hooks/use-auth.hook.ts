@@ -5,7 +5,7 @@ import jwtDecode from "jwt-decode";
 
 import { LOCAL_STORAGE_TOKEN_KEY } from "shared/constants.shared";
 import { login, logout } from "auth/redux/auth.slice";
-import { IAuthToken } from "auth/auth.types";
+import { IAuthToken } from "auth/redux/auth.types";
 
 export const useAuth = () => {
   const dispatch = useDispatch();

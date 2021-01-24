@@ -1,18 +1,24 @@
 import styled from "styled-components";
+
 import { theme } from "./theme.styles";
+
+// padding-left for sidebar, margin-top for navbar
+export const SMainContent = styled.main`
+  margin-top: ${theme.other.navbarHeight};
+  padding-left: ${theme.other.sidebarWidth};
+  padding-bottom: ${theme.spacing.lg};
+`;
 
 export const SPageContent = styled.div`
   padding: ${theme.spacing.base};
-  margin-top: ${theme.spacing.lg};
 `;
 
 interface ISPageContentCenterProps {
   centerContent?: boolean;
 }
-export const SPageContentCenter = styled.div`
+export const SPageContentCenter = styled(SPageContent)`
   max-width: 80rem;
   margin: 0 auto;
-  padding: ${theme.spacing.lg} ${theme.spacing.base} 0 ${theme.spacing.base};
   
   ${(props: ISPageContentCenterProps) => props.centerContent && `text-align: center;`}
 `;

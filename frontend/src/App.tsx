@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
-import styled from "styled-components";
 
 import { appRoutes } from "./shared/config/app.routes";
 import { useAuth } from "auth/hooks/use-auth.hook";
@@ -11,8 +10,10 @@ import { PrivateRoute } from "shared/components/nav/private-route.component";
 import { Navbar } from "shared/components/nav/navbar.component";
 import { Sidebar } from "shared/components/nav/sidebar.component";
 import { NotFoundPage } from "pages/not-found.page";
-import { theme } from "shared/styles/theme.styles";
 import { LibrarySidebar } from "./library/components/library-sidebar.component";
+
+import { SMainContent } from "./shared/styles/layout.styles";
+import { ModalRoot } from "./modal/components/modal-root.component";
 
 export function App() {
   const location = useLocation();
@@ -26,7 +27,7 @@ export function App() {
     setIsLibraryPage(location.pathname.includes("library"));
   }, [location]);
 
-  function renderRoutes() {
+  function getRoutes() {
     return appRoutes.map((route) => {
       if (route.isPrivate) {
         return (
@@ -55,15 +56,12 @@ export function App() {
       <Navbar />
       {isLibraryPage ? <LibrarySidebar /> : <Sidebar />}
       <Switch>
-        <SMainContent>{renderRoutes()}</SMainContent>
+        <SMainContent>{getRoutes()}</SMainContent>
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalLoader />
+      <ModalRoot />
     </>
   );
 }
 
-const SMainContent = styled.main`
-  padding-left: ${theme.other.sidebarWidth};
-  padding-bottom: ${theme.spacing.lg};
-`;

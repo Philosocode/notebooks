@@ -1,9 +1,11 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
 
-import { faPencilAlt, faTag, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCog, faPencilAlt, faTag, faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
-  faTag,
+  faCog,
   faPencilAlt,
-  faTrash
+  faTag,
+  faTimes,
+  faTrash,
 );

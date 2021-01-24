@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { api } from "services/api.service";
 import { TResStatus } from "shared/types.shared";
-import { ILoginPayload } from "../auth.types";
+import { ILoginPayload } from "./auth.types";
 import { login } from "./auth.slice";
 import { startLoading, stopLoading } from "loading/redux/loading.slice";
 
