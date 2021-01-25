@@ -21,7 +21,7 @@ const SSidebar = styled.aside`
   background: #ddd;
   display: block;
   height: 100vh;
-  width: ${theme.componentSizes.sidebarWidth};
+  width: ${theme.componentSizes.librarySidebarWidth};
   padding: ${theme.spacing.base};
   padding-bottom: ${theme.spacing.lg};
   position: fixed;

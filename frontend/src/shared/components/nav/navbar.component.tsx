@@ -34,11 +34,22 @@ export const Navbar = () => {
     );
   };
 
+  function getLoggedOutLinks() {
+    return (
+      <>
+        <SNavItem>
+          <SNavLink to="/login">Login</SNavLink>
+        </SNavItem>
+        { LibraryLink }
+      </>
+    );
+  };
+
   return (
     <SNav>
       <SNavList>
         {
-          isLoggedIn && getLoggedInLinks()
+          isLoggedIn ? getLoggedInLinks() : getLoggedOutLinks()
         }
       </SNavList>
     </SNav>
