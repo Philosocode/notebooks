@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -10,6 +10,7 @@ import { logout } from "auth/redux/auth.slice";
 export const Navbar = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
 
   const LibraryLink = <SNavItem>
     <SNavLink to="/library">Library</SNavLink>
@@ -21,12 +22,14 @@ export const Navbar = () => {
   }, [dispatch]);
 
   function getLoggedInLinks() {
+    const active = !pathname.includes("library") && !pathname.includes("login");
+
     return (
       <>
         <SNavItem>
-          <SNavLink exact to="/concepts">Study</SNavLink>
+          <SStudyLink active={active} to="/concepts">Study</SStudyLink>
         </SNavItem>
-        { LibraryLink }
+        {LibraryLink}
         <SNavItem>
           <SLinkDiv onClick={handleLogout}>Logout</SLinkDiv>
         </SNavItem>
@@ -40,7 +43,7 @@ export const Navbar = () => {
         <SNavItem>
           <SNavLink to="/login">Login</SNavLink>
         </SNavItem>
-        { LibraryLink }
+        {LibraryLink}
       </>
     );
   };
@@ -64,8 +67,8 @@ const SNav = styled.nav`
   height: ${theme.componentSizes.navbarHeight};
   padding-right: ${theme.other.sideGap};
   position: fixed;
-    top: 0;
-    left: 0;
+  top: 0;
+  left: 0;
   width: 100vw;
 `;
 
@@ -83,7 +86,7 @@ const SNavItem = styled.li`
 const SLinkStyles = css`
   color: black;
   cursor: pointer;
-  
+
   &.active {
     font-weight: bold;
   }
@@ -98,4 +101,8 @@ const SNavLink = styled(NavLink).attrs({
 
 const SLinkDiv = styled.div`
   ${SLinkStyles};
+`;
+
+const SStudyLink = styled(Link)`
+  font-weight: ${(props: { active: boolean}) => props.active ? "bold" : "400"};
 `;
