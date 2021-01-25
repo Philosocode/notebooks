@@ -1,15 +1,26 @@
 import React, { FC } from "react";
 
 import { sections } from "../library.routes";
+import { theme } from "shared/styles/theme.styles";
+
 import { LibrarySidebarSection } from "./library-sidebar-section.component";
-import { Sidebar } from "../../shared/components/nav/sidebar.component";
+import { SidebarWrapper } from "shared/components/nav/sidebar-wrapper.component";
+import { SidebarFooter } from "shared/components/nav/sidebar-footer.component";
+import styled from "styled-components";
 
 export const LibrarySidebar: FC = () => (
-  <Sidebar>
-    {
-      sections.map((section, idx) => (
-        <LibrarySidebarSection section={section} key={section.name + idx}/>
-      ))
-    }
-  </Sidebar>
+  <SidebarWrapper width={theme.componentSizes.librarySidebarWidth}>
+    <SContent>
+      {
+        sections.map((section, idx) => (
+          <LibrarySidebarSection section={section} key={section.name + idx}/>
+        ))
+      }
+      <SidebarFooter />
+    </SContent>
+  </SidebarWrapper>
 );
+
+const SContent = styled.div`
+  padding: ${theme.spacing.base};
+`;

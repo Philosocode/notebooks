@@ -64,8 +64,8 @@ const SNav = styled.nav`
   height: ${theme.componentSizes.navbarHeight};
   padding-right: ${theme.other.sideGap};
   position: fixed;
-  top: 0;
-  left: 0;
+    top: 0;
+    left: 0;
   width: 100vw;
 `;
 

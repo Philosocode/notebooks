@@ -47,6 +47,10 @@ const SNavLink = styled(NavLink).attrs({
   color: black;
   margin-top: 5px;
   width: max-content;
+  
+  &:hover {
+    color: ${theme.colors.green};
+  }
 
   &.active {
     color: ${theme.colors.green};

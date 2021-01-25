@@ -6,7 +6,7 @@ import { theme } from "shared/styles/theme.styles";
 export const SidebarFooter = () => {
   return (
     <SFooter>
-      <p>&copy; 2020</p>
+      <p>&copy; 2020 - Tam Le</p>
       <SFooterLinks>
         <span>Privacy Policy</span>
         <span>Terms of Use</span>

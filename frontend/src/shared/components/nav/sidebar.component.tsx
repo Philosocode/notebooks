@@ -1,31 +1,14 @@
-import React, { FC } from "react";
-import styled from "styled-components";
+import React from "react";
+import { useLocation } from "react-router-dom";
 
-import { theme } from "shared/styles/theme.styles";
-import { SidebarFooter } from "./sidebar-footer.component";
+import { AppSidebar } from "./app-sidebar.component";
+import { LibrarySidebar } from "library/components/library-sidebar.component";
 
-interface IProps {
-  children?: React.ReactNode;
-}
+export const Sidebar = () => {
+  const { pathname } = useLocation();
 
-export const Sidebar: FC<IProps> = ({ children }) => {
-  return (
-    <SSidebar>
-      {children}
-      <SidebarFooter />
-    </SSidebar>
-  );
+  if (pathname.includes("login")) return null;
+  if (pathname.includes("library")) return <LibrarySidebar />;
+
+  return <AppSidebar />;
 };
-
-const SSidebar = styled.aside`
-  background: #ddd;
-  display: block;
-  height: 100vh;
-  width: ${theme.componentSizes.librarySidebarWidth};
-  padding: ${theme.spacing.base};
-  padding-bottom: ${theme.spacing.lg};
-  position: fixed;
-  top: ${theme.componentSizes.navbarHeight};
-  left: 0;
-  overflow-y: auto;
-`;
