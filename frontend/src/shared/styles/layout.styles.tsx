@@ -5,7 +5,7 @@ import { theme } from "./theme.styles";
 // padding-left for sidebar, margin-top for navbar
 export const SMainContent = styled.main`
   margin-top: ${theme.componentSizes.navbarHeight};
-  padding-left: ${theme.componentSizes.librarySidebarWidth};
+  padding-left: ${(props: { paddingLeft: string }) => props.paddingLeft};
   padding-bottom: ${theme.spacing.lg};
 `;
 

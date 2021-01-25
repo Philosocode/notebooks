@@ -18,6 +18,7 @@ export const theme = {
   },
   componentSizes: {
     navbarHeight: "5rem",
+    appSidebarWidth: "10rem",
     librarySidebarWidth: "25rem",
   },
   fonts: {},

@@ -1,9 +1,10 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Route, Switch, useLocation } from "react-router-dom";
 
 import { appRoutes } from "./shared/config/app.routes";
 import { useAuth } from "auth/hooks/use-auth.hook";
 import { useScrollToTop } from "shared/hooks/use-scroll-to-top.hook";
+import { useAppLocation } from "shared/hooks/use-app-location.hook";
 
 import { Alert } from "alert/components/alert.component";
 import { GlobalLoader } from "loading/components/global-loader.component";
@@ -13,11 +14,14 @@ import { Sidebar } from "./shared/components/nav/sidebar.component";
 import { NotFoundPage } from "shared/pages/not-found.page";
 import { ModalRoot } from "./modal/components/modal-root.component";
 
-import { SMainContent } from "./shared/styles/layout.styles";
+import { theme } from "./shared/styles/theme.styles";
+import { SMainContent } from "shared/styles/layout.styles";
 
 export function App() {
   useAuth();
   useScrollToTop();
+
+  const appLocation = useAppLocation();
 
   function getRoutes() {
     return appRoutes.map((route) => {
@@ -43,12 +47,17 @@ export function App() {
     });
   }
 
+  let paddingLeft: string;
+  if (appLocation === "study") paddingLeft = theme.componentSizes.appSidebarWidth;
+  else if (appLocation === "library") paddingLeft = theme.componentSizes.librarySidebarWidth;
+  else paddingLeft = "0";
+
   return (
     <>
       <Navbar />
       <Sidebar />
       <Switch>
-        <SMainContent>{getRoutes()}</SMainContent>
+        <SMainContent paddingLeft={paddingLeft}>{getRoutes()}</SMainContent>
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalLoader />

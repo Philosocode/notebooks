@@ -7,7 +7,7 @@ import { theme } from "shared/styles/theme.styles";
 import { SidebarWrapper } from "shared/components/nav/sidebar-wrapper.component";
 
 export const AppSidebar: FC = () => (
-  <SidebarWrapper width="10rem">
+  <SidebarWrapper width={theme.componentSizes.appSidebarWidth}>
     <SContent>
 
       <SSidebarLink to="/concepts">
@@ -73,6 +73,5 @@ const SSidebarLink = styled(NavLink).attrs({
       color: ${theme.colors.green};
     }
   }
-  
 }
 `;
