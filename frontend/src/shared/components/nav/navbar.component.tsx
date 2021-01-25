@@ -1,16 +1,17 @@
 import React, { useCallback } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
 import { theme } from "shared/styles/theme.styles";
 import { selectIsLoggedIn } from "auth/redux/auth.selectors";
+import { useAppLocation } from "../../hooks/use-app-location.hook";
 import { logout } from "auth/redux/auth.slice";
 
 export const Navbar = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const dispatch = useDispatch();
-  const { pathname } = useLocation();
+  const appLocation = useAppLocation();
 
   const LibraryLink = <SNavItem>
     <SNavLink to="/library">Library</SNavLink>
@@ -22,12 +23,13 @@ export const Navbar = () => {
   }, [dispatch]);
 
   function getLoggedInLinks() {
-    const active = !pathname.includes("library") && !pathname.includes("login");
-
     return (
       <>
         <SNavItem>
-          <SStudyLink active={active} to="/concepts">Study</SStudyLink>
+          <SStudyLink
+            $activeLink={appLocation === "study"}
+            to="/concepts"
+          >Study</SStudyLink>
         </SNavItem>
         {LibraryLink}
         <SNavItem>
@@ -60,7 +62,7 @@ export const Navbar = () => {
 };
 
 const SNav = styled.nav`
-  background: #eee;
+  background: ${theme.colors.gray["50"]};
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -104,5 +106,5 @@ const SLinkDiv = styled.div`
 `;
 
 const SStudyLink = styled(Link)`
-  font-weight: ${(props: { active: boolean}) => props.active ? "bold" : "400"};
+  font-weight: ${(props: { $activeLink: boolean }) => props.$activeLink ? "bold" : "400"};
 `;

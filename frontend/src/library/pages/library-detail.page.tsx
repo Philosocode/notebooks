@@ -45,7 +45,7 @@ const SMarkdownStyles = styled.div`
   }
 
   & > h2 {
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid ${theme.colors.gray};
     font-size: ${theme.fontSizes.lg};
     padding-top: ${theme.spacing.md};
     padding-bottom: 5px;

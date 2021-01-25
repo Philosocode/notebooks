@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Route, Switch, useLocation } from "react-router-dom";
+import React from "react";
+import { Route, Switch } from "react-router-dom";
 
 import { appRoutes } from "./shared/config/app.routes";
 import { useAuth } from "auth/hooks/use-auth.hook";

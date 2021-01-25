@@ -43,7 +43,7 @@ export const ModalWrapper: FC<IProps> = ({ isShowing, handleClose, children }) =
 };
 
 const SCloseIcon = styled(FontAwesomeIcon)`
-  color: #333;
+  color: ${theme.colors.gray["700"]};
   cursor: pointer;
   font-size: 2.4rem;
   position: absolute;

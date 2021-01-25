@@ -15,6 +15,19 @@ export const theme = {
   colors: {
     green: "#00B27D",
     red: "#EC4643",
+    black: "#121212",
+    white: "#FFF",
+    offWhite: "#FAFAFA",
+    gray: {
+      50: "#EFEFEF",
+      100: "#D9D9D9",
+      200: "#B8B8B8",
+      300: "#979797",
+      400: "#757575",
+      500: "#545454",
+      700: "#333",
+      900: "#2C2C2C",
+    }
   },
   componentSizes: {
     navbarHeight: "5rem",
