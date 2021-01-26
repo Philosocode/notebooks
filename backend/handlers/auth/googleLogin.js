@@ -35,7 +35,7 @@ module.exports = catchAsync(async function (req, res, next) {
   const user = { email, google_id, name, photo_url };
   const jwtToken = await createToken({ user });
 
-  logger.info(`Google Login: ${email} [${google_id}]`);
+  logger.info(`Google Login: ${email} [Google ID: ${google_id}]`);
 
   res.status(200).json({
     status: "success",
