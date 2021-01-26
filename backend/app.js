@@ -7,8 +7,8 @@ const rateLimit = require("express-rate-limit");
 const xssClean = require("xss-clean");
 
 const router = require("./router");
-const AppError = require("./utils/AppError.util");
-const globalErrorHandler = require("./middlewares/globalErrorHandler.middleware");
+const AppError = require("./utils/app-error.util");
+const globalErrorHandler = require("./middlewares/global-error-handler.middleware");
 
 const app = express();
 

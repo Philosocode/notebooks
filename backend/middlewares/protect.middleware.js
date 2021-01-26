@@ -2,8 +2,8 @@ const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 
 const { getGoogleUser } = require("../models/user.model");
-const catchAsync = require("./catchAsync.middleware");
-const AppError = require("../utils/AppError.util");
+const catchAsync = require("./catch-async.middleware");
+const AppError = require("../utils/app-error.util");
 
 module.exports = catchAsync(async function protect(req, res, next) {
   let token;

@@ -1,8 +1,8 @@
 const express = require("express");
 
 const protect = require("./middlewares/protect.middleware");
-const googleLogin = require("./handlers/auth/googleLogin");
-const getConcepts = require("./handlers/concept/getConcepts.handler");
+const googleLogin = require("./handlers/auth/google-login.handler");
+const getConcepts = require("./handlers/concept/get-concepts.handler");
 
 const router = express.Router();
 

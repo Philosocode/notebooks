@@ -1,8 +1,8 @@
 const { OAuth2Client } = require("google-auth-library");
 const jwt = require("jsonwebtoken");
 
-const AppError = require("../../utils/AppError.util");
-const catchAsync = require("../../middlewares/catchAsync.middleware");
+const AppError = require("../../utils/app-error.util");
+const catchAsync = require("../../middlewares/catch-async.middleware");
 const { upsertUser } = require("../../models/user.model");
 const logger = require("../../utils/logger.util");
 
