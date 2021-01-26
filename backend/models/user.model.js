@@ -7,15 +7,15 @@ module.exports = {
 };
 
 async function getUsers() {
-  return await db("user");
+  return db("user");
 }
 
 async function getGoogleUser(google_id) {
-  return await db("user").where("google_id", google_id).first();
+  return db("user").where("google_id", google_id).first();
 }
 
 async function upsertUser(email, google_id, name, photo_url) {
-  return await db("user")
+  return db("user")
     .insert({
       email,
       google_id,

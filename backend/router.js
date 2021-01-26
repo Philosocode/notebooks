@@ -1,16 +1,15 @@
 const express = require("express");
 
-const googleLogin = require("./handlers/auth/googleLogin");
-const getUsers = require("./handlers/user/getUsers.handler");
 const protect = require("./middlewares/protect.middleware");
-
-// const logger = require("./utils/logger");
+const googleLogin = require("./handlers/auth/googleLogin");
+const getConcepts = require("./handlers/concept/getConcepts.handler");
 
 const router = express.Router();
 
-// auth
+// Auth
 router.post("/auth/google", googleLogin);
 
-router.get("/", protect, getUsers);
+// Concepts
+router.get("/concepts", protect, getConcepts);
 
 module.exports = router;
