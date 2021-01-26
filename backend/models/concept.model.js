@@ -1,12 +1,17 @@
 const db = require("../db/db");
 
 module.exports = {
-  getConceptsForUser
+  createConcept,
+  getConcepts
 };
 
-async function getConceptsForUser(user_id) {
-  return db("concept").where({
-    user_id: user_id
+async function createConcept(user_id, name) {
+  return db("concept").insert({
+    name,
+    user_id,
   });
 }
 
+async function getConcepts(user_id) {
+  return db("concept").where({ user_id });
+}
