@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 
 import { appRoutes } from "./shared/config/app.routes";
 import { useAuth } from "auth/hooks/use-auth.hook";
@@ -57,6 +57,7 @@ export function App() {
       <Navbar />
       <Sidebar />
       <Switch>
+        <Redirect exact from="/" to="/concepts" />
         <SMainContent paddingLeft={paddingLeft}>{getRoutes()}</SMainContent>
         <Route component={NotFoundPage} />
       </Switch>
