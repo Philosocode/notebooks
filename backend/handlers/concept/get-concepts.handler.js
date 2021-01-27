@@ -6,7 +6,5 @@ module.exports = catchAsync(async function (req, res) {
   const userId = req.user.id;
   const concepts = await getConcepts(userId);
 
-  sendResponse(res, {
-    concepts
-  });
+  sendResponse(res, 200, { concepts });
 });
