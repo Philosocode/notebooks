@@ -11,7 +11,7 @@ module.exports = catchAsync(async function (req, res, next) {
     return next(new AppError("Must include a name when adding a concept", 422));
   }
 
-  const created = await createConcept(userId, name)[0];
+  const created = await createConcept(userId, name);
 
-  sendResponse(res, 201, { concept: created });
+  sendResponse(res, 201, { concept: created[0] });
 });
