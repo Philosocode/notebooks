@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "docker-compose up -d --build",
+    "start": "docker-compose up --build",
     "start:db": "docker-compose run --rm -d db",
     "start:backend": "docker-compose run --rm -d backend",
     "build": "docker-compose build",
