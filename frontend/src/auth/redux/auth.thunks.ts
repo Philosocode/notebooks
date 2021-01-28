@@ -5,16 +5,15 @@ import { TResStatus } from "shared/types.shared";
 import { ILoginPayload } from "./auth.types";
 import { login } from "./auth.slice";
 
-interface ILoginRes {
+interface ILoginResponse {
   data: ILoginPayload;
   status: TResStatus;
 }
-
 export const loginGoogle = createAsyncThunk(
   "auth/loginGoogle",
   async function (token: string, thunkAPI) {
     try {
-      const res = await api.post<ILoginRes>("/auth/google", { token });
+      const res = await api.post<ILoginResponse>("/auth/google", { token });
       const { token: jwtToken, user } = res.data.data;
 
       thunkAPI.dispatch(login({ token: jwtToken, user }));
