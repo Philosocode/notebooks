@@ -1,4 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {
+  isFulfilledMatcher,
+  isPendingMatcher,
+  isRejectedMatcher,
+} from "shared/redux/builder-actions";
 import { ILoadingState } from "./loading.interfaces";
 
 // https://www.reddit.com/r/reactjs/comments/8iek94/react_redux_handling_the_loading_of_multiple/
@@ -11,15 +16,20 @@ const initialState: ILoadingState = {
 const loadingSlice = createSlice({
   name: "loading",
   initialState,
-  reducers: {
-    startLoading: (state) => {
-      state.loadingCount += 1;
-    },
-    stopLoading: (state) => {
-      state.loadingCount -= 1;
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(isPendingMatcher, (state) => {
+        state.loadingCount++;
+      })
+      .addMatcher(isRejectedMatcher, (state) => {
+        state.loadingCount--;
+      })
+      .addMatcher(isFulfilledMatcher, (state) => {
+        state.loadingCount--;
+      });
   },
 });
 
 export const loadingReducer = loadingSlice.reducer;
-export const { startLoading, stopLoading } = loadingSlice.actions;
+// export const { startLoading, stopLoading } = loadingSlice.actions;

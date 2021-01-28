@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { api } from "services/api.service";
 import { TResStatus } from "shared/types.shared";
-import { startLoading, stopLoading } from "loading/redux/loading.slice";
+// import { startLoading, stopLoading } from "loading/redux/loading.slice";
 
 // interface ILoginRes {
 //   data: ILoginPayload;
