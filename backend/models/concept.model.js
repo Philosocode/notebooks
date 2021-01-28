@@ -5,6 +5,7 @@ module.exports = {
   deleteConcept,
   getConcept,
   getConcepts,
+  updateConcept,
 };
 
 async function createConcept(user_id, name) {
@@ -21,4 +22,8 @@ async function getConcept(user_id, id) {
 
 async function getConcepts(user_id) {
   return db("concept").where({ user_id });
+}
+
+async function updateConcept(user_id, id, updates) {
+  return db("concept").where({ user_id, id }).update(updates);
 }
