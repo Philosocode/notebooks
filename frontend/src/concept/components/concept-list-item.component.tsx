@@ -12,24 +12,16 @@ interface IProps {
 export const ConceptListItem: FC<IProps> = ({ concept }) => {
   return (
     <SContainer>
-      <div>
-        <SHeadingId>{[concept.id]}</SHeadingId>
+      <SHeadingId>{[concept.id]}</SHeadingId>
+
+      <SConceptNameContainer>
         <SConceptName>{concept.name}</SConceptName>
-      </div>
+        <SEditIcon icon="pencil-alt" />
+      </SConceptNameContainer>
+
     </SContainer>
   );
 };
-
-const SContainer = styled.li`
-  border: 1px solid ${theme.colors.gray[200]};
-  display: flex;
-  align-items: space-between;
-  justify-content: space-between;
-
-  padding: ${theme.spacing.md};
-  position: relative;
-  width: 100%;
-`;
 
 const SHeadingId = styled.h4`
   color: ${theme.colors.gray[400]};
@@ -39,4 +31,33 @@ const SHeadingId = styled.h4`
 
 const SConceptName = styled.h3`
   font-size: ${theme.fontSizes.md};
+`;
+
+const SEditIcon = styled(FontAwesomeIcon)`
+  cursor: pointer;
+  font-size: 2rem;
+  position: absolute;
+    left: -3rem;
+    top: 4px;
+  opacity: 0;
+  transition: opacity ${theme.animations.transitionAppend};
+  
+  &:hover {
+    color: ${theme.colors.green};
+  }
+`;
+
+const SConceptNameContainer = styled.div`
+  position: relative;
+`;
+
+const SContainer = styled.li`
+  border: 1px solid ${theme.colors.gray[200]};
+  padding: ${theme.spacing.md};
+  position: relative;
+  width: 100%;
+
+  &:hover ${SEditIcon} {
+    opacity: 1;
+  }
 `;
