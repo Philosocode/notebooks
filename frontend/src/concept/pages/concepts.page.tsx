@@ -37,7 +37,7 @@ export const ConceptsPage = () => {
       <FontAwesomeIcon icon="tag" onClick={handleClick} />
       <SConceptList>
         {concepts?.map((concept) => (
-          <ConceptListItem concept={concept} />
+          <ConceptListItem concept={concept} key={concept.id} />
         ))}
       </SConceptList>
     </SPageContent>
