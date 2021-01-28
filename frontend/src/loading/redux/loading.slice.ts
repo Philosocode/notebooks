@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import {
   isFulfilledMatcher,
   isPendingMatcher,
@@ -32,4 +33,3 @@ const loadingSlice = createSlice({
 });
 
 export const loadingReducer = loadingSlice.reducer;
-// export const { startLoading, stopLoading } = loadingSlice.actions;

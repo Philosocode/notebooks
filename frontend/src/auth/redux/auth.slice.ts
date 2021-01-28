@@ -26,10 +26,10 @@ const authSlice = createSlice({
       localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
     },
   },
-  extraReducers: {
-    [loginGoogle.fulfilled.type]: (state, action: PayloadAction<string>) => {
+  extraReducers: (builder) => {
+    builder.addCase(loginGoogle.fulfilled, (_, action) => {
       localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, action.payload);
-    },
+    })
   },
 });
 
