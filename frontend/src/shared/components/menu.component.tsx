@@ -65,6 +65,8 @@ export const Menu: FC<IProps> = ({ actions }) => {
 };
 
 const SContainer = styled.div`
+  display: flex;
+    align-items: center;
   position: relative;
   width: max-content;
 `;
@@ -81,7 +83,7 @@ const SActionList = styled.div`
   flex-direction: column;
   position: absolute;
     right: 1.5rem;
-    top: 0;
+    top: 1rem;
   width: max-content;
 `;
 
