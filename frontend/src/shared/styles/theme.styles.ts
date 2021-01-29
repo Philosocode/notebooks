@@ -13,8 +13,19 @@ export const theme = {
     alt: "0 5px 1.5rem rgba(0,0,0, 0.3)",
   },
   colors: {
-    green: "#00B27D",
-    red: "#EC4643",
+    green: {
+      100: "#d5fcea",
+      200: "#4DFFCA",
+      300: "#1ACC97",
+      400: "#00B27D",
+      500: "#007f59",
+    },
+    red: {
+      100: "#F7B0AF",
+      200: "#F17371",
+      300: "#EC4643",
+      400: "#C61714"
+    },
     black: "#121212",
     white: "#FFF",
     offWhite: "#FAFAFA",

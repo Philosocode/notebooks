@@ -7,7 +7,7 @@ const { transitionAppend } = theme.animations;
 export const SButton = styled.button`
   border: none;
   border-radius: 5px;
-  box-shadow: ${theme.boxShadows.light};
+  box-shadow: ${theme.boxShadows.pressed};
   cursor: pointer;
   font-weight: 500;
   transition: background ${theme.animations.transitionAppend};
@@ -40,11 +40,19 @@ export const SHoverButton = styled(SButton)`
 `;
 
 export const SButtonGreen = styled(SButton)`
-  background-color: ${theme.colors.green};
+  background: ${theme.colors.green[300]};
   color: white;
+
+  &:hover:enabled {
+    background: ${theme.colors.green[400]};
+  }
 `;
 
 export const SButtonRed = styled(SButton)`
-  background-color: ${theme.colors.red};
+  background: ${theme.colors.red[300]};
   color: white;
+
+  &:hover:enabled {
+    background: ${theme.colors.red[400]};
+  }
 `;

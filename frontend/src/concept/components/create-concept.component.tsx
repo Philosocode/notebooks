@@ -73,5 +73,5 @@ const SContent = styled.div`
 `;
 
 const SError = styled.p`
-  color: ${theme.colors.red};
+  color: ${theme.colors.red[300]};
 `;

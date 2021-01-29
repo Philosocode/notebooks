@@ -11,10 +11,10 @@ import { clearAlert } from "alert/redux/alert.slice";
 
 function getColour(type: TAlertType) {
   if (type === "warning" || type === "error") {
-    return theme.colors.red;
+    return theme.colors.red[300];
   }
 
-  return theme.colors.green;
+  return theme.colors.green[300];
 }
 
 function getIcon(type: TAlertType): JSX.Element {

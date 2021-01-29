@@ -44,8 +44,8 @@ const SLoaderRing = styled.div`
   transform: translate(-50%, -50%);
 
   & > div {
-    border: 8px solid ${theme.colors.green};
-    border-color: ${theme.colors.green} transparent transparent transparent;
+    border: 8px solid ${theme.colors.green[200]};
+    border-color: ${theme.colors.green[200]} transparent transparent transparent;
     display: block;
     position: absolute;
     width: 6.4rem;

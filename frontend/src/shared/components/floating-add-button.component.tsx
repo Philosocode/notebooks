@@ -15,8 +15,10 @@ export const FloatingAddButton: FC<IProps> = ({ handleClick }) => {
 };
 
 const SButton = styled.button`
-  border: 1px solid ${theme.colors.gray[500]};
+  background: ${theme.colors.green[400]};
+  border: none;
   border-radius: 50%;
+  box-shadow: ${theme.boxShadows.light};
   cursor: pointer;
   height: 5rem;
   width: 5rem;
@@ -28,8 +30,13 @@ const SButton = styled.button`
   &:active {
     outline: 1px solid grey;
   }
+
+  &:hover {
+    background: ${theme.colors.green[300]};
+  }
 `;
 
 const SIcon = styled(FontAwesomeIcon)`
+  color: ${theme.colors.white};
   font-size: 2rem;
 `;

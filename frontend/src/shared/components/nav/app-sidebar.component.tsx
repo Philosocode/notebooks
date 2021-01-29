@@ -67,10 +67,10 @@ const SSidebarLink = styled(NavLink).attrs({
   
   &:hover, &.active {
     background: ${theme.colors.gray["100"]};
-    color: ${theme.colors.green};
+    color: ${theme.colors.green[300]};
     
     ${SIcon} {
-      color: ${theme.colors.green};
+      color: ${theme.colors.green[300]};
     }
   }
 }

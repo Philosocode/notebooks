@@ -49,11 +49,11 @@ const SNavLink = styled(NavLink).attrs({
   width: max-content;
   
   &:hover {
-    color: ${theme.colors.green};
+    color: ${theme.colors.green[300]};
   }
 
   &.active {
-    color: ${theme.colors.green};
+    color: ${theme.colors.green[300]};
     font-weight: bold;
   }
 `;
