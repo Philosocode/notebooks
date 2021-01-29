@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 
-import { sections } from "../library.routes";
+import { sections } from "../config/library-routes.config";
 import { theme } from "shared/styles/theme.styles";
 
 import { LibrarySidebarSection } from "./library-sidebar-section.component";

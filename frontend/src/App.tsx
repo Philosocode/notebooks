@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import { appRoutes } from "./shared/config/app.routes";
+import { appRoutes } from "./shared/config/app-routes.config";
 import { useAuth } from "auth/hooks/use-auth.hook";
 import { useScrollToTop } from "shared/hooks/use-scroll-to-top.hook";
 import { useAppLocation } from "shared/hooks/use-app-location.hook";

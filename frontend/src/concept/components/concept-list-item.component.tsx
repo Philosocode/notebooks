@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { IConcept } from "concept/redux/concept.types";
 import { theme } from "shared/styles/theme.styles";
-import { IMenuAction, Menu } from "../../shared/components/menu.component";
+import { IMenuAction, Menu } from "../../shared/components/menu/menu.component";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 import { showModal } from "modal/redux/modal.slice";

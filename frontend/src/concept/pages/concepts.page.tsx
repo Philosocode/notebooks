@@ -6,7 +6,7 @@ import { SPageContent } from "../../shared/styles/layout.styles";
 import { getConcepts } from "concept/redux/concept.thunks";
 import { selectConcepts } from "concept/redux/concept.selectors";
 import { ConceptListItem } from "concept/components/concept-list-item.component";
-import { FloatingAddButton } from "shared/components/floating-add-button.component";
+import { FloatingAddButton } from "shared/components/button/floating-add-button.component";
 import { showModal } from "modal/redux/modal.slice";
 
 export const ConceptsPage = () => {

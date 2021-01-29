@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
-import { ILibrarySection } from "../library.routes";
+import { ILibrarySection } from "../config/library-routes.config";
 import { theme } from "shared/styles/theme.styles";
 import { snakeCaseToTitleCase } from "../../shared/utils/string.utils";
 
