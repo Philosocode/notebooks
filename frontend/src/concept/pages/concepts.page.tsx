@@ -14,8 +14,10 @@ export const ConceptsPage = () => {
   const concepts = useSelector(selectConcepts);
 
   useEffect(() => {
-    dispatch(getConceptsThunk());
-  }, [dispatch]);
+    if (concepts.length === 0) {
+      dispatch(getConceptsThunk());
+    }
+  }, [dispatch, concepts.length]);
 
   const showAddConceptModal = () => {
     dispatch(showModal({ modalType: "create-concept" }))
