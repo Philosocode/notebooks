@@ -7,7 +7,7 @@ export interface IConcept {
 }
 
 export interface IConceptState {
-  concepts?: IConcept[];
+  concepts: IConcept[];
   currConcept?: IConcept;
 }
 

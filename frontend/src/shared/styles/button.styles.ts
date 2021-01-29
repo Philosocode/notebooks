@@ -11,9 +11,14 @@ export const SButton = styled.button`
   cursor: pointer;
   font-weight: 500;
   padding: 0.75em 1em;
+
+  &:active,
+  &:focus {
+    outline: 1px solid ${theme.colors.gray[100]};
+  }
 `;
 
-const SHoverButton = styled(SButton)`
+export const SHoverButton = styled(SButton)`
   transition: transform ${transitionAppend}, box-shadow ${transitionAppend};
 
   &:hover {
@@ -25,11 +30,15 @@ const SHoverButton = styled(SButton)`
   &:focus {
     box-shadow: ${theme.boxShadows.pressed};
     transform: translateY(-1.5px);
-    outline: 1px solid green;
   }
 `;
 
 export const SButtonGreen = styled(SHoverButton)`
   background-color: ${theme.colors.green};
+  color: white;
+`;
+
+export const SButtonRed = styled(SHoverButton)`
+  background-color: ${theme.colors.red};
   color: white;
 `;

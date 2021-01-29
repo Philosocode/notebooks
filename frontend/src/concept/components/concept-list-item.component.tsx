@@ -5,17 +5,32 @@ import { IConcept } from "concept/redux/concept.types";
 import { theme } from "shared/styles/theme.styles";
 import { IMenuAction, Menu } from "../../shared/components/menu.component";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
+import { showModal } from "modal/redux/modal.slice";
 
 interface IProps {
   concept: IConcept;
 }
 
-const menuActions: IMenuAction[] = [
-  { action: () => console.log("Edit"), name: "Edit Concept", icon: faPencilAlt },
-  { action: () => console.log("Delete"), name: "Delete Concept", icon: faTrash },
-];
-
 export const ConceptListItem: FC<IProps> = ({ concept }) => {
+  const dispatch = useDispatch();
+
+  function handleEdit() {
+    console.log("EDITING");
+  }
+
+  function handleDelete() {
+    dispatch(showModal({
+      modalType: "delete-concept",
+      modalProps: { concept },
+    }));
+  }
+
+  const menuActions: IMenuAction[] = [
+    { action: handleEdit, name: "Edit Concept", icon: faPencilAlt },
+    { action: handleDelete, name: "Delete Concept", icon: faTrash },
+  ];
+
   return (
     <SContainer>
       <div>

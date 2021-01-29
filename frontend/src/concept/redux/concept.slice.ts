@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getConcepts } from "./concept.thunks";
 
 import { IConceptState } from "./concept.types";
@@ -11,7 +11,15 @@ const initialState: IConceptState = {
 const conceptSlice = createSlice({
   name: "concept",
   initialState,
-  reducers: {},
+  reducers: {
+    deleteConcept: (state, action: PayloadAction<string>) => {
+      const foundIdx = state.concepts.findIndex(c => c.id === action.payload);
+
+      if (foundIdx !== -1) {
+        state.concepts.splice(foundIdx, 1);
+      }
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(getConcepts.fulfilled, (state, action) => {
       state.concepts = action.payload;
@@ -20,3 +28,4 @@ const conceptSlice = createSlice({
 });
 
 export const conceptReducer = conceptSlice.reducer;
+export const { deleteConcept } = conceptSlice.actions;

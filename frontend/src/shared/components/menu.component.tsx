@@ -38,7 +38,7 @@ export const Menu: FC<IProps> = ({ actions }) => {
     }
   }
 
-  function handleActionClick(event: React.MouseEvent, action: () => void) {
+  function handleActionClick(action: () => void) {
     action();
     setMenuShowing(false);
   }
@@ -51,7 +51,7 @@ export const Menu: FC<IProps> = ({ actions }) => {
          <SActionList>
             {
               actions.map(action => (
-                <SAction onClick={(event) => handleActionClick(event, action.action)} key={action.name}>
+                <SAction onClick={() => handleActionClick(action.action)} key={action.name}>
                   <SActionIcon icon={action.icon} />
                   {action.name}
                 </SAction>

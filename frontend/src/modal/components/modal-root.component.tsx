@@ -6,13 +6,15 @@ import { hideModal } from "modal/redux/modal.slice";
 import { TModalType } from "../redux/modal.types";
 import { AddConcept } from "../../concept/components/add-concept.component";
 import { ModalWrapper } from "./modal-wrapper.component";
+import { DeleteConcept } from "concept/components/delete-concept.component";
 
 type TModalComponents = {
-  [key in TModalType]: React.FC;
+  [key in TModalType]: React.FC<any>;
 };
 
 const MODAL_COMPONENTS: TModalComponents = {
-  "add-concept": AddConcept
+  "add-concept": AddConcept,
+  "delete-concept": DeleteConcept,
 };
 
 export const ModalRoot = () => {
@@ -29,7 +31,7 @@ export const ModalRoot = () => {
   const ModalComponent = MODAL_COMPONENTS[modalType];
   return (
     <ModalWrapper isShowing={modalShowing} handleClose={handleClose}>
-      <ModalComponent {...modalProps} />
+      <ModalComponent handleClose={handleClose} {...modalProps} />
     </ModalWrapper>
   )
 };
