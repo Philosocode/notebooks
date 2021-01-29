@@ -2,20 +2,26 @@ import React, { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { createConceptThunk } from "concept/redux/concept.thunks";
+import { IConcept } from "../redux/concept.types";
+import { IModalProps } from "../../modal/redux/modal.types";
 import { selectConcepts } from "concept/redux/concept.selectors";
 import { useForm } from "shared/hooks/use-form.hook";
 import { FormGroup } from "shared/components/form/form-group.component";
 import { theme } from "shared/styles/theme.styles";
 import { SHeadingSubtitle } from "shared/styles/typography.styles";
 import { SButtonGreen } from "shared/styles/button.styles";
+import { updateConceptThunk } from "../redux/concept.thunks";
 
-interface IProps {
-  handleClose: () => void;
+interface IProps extends IModalProps {
+  concept: IConcept;
 }
-export const CreateConcept: FC<IProps> = ({ handleClose }) => {
-  const { values, handleChange } = useForm({ name: "" });
-  const { name } = values;
+
+export const UpdateConcept: FC<IProps> = ({ concept, handleClose }) => {
+  const originalName = concept.name;
+
+  const { values, handleChange } = useForm({ newName: originalName });
+  const { newName } = values;
+
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [error, setError] = useState("");
 
@@ -24,14 +30,19 @@ export const CreateConcept: FC<IProps> = ({ handleClose }) => {
 
   // check if concept name is duplicate
   useEffect(() => {
-    // disable button if name empty
-    if (name.trim() === "") {
+    const newNameLower = newName.toLowerCase();
+
+    // disable button if name unchanged or blank
+    if (newName.trim() === "" || newNameLower === originalName.toLowerCase()) {
       setButtonDisabled(true);
       setError("");
       return;
     }
 
-    const duplicateName = concepts.some(c => c.name.toLowerCase() === name.toLowerCase());
+    const duplicateName = concepts.some(c => {
+      return c.name.toLowerCase() !== originalName &&
+             c.name.toLowerCase() === newNameLower;
+    });
 
     if (duplicateName) {
       setButtonDisabled(true);
@@ -40,34 +51,34 @@ export const CreateConcept: FC<IProps> = ({ handleClose }) => {
       setButtonDisabled(false);
       setError("");
     }
-  }, [name, concepts]);
+  }, [originalName, newName, concepts]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!name) return;
+    if (!newName) return;
 
-    dispatch(createConceptThunk(name));
+    dispatch(updateConceptThunk({ id: concept.id, name: newName }));
     handleClose();
-  }
+  };
 
   return (
     <SContent>
-      <SHeadingSubtitle>Create Concept</SHeadingSubtitle>
+      <SHeadingSubtitle>Update Concept</SHeadingSubtitle>
       <form autoComplete="off" onSubmit={handleSubmit}>
         <FormGroup
-          name="name"
+          name="newName"
           onChange={handleChange}
           type="text"
           placeholder="Concept Name"
-          value={name}
+          value={newName}
         />
         <SError>{error}</SError>
-        <SButtonGreen disabled={buttonDisabled}>Create</SButtonGreen>
+        <SButtonGreen disabled={buttonDisabled}>Update</SButtonGreen>
       </form>
     </SContent>
   );
- };
+};
 
 const SContent = styled.div`
   & * + * {

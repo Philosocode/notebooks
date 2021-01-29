@@ -7,6 +7,7 @@ import { TModalType } from "../redux/modal.types";
 import { CreateConcept } from "../../concept/components/create-concept.component";
 import { ModalWrapper } from "./modal-wrapper.component";
 import { DeleteConcept } from "concept/components/delete-concept.component";
+import { UpdateConcept } from "../../concept/components/update-concept.component";
 
 type TModalComponents = {
   [key in TModalType]: React.FC<any>;
@@ -14,6 +15,7 @@ type TModalComponents = {
 
 const MODAL_COMPONENTS: TModalComponents = {
   "create-concept": CreateConcept,
+  "update-concept": UpdateConcept,
   "delete-concept": DeleteConcept,
 };
 

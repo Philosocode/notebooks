@@ -16,7 +16,10 @@ export const ConceptListItem: FC<IProps> = ({ concept }) => {
   const dispatch = useDispatch();
 
   function handleEdit() {
-    console.log("EDITING");
+    dispatch(showModal({
+      modalType: "update-concept",
+      modalProps: { concept },
+    }));
   }
 
   function handleDelete() {

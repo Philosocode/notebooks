@@ -2,13 +2,13 @@ import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 
 import { IConcept } from "concept/redux/concept.types";
+import { IModalProps } from "../../modal/redux/modal.types";
 import { deleteConceptThunk } from "concept/redux/concept.thunks";
 import { ConfirmationModal } from "modal/components/confirmation-modal.component";
 import { trimString } from "shared/utils/string.utils";
 
-interface IProps {
+interface IProps extends IModalProps {
   concept: IConcept;
-  handleClose: () => void;
 }
 export const DeleteConcept: FC<IProps> = ({ concept, handleClose }) => {
   const dispatch = useDispatch();

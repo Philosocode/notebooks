@@ -2,7 +2,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { IConcept } from "./concept.types";
 import { api } from "services/api.service";
-import { createConcept, deleteConcept } from "./concept.slice";
 
 interface IGetConceptsResponse {
   status: string;
@@ -10,7 +9,7 @@ interface IGetConceptsResponse {
     concepts: IConcept[];
   };
 }
-export const getConcepts = createAsyncThunk(
+export const getConceptsThunk = createAsyncThunk(
   "concept/getConcepts",
   async function (_, thunkAPI) {
     try {
@@ -33,7 +32,23 @@ export const createConceptThunk = createAsyncThunk(
   async function (name: string, thunkAPI) {
     try {
       const res = await api.post<ICreateConceptResponse>("/concepts/", { name });
-      thunkAPI.dispatch(createConcept(res.data.data.concept));
+      return res.data.data.concept;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+interface IUpdateConceptData {
+  id: string;
+  name: string;
+}
+export const updateConceptThunk = createAsyncThunk(
+  "concept/updateConcept",
+  async function (data: IUpdateConceptData , thunkAPI) {
+    try {
+      await api.patch(`/concepts/${data.id}`, { name: data.name });
+      return data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
@@ -44,10 +59,8 @@ export const deleteConceptThunk = createAsyncThunk(
   "concept/deleteConcept",
   async function (id: string, thunkAPI) {
     try {
-      const res = await api.delete("/concepts/" + id);
-      if (res.status === 204) {
-        thunkAPI.dispatch(deleteConcept(id));
-      }
+      await api.delete(`/concepts/${id}`);
+      return id;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
