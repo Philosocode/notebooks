@@ -9,7 +9,7 @@ interface IGetConceptsResponse {
     concepts: IConcept[];
   };
 }
-export const getConceptsThunk = createAsyncThunk(
+export const getConcepts = createAsyncThunk(
   "concept/getConcepts",
   async function (_, thunkAPI) {
     try {
@@ -27,7 +27,7 @@ interface ICreateConceptResponse {
     concept: IConcept;
   };
 }
-export const createConceptThunk = createAsyncThunk(
+export const createConcept = createAsyncThunk(
   "concept/addConcept",
   async function (name: string, thunkAPI) {
     try {
@@ -43,7 +43,7 @@ interface IUpdateConceptData {
   id: string;
   name: string;
 }
-export const updateConceptThunk = createAsyncThunk(
+export const updateConcept = createAsyncThunk(
   "concept/updateConcept",
   async function (data: IUpdateConceptData , thunkAPI) {
     try {
@@ -55,7 +55,7 @@ export const updateConceptThunk = createAsyncThunk(
   }
 );
 
-export const deleteConceptThunk = createAsyncThunk(
+export const deleteConcept = createAsyncThunk(
   "concept/deleteConcept",
   async function (id: string, thunkAPI) {
     try {

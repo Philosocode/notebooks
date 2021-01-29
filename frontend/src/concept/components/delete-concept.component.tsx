@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { IConcept } from "concept/redux/concept.types";
 import { IModalProps } from "../../modal/redux/modal.types";
-import { deleteConceptThunk } from "concept/redux/concept.thunks";
+import { deleteConcept } from "concept/redux/concept.thunks";
 import { ConfirmationModal } from "modal/components/confirmation-modal.component";
 import { trimString } from "shared/utils/string.utils";
 
@@ -14,7 +14,7 @@ export const DeleteConcept: FC<IProps> = ({ concept, handleClose }) => {
   const dispatch = useDispatch();
   
   const handleDelete = () => {
-    dispatch(deleteConceptThunk(concept.id));
+    dispatch(deleteConcept(concept.id));
     handleClose();
   }
   

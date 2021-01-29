@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { SPageContent } from "../../shared/styles/layout.styles";
-import { getConceptsThunk } from "concept/redux/concept.thunks";
+import { getConcepts } from "concept/redux/concept.thunks";
 import { selectConcepts } from "concept/redux/concept.selectors";
 import { ConceptListItem } from "concept/components/concept-list-item.component";
 import { FloatingAddButton } from "shared/components/floating-add-button.component";
@@ -15,7 +15,7 @@ export const ConceptsPage = () => {
 
   useEffect(() => {
     if (concepts.length === 0) {
-      dispatch(getConceptsThunk());
+      dispatch(getConcepts());
     }
   }, [dispatch, concepts.length]);
 

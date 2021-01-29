@@ -10,7 +10,7 @@ import { FormGroup } from "shared/components/form/form-group.component";
 import { theme } from "shared/styles/theme.styles";
 import { SHeadingSubtitle } from "shared/styles/typography.styles";
 import { SButtonGreen } from "shared/styles/button.styles";
-import { updateConceptThunk } from "../redux/concept.thunks";
+import { updateConcept } from "../redux/concept.thunks";
 
 interface IProps extends IModalProps {
   concept: IConcept;
@@ -58,7 +58,7 @@ export const UpdateConcept: FC<IProps> = ({ concept, handleClose }) => {
 
     if (!newName) return;
 
-    dispatch(updateConceptThunk({ id: concept.id, name: newName }));
+    dispatch(updateConcept({ id: concept.id, name: newName }));
     handleClose();
   };
 

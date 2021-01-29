@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { createConceptThunk } from "concept/redux/concept.thunks";
+import { createConcept } from "concept/redux/concept.thunks";
 import { selectConcepts } from "concept/redux/concept.selectors";
 import { useForm } from "shared/hooks/use-form.hook";
 import { FormGroup } from "shared/components/form/form-group.component";
@@ -46,7 +46,7 @@ export const CreateConcept: FC<IProps> = ({ handleClose }) => {
 
     if (!name) return;
 
-    dispatch(createConceptThunk(name));
+    dispatch(createConcept(name));
     handleClose();
   }
 

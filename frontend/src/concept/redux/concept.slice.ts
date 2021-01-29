@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createConceptThunk, deleteConceptThunk, getConceptsThunk, updateConceptThunk } from "./concept.thunks";
+import { createConcept, deleteConcept, getConcepts, updateConcept } from "./concept.thunks";
 
 import { IConceptState } from "./concept.types";
 
@@ -14,20 +14,20 @@ const conceptSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(createConceptThunk.fulfilled, (state, action) => {
+      .addCase(createConcept.fulfilled, (state, action) => {
         state.concepts.push(action.payload);
       })
-      .addCase(deleteConceptThunk.fulfilled, (state, action) => {
+      .addCase(deleteConcept.fulfilled, (state, action) => {
         const foundIdx = state.concepts.findIndex(c => c.id === action.payload);
 
         if (foundIdx !== -1) {
           state.concepts.splice(foundIdx, 1);
         }
       })
-      .addCase(getConceptsThunk.fulfilled, (state, action) => {
+      .addCase(getConcepts.fulfilled, (state, action) => {
         state.concepts = action.payload;
       })
-      .addCase(updateConceptThunk.fulfilled, (state, action) => {
+      .addCase(updateConcept.fulfilled, (state, action) => {
         const { id, name } = action.payload;
 
         const conceptToUpdateIdx = state.concepts.findIndex(
