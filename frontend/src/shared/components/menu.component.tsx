@@ -21,13 +21,8 @@ export const Menu: FC<IProps> = ({ actions }) => {
   const menuRef = useRef() as MutableRefObject<HTMLDivElement>;
 
   useEffect(() => {
-    if (menuShowing) {
-      window.addEventListener("mousedown", hideMenu);
-    }
-
-    return () => {
-      window.removeEventListener("mousedown", hideMenu);
-    }
+    if (menuShowing) window.addEventListener("mousedown", hideMenu);
+    return () => { window.removeEventListener("mousedown", hideMenu); }
   }, [menuShowing]);
 
   const showMenu = () => setMenuShowing(true);
@@ -88,14 +83,13 @@ const SActionList = styled.div`
 `;
 
 const SAction = styled.button`
-  border: none;
-  border-top: 1px solid ${theme.colors.gray[100]};
+  border: 1px solid ${theme.colors.gray[200]};
   cursor: pointer;
   text-align: left;
   padding: ${theme.spacing.sm};
 
   &:hover {
-    background: ${theme.colors.gray[100]};
+    background: ${theme.colors.gray[200]};
   }
 
   &:active,

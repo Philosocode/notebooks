@@ -6,7 +6,7 @@ import { IConcept } from "concept/redux/concept.types";
 import { deleteConceptThunk } from "concept/redux/concept.thunks";
 import { theme } from "shared/styles/theme.styles";
 import { SHeadingSubtitle } from "shared/styles/typography.styles";
-import { SHoverButton, SButtonRed } from "shared/styles/button.styles";
+import { SButtonRed, SButton } from "shared/styles/button.styles";
 import { trimString } from "shared/utils/string.utils";
 
 interface IProps {
@@ -38,6 +38,6 @@ const SContent = styled.div`
   }
 `;
 
-const SCancelButton = styled(SHoverButton)`
+const SCancelButton = styled(SButton)`
   margin-left: 1.5em;
 `;
