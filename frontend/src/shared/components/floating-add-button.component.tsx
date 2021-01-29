@@ -20,8 +20,8 @@ const SButton = styled.button`
   border-radius: 50%;
   box-shadow: ${theme.boxShadows.light};
   cursor: pointer;
-  height: 5rem;
-  width: 5rem;
+  height: 6rem;
+  width: 6rem;
   position: fixed;
     bottom: 5vh;
     right: 2.5vw;

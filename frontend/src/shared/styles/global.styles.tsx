@@ -62,4 +62,13 @@ export const GlobalStyles = createGlobalStyle`
     outline: 1px dotted;
     outline: 5px auto -webkit-focus-ring-color;
   }
+
+  /* Modal Styles */
+  .ReactModal__Overlay {
+    opacity: 0;
+    transition: opacity 150ms ease-in-out;
+
+    &--after-open { opacity: 1; }
+    &--before-close { opacity: 0; }
+  }
 `;

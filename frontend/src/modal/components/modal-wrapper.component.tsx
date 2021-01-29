@@ -31,6 +31,7 @@ export const ModalWrapper: FC<IProps> = ({ isShowing, handleClose, children }) =
     <ReactModal
       isOpen={isShowing}
       onRequestClose={handleClose}
+      closeTimeoutMS={150}
       style={{
         content: contentStyles,
         overlay: overlayStyles,

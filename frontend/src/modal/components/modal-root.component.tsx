@@ -28,12 +28,19 @@ export const ModalRoot = () => {
     dispatch(hideModal());
   };
 
-  if (!modalType) return null;
+  function getModalComponent() {
+    if (!modalType) return null;
 
-  const ModalComponent = MODAL_COMPONENTS[modalType];
+    const ModalComponent = MODAL_COMPONENTS[modalType];
+    return (
+      <ModalComponent handleClose={handleClose} {...modalProps} />
+    );
+  }
+
+
   return (
     <ModalWrapper isShowing={modalShowing} handleClose={handleClose}>
-      <ModalComponent handleClose={handleClose} {...modalProps} />
+      {getModalComponent()}
     </ModalWrapper>
   )
 };
