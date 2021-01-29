@@ -9,10 +9,9 @@ import { FormGroup } from "shared/components/form/form-group.component";
 import { theme } from "shared/styles/theme.styles";
 import { SHeadingSubtitle } from "shared/styles/typography.styles";
 import { SButtonGreen } from "shared/styles/button.styles";
+import { IModalProps } from "modal/redux/modal.types";
 
-interface IProps {
-  handleClose: () => void;
-}
+interface IProps extends IModalProps {}
 export const CreateConcept: FC<IProps> = ({ handleClose }) => {
   const { values, handleChange } = useForm({ name: "" });
   const { name } = values;

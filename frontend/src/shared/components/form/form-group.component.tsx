@@ -1,21 +1,15 @@
-import React, { FC } from "react";
+import React, { FC, InputHTMLAttributes } from "react";
 import { theme } from "shared/styles/theme.styles";
 import styled from "styled-components";
 
-interface IProps {
+interface IProps extends InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
   name: string;
-  onChange: (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   type: "email" | "password" | "text" | "textarea";
-  value: string;
-  placeholder?: string;
 }
-
 export const FormGroup: FC<IProps> = ({
   name, 
-  onChange, 
-  placeholder, 
   type, 
-  value 
+  ...rest
 }) => {
   function renderInput() {
     return (
@@ -24,9 +18,7 @@ export const FormGroup: FC<IProps> = ({
         id={name}
         name={name}
         required
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
+        {...rest}
       />
     );
   }
@@ -36,12 +28,8 @@ export const FormGroup: FC<IProps> = ({
       <textarea
         id={name}
         name={name}
-        placeholder={placeholder}
-        rows={8}
-        maxLength={999}
         required
-        value={value}
-        onChange={onChange}
+        {...rest}
       />
     )
   }
