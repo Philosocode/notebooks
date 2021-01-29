@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { IConcept } from "./concept.types";
 import { api } from "services/api.service";
-import { deleteConcept } from "./concept.slice";
+import { createConcept, deleteConcept } from "./concept.slice";
 
 interface IGetConceptsResponse {
   status: string;
@@ -22,7 +22,25 @@ export const getConcepts = createAsyncThunk(
   }
 );
 
-export const deleteConceptAsync = createAsyncThunk(
+interface ICreateConceptResponse {
+  status: string;
+  data: {
+    concept: IConcept;
+  };
+}
+export const createConceptThunk = createAsyncThunk(
+  "concept/addConcept",
+  async function (name: string, thunkAPI) {
+    try {
+      const res = await api.post<ICreateConceptResponse>("/concepts/", { name });
+      thunkAPI.dispatch(createConcept(res.data.data.concept));
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+export const deleteConceptThunk = createAsyncThunk(
   "concept/deleteConcept",
   async function (id: string, thunkAPI) {
     try {

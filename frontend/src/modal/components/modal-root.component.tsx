@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { TAppState } from "shared/redux/store";
 import { hideModal } from "modal/redux/modal.slice";
 import { TModalType } from "../redux/modal.types";
-import { AddConcept } from "../../concept/components/add-concept.component";
+import { CreateConcept } from "../../concept/components/create-concept.component";
 import { ModalWrapper } from "./modal-wrapper.component";
 import { DeleteConcept } from "concept/components/delete-concept.component";
 
@@ -13,7 +13,7 @@ type TModalComponents = {
 };
 
 const MODAL_COMPONENTS: TModalComponents = {
-  "add-concept": AddConcept,
+  "create-concept": CreateConcept,
   "delete-concept": DeleteConcept,
 };
 

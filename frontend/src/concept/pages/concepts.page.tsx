@@ -6,6 +6,8 @@ import { SPageContent } from "../../shared/styles/layout.styles";
 import { getConcepts } from "concept/redux/concept.thunks";
 import { selectConcepts } from "concept/redux/concept.selectors";
 import { ConceptListItem } from "concept/components/concept-list-item.component";
+import { FloatingAddButton } from "shared/components/floating-add-button.component";
+import { showModal } from "modal/redux/modal.slice";
 
 export const ConceptsPage = () => {
   const dispatch = useDispatch();
@@ -15,6 +17,10 @@ export const ConceptsPage = () => {
     dispatch(getConcepts());
   }, [dispatch]);
 
+  const showAddConceptModal = () => {
+    dispatch(showModal({ modalType: "create-concept" }))
+  }
+
   return (
     <SPageContent>
       <h1>Concepts</h1>
@@ -23,6 +29,7 @@ export const ConceptsPage = () => {
           <ConceptListItem concept={concept} key={concept.id} />
         ))}
       </SConceptList>
+      <FloatingAddButton handleClick={showAddConceptModal} />
     </SPageContent>
   );
 };

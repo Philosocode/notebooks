@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 import { IConcept } from "concept/redux/concept.types";
-import { deleteConceptAsync } from "concept/redux/concept.thunks";
+import { deleteConceptThunk } from "concept/redux/concept.thunks";
 import { theme } from "shared/styles/theme.styles";
 import { SHeadingSubtitle } from "shared/styles/typography.styles";
 import { SHoverButton, SButtonRed } from "shared/styles/button.styles";
@@ -18,7 +18,7 @@ export const DeleteConcept: FC<IProps> = ({ concept, handleClose }) => {
   const trimmedName = trimString(concept.name, 50);
 
   const handleDelete = () => {
-    dispatch(deleteConceptAsync(concept.id));
+    dispatch(deleteConceptThunk(concept.id));
     handleClose();
   }
 

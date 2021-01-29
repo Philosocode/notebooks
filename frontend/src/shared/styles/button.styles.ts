@@ -10,11 +10,17 @@ export const SButton = styled.button`
   box-shadow: ${theme.boxShadows.light};
   cursor: pointer;
   font-weight: 500;
+  transition: background ${theme.animations.transitionAppend};
   padding: 0.75em 1em;
 
   &:active,
   &:focus {
     outline: 1px solid ${theme.colors.gray[100]};
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background: ${theme.colors.gray[400]};
   }
 `;
 
@@ -33,12 +39,12 @@ export const SHoverButton = styled(SButton)`
   }
 `;
 
-export const SButtonGreen = styled(SHoverButton)`
+export const SButtonGreen = styled(SButton)`
   background-color: ${theme.colors.green};
   color: white;
 `;
 
-export const SButtonRed = styled(SHoverButton)`
+export const SButtonRed = styled(SButton)`
   background-color: ${theme.colors.red};
   color: white;
 `;

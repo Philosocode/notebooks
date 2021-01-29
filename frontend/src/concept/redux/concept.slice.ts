@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getConcepts } from "./concept.thunks";
 
-import { IConceptState } from "./concept.types";
+import { IConcept, IConceptState } from "./concept.types";
 
 const initialState: IConceptState = {
   concepts: [],
@@ -12,6 +12,9 @@ const conceptSlice = createSlice({
   name: "concept",
   initialState,
   reducers: {
+    createConcept: (state, action: PayloadAction<IConcept>) => {
+      state.concepts.push(action.payload);
+    },
     deleteConcept: (state, action: PayloadAction<string>) => {
       const foundIdx = state.concepts.findIndex(c => c.id === action.payload);
 
@@ -28,4 +31,4 @@ const conceptSlice = createSlice({
 });
 
 export const conceptReducer = conceptSlice.reducer;
-export const { deleteConcept } = conceptSlice.actions;
+export const { createConcept, deleteConcept } = conceptSlice.actions;

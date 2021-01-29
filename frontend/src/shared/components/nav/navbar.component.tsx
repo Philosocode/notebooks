@@ -62,7 +62,7 @@ export const Navbar = () => {
 };
 
 const SNav = styled.nav`
-  background: ${theme.colors.gray["50"]};
+  background: ${theme.colors.gray[100]};
   display: flex;
   align-items: center;
   justify-content: flex-end;
