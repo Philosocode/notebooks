@@ -3,7 +3,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IModalState, IShowModalPayload } from "./modal.types";
 
 const initialState: IModalState = {
-  modalShowing: false
+  modalShowing: false,
+  modalType: undefined,
+  modalProps: undefined,
 };
 
 const modalSlice = createSlice({
@@ -21,7 +23,7 @@ const modalSlice = createSlice({
       }
     },
     hideModal: (state) => {
-      return initialState;
+      state.modalShowing = false;
     },
   },
 });

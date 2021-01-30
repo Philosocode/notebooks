@@ -13,11 +13,13 @@ interface IProps {
 
 export const ModalWrapper: FC<IProps> = ({ isShowing, handleClose, children }) => {
   const contentStyles: CSSProperties = {
+    height: "max-content",
+    maxHeight: "80vh",
     left: "50%",
     top: "40%",
     transform: "translate(-50%, -50%)",
     padding: `${theme.spacing.md} ${theme.spacing.base}`,
-    width: "80rem",
+    width: "60rem",
     maxWidth: "90vw",
   };
 

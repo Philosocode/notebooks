@@ -2,11 +2,14 @@ import React, { FC } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { theme } from "shared/styles/theme.styles";
+import useKeypress from "shared/hooks/use-key-press.hook";
 
 interface IProps {
   handleClick: () => void;
 }
 export const FloatingAddButton: FC<IProps> = ({ handleClick }) => {
+  useKeypress({ key: "a", action: handleClick });
+
   return (
     <SButton onClick={handleClick}>
       <SIcon icon="plus" />
