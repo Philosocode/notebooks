@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "docker-compose up --build",
-    "start:db": "docker-compose run --rm -d db",
-    "start:backend": "docker-compose run --rm -d backend",
+    "start:db": "docker-compose up --build db",
+    "start:backend": "docker-compose up --build backend",
     "build": "docker-compose build",
     "stop": "docker-compose down",
     "db:connect": "docker-compose exec db bash -c 'psql -U postgres yggdrasil'",
