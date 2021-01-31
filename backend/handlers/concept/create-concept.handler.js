@@ -1,17 +1,25 @@
 const AppError = require("../../utils/app-error.util");
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
-const { createConcept } = require("../../models/concept.model");
+const { createConcept, getConcept } = require("../../models/concept.model");
 
 module.exports = catchAsync(async function (req, res, next) {
   const userId = req.user.id;
-  const { name } = req.body;
+  const { name, tags } = req.body;
 
+  // Validations
   if (!name) {
     return next(new AppError("Must include a name when adding a concept", 422));
   }
 
-  const created = await createConcept(userId, name);
+  const existingConcept = await getConcept({ user_id: userId, name });
+  if (existingConcept) {
+    return next(new AppError("Concept with that name already exists", 409));
+  }
 
-  sendResponse(res, 201, { concept: created[0] });
+  const createdConcept = await createConcept(userId, name, tags);
+
+  sendResponse(res, 201, {
+    concept: createdConcept 
+  });
 });

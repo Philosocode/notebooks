@@ -8,22 +8,50 @@ module.exports = {
   updateConcept,
 };
 
-async function createConcept(user_id, name) {
-  return db("concept").insert({ name, user_id }, ["id", "name", "created_at"]);
+async function createConcept(user_id, name, tagNames) {
+  return await db.transaction(async trx => {
+    const [createdConcept] = await trx("concept").insert(
+      { name, user_id },
+      ["id", "name", "created_at"]
+    );
+    
+    if (tagNames === undefined || tagNames.length == 0) return createdConcept;
+
+    // Create tags for concept
+    // ["a", "b"] -> [ {name: "a"}, {name: "b"} ]
+    const tagObjs = tagNames.map(tagName => ( { name: tagName } ));
+    await trx("tag").insert(tagObjs).onConflict("name").ignore();
+
+    // Get tags for tagNames from DB
+    const tagsFromDb = await trx("tag").whereIn("name", tagNames);
+
+    // Link each tag to the new concept
+    const conceptTagLinks = tagsFromDb.map(t => ({
+      concept_id: createdConcept.id,
+      tag_id: t.id
+    }));
+
+    await trx("concept_tag").insert(conceptTagLinks);
+
+    return {
+      ...createdConcept,
+      tags: tagNames
+    };
+  });
 }
 
-async function deleteConcept(user_id, id) {
-  return db("concept").where({ id, user_id }).del();
+async function deleteConcept(filterObj) {
+  return db("concept").where(filterObj).del();
 }
 
-async function getConcept(user_id, id) {
-  return db("concept").where({ id, user_id }).first();
+async function getConcept(filterObj) {
+  return db("concept").where(filterObj).first();
 }
 
-async function getConcepts(user_id) {
-  return db("concept").where({ user_id });
+async function getConcepts(filterObj) {
+  return db("concept").where(filterObj);
 }
 
-async function updateConcept(user_id, id, updates) {
-  return db("concept").where({ user_id, id }).update(updates);
+async function updateConcept(filterObj, updates) {
+  return db("concept").where(filterObj).update(updates);
 }
