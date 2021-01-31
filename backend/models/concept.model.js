@@ -50,11 +50,15 @@ async function getConcept(user_id, filterObj) {
     .first();
 }
 
-async function getConcepts(user_id, filterObj) {
+async function getConcepts(user_id) {
   return db("concept")
     .join("concept_tag", "concept.id", "concept_tag.concept_id")
-    .select("*")
-    .where({ ...filterObj, user_id });
+    .join("tag", "tag.id", "concept_tag.tag_id")
+    .select(
+      "concept.id", "concept.name", "concept.created_at", "concept.updated_at",
+      "tag.name AS tag"
+    )
+    .where({ user_id });
 }
 
 async function updateConcept(filterObj, updates) {
