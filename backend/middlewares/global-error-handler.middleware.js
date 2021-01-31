@@ -15,6 +15,8 @@ module.exports = (err, req, res, next) => {
 };
 
 const sendErrorDev = (err, _, res) => {
+  console.error(err);
+
   return res.status(err.statusCode).json({
     status: err.status,
     error: err,

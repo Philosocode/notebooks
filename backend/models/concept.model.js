@@ -44,12 +44,17 @@ async function deleteConcept(filterObj) {
   return db("concept").where(filterObj).del();
 }
 
-async function getConcept(filterObj) {
-  return db("concept").where(filterObj).first();
+async function getConcept(user_id, filterObj) {
+  return db("concept")
+    .where({ ...filterObj, user_id })
+    .first();
 }
 
-async function getConcepts(filterObj) {
-  return db("concept").where(filterObj);
+async function getConcepts(user_id, filterObj) {
+  return db("concept")
+    .join("concept_tag", "concept.id", "concept_tag.concept_id")
+    .select("*")
+    .where({ ...filterObj, user_id });
 }
 
 async function updateConcept(filterObj, updates) {

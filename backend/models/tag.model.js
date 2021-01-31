@@ -6,6 +6,7 @@ module.exports = {
   deleteTag,
   getTag,
   getTags,
+  getTagsForConcept,
   updateTag,
 };
 
@@ -27,6 +28,13 @@ async function getTag(id) {
 
 async function getTags() {
   return db("tag");
+}
+
+async function getTagsForConcept(concept_id) {
+  return db("tag")
+    .join("concept_tag", "tag.id", "concept_tag.tag_id")
+    .where({ "concept_tag.concept_id": concept_id })
+    .select("name");
 }
 
 async function updateTag(id, name) {
