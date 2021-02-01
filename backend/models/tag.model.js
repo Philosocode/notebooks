@@ -40,3 +40,5 @@ async function getTagsForConcept(concept_id) {
 async function updateTag(id, name) {
   return db("tag").where({ id }).update(name);
 }
+
+/* HELPERS */

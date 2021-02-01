@@ -12,7 +12,7 @@ module.exports = catchAsync(async function (req, res, next) {
     return next(new AppError("Must include a name when adding a concept", 422));
   }
 
-  const existingConcept = await getConcept(userId, { name });
+  const existingConcept = await getConcept(userId, { "concept.name": name });
   if (existingConcept) {
     return next(new AppError("Concept with that name already exists", 409));
   }

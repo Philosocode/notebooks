@@ -1,10 +1,11 @@
 const db = require("../db/db");
+const { deleteUnreferencedTags } = require("./tag.model");
+const { getTagsDiff } = require("../handlers/tag/tag.common");
 
 module.exports = {
   conceptExists,
   createConcept,
   deleteConcept,
-  getConcept,
   getConcepts,
   updateConcept,
 };
@@ -30,21 +31,7 @@ async function createConcept(user_id, name, tagNames) {
 
     if (tagNames === undefined || tagNames.length == 0) return createdConcept;
 
-    // Create tags for concept
-    // ["a", "b"] -> [ {name: "a"}, {name: "b"} ]
-    const tagObjs = tagNames.map((tagName) => ({ name: tagName }));
-    await trx("tag").insert(tagObjs).onConflict("name").ignore();
-
-    // Get tags for tagNames from DB
-    const tagsFromDb = await trx("tag").whereIn("name", tagNames);
-
-    // Link each tag to the new concept
-    const conceptTagLinks = tagsFromDb.map((t) => ({
-      concept_id: createdConcept.id,
-      tag_id: t.id,
-    }));
-
-    await trx("concept_tag").insert(conceptTagLinks);
+    await addTagsToConcept(trx, createdConcept.id, tagNames);
 
     return {
       ...createdConcept,
@@ -53,23 +40,17 @@ async function createConcept(user_id, name, tagNames) {
   });
 }
 
-async function deleteConcept(filterObj) {
-  return db("concept").where(filterObj).del();
-}
+async function deleteConcept(user_id, id) {
+  return await db.transaction(async (trx) => {
+    // delete all tags for concept
+    await trx("concept_tag").where({ concept_id: id }).del();
 
-async function getConcept(user_id, filterObj) {
-  return db("concept")
-    .join("concept_tag", "concept.id", "concept_tag.concept_id")
-    .join("tag", "tag.id", "concept_tag.tag_id")
-    .select(
-      "concept.id",
-      "concept.name",
-      "concept.created_at",
-      "concept.updated_at",
-      "tag.name AS tag"
-    )
-    .where({ ...filterObj, user_id })
-    .first();
+    // delete unreferenced tags
+    await deleteUnreferencedConceptTags(trx);
+
+    // delete concept itself
+    await trx("concept").where({ user_id, id }).first().del();
+  });
 }
 
 async function getConcepts(user_id, filterObj) {
@@ -86,6 +67,62 @@ async function getConcepts(user_id, filterObj) {
     .where({ ...filterObj, user_id });
 }
 
-async function updateConcept(filterObj, updates) {
-  return db("concept").where(filterObj).update(updates);
+async function updateConcept(id, updates) {
+  const { name, tags: updatedTags } = updates;
+
+  return await db.transaction(async (trx) => {
+    if (name) {
+      await trx("concept").where({ id }).update({ name });
+    }
+
+    if (updatedTags) {
+      await updateConceptTags(trx, id, updatedTags);
+    }
+  });
+}
+
+/* HELPER FUNCTIONS */
+async function updateConceptTags(connection, id, updatedTags) {
+  // get tags for concept as an array of strings
+  const currTags = await getTagsForConcept(connection, id);
+  const { tagsToCreate, tagsToDelete } = getTagsDiff(currTags, updatedTags);
+  // if (tagsToCreate.length > 0) await addTagsToConcept(connection, id, tagsToCreate);
+  if (tagsToDelete.length > 0) await deleteTagsFromConcept(connection, id, tagsToDelete);
+}
+
+async function getTagsForConcept(connection, id) {
+}
+
+async function addTagsToConcept(connection, id, tagNames) {
+  // Create tag OBJs with `name` property for insertion
+  // ["a", "b"] -> [ {name: "a"}, {name: "b"} ]
+  const tagObjs = tagNames.map((tagName) => ({ name: tagName }));
+  await connection("tag").insert(tagObjs).onConflict("name").ignore();
+
+  // Get tags for tagNames from DB
+  const tagsFromDb = await connection("tag").whereIn("name", tagNames);
+
+  // Link each tag to the new concept
+  const conceptTagLinks = tagsFromDb.map((t) => ({
+    concept_id: id,
+    tag_id: t.id,
+  }));
+
+  await connection("concept_tag").insert(conceptTagLinks);
+}
+
+async function deleteTagsFromConcept(connection, id, tagNames) {
+  // delete tags for concept
+  const tagIdsToDelete = await connection("tag").whereIn("name", tagNames);
+  console.log(tagIdsToDelete);
+  // const tagsToDelete = await connection("concept_tag").where({ concept_id: id });
+
+  // delete unreferenced tags
+  await deleteUnreferencedConceptTags(connection);
+}
+
+async function deleteUnreferencedConceptTags(connection) {
+  await connection("tag").whereNotExists(function() {
+    this.select("tag_id").from("concept_tag").whereRaw("concept_tag.tag_id = tag.id")
+  }).del();
 }
