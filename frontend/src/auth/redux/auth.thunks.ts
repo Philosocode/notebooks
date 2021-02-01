@@ -18,7 +18,7 @@ export const loginGoogle = createAsyncThunk(
 
       thunkAPI.dispatch(login({ token: jwtToken, user }));
 
-      return { token: jwtToken, user };
+      return jwtToken;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
