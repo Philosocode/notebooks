@@ -57,8 +57,6 @@ async function deleteConcept(user_id, id) {
 
 async function getConcepts(user_id, filterObj) {
   return db("concept")
-    .join("concept_tag", "concept.id", "concept_tag.concept_id")
-    .join("tag", "tag.id", "concept_tag.tag_id")
     .select(
       "concept.id",
       "concept.name",
@@ -66,6 +64,8 @@ async function getConcepts(user_id, filterObj) {
       "concept.updated_at",
       "tag.name AS tag"
     )
+    .leftJoin("concept_tag", "concept.id", "concept_tag.concept_id")
+    .leftJoin("tag", "tag.id", "concept_tag.tag_id")
     .where({ ...filterObj, user_id });
 }
 
@@ -88,7 +88,7 @@ async function updateConceptTags(connection, id, updatedTags) {
   // get tags for concept as an array of strings
   const currTags = await getTagsForConcept(connection, id);
   const { tagsToCreate, tagsToDelete } = getTagsDiff(currTags, updatedTags);
-  // if (tagsToCreate.length > 0) await addTagsToConcept(connection, id, tagsToCreate);
+  if (tagsToCreate.length > 0) await addTagsToConcept(connection, id, tagsToCreate);
   if (tagsToDelete.length > 0) await deleteTagsFromConcept(connection, id, tagsToDelete);
 }
 
