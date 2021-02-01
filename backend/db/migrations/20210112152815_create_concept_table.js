@@ -1,4 +1,4 @@
-const { onUpdateTrigger } = require("../functions");
+const { onUpdateTrigger } = require("../../knexfile");
 
 exports.up = function (knex) {
   return knex.schema.createTable("concept", (tbl) => {

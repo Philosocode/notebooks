@@ -1,3 +1,5 @@
+const { onUpdateTrigger } = require("../../knexfile");
+
 exports.up = function (knex) {
   return knex.schema.createTable("hook", (tbl) => {
     tbl.uuid("id").primary().defaultTo(knex.raw("uuid_generate_v4()"));
