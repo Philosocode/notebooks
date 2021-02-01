@@ -28,6 +28,7 @@ async function createConcept(user_id, name, tagNames) {
       "id",
       "name",
       "created_at",
+      "updated_at",
     ]);
 
     if (tagNames === undefined || tagNames.length == 0) return createdConcept;
