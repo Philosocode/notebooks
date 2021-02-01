@@ -1,6 +1,7 @@
 const db = require("../db/db");
 const { deleteUnreferencedTags } = require("./tag.model");
 const { getTagsDiff } = require("../handlers/tag/tag.common");
+const mergeEntityWithTagsAndLinks = require("../utils/merge-entity-tags-links.util");
 
 module.exports = {
   conceptExists,
@@ -91,6 +92,12 @@ async function updateConceptTags(connection, id, updatedTags) {
 }
 
 async function getTagsForConcept(connection, id) {
+  const tagsFlat = await connection("concept_tag")
+    .join("tag", "tag.id", "concept_tag.tag_id")
+    .select("name AS tag")
+    .where("concept_tag.concept_id", id);
+
+  return mergeEntityWithTagsAndLinks(tagsFlat)[0].tags;
 }
 
 async function addTagsToConcept(connection, id, tagNames) {
@@ -112,10 +119,18 @@ async function addTagsToConcept(connection, id, tagNames) {
 }
 
 async function deleteTagsFromConcept(connection, id, tagNames) {
-  // delete tags for concept
-  const tagIdsToDelete = await connection("tag").whereIn("name", tagNames);
-  console.log(tagIdsToDelete);
-  // const tagsToDelete = await connection("concept_tag").where({ concept_id: id });
+  // get IDs of tag names to delete
+  const tagIdsToDeleteFlat = await connection("tag")
+    .select("name", "id")
+    .whereIn("name", tagNames);
+
+  const tagIdsToDelete = tagIdsToDeleteFlat.map(t => t.id);
+
+  // remove these tags from concept_tag
+  await connection("concept_tag")
+    .where({"concept_tag.concept_id": id })
+    .whereIn("concept_tag.tag_id", tagIdsToDelete)
+    .del();
 
   // delete unreferenced tags
   await deleteUnreferencedConceptTags(connection);
