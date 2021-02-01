@@ -6,7 +6,8 @@ exports.up = function (knex) {
     // adds created_at, updated_at
     tbl.timestamps(true, true);
     tbl.uuid("material_id").notNullable().references("id").inTable("material");
-  });
+  })
+  .then(() => knex.raw(onUpdateTrigger("part")));
 };
 
 exports.down = function (knex) {
