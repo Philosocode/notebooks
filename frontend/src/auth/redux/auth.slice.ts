@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { LOCAL_STORAGE_TOKEN_KEY } from "shared/constants.shared";
-import { IAuthState, ILoginPayload } from "./auth.types";
+import { IAuthState } from "./auth.types";
 
 import { loginGoogle } from "./auth.thunks";
 
@@ -13,12 +13,6 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<ILoginPayload>) => {
-      const { user, token } = action.payload;
-
-      state.token = token;
-      state.user = user;
-    },
     logout: (state) => {
       state.user = undefined;
       state.token = undefined;
@@ -27,11 +21,16 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loginGoogle.fulfilled, (_, action) => {
-      localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, action.payload);
+    builder.addCase(loginGoogle.fulfilled, (state, action) => {
+      const { token, user } = action.payload;
+
+      state.user = user;
+      state.token = token;
+
+      localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
     })
   },
 });
 
 export const authReducer = authSlice.reducer;
-export const { login, logout } = authSlice.actions;
+export const { logout } = authSlice.actions;
