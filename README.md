@@ -52,19 +52,19 @@ docker-compose down
 See: http://knexjs.org/#Migrations
 To run `knex` commands, make sure the `db` and `backend` containers are running
 and start with this as a base: 
-`docker-compose exec backend knex <command>`
+`docker-compose exec backend npx knex <command>`
 
 ### Create Migration
-`docker-compose exec backend knex migrate:make <migration_name>`
+`docker-compose exec backend npx knex migrate:make <migration_name>`
 
 ### Run Migrations
-`docker-compose exec backend knex migrate:latest`
+`docker-compose exec backend npx knex migrate:latest`
 
 ### Rollback Migrations
-`docker-compose exec backend knex migrate:rollback [--all]`
+`docker-compose exec backend npx knex migrate:rollback [--all]`
 
 ### Create Seed
-`docker-compose exec backend knex seed:make <seed_name>`
+`docker-compose exec backend npx knex seed:make <seed_name>`
 
 ### Run Seed
-`docker-compose exec backend knex seed:run`
+`docker-compose exec backend npx knex seed:run`
