@@ -14,7 +14,14 @@ export const getConcepts = createAsyncThunk(
   async function (_, thunkAPI) {
     try {
       const res = await api.get<IGetConceptsResponse>("/concepts");
-      return res.data.data.concepts;
+      const { concepts } = res.data.data;
+
+      // convert arrays of strings to Sets of strings
+      return concepts.map(c => ({
+        ...c,
+        tags: new Set(c.tags),
+        links: new Set(c.links)
+      }));
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
