@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { getConcepts } from "concept/redux/concept.thunks";
-import { selectConcepts } from "concept/redux/concept.selectors";
+import { selectConceptsWithCurrTag } from "concept/redux/concept.selectors";
 import { showModal } from "modal/redux/modal.slice";
 
 import { ConceptListItem } from "concept/components/concept-list-item.component";
@@ -13,13 +13,11 @@ import { theme } from "shared/styles/theme.styles";
 
 export const ConceptsPage = () => {
   const dispatch = useDispatch();
-  const concepts = useSelector(selectConcepts);
+  const conceptsWithTags = useSelector(selectConceptsWithCurrTag);
 
   useEffect(() => {
-    if (concepts.length === 0) {
-      dispatch(getConcepts());
-    }
-  }, [dispatch, concepts.length]);
+    dispatch(getConcepts());
+  }, [dispatch]);
 
   const showAddConceptModal = () => {
     dispatch(showModal({ modalType: "create-concept" }))
@@ -31,7 +29,7 @@ export const ConceptsPage = () => {
       <SConceptSection>
         <SHeading>Concepts</SHeading>
         <SConceptList>
-          {concepts?.map((concept) => (
+          {conceptsWithTags.map((concept) => (
             <ConceptListItem concept={concept} key={concept.id} />
           ))}
         </SConceptList>

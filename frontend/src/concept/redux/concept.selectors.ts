@@ -14,6 +14,16 @@ export const selectConcepts = createSelector(
   (concept) => concept.concepts
 );
 
+export const selectConceptsWithCurrTag = createSelector(
+  selectConcepts,
+  selectCurrConceptTag,
+  (concepts, tag) => {
+    if (!tag) return concepts;
+    if (tag === "uncategorized") return concepts.filter(c => c.tags.length === 0);
+    return concepts.filter(c => c.tags.includes(tag));
+  }
+)
+
 export const selectCurrConcept = createSelector(
   [selectConcept],
   (concept) => concept.currConcept
