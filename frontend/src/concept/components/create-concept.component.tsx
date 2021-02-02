@@ -42,6 +42,10 @@ export const CreateConcept: FC<IProps> = ({ handleClose }) => {
     }
   }, [name, concepts]);
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") event.preventDefault();
+  }
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -60,6 +64,7 @@ export const CreateConcept: FC<IProps> = ({ handleClose }) => {
           onChange={handleChange}
           type="text"
           placeholder="Concept Name"
+          onKeyDown={handleKeyDown}
           value={name}
         />
         <SError>{error}</SError>

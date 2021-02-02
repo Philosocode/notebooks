@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { getConcepts } from "concept/redux/concept.thunks";
 import { selectConceptsWithCurrTag } from "concept/redux/concept.selectors";
 import { showModal } from "modal/redux/modal.slice";
+import { selectModalShowing } from "modal/redux/modal.selectors";
 
 import { ConceptListItem } from "concept/components/concept-list-item.component";
 import { FloatingAddButton } from "shared/components/button/floating-add-button.component";
@@ -14,12 +15,15 @@ import { theme } from "shared/styles/theme.styles";
 export const ConceptsPage = () => {
   const dispatch = useDispatch();
   const conceptsWithTags = useSelector(selectConceptsWithCurrTag);
+  const modalShowing = useSelector(selectModalShowing);
 
   useEffect(() => {
     dispatch(getConcepts());
   }, [dispatch]);
 
   const showAddConceptModal = () => {
+    if (modalShowing) return;
+    
     dispatch(showModal({ modalType: "create-concept" }))
   }
 

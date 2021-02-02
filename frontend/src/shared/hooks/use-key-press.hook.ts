@@ -4,7 +4,7 @@ interface IProps {
   key: string;
   action: () => void;
 }
-export default function useKeypress({ action, key  }: IProps) {
+export default function useKeypress({ action, key }: IProps) {
   useEffect(() => {
     function onKeyup(event: KeyboardEvent) {
       if (event.key === key) action();
@@ -12,5 +12,5 @@ export default function useKeypress({ action, key  }: IProps) {
     window.addEventListener("keyup", onKeyup);
     return () => window.removeEventListener("keyup", onKeyup);
     // eslint-disable-next-line
-  }, []);
+  }, [action]);
 }

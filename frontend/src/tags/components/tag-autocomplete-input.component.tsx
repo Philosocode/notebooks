@@ -1,10 +1,10 @@
 import { selectConceptTags } from "concept/redux/concept.selectors";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
-import { SInputBorderless } from "shared/styles/form.styles";
-
-import { theme } from "shared/styles/theme.styles";
 import styled from "styled-components";
+
+import { SInputBorderless } from "shared/styles/form.styles";
+import { theme } from "shared/styles/theme.styles";
 import { TagPill } from "./tag-pill.component";
 
 export const TagAutocompleteInput = () => {
@@ -21,9 +21,27 @@ export const TagAutocompleteInput = () => {
     setText("");
   };
 
+  const dropdownItems = useCallback(() => {
+    if (text.trim() === "") return null;
+    
+    return conceptTags.filter(t => {
+      if (addedTags.includes(t)) return false;
+      if (!t.startsWith(text.toLowerCase())) return false;
+
+      return true;
+    });
+    // eslint-disable-next-line
+  }, [text]);
+
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key !== "Enter") return;
 
+    // prevent form submission
+    event.preventDefault();
+    handleAddTag(text);
+  };
+
+  const handleAddTag = (tag: string) => {
     const textLower = text.toLowerCase();
 
     // don't add tag if it's already added
@@ -31,35 +49,39 @@ export const TagAutocompleteInput = () => {
 
     setAddedTags((prevTags) => [...prevTags, textLower]);
     clearInput();
-  };
+  }
 
   const deleteTag = (tag: string) => {
     setAddedTags((prevTags) => prevTags.filter((t) => t !== tag));
   };
 
   return (
-    <SContainer>
-      <div>
-        <SInputBorderless
-          name="text"
-          value={text}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          placeholder="Tag Name"
-        />
-        <STagListContainer>
-          {addedTags.map((t) => (
-            <TagPill tag={t} key={t} handleDelete={deleteTag} />
-          ))}
-        </STagListContainer>
-      </div>
-      <SDropdownContainer></SDropdownContainer>
-    </SContainer>
+    <SInputContainer>
+      <SInputBorderless
+        name="text"
+        value={text}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        placeholder="Tag Name"
+      />
+      <STagListContainer>
+        {addedTags.map((t) => (
+          <TagPill tag={t} key={t} handleDelete={deleteTag} />
+        ))}
+      </STagListContainer>
+      <SDropdownList>
+        {dropdownItems()?.map((t) => 
+          <SDropdownItem
+            key={t}
+            onClick={() => handleAddTag(t)}
+          >{t}</SDropdownItem>)}
+      </SDropdownList>
+    </SInputContainer>
   );
 };
 
-const SContainer = styled.div`
-  margin-bottom: ${theme.spacing.md};
+const SInputContainer = styled.div`
+  position: relative;
 `;
 
 const STagListContainer = styled.ul`
@@ -68,6 +90,17 @@ const STagListContainer = styled.ul`
   flex-wrap: wrap;
 `;
 
-const SDropdownContainer = styled.ul`
+const SDropdownList = styled.ul`
+  background: ${theme.colors.gray[100]};
   list-style-type: none;
+  position: absolute;
+  top: 1rem;
+  left: 0;
+  width: 30rem;
+`;
+
+const SDropdownItem = styled.li`
+  border: 1px solid ${theme.colors.gray[500]};
+  cursor: pointer;
+  padding: ${theme.spacing.sm};
 `;
