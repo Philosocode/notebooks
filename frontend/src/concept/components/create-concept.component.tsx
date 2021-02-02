@@ -10,6 +10,7 @@ import { theme } from "shared/styles/theme.styles";
 import { SHeadingSubtitle } from "shared/styles/typography.styles";
 import { SButtonGreen } from "shared/styles/button.styles";
 import { IModalProps } from "modal/redux/modal.types";
+import { TagAutocompleteInput } from "tags/components/tag-autocomplete-input.component";
 
 interface IProps extends IModalProps {}
 export const CreateConcept: FC<IProps> = ({ handleClose }) => {
@@ -62,6 +63,7 @@ export const CreateConcept: FC<IProps> = ({ handleClose }) => {
           value={name}
         />
         <SError>{error}</SError>
+        <TagAutocompleteInput />
         <SButtonGreen disabled={buttonDisabled}>Create</SButtonGreen>
       </form>
     </SContent>

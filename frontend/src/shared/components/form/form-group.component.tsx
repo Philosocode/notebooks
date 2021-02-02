@@ -1,6 +1,7 @@
 import React, { FC, InputHTMLAttributes } from "react";
-import { theme } from "shared/styles/theme.styles";
 import styled from "styled-components";
+
+import { SInputBorderless } from "shared/styles/form.styles";
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
   name: string;
@@ -13,7 +14,7 @@ export const FormGroup: FC<IProps> = ({
 }) => {
   function renderInput() {
     return (
-      <SInput
+      <SInputBorderless
         type={type}
         id={name}
         name={name}
@@ -45,20 +46,6 @@ export const FormGroup: FC<IProps> = ({
     </div>
   )
  }
-
- const SInput = styled.input`
-  border: none;
-  border-bottom: 1px solid ${theme.colors.gray[500]};
-  display: block;
-  padding-bottom: ${theme.spacing.xs};
-  width: 90%;
-  max-width: 35rem;
-
-  &:active,
-  &:focus {
-    outline: none;
-  }
-`;
 
 const SLabel = styled.label`
   position: absolute;

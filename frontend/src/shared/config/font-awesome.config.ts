@@ -12,6 +12,7 @@ import {
   faStopwatch,
   faTag,
   faTimes,
+  faTimesCircle,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -33,6 +34,7 @@ library.add(
   faStopwatch,
   faTag,
   faTimes,
+  faTimesCircle,
   faTrash,
   faStar,
 );

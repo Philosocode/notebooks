@@ -19,8 +19,8 @@ export const selectConceptsWithCurrTag = createSelector(
   selectCurrConceptTag,
   (concepts, tag) => {
     if (!tag) return concepts;
-    if (tag === "uncategorized") return concepts.filter(c => c.tags.size === 0);
-    return concepts.filter(c => c.tags.has(tag));
+    if (tag === "uncategorized") return concepts.filter(c => c.tags.length === 0);
+    return concepts.filter(c => c.tags.includes(tag));
   }
 )
 
