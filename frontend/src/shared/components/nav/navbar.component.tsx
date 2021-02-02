@@ -72,6 +72,7 @@ const SNav = styled.nav`
   top: 0;
   left: 0;
   width: 100vw;
+  z-index: ${theme.zIndices.nav};
 `;
 
 const SNavList = styled.ul`

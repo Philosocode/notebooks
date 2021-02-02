@@ -6,7 +6,6 @@ import { theme } from "./theme.styles";
 export const SMainContent = styled.main`
   margin-top: ${theme.componentSizes.navbarHeight};
   padding-left: ${(props: { paddingLeft: string }) => props.paddingLeft};
-  padding-bottom: ${theme.spacing.lg};
 `;
 
 export const SPageContent = styled.div`

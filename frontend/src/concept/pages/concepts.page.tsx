@@ -2,12 +2,14 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { SPageContent } from "../../shared/styles/layout.styles";
 import { getConcepts } from "concept/redux/concept.thunks";
 import { selectConcepts } from "concept/redux/concept.selectors";
+import { showModal } from "modal/redux/modal.slice";
+
 import { ConceptListItem } from "concept/components/concept-list-item.component";
 import { FloatingAddButton } from "shared/components/button/floating-add-button.component";
-import { showModal } from "modal/redux/modal.slice";
+import { TagSidebar } from "concept/components/tag-sidebar.component";
+import { theme } from "shared/styles/theme.styles";
 
 export const ConceptsPage = () => {
   const dispatch = useDispatch();
@@ -24,17 +26,33 @@ export const ConceptsPage = () => {
   }
 
   return (
-    <SPageContent>
-      <h1>Concepts</h1>
-      <SConceptList>
-        {concepts?.map((concept) => (
-          <ConceptListItem concept={concept} key={concept.id} />
-        ))}
-      </SConceptList>
-      <FloatingAddButton handleClick={showAddConceptModal} />
-    </SPageContent>
+    <SPage>
+      <TagSidebar />
+      <SConceptSection>
+        <SHeading>Concepts</SHeading>
+        <SConceptList>
+          {concepts?.map((concept) => (
+            <ConceptListItem concept={concept} key={concept.id} />
+          ))}
+        </SConceptList>
+        <FloatingAddButton handleClick={showAddConceptModal} />
+      </SConceptSection>
+    </SPage>
   );
 };
+
+const SPage = styled.div`
+  display: flex;
+`;
+
+const SHeading = styled.h1`
+  font-size: ${theme.fontSizes.lg};
+  padding: ${theme.spacing.md};
+`;
+
+const SConceptSection = styled.section`
+  width: 100%;
+`;
 
 const SConceptList = styled.ul`
   display: flex;

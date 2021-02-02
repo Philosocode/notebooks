@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createConcept, deleteConcept, getConcepts, updateConcept } from "./concept.thunks";
 
 import { IConceptState } from "./concept.types";
@@ -6,12 +6,17 @@ import { IConceptState } from "./concept.types";
 const initialState: IConceptState = {
   concepts: [],
   currConcept: undefined,
+  currTag: undefined,
 };
 
 const conceptSlice = createSlice({
   name: "concept",
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrConceptTag: (state, action: PayloadAction<string>) => {
+      state.currTag = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createConcept.fulfilled, (state, action) => {
@@ -40,3 +45,4 @@ const conceptSlice = createSlice({
 });
 
 export const conceptReducer = conceptSlice.reducer;
+export const { setCurrConceptTag } = conceptSlice.actions;
