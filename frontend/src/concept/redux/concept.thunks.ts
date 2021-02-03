@@ -21,6 +21,10 @@ export const getConcepts = createAsyncThunk(
   }
 );
 
+interface ICreateConceptPayload {
+  name: string;
+  tags: string[];
+}
 interface ICreateConceptResponse {
   status: string;
   data: {
@@ -28,10 +32,10 @@ interface ICreateConceptResponse {
   };
 }
 export const createConcept = createAsyncThunk(
-  "concept/addConcept",
-  async function (name: string, thunkAPI) {
+  "concept/createConcept",
+  async function (payload: ICreateConceptPayload, thunkAPI) {
     try {
-      const res = await api.post<ICreateConceptResponse>("/concepts/", { name });
+      const res = await api.post<ICreateConceptResponse>("/concepts/", payload);
       return res.data.data.concept;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);

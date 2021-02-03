@@ -1,17 +1,21 @@
-import { selectConceptTags } from "concept/redux/concept.selectors";
-import React, { useCallback, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { Dispatch, FC, SetStateAction, useCallback, useState } from "react";
 import styled from "styled-components";
 
 import { SInputBorderless } from "shared/styles/form.styles";
 import { theme } from "shared/styles/theme.styles";
 import { TagPill } from "./tag-pill.component";
 
-export const TagAutocompleteInput = () => {
+interface IProps {
+  availableTags: string[];
+  tagsToAdd: string[];
+  setTagsToAdd: Dispatch<SetStateAction<string[]>>;
+}
+export const TagAutocompleteInput: FC<IProps> = ({
+  availableTags,
+  tagsToAdd,
+  setTagsToAdd,
+}) => {
   const [text, setText] = useState<string>("");
-
-  const conceptTags = useSelector(selectConceptTags);
-  const [addedTags, setAddedTags] = useState<string[]>([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
@@ -23,9 +27,9 @@ export const TagAutocompleteInput = () => {
 
   const dropdownItems = useCallback(() => {
     if (text.trim() === "") return null;
-    
-    return conceptTags.filter(t => {
-      if (addedTags.includes(t)) return false;
+
+    return availableTags.filter((t) => {
+      if (tagsToAdd.includes(t)) return false;
       if (!t.startsWith(text.toLowerCase())) return false;
 
       return true;
@@ -42,17 +46,17 @@ export const TagAutocompleteInput = () => {
   };
 
   const handleAddTag = (tag: string) => {
-    const textLower = text.toLowerCase();
+    const tagLower = tag.toLowerCase();
 
     // don't add tag if it's already added
-    if (addedTags.includes(textLower)) return;
+    if (tagsToAdd.includes(tagLower)) return;
 
-    setAddedTags((prevTags) => [...prevTags, textLower]);
+    setTagsToAdd((prevTags) => [...prevTags, tagLower]);
     clearInput();
-  }
+  };
 
   const deleteTag = (tag: string) => {
-    setAddedTags((prevTags) => prevTags.filter((t) => t !== tag));
+    setTagsToAdd((prevTags) => prevTags.filter((t) => t !== tag));
   };
 
   return (
@@ -65,16 +69,16 @@ export const TagAutocompleteInput = () => {
         placeholder="Tag Name"
       />
       <STagListContainer>
-        {addedTags.map((t) => (
+        {tagsToAdd.map((t) => (
           <TagPill tag={t} key={t} handleDelete={deleteTag} />
         ))}
       </STagListContainer>
       <SDropdownList>
-        {dropdownItems()?.map((t) => 
-          <SDropdownItem
-            key={t}
-            onClick={() => handleAddTag(t)}
-          >{t}</SDropdownItem>)}
+        {dropdownItems()?.map((t) => (
+          <SDropdownItem key={t} onClick={() => handleAddTag(t)}>
+            {t}
+          </SDropdownItem>
+        ))}
       </SDropdownList>
     </SInputContainer>
   );
@@ -91,16 +95,26 @@ const STagListContainer = styled.ul`
 `;
 
 const SDropdownList = styled.ul`
-  background: ${theme.colors.gray[100]};
+  background: ${theme.colors.white};
   list-style-type: none;
   position: absolute;
-  top: 1rem;
+  top: 2.8rem;
   left: 0;
   width: 30rem;
+  max-width: 80%;
 `;
 
 const SDropdownItem = styled.li`
   border: 1px solid ${theme.colors.gray[500]};
+  border-top: none;
   cursor: pointer;
   padding: ${theme.spacing.sm};
+
+  &:hover {
+    background: ${theme.colors.gray[100]};
+  }
+
+  &:first-of-type {
+    border-top: 0;
+  }
 `;
