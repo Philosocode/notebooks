@@ -29,6 +29,7 @@ const SContainer = styled.div<IContainerProps>`
   margin-right: ${theme.spacing.sm};
   margin-top: ${theme.spacing.sm};
   padding: 1rem 1.5rem;
+  width: max-content;
 `;
 
 const STagText = styled.span`

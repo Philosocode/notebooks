@@ -7,6 +7,7 @@ import { IMenuAction, Menu } from "../../shared/components/menu/menu.component";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 import { showModal } from "modal/redux/modal.slice";
+import { TagPill } from "tags/components/tag-pill.component";
 
 interface IProps {
   concept: IConcept;
@@ -39,6 +40,11 @@ export const ConceptListItem: FC<IProps> = ({ concept }) => {
       <div>
         <SHeadingId>{[concept.id]}</SHeadingId>
         <SConceptName>{concept.name}</SConceptName>
+        <STagList>
+          {
+            concept.tags.map(t => <TagPill key={t} tag={t} />)
+          }
+        </STagList>
       </div>
       <Menu actions={menuActions} />
     </SContainer>
@@ -62,4 +68,9 @@ const SHeadingId = styled.h4`
 
 const SConceptName = styled.h3`
   font-size: ${theme.fontSizes.md};
+`;
+
+const STagList = styled.ul`
+  list-style-type: none;
+  display: flex;
 `;
