@@ -17,6 +17,7 @@ export const TagAutocompleteInput: FC<IProps> = ({
 }) => {
   const [text, setText] = useState<string>("");
 
+  // functions
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
   };
@@ -42,10 +43,10 @@ export const TagAutocompleteInput: FC<IProps> = ({
 
     // prevent form submission
     event.preventDefault();
-    handleAddTag(text);
+    addTag(text);
   };
 
-  const handleAddTag = (tag: string) => {
+  const addTag = (tag: string) => {
     const tagLower = tag.toLowerCase();
 
     // don't add tag if it's already added
@@ -68,18 +69,19 @@ export const TagAutocompleteInput: FC<IProps> = ({
         onKeyDown={handleKeyDown}
         placeholder="Tag Name"
       />
-      <STagListContainer>
+
+      <STagList>
         {tagsToAdd.map((t) => (
           <TagPill tag={t} key={t} handleDelete={deleteTag} />
         ))}
-      </STagListContainer>
+      </STagList>
+
       <SDropdownList>
         {dropdownItems()?.map((t) => (
-          <SDropdownItem key={t} onClick={() => handleAddTag(t)}>
-            {t}
-          </SDropdownItem>
+          <SDropdownItem key={t} onClick={() => addTag(t)}>{t}</SDropdownItem>
         ))}
       </SDropdownList>
+
     </SInputContainer>
   );
 };
@@ -88,7 +90,7 @@ const SInputContainer = styled.div`
   position: relative;
 `;
 
-const STagListContainer = styled.ul`
+const STagList = styled.ul`
   display: flex;
   list-style-type: none;
   flex-wrap: wrap;

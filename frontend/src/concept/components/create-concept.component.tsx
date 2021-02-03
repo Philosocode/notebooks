@@ -2,33 +2,40 @@ import React, { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
+// logic
 import { createConcept } from "concept/redux/concept.thunks";
 import { selectConcepts, selectConceptTags } from "concept/redux/concept.selectors";
 import { useForm } from "shared/hooks/use-form.hook";
+
+// components
 import { FormGroup } from "shared/components/form/form-group.component";
+import { TagAutocompleteInput } from "tags/components/tag-autocomplete-input.component";
+
+// styles
 import { theme } from "shared/styles/theme.styles";
 import { SHeadingSubtitle } from "shared/styles/typography.styles";
 import { SButtonGreen } from "shared/styles/button.styles";
 import { IModalProps } from "modal/redux/modal.types";
-import { TagAutocompleteInput } from "tags/components/tag-autocomplete-input.component";
 
 interface IProps extends IModalProps {}
 export const CreateConcept: FC<IProps> = ({ handleClose }) => {
-  const { values, handleChange } = useForm({ name: "" });
-  const { name } = values;
-  const [isDuplicateConcept, setIsDuplicateConcept] = useState(false);
-  const [tagsToAdd, setTagsToAdd] = useState<string[]>([]);
-
-  const error = isDuplicateConcept ? "Concept with that name already exists" : "";
-  const buttonDisabled = (name.trim() === "" || isDuplicateConcept);
-  
+  // redux stuff
   const dispatch = useDispatch();
   const conceptTags = useSelector(selectConceptTags);
   const concepts = useSelector(selectConcepts);
 
-  // check if concept name is duplicate
+  // component state
+  const [isDuplicateConcept, setIsDuplicateConcept] = useState(false);
+  const [tagsToAdd, setTagsToAdd] = useState<string[]>([]);
+  const { values, handleChange } = useForm({ name: "" });
+  const { name } = values;
+
+  // derived state
+  const error = isDuplicateConcept ? "Concept with that name already exists" : "";
+  const buttonDisabled = (name.trim() === "" || isDuplicateConcept);
+
+  // check if concept name is a duplicate
   useEffect(() => {
-    // disable button if name empty
     if (name.trim() === "") {
       setIsDuplicateConcept(false);
       return;
@@ -43,6 +50,7 @@ export const CreateConcept: FC<IProps> = ({ handleClose }) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     // enter key shouldn't submit form
     // reason: user may want to enter tags
+    // accidentally hitting enter will create the concept prematurely
     if (event.key === "Enter") event.preventDefault();
   }
 
