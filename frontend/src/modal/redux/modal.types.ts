@@ -1,4 +1,4 @@
-export type TModalType = "create-concept" | "delete-concept" | "update-concept";
+export type TModalType = "create-update-concept" | "delete-concept";
 
 export interface IModalState {
   modalShowing: boolean;

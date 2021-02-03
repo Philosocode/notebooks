@@ -43,15 +43,16 @@ export const createConcept = createAsyncThunk(
   }
 );
 
-interface IUpdateConceptData {
+interface IUpdateConceptPayload {
   id: string;
   name: string;
+  tags: string[];
 }
 export const updateConcept = createAsyncThunk(
   "concept/updateConcept",
-  async function (data: IUpdateConceptData , thunkAPI) {
+  async function (data: IUpdateConceptPayload , thunkAPI) {
     try {
-      await api.patch(`/concepts/${data.id}`, { name: data.name });
+      await api.patch(`/concepts/${data.id}`, { name: data.name, tags: data.tags });
       return data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);

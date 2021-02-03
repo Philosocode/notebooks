@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction, useCallback, useState } from "react";
+import React, { Dispatch, FC, SetStateAction, useState } from "react";
 import styled from "styled-components";
 
 import { SInputBorderless } from "shared/styles/form.styles";
@@ -26,8 +26,8 @@ export const TagAutocompleteInput: FC<IProps> = ({
     setText("");
   };
 
-  const dropdownItems = useCallback(() => {
-    if (text.trim() === "") return null;
+  const getDropdownItems = () => {
+    if (text.trim() === "") return null;    
 
     return availableTags.filter((t) => {
       if (tagsToAdd.includes(t)) return false;
@@ -35,8 +35,7 @@ export const TagAutocompleteInput: FC<IProps> = ({
 
       return true;
     });
-    // eslint-disable-next-line
-  }, [text]);
+  };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key !== "Enter") return;
@@ -77,7 +76,7 @@ export const TagAutocompleteInput: FC<IProps> = ({
       </STagList>
 
       <SDropdownList>
-        {dropdownItems()?.map((t) => (
+        {getDropdownItems()?.map((t) => (
           <SDropdownItem key={t} onClick={() => addTag(t)}>{t}</SDropdownItem>
         ))}
       </SDropdownList>

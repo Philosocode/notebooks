@@ -33,13 +33,14 @@ const conceptSlice = createSlice({
         state.concepts = action.payload;
       })
       .addCase(updateConcept.fulfilled, (state, action) => {
-        const { id, name } = action.payload;
+        const { id, name, tags } = action.payload;
 
         const conceptToUpdateIdx = state.concepts.findIndex(
           c => c.id === id
         );
 
         state.concepts[conceptToUpdateIdx].name = name;
+        state.concepts[conceptToUpdateIdx].tags = tags;
       });
   },
 });

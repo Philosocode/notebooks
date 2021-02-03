@@ -17,7 +17,7 @@ export const ConceptListItem: FC<IProps> = ({ concept }) => {
 
   function handleEdit() {
     dispatch(showModal({
-      modalType: "update-concept",
+      modalType: "create-update-concept",
       modalProps: { concept },
     }));
   }

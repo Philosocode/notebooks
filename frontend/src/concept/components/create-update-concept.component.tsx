@@ -1,9 +1,10 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 // logic
-import { createConcept } from "concept/redux/concept.thunks";
+import { IConcept } from "concept/redux/concept.types";
+import { createConcept, updateConcept } from "concept/redux/concept.thunks";
 import { selectConcepts, selectConceptTags } from "concept/redux/concept.selectors";
 import { useForm } from "shared/hooks/use-form.hook";
 
@@ -17,36 +18,47 @@ import { SHeadingSubtitle } from "shared/styles/typography.styles";
 import { SButtonGreen } from "shared/styles/button.styles";
 import { IModalProps } from "modal/redux/modal.types";
 
-interface IProps extends IModalProps {}
-export const CreateConcept: FC<IProps> = ({ handleClose }) => {
+interface IProps extends IModalProps {
+  concept?: IConcept;
+}
+export const CreateUpdateConcept: FC<IProps> = ({ concept, handleClose }) => {
   // redux stuff
   const dispatch = useDispatch();
   const conceptTags = useSelector(selectConceptTags);
   const concepts = useSelector(selectConcepts);
 
   // component state
-  const [isDuplicateConcept, setIsDuplicateConcept] = useState(false);
-  const [tagsToAdd, setTagsToAdd] = useState<string[]>([]);
-  const { values, handleChange } = useForm({ name: "" });
+  const [tagsToAdd, setTagsToAdd] = useState<string[]>(concept?.tags ?? []);
+  const { values, handleChange } = useForm({ name: concept?.name ?? "" });
   const { name } = values;
 
   // derived state
-  const error = isDuplicateConcept ? "Concept with that name already exists" : "";
-  const buttonDisabled = (name.trim() === "" || isDuplicateConcept);
+  const buttonDisabled = () => {
+    if (name.trim() === "") return true;
+    if (isDuplicateConcept()) return true;
 
-  // check if concept name is a duplicate
-  useEffect(() => {
-    if (name.trim() === "") {
-      setIsDuplicateConcept(false);
-      return;
+    return false;
+  };
+
+  const isDuplicateConcept = () => {
+    return concepts.some(c => {
+      // should be allowed to update a concept if name doesn't change
+      if (concept?.name.toLowerCase() === c.name.toLowerCase()) return false;
+      return c.name.toLowerCase() === name.toLowerCase();
+    });
+  };
+
+  const error = () => {
+    if (concept && concept.name.toLowerCase() === name.toLowerCase()) return;
+
+    if (name.trim() !== "" && isDuplicateConcept()) {
+      return "Concept with that name already exists";
     }
+  }
 
-    const duplicateName = concepts.some(c => c.name.toLowerCase() === name.toLowerCase());
-    duplicateName
-      ? setIsDuplicateConcept(true)
-      : setIsDuplicateConcept(false)
-  }, [name, concepts]);
-  
+  const isUpdate = !!concept;
+
+  // functions
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     // enter key shouldn't submit form
     // reason: user may want to enter tags
@@ -59,13 +71,20 @@ export const CreateConcept: FC<IProps> = ({ handleClose }) => {
 
     if (!name) return;
 
-    dispatch(createConcept({ name, tags: tagsToAdd }));
+    isUpdate
+      ? dispatch(updateConcept({
+        id: concept?.id as string,
+        name,
+        tags: tagsToAdd 
+      }))
+      : dispatch(createConcept({ name, tags: tagsToAdd }));
+
     handleClose();
   }
 
   return (
     <SContent>
-      <SHeadingSubtitle>Create Concept</SHeadingSubtitle>
+      <SHeadingSubtitle>{ isUpdate ? "Update" : "Create" } Concept</SHeadingSubtitle>
       <SForm autoComplete="off" onSubmit={handleSubmit}>
         <FormGroup
           name="name"
@@ -75,13 +94,13 @@ export const CreateConcept: FC<IProps> = ({ handleClose }) => {
           onKeyDown={handleKeyDown}
           value={name}
         />
-        <SError>{error}</SError>
+        <SError>{error()}</SError>
         <TagAutocompleteInput
           availableTags={conceptTags}
           tagsToAdd={tagsToAdd}
           setTagsToAdd={setTagsToAdd}
         />
-        <SButton disabled={buttonDisabled}>Create</SButton>
+        <SButton disabled={buttonDisabled()}>{ isUpdate ? "Update" : "Create" }</SButton>
       </SForm>
     </SContent>
   );
