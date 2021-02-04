@@ -2,10 +2,11 @@ const db = require("../db/db");
 
 module.exports = {
   conceptTagExists,
-  getConceptTags,
   createConceptTag,
+  deleteConceptTag,
+  getConceptTags,
 
-  // Helper
+  // Helpers
   addTagsToConcept,
   deleteTagsFromConcept,
   deleteUnreferencedConceptTags,
@@ -22,6 +23,10 @@ async function createConceptTag(id, tag) {
   await addTagsToConcept(db, id, [tag]);
 }
 
+async function deleteConceptTag(id, tag) {
+  await deleteTagsFromConcept(db, id, [tag]);
+}
+
 /* HELPER FUNCTIONS */
 async function conceptTagExists(id, tag) {
   const res = await db.first(
@@ -30,17 +35,6 @@ async function conceptTagExists(id, tag) {
       db("concept_tag")
         .join("tag", "tag.id", "concept_tag.tag_id")
         .where({ "concept_tag.concept_id": id, "tag.name": tag })
-    )
-  );
-
-  return res.exists;
-}
-
-async function conceptExists(user_id, filterObj) {
-  const res = await db.first(
-    db.raw(
-      "exists ? as exists",
-      db("concept").select("id").where({ ...filterObj, user_id })
     )
   );
 
