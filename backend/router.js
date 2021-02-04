@@ -13,7 +13,10 @@ const getConcepts = require("./handlers/concept/get-concepts.handler");
 const createConcept = require("./handlers/concept/create-concept.handler");
 const deleteConcept = require("./handlers/concept/delete-concept.handler");
 const updateConcept = require("./handlers/concept/update-concept.handler");
-const getConceptTags = require("./handlers/concept/get-concept-tags.handler");
+
+// Concept Tags
+const getConceptTags = require("./handlers/concept-tag/get-concept-tags.handler");
+const createConceptTag = require("./handlers/concept-tag/create-concept-tag.handler");
 
 // Tag
 const getTags = require("./handlers/tag/get-tags.handler");
@@ -46,7 +49,8 @@ router.route("/concepts/:conceptId")
 
 // Concept Tags
 router.route("/concepts/:conceptId/tags")
-  .get(conceptExistsMiddleware, getConceptTags);
+  .get(conceptExistsMiddleware, getConceptTags)
+  .post(conceptExistsMiddleware, createConceptTag)
 
 // Tags
 router.route("/tags")
