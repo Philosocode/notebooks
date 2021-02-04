@@ -17,6 +17,7 @@ const updateConcept = require("./handlers/concept/update-concept.handler");
 // Concept Tags
 const getConceptTags = require("./handlers/concept-tag/get-concept-tags.handler");
 const createConceptTag = require("./handlers/concept-tag/create-concept-tag.handler");
+const updateConceptTag = require("./handlers/concept-tag/update-concept-tag.handler");
 const deleteConceptTag = require("./handlers/concept-tag/delete-concept-tag.handler");
 
 // Tag
@@ -54,6 +55,7 @@ router.route("/concepts/:conceptId/tags")
   .post(conceptExistsMiddleware, createConceptTag)
 
 router.route("/concepts/:conceptId/tags/:tagName")
+  .patch(conceptExistsMiddleware, updateConceptTag)
   .delete(conceptExistsMiddleware, deleteConceptTag)
 
 // Tags

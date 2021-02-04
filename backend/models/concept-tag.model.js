@@ -5,6 +5,7 @@ module.exports = {
   createConceptTag,
   deleteConceptTag,
   getConceptTags,
+  updateConceptTag,
 
   // Helpers
   addTagsToConcept,
@@ -25,6 +26,16 @@ async function createConceptTag(id, tag) {
 
 async function deleteConceptTag(id, tag) {
   await deleteTagsFromConcept(db, id, [tag]);
+}
+
+async function updateConceptTag(id, oldName, newName) {
+  return db.transaction(async trx => {
+    // remove the old one
+    await deleteTagsFromConcept(trx, id, [oldName])
+
+    // add the tag
+    await addTagsToConcept(trx, id, [newName]);
+  })
 }
 
 /* HELPER FUNCTIONS */
