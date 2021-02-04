@@ -4,13 +4,7 @@ const catchAsync = require("../../middlewares/catch-async.middleware");
 const { getConcept, updateConcept, conceptExists } = require("../../models/concept.model");
 
 module.exports = catchAsync(async function (req, res, next) {
-  const userId = req.user.id;
   const { conceptId } = req.params;
-
-  const exists = await conceptExists(userId, { id: conceptId });
-  if (!exists) {
-    return next(new AppError("Concept not found.", 404));
-  }
 
   // check if update-able properties included
   const { name, tags } = req.body;

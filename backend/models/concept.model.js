@@ -8,6 +8,7 @@ module.exports = {
   createConcept,
   deleteConcept,
   getConcepts,
+  getConceptTags,
   updateConcept,
 };
 
@@ -67,6 +68,13 @@ async function getConcepts(user_id, filterObj) {
     .leftJoin("concept_tag", "concept.id", "concept_tag.concept_id")
     .leftJoin("tag", "tag.id", "concept_tag.tag_id")
     .where({ ...filterObj, user_id });
+}
+
+async function getConceptTags(id) {
+  return db("concept_tag")
+    .select("tag.name AS tag")
+    .join("tag", "concept_tag.tag_id", "tag.id")
+    .where({ "concept_tag.concept_id": id });
 }
 
 async function updateConcept(id, updates) {
