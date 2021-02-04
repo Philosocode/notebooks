@@ -19,7 +19,7 @@ async function conceptExists(user_id, filterObj) {
       db("concept").select("id").where({ ...filterObj, user_id })
     )
   );
-  
+
   return res.exists;
 }
 
@@ -56,18 +56,19 @@ async function deleteConcept(user_id, id) {
   });
 }
 
-async function getConcepts(user_id, filterObj) {
-  return db("concept")
-    .select(
-      "concept.id",
-      "concept.name",
-      "concept.created_at",
-      "concept.updated_at",
-      "tag.name AS tag"
-    )
-    .leftJoin("concept_tag", "concept.id", "concept_tag.concept_id")
-    .leftJoin("tag", "tag.id", "concept_tag.tag_id")
-    .where({ ...filterObj, user_id });
+async function getConcepts(user_id, options) {
+  const columnsToSelect = ["concept.id", "concept.name", "concept.created_at", "concept.updated_at"];
+  if (options.include?.tags) columnsToSelect.push("tag.name AS tag");
+
+  let query = db("concept").select(...columnsToSelect).where({ ...options.filter, user_id });
+
+  if (options.include?.tags) {
+    query = query
+      .leftJoin("concept_tag", "concept.id", "concept_tag.concept_id")
+      .leftJoin("tag", "tag.id", "concept_tag.tag_id")
+  }
+
+  return query;
 }
 
 async function getConceptTags(id) {
@@ -137,7 +138,7 @@ async function deleteTagsFromConcept(connection, id, tagNames) {
 
   // remove these tags from concept_tag
   await connection("concept_tag")
-    .where({"concept_tag.concept_id": id })
+    .where({ "concept_tag.concept_id": id })
     .whereIn("concept_tag.tag_id", tagIdsToDelete)
     .del();
 
@@ -146,7 +147,7 @@ async function deleteTagsFromConcept(connection, id, tagNames) {
 }
 
 async function deleteUnreferencedConceptTags(connection) {
-  await connection("tag").whereNotExists(function() {
+  await connection("tag").whereNotExists(function () {
     this.select("tag_id").from("concept_tag").whereRaw("concept_tag.tag_id = tag.id")
   }).del();
 }
