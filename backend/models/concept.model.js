@@ -1,6 +1,9 @@
 const db = require("../db/db");
-const { getTagsDiff } = require("../handlers/tag/tag.common");
-const { addTagsToConcept, deleteTagsFromConcept, deleteUnreferencedConceptTags, getConceptTags } = require("./concept-tag.model");
+const {
+  addTagsToConcept,
+  deleteUnreferencedConceptTags,
+  updateTagsForConcept,
+} = require("./concept-tag.model");
 
 module.exports = {
   conceptExists,
@@ -78,17 +81,7 @@ async function updateConcept(id, updates) {
     }
 
     if (updatedTags) {
-      await updateConceptTags(trx, id, updatedTags);
+      await updateTagsForConcept(trx, id, updatedTags);
     }
   });
 }
-
-/* HELPER FUNCTIONS */
-async function updateConceptTags(connection, id, updatedTags) {
-  // get tags for concept as an array of strings
-  const currTags = await getConceptTags(id);
-  const { tagsToCreate, tagsToDelete } = getTagsDiff(currTags, updatedTags);
-  if (tagsToCreate.length > 0) await addTagsToConcept(connection, id, tagsToCreate);
-  if (tagsToDelete.length > 0) await deleteTagsFromConcept(connection, id, tagsToDelete);
-}
-

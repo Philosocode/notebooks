@@ -1,37 +1,42 @@
 const db = require("../db/db");
+const mergeEntityWithTagsAndLinks = require("../utils/merge-entity-tags-links.util");
+const { getTagsDiff } = require("../handlers/tag/tag.common");
 
 module.exports = {
-  conceptTagExists,
-  createConceptTag,
-  deleteConceptTag,
-  getConceptTags,
-  updateConceptTag,
+  conceptHasTag,
+  createTagForConcept,
+  deleteTagFromConcept,
+  getTagsForConcept,
+  updateTagForConcept,
 
   // Helpers
   addTagsToConcept,
-  deleteTagsFromConcept,
   deleteUnreferencedConceptTags,
+  removeTagsFromConcept,
+  updateTagsForConcept,
 }
 
-async function getConceptTags(id) {
-  return db("concept_tag")
+async function getTagsForConcept(id) {
+  const tagsFlat = await db("concept_tag")
     .select("tag.name AS tag")
     .join("tag", "concept_tag.tag_id", "tag.id")
     .where({ "concept_tag.concept_id": id });
+
+  return mergeEntityWithTagsAndLinks(tagsFlat)[0]?.tags ?? [];
 }
 
-async function createConceptTag(id, tag) {
+async function createTagForConcept(id, tag) {
   await addTagsToConcept(db, id, [tag]);
 }
 
-async function deleteConceptTag(id, tag) {
-  await deleteTagsFromConcept(db, id, [tag]);
+async function deleteTagFromConcept(id, tag) {
+  await removeTagsFromConcept(db, id, [tag]);
 }
 
-async function updateConceptTag(id, oldName, newName) {
+async function updateTagForConcept(id, oldName, newName) {
   return db.transaction(async trx => {
     // remove the old one
-    await deleteTagsFromConcept(trx, id, [oldName])
+    await removeTagsFromConcept(trx, id, [oldName])
 
     // add the tag
     await addTagsToConcept(trx, id, [newName]);
@@ -39,7 +44,7 @@ async function updateConceptTag(id, oldName, newName) {
 }
 
 /* HELPER FUNCTIONS */
-async function conceptTagExists(id, tag) {
+async function conceptHasTag(id, tag) {
   const res = await db.first(
     db.raw(
       "exists ? as exists",
@@ -70,7 +75,7 @@ async function addTagsToConcept(connection, id, tagNames) {
   await connection("concept_tag").insert(conceptTagLinks);
 }
 
-async function deleteTagsFromConcept(connection, id, tagNames) {
+async function removeTagsFromConcept(connection, id, tagNames) {
   // get IDs of tag names to delete
   const tagIdsToDeleteFlat = await connection("tag")
     .select("name", "id")
@@ -93,3 +98,14 @@ async function deleteUnreferencedConceptTags(connection) {
     this.select("tag_id").from("concept_tag").whereRaw("concept_tag.tag_id = tag.id")
   }).del();
 }
+
+
+async function updateTagsForConcept(connection, id, updatedTags) {
+  // get tags for concept as an array of strings
+  const currTags = await getTagsForConcept(id);
+  const { tagsToCreate, tagsToDelete } = getTagsDiff(currTags, updatedTags);
+
+  if (tagsToCreate.length > 0) await addTagsToConcept(connection, id, tagsToCreate);
+  if (tagsToDelete.length > 0) await removeTagsFromConcept(connection, id, tagsToDelete);
+}
+

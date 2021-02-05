@@ -15,10 +15,10 @@ const deleteConcept = require("./handlers/concept/delete-concept.handler");
 const updateConcept = require("./handlers/concept/update-concept.handler");
 
 // Concept Tags
-const getConceptTags = require("./handlers/concept-tag/get-concept-tags.handler");
-const createConceptTag = require("./handlers/concept-tag/create-concept-tag.handler");
-const updateConceptTag = require("./handlers/concept-tag/update-concept-tag.handler");
-const deleteConceptTag = require("./handlers/concept-tag/delete-concept-tag.handler");
+const getTagsForConcept = require("./handlers/concept-tag/get-tags-for-concept");
+const createTagForConcept = require("./handlers/concept-tag/create-tag-for-concept");
+const updateTagForConcept = require("./handlers/concept-tag/update-tag-for-concept.handler");
+const deleteTagFromConcept = require("./handlers/concept-tag/delete-tag-from-concept.handler");
 
 // Tag
 const getTags = require("./handlers/tag/get-tags.handler");
@@ -51,12 +51,12 @@ router.route("/concepts/:conceptId")
 
 // Concept Tags
 router.route("/concepts/:conceptId/tags")
-  .get(conceptExistsMiddleware, getConceptTags)
-  .post(conceptExistsMiddleware, createConceptTag)
+  .get(conceptExistsMiddleware, getTagsForConcept)
+  .post(conceptExistsMiddleware, createTagForConcept)
 
 router.route("/concepts/:conceptId/tags/:tagName")
-  .patch(conceptExistsMiddleware, updateConceptTag)
-  .delete(conceptExistsMiddleware, deleteConceptTag)
+  .patch(conceptExistsMiddleware, updateTagForConcept)
+  .delete(conceptExistsMiddleware, deleteTagFromConcept)
 
 // Tags
 router.route("/tags")

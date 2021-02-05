@@ -33,9 +33,11 @@ export const ConceptsPage = () => {
       <SConceptSection>
         <SHeading>Concepts</SHeading>
         <SConceptList>
-          {conceptsWithTags.map((concept) => (
+          {conceptsWithTags.length > 0 ? conceptsWithTags.map((concept) => (
             <ConceptListItem concept={concept} key={concept.id} />
-          ))}
+          )) :
+            <h3>No concepts found.</h3>
+          }
         </SConceptList>
         <FloatingAddButton handleClick={showAddConceptModal} />
       </SConceptSection>
