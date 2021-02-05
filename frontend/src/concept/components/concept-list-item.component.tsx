@@ -1,13 +1,14 @@
 import React, { FC } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 import { IConcept } from "concept/redux/concept.types";
-import { theme } from "shared/styles/theme.styles";
-import { IMenuAction, Menu } from "../../shared/components/menu/menu.component";
-import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch } from "react-redux";
+import { deleteConceptTag } from "../redux/concept.thunks";
 import { showModal } from "modal/redux/modal.slice";
+import { IMenuAction, Menu } from "../../shared/components/menu/menu.component";
 import { TagPill } from "tags/components/tag-pill.component";
+import { theme } from "shared/styles/theme.styles";
+import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 interface IProps {
   concept: IConcept;
@@ -30,6 +31,10 @@ export const ConceptListItem: FC<IProps> = ({ concept }) => {
     }));
   }
 
+  function handleDeleteTag(tag: string) {
+    dispatch(deleteConceptTag({ tagName: tag, conceptId: concept.id }));
+  }
+
   const menuActions: IMenuAction[] = [
     { action: handleEdit, name: "Edit Concept", icon: faPencilAlt },
     { action: handleDelete, name: "Delete Concept", icon: faTrash },
@@ -42,7 +47,7 @@ export const ConceptListItem: FC<IProps> = ({ concept }) => {
         <SConceptName>{concept.name}</SConceptName>
         <STagList>
           {
-            concept.tags.map(t => <TagPill key={t} tag={t} />)
+            concept.tags.map(t => <TagPill key={t} tag={t} handleDelete={() => handleDeleteTag(t)} />)
           }
         </STagList>
       </div>

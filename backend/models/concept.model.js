@@ -1,7 +1,6 @@
 const db = require("../db/db");
 const { getTagsDiff } = require("../handlers/tag/tag.common");
-const mergeEntityWithTagsAndLinks = require("../utils/merge-entity-tags-links.util");
-const { addTagsToConcept, deleteTagsFromConcept, deleteUnreferencedConceptTags } = require("./concept-tag.model");
+const { addTagsToConcept, deleteTagsFromConcept, deleteUnreferencedConceptTags, getConceptTags } = require("./concept-tag.model");
 
 module.exports = {
   conceptExists,
@@ -87,18 +86,9 @@ async function updateConcept(id, updates) {
 /* HELPER FUNCTIONS */
 async function updateConceptTags(connection, id, updatedTags) {
   // get tags for concept as an array of strings
-  const currTags = await getTagsForConcept(connection, id);
+  const currTags = await getConceptTags(id);
   const { tagsToCreate, tagsToDelete } = getTagsDiff(currTags, updatedTags);
   if (tagsToCreate.length > 0) await addTagsToConcept(connection, id, tagsToCreate);
   if (tagsToDelete.length > 0) await deleteTagsFromConcept(connection, id, tagsToDelete);
-}
-
-async function getTagsForConcept(connection, id) {
-  const tagsFlat = await connection("concept_tag")
-    .join("tag", "tag.id", "concept_tag.tag_id")
-    .select("name AS tag")
-    .where("concept_tag.concept_id", id);
-
-  return mergeEntityWithTagsAndLinks(tagsFlat)[0].tags;
 }
 

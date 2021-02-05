@@ -13,7 +13,9 @@ interface IProps {
 export const TagPill: FC<IProps> = ({ tag, handleDelete }) => (
   <SContainer>
     <STagText>{tag}</STagText>
-    <SDeleteIcon icon="times-circle" onClick={() => handleDelete && handleDelete(tag) } />
+    {handleDelete &&
+      <SDeleteIcon icon="times-circle" onClick={() => handleDelete && handleDelete(tag)} />
+    }
   </SContainer>
 );
 

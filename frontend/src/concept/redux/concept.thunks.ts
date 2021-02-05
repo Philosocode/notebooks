@@ -13,7 +13,8 @@ export const getConcepts = createAsyncThunk(
   "concept/getConcepts",
   async function (_, thunkAPI) {
     try {
-      const res = await api.get<IGetConceptsResponse>("/concepts");
+      const res = await api.get<IGetConceptsResponse>("/concepts?tags&links");
+      console.log(res);
       return res.data.data.concepts;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -71,3 +72,20 @@ export const deleteConcept = createAsyncThunk(
     }
   }
 );
+
+interface IDeleteConceptTagPayload {
+  conceptId: string;
+  tagName: string;
+}
+export const deleteConceptTag = createAsyncThunk(
+  "concept/deleteConceptTag",
+  async function (payload: IDeleteConceptTagPayload, thunkAPI) {
+    const { conceptId, tagName } = payload;
+    try {
+      await api.delete(`/concepts/${conceptId}/tags/${tagName}`);
+      return payload;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+)
