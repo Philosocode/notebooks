@@ -20,6 +20,9 @@ const createTagForConcept = require("./handlers/concept-tag/create-tag-for-conce
 const updateTagForConcept = require("./handlers/concept-tag/update-tag-for-concept.handler");
 const deleteTagFromConcept = require("./handlers/concept-tag/delete-tag-from-concept.handler");
 
+const getConceptTags = require("./handlers/concept-tag/get-concept-tags.handler");
+const deleteConceptTag = require("./handlers/concept-tag/delete-concept-tag.handler");
+
 // Tag
 const getTags = require("./handlers/tag/get-tags.handler");
 const createTags = require("./handlers/tag/create-tags.handler");
@@ -39,6 +42,13 @@ router.post("/auth/google", googleLogin);
    ====================== */
 router.use(protect);
 
+// Concept Tags
+router.route("/concepts/tags")
+  .get(getConceptTags)
+
+router.route("/concepts/tags/:tagName")
+  .delete(deleteConceptTag)
+
 // Concepts
 router.route("/concepts")
   .get(getConcepts)
@@ -49,7 +59,7 @@ router.route("/concepts/:conceptId")
    .patch(conceptExistsMiddleware, updateConcept)
    .delete(conceptExistsMiddleware, deleteConcept)
 
-// Concept Tags
+// Tags For Concepts
 router.route("/concepts/:conceptId/tags")
   .get(conceptExistsMiddleware, getTagsForConcept)
   .post(conceptExistsMiddleware, createTagForConcept)
