@@ -31,6 +31,7 @@ export const CreateUpdateConceptModal: FC<IProps> = ({ concept, handleClose }) =
   const [tagsToAdd, setTagsToAdd] = useState<string[]>(concept?.tags ?? []);
   const { values, handleChange } = useForm({ name: concept?.name ?? "" });
   const { name } = values;
+  const [submitted, setSubmitted] = useState(false);
 
   // derived state
   const buttonDisabled = () => {
@@ -50,6 +51,7 @@ export const CreateUpdateConceptModal: FC<IProps> = ({ concept, handleClose }) =
 
   const error = () => {
     if (concept && concept.name.toLowerCase() === name.toLowerCase()) return;
+    if (submitted) return;
 
     if (name.trim() !== "" && isDuplicateConcept()) {
       return "Concept with that name already exists";
@@ -79,6 +81,7 @@ export const CreateUpdateConceptModal: FC<IProps> = ({ concept, handleClose }) =
       }))
       : dispatch(createConcept({ name, tags: tagsToAdd }));
 
+    setSubmitted(true);
     handleClose();
   }
 

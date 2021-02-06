@@ -39,5 +39,6 @@ export const useForm = <TFormState>(initialValues: TFormState) => {
     touched,
     setTouched,
     values,
+    setValues,
   }
 };
