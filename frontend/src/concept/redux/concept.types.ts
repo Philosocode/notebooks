@@ -8,10 +8,15 @@ export interface IConcept {
   links: string[];
 }
 
+export interface IConceptFiltersState {
+  isUncategorized: boolean;
+  tag: string;
+}
+
 export interface IConceptState {
   concepts: IConcept[];
   currConcept?: IConcept;
-  currTag?: string;
+  filters: IConceptFiltersState;
 }
 
 export interface ICreateConceptPayload {

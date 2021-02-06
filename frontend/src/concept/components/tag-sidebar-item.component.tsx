@@ -1,19 +1,31 @@
 import React, { FC } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
-import { selectCurrConceptTag } from "concept/redux/concept.selectors";
 import { theme } from "shared/styles/theme.styles";
 import { showModal } from "modal/redux/modal.slice";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 interface IProps {
-  tag: string;
-  setCurrTag: (name: string) => void;
+  children: React.ReactNode;
+  currTag: string;
+  handleClick: (name: string) => void;
+  isSelected: boolean;
+  icon: IconProp;
+  tag?: string;
+  showActions?: boolean;
 }
-export const TagSidebarItem: FC<IProps> = ({ setCurrTag, tag }) => {
+export const TagSidebarItem: FC<IProps> = ({
+  children,
+  currTag,
+  handleClick,
+  isSelected,
+  icon,
+  tag,
+  showActions,
+}) => {
   const dispatch = useDispatch();
-  const currTag = useSelector(selectCurrConceptTag);
 
   function handleEdit(event: React.MouseEvent) {
     event.stopPropagation();
@@ -41,16 +53,26 @@ export const TagSidebarItem: FC<IProps> = ({ setCurrTag, tag }) => {
     );
   }
 
+  function handleItemClick() {
+    if (tag !== currTag) {
+      handleClick(tag ?? "");
+    }
+  }
+
   return (
-    <SContainer onClick={() => setCurrTag(tag)} isActive={currTag === tag}>
+    <SContainer onClick={handleItemClick} isSelected={isSelected}>
       <div>
-        <SIcon icon="tag" />
-        {tag}
+        <SIcon icon={icon} />
+        {children}
       </div>
-      <SActionIcons>
-        <SEditIcon icon="pencil-alt" onClick={handleEdit} />
-        <SDeleteIcon icon="trash" onClick={handleDeleteTag} />
-      </SActionIcons>
+      {
+        showActions ? (
+          <SActionIcons>
+            <SEditIcon icon="pencil-alt" onClick={handleEdit} />
+            <SDeleteIcon icon="trash" onClick={handleDeleteTag} />
+          </SActionIcons>
+        ) : null
+      }
     </SContainer>
   );
 };
@@ -60,10 +82,10 @@ const SActionIcons = styled.div`
 `;
 
 interface IContainerProps {
-  isActive: boolean;
+  isSelected: boolean;
 }
 const SContainer = styled.li<IContainerProps>`
-  ${(p) => (p.isActive ? `background: ${theme.colors.gray[100]}` : null)};
+  ${(p) => (p.isSelected ? `background: ${theme.colors.gray[100]}` : null)};
   cursor: pointer;
   display: flex;
   align-items: center;

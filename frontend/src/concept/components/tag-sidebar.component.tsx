@@ -2,31 +2,64 @@ import React, { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { selectConceptTags } from "concept/redux/concept.selectors";
+import { selectConceptFilters, selectConceptTags } from "concept/redux/concept.selectors";
 import { TagSidebarItem } from "./tag-sidebar-item.component";
 import { theme } from "shared/styles/theme.styles";
-import { setCurrConceptTag } from "concept/redux/concept.slice";
+import { setConceptFilters, setCurrConceptTag } from "concept/redux/concept.slice";
 
 export const TagSidebar: FC = () => {
   const conceptTags = useSelector(selectConceptTags);
+  const filters = useSelector(selectConceptFilters);
+
+  const { tag: currConceptTag, isUncategorized } = filters;
+
   const dispatch = useDispatch();
 
   const setCurrTag = (tag: string) => {
     dispatch(setCurrConceptTag(tag));
   };
 
+  const setIsUncategorized = (_: string) => {
+    dispatch(setConceptFilters({ isUncategorized: true, tag: undefined }))
+  }
+
   return (
     <STagSidebar>
       <SHeading>Tags</SHeading>
       <STagList>
         {conceptTags.map((t) => (
-          <TagSidebarItem key={t} tag={t} setCurrTag={setCurrTag} />
+          <TagSidebarItem
+            currTag={currConceptTag}
+            key={t}
+            tag={t}
+            icon="tag"
+            handleClick={setCurrTag}
+            isSelected={!isUncategorized && currConceptTag === t}
+            showActions
+          >
+            {t}
+          </TagSidebarItem>
         ))}
-        <TagSidebarItem tag="all" setCurrTag={() => setCurrTag("")} />
+
         <TagSidebarItem
-          tag="uncategorized"
-          setCurrTag={() => setCurrTag("uncategorized")}
-        />
+          currTag={currConceptTag}
+          isSelected={!isUncategorized && currConceptTag === ""}
+          handleClick={setCurrTag}
+          tag=""
+          icon="tags"
+        >
+          all
+        </TagSidebarItem>
+
+        <TagSidebarItem
+          currTag={currConceptTag}
+          isSelected={isUncategorized}
+          handleClick={setIsUncategorized}
+          icon="question-circle"
+        >
+          uncategorized
+        </TagSidebarItem>
+
       </STagList>
     </STagSidebar>
   );

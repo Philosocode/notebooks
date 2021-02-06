@@ -4,9 +4,14 @@ import { TAppState } from "shared/redux/store";
 
 const selectConcept = (state: TAppState) => state.concept;
 
-export const selectCurrConceptTag = createSelector(
+export const selectConceptFilters = createSelector(
   [selectConcept],
-  (concept) => concept.currTag
+  (concept) => concept.filters
+);
+
+export const selectCurrConceptTag = createSelector(
+  [selectConceptFilters],
+  (filters) => filters.tag
 );
 
 export const selectConcepts = createSelector(
@@ -16,11 +21,11 @@ export const selectConcepts = createSelector(
 
 export const selectConceptsWithCurrTag = createSelector(
   selectConcepts,
-  selectCurrConceptTag,
-  (concepts, tag) => {
-    if (!tag) return concepts;
-    if (tag === "uncategorized") return concepts.filter(c => c.tags.length === 0);
-    return concepts.filter(c => c.tags.includes(tag));
+  selectConceptFilters,
+  (concepts, filters) => {
+    if (filters.isUncategorized) return concepts.filter(c => c.tags.length === 0);
+    if (!filters.tag) return concepts;
+    return concepts.filter(c => c.tags.includes(filters.tag));
   }
 )
 
