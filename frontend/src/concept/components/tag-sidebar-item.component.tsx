@@ -1,17 +1,18 @@
 import React, { FC } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
 import { selectCurrConceptTag } from "concept/redux/concept.selectors";
 import { theme } from "shared/styles/theme.styles";
-
+import { showModal } from "modal/redux/modal.slice";
 
 interface IProps {
   tag: string;
   setCurrTag: (name: string) => void;
 }
 export const TagSidebarItem: FC<IProps> = ({ setCurrTag, tag }) => {
+  const dispatch = useDispatch();
   const currTag = useSelector(selectCurrConceptTag);
 
   function handleEdit(event: React.MouseEvent) {
@@ -19,9 +20,15 @@ export const TagSidebarItem: FC<IProps> = ({ setCurrTag, tag }) => {
     alert("EDIT");
   }
 
-  function handleDelete(event: React.MouseEvent) {
+  function handleDeleteTag(event: React.MouseEvent) {
     event.stopPropagation();
-    alert("DELETE");
+
+    dispatch(showModal({
+      modalType: "delete-tag",
+      modalProps: {
+        tagName: tag,
+      }
+    }))
   }
 
   return (
@@ -32,7 +39,7 @@ export const TagSidebarItem: FC<IProps> = ({ setCurrTag, tag }) => {
       </div>
       <SActionIcons>
         <SEditIcon icon="pencil-alt" onClick={handleEdit} />
-        <SDeleteIcon icon="trash" onClick={handleDelete} />
+        <SDeleteIcon icon="trash" onClick={handleDeleteTag} />
       </SActionIcons>
     </SContainer>
   );

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createConcept, deleteConcept, deleteConceptTag, getConcepts, updateConcept } from "./concept.thunks";
+import { createConcept, deleteConcept, deleteTagFromConcept, getConcepts, updateConcept } from "./concept.thunks";
+import { deleteConceptTag } from "./concept-tag.thunk";
 
 import { IConceptState } from "./concept.types";
 
@@ -42,7 +43,7 @@ const conceptSlice = createSlice({
         state.concepts[conceptToUpdateIdx].name = name;
         state.concepts[conceptToUpdateIdx].tags = tags;
       })
-      .addCase(deleteConceptTag.fulfilled, (state, action) => {
+      .addCase(deleteTagFromConcept.fulfilled, (state, action) => {
         // remove the tag from the concept
         const { conceptId, tagName } = action.payload;
         const conceptToUpdateIdx = state.concepts.findIndex(c => c.id === conceptId);
@@ -50,6 +51,17 @@ const conceptSlice = createSlice({
 
         const tagIdx = conceptTags.findIndex(t => t === tagName);
         if (tagIdx !== -1) conceptTags.splice(tagIdx, 1);
+      })
+      .addCase(deleteConceptTag.fulfilled, (state, action) => {
+        const tagToRemove = action.payload;
+
+        // loop through all concepts
+        state.concepts.forEach(concept => {
+          const tagIdx = concept.tags.findIndex(t => t === tagToRemove);
+          if (tagIdx !== -1) concept.tags.splice(tagIdx, 1);
+        });
+
+        if (state.currTag === tagToRemove) state.currTag = "";
       })
   },
 });

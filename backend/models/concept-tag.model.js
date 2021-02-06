@@ -41,8 +41,8 @@ async function createTagForConcept(id, tag) {
   await addTagsToConcept(db, id, [tag]);
 }
 
-async function deleteConceptTag(connection, user_id, tagName) {
-  await db.transaction(async (trx) => {
+async function deleteConceptTag(user_id, tagName, connection=db) {
+  await connection.transaction(async (trx) => {
     // get tag name and ID
     const tagArr = await trx("tag").select("id").where({ name: tagName });
     const tagIdToDelete = tagArr[0].id;
@@ -55,6 +55,8 @@ async function deleteConceptTag(connection, user_id, tagName) {
           .where({ "concept.user_id": user_id });
       })
       .del();
+
+    await deleteUnreferencedConceptTags(connection);
   });
 }
 

@@ -10,7 +10,7 @@ import { useForm } from "shared/hooks/use-form.hook";
 
 // components
 import { FormGroup } from "shared/components/form/form-group.component";
-import { TagAutocompleteInput } from "tags/components/tag-autocomplete-input.component";
+import { TagAutocompleteInput } from "tag/components/tag-autocomplete-input.component";
 
 // styles
 import { theme } from "shared/styles/theme.styles";
@@ -21,7 +21,7 @@ import { IModalProps } from "modal/redux/modal.types";
 interface IProps extends IModalProps {
   concept?: IConcept;
 }
-export const CreateUpdateConcept: FC<IProps> = ({ concept, handleClose }) => {
+export const CreateUpdateConceptModal: FC<IProps> = ({ concept, handleClose }) => {
   // redux stuff
   const dispatch = useDispatch();
   const conceptTags = useSelector(selectConceptTags);

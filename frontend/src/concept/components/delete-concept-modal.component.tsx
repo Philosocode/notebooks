@@ -10,7 +10,7 @@ import { trimString } from "shared/utils/string.utils";
 interface IProps extends IModalProps {
   concept: IConcept;
 }
-export const DeleteConcept: FC<IProps> = ({ concept, handleClose }) => {
+export const DeleteConceptModal: FC<IProps> = ({ concept, handleClose }) => {
   const dispatch = useDispatch();
   
   const handleDelete = () => {

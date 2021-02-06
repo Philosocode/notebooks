@@ -3,10 +3,10 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 import { IConcept } from "concept/redux/concept.types";
-import { deleteConceptTag } from "../redux/concept.thunks";
+import { deleteTagFromConcept } from "../redux/concept.thunks";
 import { showModal } from "modal/redux/modal.slice";
 import { IMenuAction, Menu } from "../../shared/components/menu/menu.component";
-import { TagPill } from "tags/components/tag-pill.component";
+import { TagPill } from "tag/components/tag-pill.component";
 import { theme } from "shared/styles/theme.styles";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 
@@ -32,7 +32,7 @@ export const ConceptListItem: FC<IProps> = ({ concept }) => {
   }
 
   function handleDeleteTag(tag: string) {
-    dispatch(deleteConceptTag({ tagName: tag, conceptId: concept.id }));
+    dispatch(deleteTagFromConcept({ tagName: tag, conceptId: concept.id }));
   }
 
   const menuActions: IMenuAction[] = [

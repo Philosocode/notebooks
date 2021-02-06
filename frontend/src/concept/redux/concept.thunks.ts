@@ -72,13 +72,13 @@ export const deleteConcept = createAsyncThunk(
   }
 );
 
-interface IDeleteConceptTagPayload {
+interface IDeleteTagFromConceptPayload {
   conceptId: string;
   tagName: string;
 }
-export const deleteConceptTag = createAsyncThunk(
-  "concept/deleteConceptTag",
-  async function (payload: IDeleteConceptTagPayload, thunkAPI) {
+export const deleteTagFromConcept = createAsyncThunk(
+  "concept/deleteTagFromConcept",
+  async function (payload: IDeleteTagFromConceptPayload, thunkAPI) {
     const { conceptId, tagName } = payload;
     try {
       await api.delete(`/concepts/${conceptId}/tags/${tagName}`);

@@ -3,13 +3,11 @@ const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
 const { deleteConceptTag } = require("../../models/concept-tag.model");
 
-const db = require("../../db/db");
-
 module.exports = catchAsync(async function (req, res, next) {
   const { tagName } = req.params;
   if (!tagName) return next(new AppError("Please include a tag to delete.", 422));
 
-  await deleteConceptTag(db, req.user.id, tagName);
+  await deleteConceptTag(req.user.id, tagName);
 
   sendResponse(res, 204);
 });

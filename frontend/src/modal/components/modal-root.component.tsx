@@ -4,17 +4,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { TAppState } from "shared/redux/store";
 import { hideModal } from "modal/redux/modal.slice";
 import { TModalType } from "../redux/modal.types";
-import { CreateUpdateConcept } from "concept/components/create-update-concept.component";
+import { CreateUpdateConceptModal } from "concept/components/create-update-concept-modal.component";
 import { ModalWrapper } from "./modal-wrapper.component";
-import { DeleteConcept } from "concept/components/delete-concept.component";
+import { DeleteConceptModal } from "concept/components/delete-concept-modal.component";
+import { ConfirmationModal } from "./confirmation-modal.component";
+import { DeleteTagModal } from "tag/components/delete-tag-modal.component";
 
 type TModalComponents = {
   [key in TModalType]: React.FC<any>;
 };
 
 const MODAL_COMPONENTS: TModalComponents = {
-  "create-update-concept": CreateUpdateConcept,
-  "delete-concept": DeleteConcept,
+  "create-update-concept": CreateUpdateConceptModal,
+  "delete-concept": DeleteConceptModal,
+  "delete-tag": DeleteTagModal,
+  "confirmation": ConfirmationModal,
 };
 
 export const ModalRoot = () => {
