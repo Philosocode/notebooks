@@ -36,7 +36,12 @@ export const createConcept = createAsyncThunk(
   async function (payload: ICreateConceptPayload, thunkAPI) {
     try {
       const res = await api.post<ICreateConceptResponse>("/concepts/", payload);
-      return res.data.data.concept;
+      const createdConcept = res.data.data.concept;
+
+      if (!createdConcept.tags) createdConcept.tags = [];
+      if (!createdConcept.links) createdConcept.links = [];
+
+      return createdConcept;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }

@@ -46,8 +46,9 @@ export const TagAutocompleteInput: FC<IProps> = ({
   };
 
   const addTag = (tag: string) => {
-    const tagLower = tag.toLowerCase();
+    const tagLower = tag.trim().toLowerCase();
 
+    if (tagLower === "") return;
     // don't add tag if it's already added
     if (tagsToAdd.includes(tagLower)) return;
 

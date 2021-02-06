@@ -25,7 +25,10 @@ export const ConceptsPage = () => {
     if (modalShowing) return;
     
     dispatch(showModal({
-      modalType: "create-update-concept"
+      modalType: "create-update-concept",
+      modalProps: {
+        concept: undefined,
+      }
     }));
   }
 
