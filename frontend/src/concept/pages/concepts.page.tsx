@@ -24,7 +24,9 @@ export const ConceptsPage = () => {
   const showAddConceptModal = () => {
     if (modalShowing) return;
     
-    dispatch(showModal({ modalType: "create-update-concept" }))
+    dispatch(showModal({
+      modalType: "create-update-concept"
+    }));
   }
 
   return (

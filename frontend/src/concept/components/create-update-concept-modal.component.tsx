@@ -56,7 +56,7 @@ export const CreateUpdateConceptModal: FC<IProps> = ({ concept, handleClose }) =
     }
   }
 
-  const isUpdate = !!concept;
+  const isUpdate = concept !== undefined;
 
   // functions
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
