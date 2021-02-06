@@ -2,7 +2,8 @@ export type TModalType =
   | "create-update-concept"
   | "delete-concept"
   | "confirmation"
-  | "delete-tag";
+  | "delete-tag"
+  | "update-tag"
 
 export interface IModalState {
   modalShowing: boolean;

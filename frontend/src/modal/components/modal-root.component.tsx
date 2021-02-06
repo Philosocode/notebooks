@@ -9,6 +9,7 @@ import { ModalWrapper } from "./modal-wrapper.component";
 import { DeleteConceptModal } from "concept/components/delete-concept-modal.component";
 import { ConfirmationModal } from "./confirmation-modal.component";
 import { DeleteTagModal } from "tag/components/delete-tag-modal.component";
+import { UpdateTagModal } from "tag/components/update-tag-modal.component";
 
 type TModalComponents = {
   [key in TModalType]: React.FC<any>;
@@ -18,6 +19,7 @@ const MODAL_COMPONENTS: TModalComponents = {
   "create-update-concept": CreateUpdateConceptModal,
   "delete-concept": DeleteConceptModal,
   "delete-tag": DeleteTagModal,
+  "update-tag": UpdateTagModal,
   "confirmation": ConfirmationModal,
 };
 

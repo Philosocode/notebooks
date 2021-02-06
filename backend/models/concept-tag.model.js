@@ -1,6 +1,7 @@
 const db = require("../db/db");
 const mergeEntityWithTagsAndLinks = require("../utils/merge-entity-tags-links.util");
 const { getTagsDiff } = require("../handlers/tag/tag.common");
+const { entityExists } = require("./common.model");
 
 module.exports = {
   conceptHasTag,
@@ -9,6 +10,7 @@ module.exports = {
   deleteTagFromConcept,
   getConceptTags,
   getTagsForConcept,
+  updateConceptTag,
   updateTagForConcept,
 
   // Helpers
@@ -41,7 +43,7 @@ async function createTagForConcept(id, tag) {
   await addTagsToConcept(db, id, [tag]);
 }
 
-async function deleteConceptTag(user_id, tagName, connection=db) {
+async function deleteConceptTag(user_id, tagName, connection = db) {
   await connection.transaction(async (trx) => {
     // get tag name and ID
     const tagArr = await trx("tag").select("id").where({ name: tagName });
@@ -62,6 +64,58 @@ async function deleteConceptTag(user_id, tagName, connection=db) {
 
 async function deleteTagFromConcept(id, tag) {
   await removeTagsFromConcept(db, id, [tag]);
+}
+
+async function updateConceptTag(user_id, oldName, newName, connection = db) {
+  await connection.transaction(async (trx) => {
+    // create new tag in case it doesn't exist
+    await trx("tag").insert({ name: newName }).onConflict("name").ignore();
+
+    // get old tag & new tag
+    const [oldTag, newTag] = await trx("tag").whereIn("name", [oldName, newName]);
+    
+    // get concepts with old tag
+    const conceptsWithOldTag = await trx("concept_tag")
+      .where({ "concept_tag.tag_id": oldTag.id })
+      .whereIn("concept_tag.concept_id", function () {
+        this.select("concept.id")
+          .from("concept")
+          .where({ "concept.user_id": user_id });
+    });
+    const conceptIdsWithOldTag = conceptsWithOldTag.map(ct => ct.concept_id);
+
+    // get concepts with the new tag
+    // don't include these when inserting new concept_tag items
+    const conceptTagsWithNewTag = await trx("concept_tag")
+      .where({ "concept_tag.tag_id": newTag.id })
+      .whereIn("concept_tag.concept_id", conceptIdsWithOldTag);
+
+    const conceptIdsWithNewTag = conceptTagsWithNewTag.map(ct => ct.concept_id);
+
+    const conceptIdsWithoutNewTag = conceptIdsWithOldTag.filter(
+      id => !conceptIdsWithNewTag.includes(id)
+    );
+    
+    // create concept tags with the new tag
+    const conceptTagsToInsert = conceptIdsWithoutNewTag.map(concept_id => {
+      return {
+        concept_id,
+        tag_id: newTag.id,
+      }
+    });
+
+    // insert new concept tags
+    await trx("concept_tag").insert(conceptTagsToInsert);
+
+    // delete old concept tags with old tag ID
+    await trx("concept_tag")
+      .whereIn("concept_id", conceptIdsWithOldTag)
+      .where({ tag_id: oldTag.id })
+      .del();
+
+    // clear "dangling" unreferenced tags
+    await deleteUnreferencedConceptTags(trx);
+  });
 }
 
 async function updateTagForConcept(id, oldName, newName) {

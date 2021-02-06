@@ -17,25 +17,35 @@ export const TagSidebarItem: FC<IProps> = ({ setCurrTag, tag }) => {
 
   function handleEdit(event: React.MouseEvent) {
     event.stopPropagation();
-    alert("EDIT");
+
+    dispatch(
+      showModal({
+        modalType: "update-tag",
+        modalProps: {
+          oldTagName: tag,
+        },
+      })
+    );
   }
 
   function handleDeleteTag(event: React.MouseEvent) {
     event.stopPropagation();
 
-    dispatch(showModal({
-      modalType: "delete-tag",
-      modalProps: {
-        tagName: tag,
-      }
-    }))
+    dispatch(
+      showModal({
+        modalType: "delete-tag",
+        modalProps: {
+          tagName: tag,
+        },
+      })
+    );
   }
 
   return (
     <SContainer onClick={() => setCurrTag(tag)} isActive={currTag === tag}>
       <div>
         <SIcon icon="tag" />
-        { tag }
+        {tag}
       </div>
       <SActionIcons>
         <SEditIcon icon="pencil-alt" onClick={handleEdit} />
@@ -45,26 +55,25 @@ export const TagSidebarItem: FC<IProps> = ({ setCurrTag, tag }) => {
   );
 };
 
-
 const SActionIcons = styled.div`
-  visibility: hidden
+  visibility: hidden;
 `;
 
 interface IContainerProps {
   isActive: boolean;
 }
 const SContainer = styled.li<IContainerProps>`
-  ${p => p.isActive ? `background: ${theme.colors.gray[100]}` : null};
+  ${(p) => (p.isActive ? `background: ${theme.colors.gray[100]}` : null)};
   cursor: pointer;
   display: flex;
-    align-items: center;
-    justify-content: space-between;
+  align-items: center;
+  justify-content: space-between;
   padding: ${theme.spacing.sm} ${theme.spacing.base};
 
   &:hover {
     background: ${theme.colors.gray[100]};
   }
-  
+
   &:hover ${SActionIcons} {
     visibility: visible;
   }
@@ -78,12 +87,16 @@ const SIcon = styled(FontAwesomeIcon)`
 const SEditIcon = styled(FontAwesomeIcon)`
   font-size: 1.8rem;
   margin-right: ${theme.spacing.sm};
-  
-  &:hover { color: orange; }
+
+  &:hover {
+    color: orange;
+  }
 `;
 
 const SDeleteIcon = styled(FontAwesomeIcon)`
   font-size: 1.8rem;
-  
-  &:hover { color: ${theme.colors.red[300]}; }
+
+  &:hover {
+    color: ${theme.colors.red[300]};
+  }
 `;
