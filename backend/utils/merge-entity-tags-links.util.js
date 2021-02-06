@@ -34,6 +34,9 @@ module.exports = function mergeEntityWithTagsAndLinks(flatData) {
     if (currRow.tag)  merged[entityId].tags.push(currRow.tag);
     if (currRow.link) merged[entityId].links.push(currRow.link);
 
+    merged[entityId].tags.sort();
+    merged[entityId].links.sort();
+
     return merged;
   }, {});
 

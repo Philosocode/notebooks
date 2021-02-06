@@ -61,12 +61,13 @@ async function getConcepts(user_id, options) {
   const columnsToSelect = ["concept.id", "concept.name", "concept.created_at", "concept.updated_at"];
   if (options.include?.tags) columnsToSelect.push("tag.name AS tag");
 
-  let query = db("concept").select(...columnsToSelect).where({ ...options.filter, user_id });
+  let query = db("concept").select(...columnsToSelect).where({ ...options.filter, user_id })
+    .orderBy("updated_at", "desc");
 
   if (options.include?.tags) {
     query = query
       .leftJoin("concept_tag", "concept.id", "concept_tag.concept_id")
-      .leftJoin("tag", "tag.id", "concept_tag.tag_id")
+      .leftJoin("tag", "tag.id", "concept_tag.tag_id");
   }
 
   return query;
