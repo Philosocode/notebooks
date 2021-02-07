@@ -8,7 +8,6 @@ import { loadingReducer } from "loading/redux/loading.slice";
 import { modalReducer } from "modal/redux/modal.slice";
 import { userReducer } from "user/redux/user.slice";
 
-// // FROM: https://stackoverflow.com/a/35641992
 const appReducer = combineReducers({
   alert: alertReducer,
   auth: authReducer,
@@ -21,6 +20,8 @@ const appReducer = combineReducers({
 export type TAppState = ReturnType<typeof appReducer>;
 
 const rootReducer: Reducer = (state: TAppState, action: AnyAction) => {
+  // Reset state of Redux on logout
+  // FROM: https://stackoverflow.com/a/35641992
   if (action.type === "auth/logout") {
     state = {} as TAppState;
   }

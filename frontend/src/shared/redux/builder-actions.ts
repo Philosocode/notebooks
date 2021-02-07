@@ -1,6 +1,6 @@
 import { AnyAction } from "@reduxjs/toolkit";
 
-// https://stackoverflow.com/a/63082301/9970553
+// FROM: https://stackoverflow.com/a/63082301/9970553
 const hasPrefix = (action: AnyAction, prefix: string) =>
   action.type.startsWith(prefix);
 
