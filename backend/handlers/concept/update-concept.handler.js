@@ -6,10 +6,6 @@ const { updateConcept } = require("../../models/concept.model");
 module.exports = catchAsync(async function (req, res, next) {
   const { conceptId } = req.params;
 
-  if (!conceptId) {
-    return next(new AppError("ID of concept to update is required."));
-  }
-
   // check if at least 1 update-able property included
   const { name, tags } = req.body;
   if (!name && !tags) {

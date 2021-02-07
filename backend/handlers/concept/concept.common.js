@@ -7,9 +7,13 @@ exports.conceptExistsMiddleware = catchAsync(async function conceptExistsMiddlew
   const userId = req.user.id;
   const { conceptId } = req.params;
 
+  if (!conceptId) {
+    return next(new AppError("Concept ID is required.", 422));
+  }
+
   const exists = await entityExists("concept", { id: conceptId, user_id: userId });
   if (!exists) {
-    return next(new AppError("Concept not found.", 404));
+    return next(new AppError("Concept with that ID not found.", 404));
   }
 
   return next();

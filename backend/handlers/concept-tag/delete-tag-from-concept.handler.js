@@ -6,12 +6,14 @@ const { conceptHasTag, deleteTagFromConcept } = require("../../models/concept-ta
 module.exports = catchAsync(async function (req, res, next) {
   const { conceptId, tagName } = req.params;
 
-  if (!tagName) return next(new AppError("Please include a tag to delete.", 422));
+  // validations
+  const tagLower = tagName.trim().toLowerCase();
+  if (!tagLower) return next(new AppError("Please include a tag to delete.", 422));
 
-  const exists = await conceptHasTag(conceptId, tagName);
-  if (!exists) return next(new AppError("Tag for concept not found.", 409));
+  const tagAlreadyAdded = await conceptHasTag(conceptId, tagLower);
+  if (!tagAlreadyAdded) return next(new AppError("Tag for concept not found.", 409));
 
-  await deleteTagFromConcept(conceptId, tagName);
+  await deleteTagFromConcept(conceptId, tagLower);
 
   sendResponse(res, 204);
 });

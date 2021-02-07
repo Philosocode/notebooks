@@ -24,7 +24,7 @@ async function createConcept(user_id, name, tagNames) {
     // if no tags included, return the concept as is
     if (tagNames === undefined || tagNames.length == 0) return createdConcept;
 
-    await addTagsToConcept(trx, createdConcept.id, tagNames);
+    await addTagsToConcept(createdConcept.id, tagNames, trx);
 
     return {
       ...createdConcept,

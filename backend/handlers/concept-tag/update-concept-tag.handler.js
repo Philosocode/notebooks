@@ -16,7 +16,7 @@ module.exports = catchAsync(async function (req, res, next) {
   if (!newTagName) return next(new AppError("Please include a new name for tag.", 422));
   if (oldTagName === newTagName) return next(new AppError("New tag name must be different.", 422));
 
-  // can't update what's not there
+  // can't update tag if it doesn't exist
   const oldTagExists = await entityExists("tag", { name: oldTagName });
   if (!oldTagExists) return next(new AppError("Concept tag to update was not found.", 409));
 

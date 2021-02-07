@@ -7,18 +7,21 @@ module.exports = catchAsync(async function (req, res, next) {
   const { conceptId } = req.params;
   const { tag } = req.body;
 
-  if (!tag) {
+  const tagLower = tag.trim().toLowerCase();
+
+  // validations
+  if (!tagLower) {
     return next(new AppError("Must include a tag to add.", 422));
   }
 
-  if (await conceptHasTag(conceptId, tag)) {
+  if (await conceptHasTag(conceptId, tagLower)) {
     return next(new AppError("Concept already has that tag.", 409));
   }
 
-  await createTagForConcept(conceptId, tag);
+  await createTagForConcept(conceptId, tagLower);
 
   sendResponse(res, 201, {
-    data: { tag },
+    data: { tag: tagLower },
     message: "Successfully added tag to concept",
   });
 });

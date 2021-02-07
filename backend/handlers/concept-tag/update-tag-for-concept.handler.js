@@ -11,7 +11,7 @@ module.exports = catchAsync(async function (req, res, next) {
   if (!tagName) return next(new AppError("Please include a tag to update.", 422));
   if (!name) return next(new AppError("Please include a new name for tag.", 422));
 
-  // can't update what's not there
+  // can't update tag if it doesn't exist
   const oldTagExists = await conceptHasTag(conceptId, tagName.toLowerCase());
   if (!oldTagExists) return next(new AppError("Concept tag to update was not found.", 409));
 
