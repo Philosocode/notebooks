@@ -33,16 +33,16 @@ async function createConcept(user_id, name, tagNames) {
   });
 }
 
-async function deleteConcept(user_id, id) {
+async function deleteConcept(user_id, concept_id) {
   return await db.transaction(async (trx) => {
     // delete all tags for concept
-    await trx("concept_tag").where({ concept_id: id }).del();
+    await trx("concept_tag").where({ concept_id }).del();
 
     // delete unreferenced tags
     await deleteUnreferencedConceptTags(trx);
 
     // delete concept itself
-    await trx("concept").where({ user_id, id }).first().del();
+    await trx("concept").where({ user_id, id: concept_id }).first().del();
   });
 }
 
@@ -67,16 +67,16 @@ async function getConcepts(user_id, options) {
   return query;
 }
 
-async function updateConcept(id, updates) {
+async function updateConcept(concept_id, updates) {
   const { name, tags: updatedTags } = updates;
 
   return await db.transaction(async (trx) => {
     if (name) {
-      await trx("concept").where({ id }).update({ name });
+      await trx("concept").where({ id: concept_id }).update({ name });
     }
 
     if (updatedTags) {
-      await updateTagsForConcept(trx, id, updatedTags);
+      await updateTagsForConcept(trx, concept_id, updatedTags);
     }
   });
 }

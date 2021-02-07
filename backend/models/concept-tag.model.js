@@ -1,7 +1,5 @@
 const db = require("../db/db");
-const mergeEntityWithTagsAndLinks = require("../utils/merge-entity-tags-links.util");
 const { getTagsDiff } = require("../handlers/tag/tag.common");
-const { entityExists } = require("./common.model");
 
 module.exports = {
   conceptHasTag,
@@ -15,10 +13,31 @@ module.exports = {
 
   // Helpers
   addTagsToConcept,
+  conceptTagExists,
   deleteUnreferencedConceptTags,
   removeTagsFromConcept,
   updateTagsForConcept,
 };
+
+async function conceptTagExists(user_id, tagName, connection=db) {
+  const tagArr = await connection("tag").where({ name: tagName });
+  const tag = tagArr[0];
+
+  const res = await db.first(
+    db.raw(
+      "exists ? as exists",
+      db("concept_tag")
+        // concept_tag with tagName exists
+        .where({ tag_id: tag.id })
+        // and it's attached to a concept belonging to the user
+        .whereIn("concept_id", function() {
+          this.select("id").from("concept").where({ user_id });
+        })
+    )
+  );
+  
+  return res.exists;
+}
 
 async function getConceptTags(user_id) {
   return db("concept_tag")
@@ -28,15 +47,15 @@ async function getConceptTags(user_id) {
     .where({ "concept.user_id": user_id });
 }
 
-async function getTagsForConcept(id) {
+async function getTagsForConcept(concept_id) {
   return db("concept_tag")
     .select("tag.name AS tag")
     .join("tag", "concept_tag.tag_id", "tag.id")
-    .where({ "concept_tag.concept_id": id });
+    .where({ "concept_tag.concept_id": concept_id });
 }
 
-async function createTagForConcept(id, tag, connection=db) {
-  await addTagsToConcept(id, [tag], connection);
+async function createTagForConcept(concept_id, tag, connection=db) {
+  await addTagsToConcept(concept_id, [tag], connection);
 }
 
 async function deleteConceptTag(user_id, tagName, connection=db) {
@@ -58,8 +77,8 @@ async function deleteConceptTag(user_id, tagName, connection=db) {
   });
 }
 
-async function deleteTagFromConcept(id, tag) {
-  await removeTagsFromConcept(id, [tag]);
+async function deleteTagFromConcept(concept_id, tag) {
+  await removeTagsFromConcept(concept_id, [tag]);
 }
 
 async function updateConceptTag(user_id, oldName, newName, connection = db) {
@@ -114,31 +133,34 @@ async function updateConceptTag(user_id, oldName, newName, connection = db) {
   });
 }
 
-async function updateTagForConcept(id, oldName, newName) {
+async function updateTagForConcept(concept_id, oldName, newName) {
   return db.transaction(async (trx) => {
     // remove the old one
-    await removeTagsFromConcept(id, [oldName], trx);
+    await removeTagsFromConcept(concept_id, [oldName], trx);
 
-    // add the tag
-    await addTagsToConcept(id, [newName], trx);
+    // add the tag if not there
+    const hasNewTag = await conceptHasTag(concept_id, newName);
+    if (!hasNewTag) {
+      await addTagsToConcept(concept_id, [newName], trx);
+    }
   });
 }
 
 /* HELPER FUNCTIONS */
-async function conceptHasTag(id, tag, connection=db) {
+async function conceptHasTag(concept_id, tag, connection=db) {
   const res = await connection.first(
     connection.raw(
       "exists ? as exists",
       connection("concept_tag")
         .join("tag", "tag.id", "concept_tag.tag_id")
-        .where({ "concept_tag.concept_id": id, "tag.name": tag })
+        .where({ "concept_tag.concept_id": concept_id, "tag.name": tag })
     )
   );
 
   return res.exists;
 }
 
-async function addTagsToConcept(id, tagNames, connection=db) {
+async function addTagsToConcept(concept_id, tagNames, connection=db) {
   // Create tag OBJs with `name` property for insertion
   // ["a", "b"] -> [ {name: "a"}, {name: "b"} ]
   const tagObjs = tagNames.map((tagName) => ({ name: tagName }));
@@ -149,14 +171,14 @@ async function addTagsToConcept(id, tagNames, connection=db) {
 
   // Link each tag to the new concept
   const conceptTagLinks = tagsFromDb.map((t) => ({
-    concept_id: id,
+    concept_id,
     tag_id: t.id,
   }));
 
   await connection("concept_tag").insert(conceptTagLinks);
 }
 
-async function removeTagsFromConcept(id, tagNames, connection=db) {
+async function removeTagsFromConcept(concept_id, tagNames, connection=db) {
   // get IDs of tag names to delete
   const tagIdsToDeleteFlat = await connection("tag")
     .select("name", "id")
@@ -166,7 +188,7 @@ async function removeTagsFromConcept(id, tagNames, connection=db) {
 
   // remove these tags from concept_tag
   await connection("concept_tag")
-    .where({ "concept_tag.concept_id": id })
+    .where({ "concept_tag.concept_id": concept_id })
     .whereIn("concept_tag.tag_id", tagIdsToDelete)
     .del();
 
@@ -184,13 +206,13 @@ async function deleteUnreferencedConceptTags(connection) {
     .del();
 }
 
-async function updateTagsForConcept(connection, id, updatedTags) {
+async function updateTagsForConcept(connection, concept_id, updatedTags) {
   // get tags for concept as an array of strings
-  const currTags = await getTagsForConcept(id);
+  const currTags = await getTagsForConcept(concept_id);
   const { tagsToCreate, tagsToDelete } = getTagsDiff(currTags, updatedTags);
 
   if (tagsToCreate.length > 0)
-    await addTagsToConcept(id, tagsToCreate);
+    await addTagsToConcept(concept_id, tagsToCreate);
   if (tagsToDelete.length > 0)
-    await removeTagsFromConcept(id, tagsToDelete, connection);
+    await removeTagsFromConcept(concept_id, tagsToDelete, connection);
 }
