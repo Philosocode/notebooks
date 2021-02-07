@@ -5,10 +5,10 @@ module.exports = {
 };
 
 async function entityExists(tableName, filter, connection=db) {
-  const res = await db.first(
-    db.raw(
+  const res = await connection.first(
+    connection.raw(
       "exists ? as exists",
-      db(tableName).select("id").where(filter)
+      connection(tableName).select("id").where(filter)
     )
   );
 
