@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // set security HTTP headers
 app.use(helmet());
 
-// limit requests from same API
+// limit requests from same IP
 const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000,
