@@ -7,6 +7,7 @@ module.exports = catchAsync(async function (req, res) {
   const userId = req.user.id;
   const { conceptId } = req.params;
 
+  // include tags & links if query params passed
   const options = {
     include: {
       tags: "tags" in req.query,
