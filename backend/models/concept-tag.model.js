@@ -72,8 +72,6 @@ async function deleteConceptTag(user_id, tagName, connection=db) {
           .where({ "concept.user_id": user_id });
       })
       .del();
-
-    await deleteUnreferencedConceptTags(connection);
   });
 }
 
@@ -127,9 +125,6 @@ async function updateConceptTag(user_id, oldName, newName, connection = db) {
       .whereIn("concept_id", conceptIdsWithOldTag)
       .where({ tag_id: oldTag.id })
       .del();
-
-    // clear "dangling" unreferenced tags
-    await deleteUnreferencedConceptTags(trx);
   });
 }
 
@@ -191,9 +186,6 @@ async function removeTagsFromConcept(concept_id, tagNames, connection=db) {
     .where({ "concept_tag.concept_id": concept_id })
     .whereIn("concept_tag.tag_id", tagIdsToDelete)
     .del();
-
-  // delete unreferenced tags
-  await deleteUnreferencedConceptTags(connection);
 }
 
 async function deleteUnreferencedConceptTags(connection) {
