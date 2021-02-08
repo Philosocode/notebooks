@@ -68,3 +68,7 @@ and start with this as a base:
 
 ### Run Seed
 `docker-compose exec backend npx knex seed:run`
+
+## Other Commands
+### Remove Unreferenced Tags
+`SELECT "remove_unreferenced_concept_tags"();`
