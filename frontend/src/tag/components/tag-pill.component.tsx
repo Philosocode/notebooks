@@ -10,14 +10,22 @@ interface IProps {
   handleClick?: () => void;
   handleDelete?: (tag: string) => void;
 }
-export const TagPill: FC<IProps> = ({ tag, handleDelete }) => (
-  <SContainer>
-    <STagText>{tag}</STagText>
-    {handleDelete &&
-      <SDeleteIcon icon="times-circle" onClick={() => handleDelete && handleDelete(tag)} />
+export const TagPill: FC<IProps> = ({ tag, handleDelete }) => {
+  function handleDeleteClick() {
+    if (handleDelete) {
+      handleDelete(tag);
     }
-  </SContainer>
-);
+  }
+
+  return (
+    <SContainer>
+      <STagText>{tag}</STagText>
+      {handleDelete && ( // show delete icon only if delete handler is passed
+        <SDeleteIcon icon="times-circle" onClick={handleDeleteClick} />
+      )}
+    </SContainer>
+  );
+};
 
 interface IContainerProps {
   color?: string;
@@ -26,7 +34,7 @@ const SContainer = styled.div<IContainerProps>`
   background: ${(props) => props.color ?? theme.colors.gray[100]};
   border-radius: 3rem;
   display: flex;
-    align-items: center;
+  align-items: center;
   height: 4rem;
   margin-right: ${theme.spacing.sm};
   margin-top: ${theme.spacing.sm};

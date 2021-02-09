@@ -3,18 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { getConcepts } from "concept/redux/concept.thunks";
-import { selectConceptsWithCurrTag } from "concept/redux/concept.selectors";
 import { showModal } from "modal/redux/modal.slice";
 import { selectModalShowing } from "modal/redux/modal.selectors";
 
-import { ConceptListItem } from "concept/components/concept-list-item.component";
+import { ConceptList } from "concept/components/concept-list.component";
 import { FloatingAddButton } from "shared/components/button/floating-add-button.component";
 import { TagSidebar } from "concept/components/tag-sidebar.component";
 import { theme } from "shared/styles/theme.styles";
 
 export const ConceptsPage = () => {
   const dispatch = useDispatch();
-  const conceptsWithTags = useSelector(selectConceptsWithCurrTag);
   const modalShowing = useSelector(selectModalShowing);
 
   useEffect(() => {
@@ -37,13 +35,7 @@ export const ConceptsPage = () => {
       <TagSidebar />
       <SConceptSection>
         <SHeading>Concepts</SHeading>
-        <SConceptList>
-          {conceptsWithTags.length > 0 ? conceptsWithTags.map((concept) => (
-            <ConceptListItem concept={concept} key={concept.id} />
-          )) :
-            <h3>No concepts found.</h3>
-          }
-        </SConceptList>
+        <ConceptList />
         <FloatingAddButton handleClick={showAddConceptModal} />
       </SConceptSection>
     </SPage>
@@ -61,12 +53,4 @@ const SHeading = styled.h1`
 
 const SConceptSection = styled.section`
   width: 100%;
-`;
-
-const SConceptList = styled.ul`
-  display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  margin: 0 auto;
 `;

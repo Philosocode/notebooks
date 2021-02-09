@@ -13,7 +13,7 @@ interface IProps extends IModalProps {
 export const DeleteConceptModal: FC<IProps> = ({ concept, handleClose }) => {
   const dispatch = useDispatch();
   
-  const handleDelete = () => {
+  function handleDelete() {
     dispatch(deleteConcept(concept.id));
     handleClose();
   }

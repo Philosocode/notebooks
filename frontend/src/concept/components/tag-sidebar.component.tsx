@@ -46,7 +46,7 @@ export const TagSidebar: FC = () => {
           isSelected={!isUncategorized && currConceptTag === ""}
           handleClick={setCurrTag}
           tag=""
-          icon="tags"
+          icon="layer-group"
         >
           all
         </TagSidebarItem>

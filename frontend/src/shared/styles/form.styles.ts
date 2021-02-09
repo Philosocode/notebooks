@@ -7,8 +7,7 @@ export const SInputBorderless = styled.input`
   border-bottom: 1px solid ${theme.colors.gray[500]};
   display: block;
   padding-bottom: ${theme.spacing.xs};
-  width: 90%;
-  max-width: 35rem;
+  width: 100%;
 
   &:active,
   &:focus {

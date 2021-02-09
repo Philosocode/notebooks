@@ -18,17 +18,21 @@ export const ConceptListItem: FC<IProps> = ({ concept }) => {
   const dispatch = useDispatch();
 
   function handleEdit() {
-    dispatch(showModal({
-      modalType: "create-update-concept",
-      modalProps: { concept },
-    }));
+    dispatch(
+      showModal({
+        modalType: "create-update-concept",
+        modalProps: { concept },
+      })
+    );
   }
 
   function handleDelete() {
-    dispatch(showModal({
-      modalType: "delete-concept",
-      modalProps: { concept },
-    }));
+    dispatch(
+      showModal({
+        modalType: "delete-concept",
+        modalProps: { concept },
+      })
+    );
   }
 
   function handleDeleteTag(tag: string) {
@@ -46,9 +50,9 @@ export const ConceptListItem: FC<IProps> = ({ concept }) => {
         <SHeadingId>{[concept.id]}</SHeadingId>
         <SConceptName>{concept.name}</SConceptName>
         <STagList>
-          {
-            concept.tags.map(t => <TagPill key={t} tag={t} handleDelete={() => handleDeleteTag(t)} />)
-          }
+          {concept.tags.map((t) => (
+            <TagPill key={t} tag={t} handleDelete={() => handleDeleteTag(t)} />
+          ))}
         </STagList>
       </div>
       <Menu actions={menuActions} />
@@ -59,7 +63,7 @@ export const ConceptListItem: FC<IProps> = ({ concept }) => {
 const SContainer = styled.li`
   border: 1px solid ${theme.colors.gray[200]};
   display: flex;
-    justify-content: space-between;
+  justify-content: space-between;
   padding: ${theme.spacing.md};
   position: relative;
   width: 100%;

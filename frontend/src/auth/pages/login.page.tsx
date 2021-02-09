@@ -26,17 +26,15 @@ export const LoginPage = () => {
     <SPageContentCenter centerContent>
       { user && <Redirect to={"/concepts"} /> }
       <SHeadingTitle>Login Page</SHeadingTitle>
-      {!user && (
-        <>
-          <SGoogleLogin
-            clientId={`${process.env.REACT_APP_OAUTH_CLIENT_ID}`}
-            buttonText="Login With Google"
-            onSuccess={handleGoogleSuccess}
-            onFailure={handleGoogleFailure}
-            cookiePolicy={"single_host_origin"}
-          />
-        </>
-      )}
+      {!user ? (
+        <SGoogleLogin
+          clientId={`${process.env.REACT_APP_OAUTH_CLIENT_ID}`}
+          buttonText="Login With Google"
+          onSuccess={handleGoogleSuccess}
+          onFailure={handleGoogleFailure}
+          cookiePolicy={"single_host_origin"}
+        />
+      ) : null}
     </SPageContentCenter>
   );
 };

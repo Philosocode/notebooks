@@ -15,29 +15,31 @@ export const TagAutocompleteInput: FC<IProps> = ({
   tagsToAdd,
   setTagsToAdd,
 }) => {
+  // state
   const [text, setText] = useState<string>("");
 
-  // functions
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setText(event.target.value);
-  };
-
-  const clearInput = () => {
-    setText("");
-  };
-
-  const getDropdownItems = () => {
-    if (text.trim() === "") return null;    
+  // derived state
+  function getDropdownItems() {
+    // don't show dropdown if input is empty
+    if (text.trim() === "") return [];
 
     return availableTags.filter((t) => {
+      // don't show tags that've already been added
       if (tagsToAdd.includes(t)) return false;
+
+      // don't show tags that don't include the text
       if (!t.startsWith(text.toLowerCase())) return false;
 
       return true;
     });
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  // event handlers
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setText(event.target.value);
+  };
+
+  function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key !== "Enter") return;
 
     // prevent form submission
@@ -45,7 +47,8 @@ export const TagAutocompleteInput: FC<IProps> = ({
     addTag(text);
   };
 
-  const addTag = (tag: string) => {
+  // functions
+  function addTag(tag: string) {
     const tagLower = tag.trim().toLowerCase();
 
     if (tagLower === "") return;
@@ -53,10 +56,10 @@ export const TagAutocompleteInput: FC<IProps> = ({
     if (tagsToAdd.includes(tagLower)) return;
 
     setTagsToAdd((prevTags) => [...prevTags, tagLower]);
-    clearInput();
+    setText("");
   };
 
-  const deleteTag = (tag: string) => {
+  function deleteTag(tag: string) {
     setTagsToAdd((prevTags) => prevTags.filter((t) => t !== tag));
   };
 
@@ -77,7 +80,7 @@ export const TagAutocompleteInput: FC<IProps> = ({
       </STagList>
 
       <SDropdownList>
-        {getDropdownItems()?.map((t) => (
+        {getDropdownItems().map((t) => (
           <SDropdownItem key={t} onClick={() => addTag(t)}>{t}</SDropdownItem>
         ))}
       </SDropdownList>
@@ -102,8 +105,7 @@ const SDropdownList = styled.ul`
   position: absolute;
   top: 2.8rem;
   left: 0;
-  width: 30rem;
-  max-width: 80%;
+  width: 100%;
 `;
 
 const SDropdownItem = styled.li`
@@ -111,6 +113,7 @@ const SDropdownItem = styled.li`
   border-top: none;
   cursor: pointer;
   padding: ${theme.spacing.sm};
+  width: 100%;
 
   &:hover {
     background: ${theme.colors.gray[100]};

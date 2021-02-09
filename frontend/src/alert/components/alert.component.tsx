@@ -27,7 +27,7 @@ function getIcon(type: TAlertType): JSX.Element {
 
 // FROM: https://dev.to/tibetegya/how-to-create-a-notification-component-with-redux-toolkit-and-styled-componets-knp
 export const Alert = () => {
-  const dispatch=  useDispatch();
+  const dispatch = useDispatch();
   const alertState = useSelector((state: TAppState) => state.alert);
   const { message, type, isShowing } = alertState;
 
@@ -36,7 +36,7 @@ export const Alert = () => {
 
   function handleExit() {
     dispatch(clearAlert());
-  };
+  }
 
   // need to use a ref to deal with error: https://stackoverflow.com/a/62192153
   const nodeRef = useRef(null);

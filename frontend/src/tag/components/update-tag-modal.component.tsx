@@ -21,21 +21,19 @@ export const UpdateTagModal: FC<IProps> = ({ oldTagName, handleClose }) => {
   const [tagName, setTagName] = useState(oldTagName);
 
   // derived state
-  const buttonDisabled = () => {
+  const buttonDisabled = function() {
     const trimmedTagName = tagName.trim().toLowerCase();
     return trimmedTagName === "" || trimmedTagName === oldTagName;
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setTagName(event.target.value);
   }
 
   // functions
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
     dispatch(updateConceptTag({ oldTagName, newTagName: tagName }));
-
     handleClose();
   }
 
@@ -56,7 +54,9 @@ export const UpdateTagModal: FC<IProps> = ({ oldTagName, handleClose }) => {
   );
  };
 
-const SContent = styled.div``;
+const SContent = styled.div`
+  max-width: 35rem;
+`;
 
 const SForm = styled.form`
   margin-top: ${theme.spacing.base};
