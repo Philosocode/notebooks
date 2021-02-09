@@ -20,7 +20,6 @@ export const LibraryDetailPage = () => {
     loadMdFile();
 
     async function loadMdFile() {
-      // @ts-ignore
       const file = await import(`../md/${page}.md`);
       const res = await fetch(file.default);
       const text = await res.text();

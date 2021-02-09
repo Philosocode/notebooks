@@ -20,6 +20,7 @@ const loadingSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // on all pending actions, start loading
       .addMatcher(isPendingMatcher, (state) => {
         state.loadingCount++;
       })

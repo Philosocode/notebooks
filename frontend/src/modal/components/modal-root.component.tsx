@@ -41,7 +41,6 @@ export const ModalRoot = () => {
     );
   }
 
-
   return (
     <ModalWrapper isShowing={modalShowing} handleClose={handleClose}>
       {getModalComponent()}

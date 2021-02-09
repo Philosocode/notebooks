@@ -12,8 +12,8 @@ const theorySection = {
     "analogy-metaphor",
     "spacing",
     "variation",
-  ]
-}
+  ],
+};
 
 export const sections = [
   theorySection,
