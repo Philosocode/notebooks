@@ -7,7 +7,6 @@ import {
   updateConcept,
 } from "./concept.thunks";
 import { deleteConceptTag, updateConceptTag } from "./concept-tag.thunk";
-
 import { IConceptFiltersState, IConceptState } from "./concept.types";
 
 // tag === "" means "All"

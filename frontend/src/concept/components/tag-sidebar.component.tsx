@@ -1,40 +1,32 @@
 import React, { FC } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { selectConceptFilters, selectConceptTags } from "concept/redux/concept.selectors";
 import { TagSidebarItem } from "./tag-sidebar-item.component";
 import { theme } from "shared/styles/theme.styles";
-import { setConceptFilters, setCurrConceptTag } from "concept/redux/concept.slice";
+import { IEntityFilter } from "shared/types.shared";
 
-export const TagSidebar: FC = () => {
-  const conceptTags = useSelector(selectConceptTags);
-  const filters = useSelector(selectConceptFilters);
-
-  const { tag: currConceptTag, isUncategorized } = filters;
-
-  const dispatch = useDispatch();
-
-  const setCurrTag = (tag: string) => {
-    dispatch(setCurrConceptTag(tag));
-  };
-
-  const setIsUncategorized = (_: string) => {
-    dispatch(setConceptFilters({ isUncategorized: true, tag: undefined }))
-  }
+interface IProps {
+  filters: IEntityFilter;
+  tags: string[];
+  
+  setCurrTag: (tag: string) => void;
+  setUncategorized: () => void;
+}
+export const TagSidebar: FC<IProps> = ({ filters, tags, setCurrTag, setUncategorized }) => {
+  const { tag: currTag, isUncategorized } = filters;
 
   return (
     <STagSidebar>
       <SHeading>Tags</SHeading>
       <STagList>
-        {conceptTags.map((t) => (
+        {tags.map((t) => (
           <TagSidebarItem
-            currTag={currConceptTag}
+            currTag={currTag}
             key={t}
             tag={t}
             icon="tag"
             handleClick={setCurrTag}
-            isSelected={!isUncategorized && currConceptTag === t}
+            isSelected={!isUncategorized && currTag === t}
             showActions
           >
             {t}
@@ -42,8 +34,8 @@ export const TagSidebar: FC = () => {
         ))}
 
         <TagSidebarItem
-          currTag={currConceptTag}
-          isSelected={!isUncategorized && currConceptTag === ""}
+          currTag={currTag}
+          isSelected={!isUncategorized && currTag === ""}
           handleClick={setCurrTag}
           tag=""
           icon="layer-group"
@@ -52,9 +44,9 @@ export const TagSidebar: FC = () => {
         </TagSidebarItem>
 
         <TagSidebarItem
-          currTag={currConceptTag}
+          currTag={currTag}
           isSelected={isUncategorized}
-          handleClick={setIsUncategorized}
+          handleClick={setUncategorized}
           icon="question-circle"
         >
           uncategorized

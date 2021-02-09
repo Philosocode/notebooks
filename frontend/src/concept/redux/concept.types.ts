@@ -1,3 +1,5 @@
+import { IEntityFilter } from "shared/types.shared";
+
 export interface IConcept {
   id: string;
   name: string;
@@ -8,10 +10,7 @@ export interface IConcept {
   links: string[];
 }
 
-export interface IConceptFiltersState {
-  isUncategorized: boolean;
-  tag: string;
-}
+export interface IConceptFiltersState extends IEntityFilter {}
 
 export interface IConceptState {
   concepts: IConcept[];

@@ -10,6 +10,7 @@ export const updateConceptTag = createAsyncThunk(
   "concept/updateConceptTag",
   async function (payload: IUpdateConceptTagPayload, thunkAPI) {
     const { newTagName, oldTagName } = payload;
+
     try {
       await api.patch(`/concepts/tags/${oldTagName}`, { name: newTagName });
       return payload;

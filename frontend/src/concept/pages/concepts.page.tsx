@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { getConcepts } from "concept/redux/concept.thunks";
 import { showModal } from "modal/redux/modal.slice";
 import { selectModalShowing } from "modal/redux/modal.selectors";
+import { selectConceptFilters, selectConceptTags } from "concept/redux/concept.selectors";
+import { setConceptFilters, setCurrConceptTag } from "concept/redux/concept.slice";
 
 import { ConceptList } from "concept/components/concept-list.component";
 import { FloatingAddButton } from "shared/components/button/floating-add-button.component";
@@ -14,25 +16,42 @@ import { theme } from "shared/styles/theme.styles";
 export const ConceptsPage = () => {
   const dispatch = useDispatch();
   const modalShowing = useSelector(selectModalShowing);
+  const conceptTags = useSelector(selectConceptTags);
+  const filters = useSelector(selectConceptFilters);
 
   useEffect(() => {
     dispatch(getConcepts());
   }, [dispatch]);
 
-  const showAddConceptModal = () => {
+  function handleSetTag(tag: string) {
+    dispatch(setCurrConceptTag(tag));
+  }
+
+  function showAddConceptModal() {
     if (modalShowing) return;
-    
-    dispatch(showModal({
-      modalType: "create-update-concept",
-      modalProps: {
-        concept: undefined,
-      }
-    }));
+
+    dispatch(
+      showModal({
+        modalType: "create-update-concept",
+        modalProps: {
+          concept: undefined,
+        },
+      })
+    );
+  };
+
+  function handleSetUncategorized() {
+    dispatch(setConceptFilters({ isUncategorized: true, tag: undefined }))
   }
 
   return (
     <SPage>
-      <TagSidebar />
+      <TagSidebar
+        filters={filters}
+        tags={conceptTags}
+        setCurrTag={handleSetTag}
+        setUncategorized={handleSetUncategorized}
+      />
       <SConceptSection>
         <SHeading>Concepts</SHeading>
         <ConceptList />

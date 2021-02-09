@@ -5,7 +5,10 @@ import styled from "styled-components";
 // logic
 import { IConcept } from "concept/redux/concept.types";
 import { createConcept, updateConcept } from "concept/redux/concept.thunks";
-import { selectConcepts, selectConceptTags } from "concept/redux/concept.selectors";
+import {
+  selectConcepts,
+  selectConceptTags,
+} from "concept/redux/concept.selectors";
 import { useForm } from "shared/hooks/use-form.hook";
 
 // components
@@ -21,7 +24,10 @@ import { IModalProps } from "modal/redux/modal.types";
 interface IProps extends IModalProps {
   concept?: IConcept;
 }
-export const CreateUpdateConceptModal: FC<IProps> = ({ concept, handleClose }) => {
+export const CreateUpdateConceptModal: FC<IProps> = ({
+  concept,
+  handleClose,
+}) => {
   // redux stuff
   const dispatch = useDispatch();
   const conceptTags = useSelector(selectConceptTags);
@@ -34,22 +40,25 @@ export const CreateUpdateConceptModal: FC<IProps> = ({ concept, handleClose }) =
   const [submitted, setSubmitted] = useState(false);
 
   // derived state
-  const buttonDisabled = () => {
+  const isUpdate = concept !== undefined;
+
+  function buttonIsDisabled() {
     if (name.trim() === "") return true;
     if (isDuplicateConcept()) return true;
 
     return false;
-  };
+  }
 
-  const isDuplicateConcept = () => {
-    return concepts.some(c => {
+  function isDuplicateConcept() {
+    return concepts.some((c) => {
       // should be allowed to update a concept if name doesn't change
       if (concept?.name.toLowerCase() === c.name.toLowerCase()) return false;
+
       return c.name.toLowerCase() === name.toLowerCase();
     });
-  };
+  }
 
-  const error = () => {
+  function getError() {
     if (concept && concept.name.toLowerCase() === name.toLowerCase()) return;
     if (submitted) return;
 
@@ -58,28 +67,30 @@ export const CreateUpdateConceptModal: FC<IProps> = ({ concept, handleClose }) =
     }
   }
 
-  const isUpdate = concept !== undefined;
-
   // functions
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     // enter key shouldn't submit form
     // reason: user may want to enter tags
     // accidentally hitting enter will create the concept prematurely
     if (event.key === "Enter") event.preventDefault();
-  }
+  };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
     if (!name) return;
 
-    isUpdate
-      ? dispatch(updateConcept({
-        id: concept?.id as string,
-        name,
-        tags: tagsToAdd 
-      }))
-      : dispatch(createConcept({ name, tags: tagsToAdd }));
+    if (isUpdate) {
+      dispatch(
+        updateConcept({
+          id: concept?.id as string,
+          name,
+          tags: tagsToAdd,
+        })
+      );
+    } else {
+      dispatch(createConcept({ name, tags: tagsToAdd }));
+    }
 
     setSubmitted(true);
     handleClose();
@@ -87,7 +98,9 @@ export const CreateUpdateConceptModal: FC<IProps> = ({ concept, handleClose }) =
 
   return (
     <SContent>
-      <SHeadingSubtitle>{ isUpdate ? "Update" : "Create" } Concept</SHeadingSubtitle>
+      <SHeadingSubtitle>
+        {isUpdate ? "Update" : "Create"} Concept
+      </SHeadingSubtitle>
       <SForm autoComplete="off" onSubmit={handleSubmit}>
         <FormGroup
           name="name"
@@ -97,17 +110,19 @@ export const CreateUpdateConceptModal: FC<IProps> = ({ concept, handleClose }) =
           onKeyDown={handleKeyDown}
           value={name}
         />
-        <SError>{error()}</SError>
+        <SError>{getError()}</SError>
         <TagAutocompleteInput
           availableTags={conceptTags}
           tagsToAdd={tagsToAdd}
           setTagsToAdd={setTagsToAdd}
         />
-        <SButton disabled={buttonDisabled()}>{ isUpdate ? "Update" : "Create" }</SButton>
+        <SButton disabled={buttonIsDisabled()}>
+          {isUpdate ? "Update" : "Create"}
+        </SButton>
       </SForm>
     </SContent>
   );
- };
+};
 
 const SContent = styled.div``;
 

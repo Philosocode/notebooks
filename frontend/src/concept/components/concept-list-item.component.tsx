@@ -17,6 +17,7 @@ interface IProps {
 export const ConceptListItem: FC<IProps> = ({ concept }) => {
   const dispatch = useDispatch();
 
+  // event handlers
   function handleEdit() {
     dispatch(
       showModal({
