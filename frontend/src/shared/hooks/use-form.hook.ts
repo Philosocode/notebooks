@@ -4,7 +4,7 @@ interface ITouchedState {
   [key: string]: boolean
 }
 
-export const useForm = <TFormState>(initialValues: TFormState) => {
+export function useForm<TFormState>(initialValues: TFormState) {
   /**
    * Hook for storing and managing form data
    *

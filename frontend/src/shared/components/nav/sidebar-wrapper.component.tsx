@@ -7,15 +7,8 @@ interface IProps {
   width: string;
 }
 
-export const SidebarWrapper: FC<IProps> = ({
-  children,
-  width
-}) => {
-  return (
-    <SSidebar width={width}>
-      {children}
-    </SSidebar>
-  );
+export const SidebarWrapper: FC<IProps> = ({ children, width }) => {
+  return <SSidebar width={width}>{children}</SSidebar>;
 };
 
 const SSidebar = styled.aside`
@@ -25,7 +18,7 @@ const SSidebar = styled.aside`
   width: ${(props: IProps) => props.width};
   padding-bottom: ${theme.spacing.lg};
   position: fixed;
-    top: ${theme.componentSizes.navbarHeight};
-    left: 0;
+  top: ${theme.componentSizes.navbarHeight};
+  left: 0;
   overflow-y: auto;
 `;

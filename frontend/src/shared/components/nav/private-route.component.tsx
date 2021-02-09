@@ -6,8 +6,7 @@ import { TAppState } from "shared/redux/store";
 interface PrivateRouteProps extends RouteProps {
   component: any;
 }
-
-// https://stackoverflow.com/a/53111155
+// FROM: https://stackoverflow.com/a/53111155
 export const PrivateRoute = (props: PrivateRouteProps) => {
   const { component: Component, ...rest } = props;
   const token = useSelector((state: TAppState) => state.auth.token);

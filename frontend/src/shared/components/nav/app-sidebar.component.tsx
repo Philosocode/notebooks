@@ -5,31 +5,27 @@ import styled from "styled-components";
 
 import { theme } from "shared/styles/theme.styles";
 import { SidebarWrapper } from "shared/components/nav/sidebar-wrapper.component";
+import { faLightbulb, faStar } from "@fortawesome/free-regular-svg-icons";
+import { faBook, faStopwatch } from "@fortawesome/free-solid-svg-icons";
+
+const sidebarLinks = [
+  { name: "Concepts", icon: faLightbulb },
+  { name: "Materials", icon: faBook },
+  { name: "Timer", icon: faStopwatch },
+  { name: "Practice", icon: faStar },
+]
 
 export const AppSidebar: FC = () => (
   <SidebarWrapper width={theme.componentSizes.appSidebarWidth}>
     <SContent>
-
-      <SSidebarLink to="/concepts">
-        <SIcon icon={["far", "lightbulb"]} />
-        <SName>Concepts</SName>
-      </SSidebarLink>
-
-      <SSidebarLink to="/materials">
-        <SIcon icon="book" />
-        <SName>Materials</SName>
-      </SSidebarLink>
-
-      <SSidebarLink to="/timer">
-        <SIcon icon="stopwatch" />
-        <SName>Timer</SName>
-      </SSidebarLink>
-
-      <SSidebarLink to="/practice">
-        <SIcon icon={["far", "star"]} />
-        <SName>Practice</SName>
-      </SSidebarLink>
-
+      {
+        sidebarLinks.map(sl => (
+          <SSidebarLink to={`/${sl.name.toLowerCase()}`}>
+            <SIcon icon={sl.icon} />
+            <SName>{sl.name}</SName>
+          </SSidebarLink>
+        ))
+      }
     </SContent>
   </SidebarWrapper>
 );

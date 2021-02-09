@@ -20,14 +20,17 @@ export const Menu: FC<IProps> = ({ actions }) => {
   const [menuShowing, setMenuShowing] = useState(false);
   const menuRef = useRef() as MutableRefObject<HTMLDivElement>;
 
+  // hide menu when clicking elsewhere on the page
   useEffect(() => {
     if (menuShowing) window.addEventListener("mousedown", hideMenu);
     return () => { window.removeEventListener("mousedown", hideMenu); }
   }, [menuShowing]);
 
-  const showMenu = () => setMenuShowing(true);
+  function showMenu() {
+    setMenuShowing(true);
+  }
 
-  const hideMenu = (event: React.MouseEvent | MouseEvent) => {
+  function hideMenu(event: React.MouseEvent | MouseEvent) {
     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
       setMenuShowing(false);
     }
