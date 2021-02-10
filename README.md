@@ -5,8 +5,7 @@
 app in development.
 2. In the `env` folder, change the name from `*.env.example` to `*.env`.
 Change the information in `db.env` as needed (e.g. password)
-run `npm start` to install dependencies and start the app.
-3. At the root directory, run `docker-compose --build` to install dependencies.
+3. At the root directory, run `docker-compose build` to install dependencies.
 
 ### Run Migrations & Seeds
 4. Start the db & backend containers: `docker-compose up -d backend`. This also starts the db container since the backend depends on it.
