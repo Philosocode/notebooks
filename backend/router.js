@@ -25,7 +25,9 @@ const updateConceptTag = require("./handlers/concept-tag/update-concept-tag.hand
 const deleteConceptTag = require("./handlers/concept-tag/delete-concept-tag.handler");
 
 // Concept Hooks
-const createHookForConcept = require("./handlers/hook/create-hook-for-concept.handler");
+const getHook = require("./handlers/hook/get-hook.handler");
+const getHooks = require("./handlers/hook/get-hooks.handler");
+const createHook = require("./handlers/hook/create-hook.handler");
 
 // Tag
 const getTags = require("./handlers/tag/get-tags.handler");
@@ -75,7 +77,11 @@ router.route("/concepts/:conceptId/tags/:tagName")
 
   // Concept Hooks
 router.route("/concepts/:conceptId/hooks")
-  .post(conceptExistsMiddleware, createHookForConcept)
+  .get(conceptExistsMiddleware, getHooks)
+  .post(conceptExistsMiddleware, createHook)
+
+router.route("/concepts/:conceptId/hooks/:hookId")
+  .get(conceptExistsMiddleware, getHook)
 
 // Tags
 router.route("/tags")
