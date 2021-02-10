@@ -2,6 +2,7 @@ const db = require("../db/db");
 
 module.exports = {
   entityExists,
+  shiftPositionsUp,
 };
 
 async function entityExists(tableName, filter, connection=db) {
@@ -13,4 +14,12 @@ async function entityExists(tableName, filter, connection=db) {
   );
 
   return res.exists;
+}
+
+async function shiftPositionsUp(tableName, filterObj, startIdx, connection=db) {
+  // shift positions of elements after
+  await connection(tableName)
+    .increment("position")
+    .where({ ...filterObj })
+    .andWhere("position", ">=", startIdx)
 }
