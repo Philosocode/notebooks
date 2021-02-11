@@ -2,6 +2,7 @@ const db = require("../db/db");
 
 module.exports = {
   entityExists,
+  getMaxPosition,
   shiftPositions,
 };
 
@@ -16,8 +17,21 @@ async function entityExists(tableName, filter, connection=db) {
   return res.exists;
 }
 
+async function getMaxPosition(tableName, filterObj, connection=db) {
+  const maxResultArray = await connection(tableName)
+    .max("position")
+    .where(filterObj);
+
+  const maxPosition = maxResultArray[0].max;
+
+  // if max is undefined or null, no hooks present
+  if (!maxPosition) return 0;
+
+  return maxPosition;
+}
+
 async function shiftPositions(tableName, filterObj, startIdx, shiftUp=true, connection=db) {
-  let query = connection(tableName).where({ ...filterObj });
+  let query = connection(tableName).where(filterObj);
 
   // when inserting, need to increment items to the right
   // when deleting, need to decrement items to the right
@@ -26,7 +40,7 @@ async function shiftPositions(tableName, filterObj, startIdx, shiftUp=true, conn
     : query.decrement("position");
 
     // shift positions of elements after
-  query.andWhere("position", ">=", startIdx)
+  query = query.andWhere("position", ">=", startIdx)
 
   return query;
 
