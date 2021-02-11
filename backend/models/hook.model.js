@@ -9,6 +9,7 @@ module.exports = {
   updateHook,
 };
 
+// Referenced: https://medium.com/the-missing-bit/keeping-an-ordered-collection-in-postgresql-9da0348c4bbe
 async function createHook(
   concept_id,
   title,
