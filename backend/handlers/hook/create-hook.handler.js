@@ -4,6 +4,7 @@ const catchAsync = require("../../middlewares/catch-async.middleware");
 const { getMaxPosition } = require("../../models/common.model");
 const { createHook } = require("../../models/hook.model");
 const { trimString } = require("../../utils/string.util");
+const { getValidInsertPosition } = require("./hook.common");
 
 module.exports = catchAsync(async function (req, res, next) {
   const { conceptId } = req.params;
@@ -24,14 +25,7 @@ module.exports = catchAsync(async function (req, res, next) {
 
   // title has a max length of 100 chars
   const trimmedTitle = trimString(title, 100);
-
-  let insertPosition = position;
-  if (position < 0) insertPosition = 0;
-
-  // ensure user can't insert beyond the max position
-  const maxPosition = await getMaxPosition("hook", { concept_id: conceptId });
-  if (position > maxPosition + 1) insertPosition = maxPosition + 1;
-
+  const insertPosition = await getValidInsertPosition(conceptId, position, true);
   const createdHook = await createHook(conceptId, trimmedTitle, content, insertPosition);
 
   sendResponse(res, 201, {

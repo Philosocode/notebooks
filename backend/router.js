@@ -36,6 +36,7 @@ const updateTag = require("./handlers/tag/update-tag.handler");
 const deleteTag = require("./handlers/tag/delete-tag.handler");
 const deleteHook = require("./handlers/hook/delete-hook.handler");
 const deleteHooks = require("./handlers/hook/delete-hooks.handler");
+const updateHook = require("./handlers/hook/update-hook.handler");
 
 const router = express.Router();
 
@@ -85,6 +86,7 @@ router.route("/concepts/:conceptId/hooks")
 
 router.route("/concepts/:conceptId/hooks/:hookId")
   .get(conceptExistsMiddleware, getHook)
+  .patch(conceptExistsMiddleware, updateHook)
   .delete(conceptExistsMiddleware, deleteHook)
 
 // Tags

@@ -10,7 +10,6 @@ module.exports = catchAsync(async function (req, res, next) {
   if (!hookId) return next(new AppError("Please include a hook ID.", 422));
 
   const exists = await entityExists("hook", { concept_id: conceptId, id: hookId });
-  console.log(exists);
   if (!exists) return next(new AppError("Hook with that ID not found.", 404));
 
   await deleteHook(conceptId, hookId);

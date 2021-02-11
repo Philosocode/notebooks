@@ -14,6 +14,10 @@ module.exports = catchAsync(async function (req, res, next) {
     );
   }
 
+  if (name?.trim() === "") {
+    return next(new AppError("New name must not be empty.", 422));
+  }
+
   // tags must be an array
   if (tags && !Array.isArray(tags)) {
     return next(

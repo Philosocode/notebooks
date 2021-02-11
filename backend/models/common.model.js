@@ -25,7 +25,7 @@ async function getMaxPosition(tableName, filterObj, connection=db) {
   const maxPosition = maxResultArray[0].max;
 
   // if max is undefined or null, no hooks present
-  if (!maxPosition) return 0;
+  if (!maxPosition) return 1;
 
   return maxPosition;
 }
