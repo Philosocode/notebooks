@@ -20,7 +20,7 @@ export const AppSidebar: FC = () => (
     <SContent>
       {
         sidebarLinks.map(sl => (
-          <SSidebarLink to={`/${sl.name.toLowerCase()}`}>
+          <SSidebarLink key={sl.name} to={`/${sl.name.toLowerCase()}`}>
             <SIcon icon={sl.icon} />
             <SName>{sl.name}</SName>
           </SSidebarLink>

@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { IConcept } from "concept/redux/concept.types";
@@ -46,7 +47,7 @@ export const ConceptListItem: FC<IProps> = ({ concept }) => {
   ];
 
   return (
-    <SContainer>
+    <SContainer to={`/concepts/${concept.id}`}>
       <div>
         <SHeadingId>{[concept.id]}</SHeadingId>
         <SConceptName>{concept.name}</SConceptName>
@@ -61,13 +62,17 @@ export const ConceptListItem: FC<IProps> = ({ concept }) => {
   );
 };
 
-const SContainer = styled.li`
+const SContainer = styled(Link)`
   border: 1px solid ${theme.colors.gray[200]};
   display: flex;
   justify-content: space-between;
   padding: ${theme.spacing.md};
   position: relative;
   width: 100%;
+
+  &:hover {
+    background: ${theme.colors.offWhite};
+  }
 `;
 
 const SHeadingId = styled.h4`

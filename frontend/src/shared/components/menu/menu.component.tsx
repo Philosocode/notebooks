@@ -26,7 +26,10 @@ export const Menu: FC<IProps> = ({ actions }) => {
     return () => { window.removeEventListener("mousedown", hideMenu); }
   }, [menuShowing]);
 
-  function showMenu() {
+  function showMenu(event: React.MouseEvent) {
+    event.stopPropagation();
+    event.preventDefault();
+
     setMenuShowing(true);
   }
 
@@ -36,7 +39,10 @@ export const Menu: FC<IProps> = ({ actions }) => {
     }
   }
 
-  function handleActionClick(action: () => void) {
+  function handleActionClick(event: React.MouseEvent, action: () => void) {
+    event.stopPropagation();
+    event.preventDefault();
+
     action();
     setMenuShowing(false);
   }
@@ -49,7 +55,7 @@ export const Menu: FC<IProps> = ({ actions }) => {
          <SActionList>
             {
               actions.map(action => (
-                <SAction onClick={() => handleActionClick(action.action)} key={action.name}>
+                <SAction onClick={(event) => handleActionClick(event, action.action)} key={action.name}>
                   <SActionIcon icon={action.icon} />
                   {action.name}
                 </SAction>
