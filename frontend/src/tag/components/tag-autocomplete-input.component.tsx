@@ -1,8 +1,8 @@
 import React, { Dispatch, FC, SetStateAction, useState } from "react";
 import styled from "styled-components";
 
-import { SInputBorderless } from "shared/styles/form.styles";
-import { theme } from "shared/styles/theme.styles";
+import { SInputBorderless } from "shared/styles/form.style";
+import { theme } from "shared/styles/theme.style";
 import { TagPill } from "./tag-pill.component";
 
 interface IProps {

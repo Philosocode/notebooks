@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import styled, { CSSProperties } from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { theme } from "../../shared/styles/theme.styles";
+import { theme } from "../../shared/styles/theme.style";
 
 interface IProps {
   children?: React.ReactNode;

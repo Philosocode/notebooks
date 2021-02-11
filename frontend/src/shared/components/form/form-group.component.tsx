@@ -1,7 +1,7 @@
 import React, { FC, InputHTMLAttributes } from "react";
 import styled from "styled-components";
 
-import { SInputBorderless } from "shared/styles/form.styles";
+import { SInputBorderless } from "shared/styles/form.style";
 
 interface IProps
   extends InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {

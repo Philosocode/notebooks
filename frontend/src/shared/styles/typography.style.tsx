@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { theme } from "./theme.styles";
+import { theme } from "./theme.style";
 
 const SBold = css`
   font-weight: bold;

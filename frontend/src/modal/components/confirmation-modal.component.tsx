@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import styled from "styled-components";
 
-import { theme } from "shared/styles/theme.styles";
-import { SHeadingSubtitle } from "shared/styles/typography.styles";
-import { SButtonGreen, SButtonRed, SButton } from "shared/styles/button.styles";
+import { theme } from "shared/styles/theme.style";
+import { SHeadingSubtitle } from "shared/styles/typography.style";
+import { SButtonGreen, SButtonRed, SButton } from "shared/styles/button.style";
 
 interface IProps {
   title: string;

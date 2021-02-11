@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { theme } from "shared/styles/theme.styles";
+import { theme } from "shared/styles/theme.style";
 import useKeypress from "shared/hooks/use-key-press.hook";
 
 interface IProps {

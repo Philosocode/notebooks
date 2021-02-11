@@ -6,9 +6,9 @@ import styled from "styled-components";
 
 import { TAppState } from "shared/redux/store";
 import { loginGoogle } from "auth/redux/auth.thunks";
-import { SPageContentCenter } from "shared/styles/layout.styles";
-import { SHeadingTitle } from "shared/styles/typography.styles";
-import { theme } from "shared/styles/theme.styles";
+import { SPageContentCenter } from "shared/styles/layout.style";
+import { SHeadingTitle } from "shared/styles/typography.style";
+import { theme } from "shared/styles/theme.style";
 
 export const LoginPage = () => {
   const dispatch = useDispatch();

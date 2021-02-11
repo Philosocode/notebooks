@@ -8,9 +8,9 @@ import { updateConceptTag } from "concept/redux/concept-tag.thunk";
 import { FormGroup } from "shared/components/form/form-group.component";
 
 // styles
-import { theme } from "shared/styles/theme.styles";
-import { SHeadingSubtitle } from "shared/styles/typography.styles";
-import { SButtonGreen } from "shared/styles/button.styles";
+import { theme } from "shared/styles/theme.style";
+import { SHeadingSubtitle } from "shared/styles/typography.style";
+import { SButtonGreen } from "shared/styles/button.style";
 import { IModalProps } from "modal/redux/modal.types";
 
 interface IProps extends IModalProps {

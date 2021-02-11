@@ -11,7 +11,7 @@ import { setConceptFilters, setCurrConceptTag } from "concept/redux/concept.slic
 import { ConceptList } from "concept/components/concept-list.component";
 import { FloatingAddButton } from "shared/components/button/floating-add-button.component";
 import { TagSidebar } from "concept/components/tag-sidebar.component";
-import { theme } from "shared/styles/theme.styles";
+import { theme } from "shared/styles/theme.style";
 
 export const ConceptsPage = () => {
   const dispatch = useDispatch();

@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
-import { theme } from "shared/styles/theme.styles";
+import { theme } from "shared/styles/theme.style";
 import { SidebarWrapper } from "shared/components/nav/sidebar-wrapper.component";
 import { faLightbulb, faStar } from "@fortawesome/free-regular-svg-icons";
 import { faBook, faStopwatch } from "@fortawesome/free-solid-svg-icons";

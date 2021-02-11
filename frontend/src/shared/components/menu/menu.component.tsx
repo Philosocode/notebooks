@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import styled from "styled-components";
 
-import { theme } from "shared/styles/theme.styles";
+import { theme } from "shared/styles/theme.style";
 
 export interface IMenuAction {
   action: any;

@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 
 import { sections } from "../config/library-routes.config";
-import { theme } from "shared/styles/theme.styles";
+import { theme } from "shared/styles/theme.style";
 
 import { LibrarySidebarSection } from "./library-sidebar-section.component";
 import { SidebarWrapper } from "shared/components/nav/sidebar-wrapper.component";

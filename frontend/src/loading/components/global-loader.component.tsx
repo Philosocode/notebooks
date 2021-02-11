@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import { selectIsLoading } from "loading/redux/loading.selectors";
 import styled from "styled-components";
-import { theme } from "shared/styles/theme.styles";
+import { theme } from "shared/styles/theme.style";
 
 // FROM: https://loading.io/css/
 export const GlobalLoader = () => {

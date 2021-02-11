@@ -3,8 +3,8 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 import { ILibrarySection } from "../config/library-routes.config";
-import { theme } from "shared/styles/theme.styles";
-import { snakeCaseToTitleCase } from "../../shared/utils/string.utils";
+import { theme } from "shared/styles/theme.style";
+import { snakeCaseToTitleCase } from "../../shared/utils/string.util";
 
 interface IProps {
   section: ILibrarySection;

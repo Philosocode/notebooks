@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 
 import { store } from "shared/redux/store";
 import { App } from "./App";
-import { GlobalStyles } from "shared/styles/global.styles";
+import { GlobalStyles } from "shared/styles/global.style";
 
 import "shared/config/font-awesome.config";
 

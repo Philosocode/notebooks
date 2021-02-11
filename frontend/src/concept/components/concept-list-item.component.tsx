@@ -8,7 +8,7 @@ import { deleteTagFromConcept } from "../redux/concept.thunks";
 import { showModal } from "modal/redux/modal.slice";
 import { IMenuAction, Menu } from "../../shared/components/menu/menu.component";
 import { TagPill } from "tag/components/tag-pill.component";
-import { theme } from "shared/styles/theme.styles";
+import { theme } from "shared/styles/theme.style";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 interface IProps {

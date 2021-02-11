@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { theme } from "./theme.styles";
+import { theme } from "./theme.style";
 
 export const SInputBorderless = styled.input`
   border: none;

@@ -5,7 +5,7 @@ import { IConcept } from "concept/redux/concept.types";
 import { IModalProps } from "../../modal/redux/modal.types";
 import { deleteConcept } from "concept/redux/concept.thunks";
 import { ConfirmationModal } from "modal/components/confirmation-modal.component";
-import { trimString } from "shared/utils/string.utils";
+import { trimString } from "shared/utils/string.util";
 
 interface IProps extends IModalProps {
   concept: IConcept;

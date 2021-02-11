@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from "styled-components"
 
-import { theme } from "shared/styles/theme.styles";
+import { theme } from "shared/styles/theme.style";
 
 export const SidebarFooter = () => {
   return (

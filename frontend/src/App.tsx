@@ -14,8 +14,8 @@ import { Sidebar } from "./shared/components/nav/sidebar.component";
 import { NotFoundPage } from "shared/pages/not-found.page";
 import { ModalRoot } from "./modal/components/modal-root.component";
 
-import { theme } from "./shared/styles/theme.styles";
-import { SMainContent } from "shared/styles/layout.styles";
+import { theme } from "./shared/styles/theme.style";
+import { SMainContent } from "shared/styles/layout.style";
 
 export function App() {
   useAuth();

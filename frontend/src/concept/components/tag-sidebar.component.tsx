@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import styled from "styled-components";
 
 import { TagSidebarItem } from "./tag-sidebar-item.component";
-import { theme } from "shared/styles/theme.styles";
+import { theme } from "shared/styles/theme.style";
 import { IEntityFilter } from "shared/types.shared";
 
 interface IProps {

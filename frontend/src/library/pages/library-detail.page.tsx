@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
 
-import { theme } from "shared/styles/theme.styles";
+import { theme } from "shared/styles/theme.style";
 import { useRouteMatch } from "react-router-dom";
-import { SPageContentCenter } from "shared/styles/layout.styles";
+import { SPageContentCenter } from "shared/styles/layout.style";
 
 interface IMatchParams {
   page: string;

@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
-import { theme } from "shared/styles/theme.styles";
+import { theme } from "shared/styles/theme.style";
 import { showModal } from "modal/redux/modal.slice";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 

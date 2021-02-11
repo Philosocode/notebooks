@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
-import { theme } from "shared/styles/theme.styles";
+import { theme } from "shared/styles/theme.style";
 import { selectIsLoggedIn } from "auth/redux/auth.selectors";
 import { useAppLocation } from "../../hooks/use-app-location.hook";
 import { logout } from "auth/redux/auth.slice";

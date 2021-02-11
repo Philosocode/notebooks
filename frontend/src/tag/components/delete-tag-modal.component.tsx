@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { IModalProps } from "../../modal/redux/modal.types";
 import { ConfirmationModal } from "modal/components/confirmation-modal.component";
-import { trimString } from "shared/utils/string.utils";
+import { trimString } from "shared/utils/string.util";
 import { deleteConceptTag } from "concept/redux/concept-tag.thunk";
 
 interface IProps extends IModalProps {
