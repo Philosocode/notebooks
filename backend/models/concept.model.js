@@ -3,6 +3,7 @@ const {
   addTagsToConcept,
   updateTagsForConcept,
 } = require("./concept-tag.model");
+const { deleteHooks } = require("./hook.model");
 
 module.exports = {
   createConcept,
@@ -36,6 +37,9 @@ async function deleteConcept(user_id, concept_id) {
   return await db.transaction(async (trx) => {
     // delete all tags for concept
     await trx("concept_tag").where({ concept_id }).del();
+
+    // delete all hooks for concept
+    await deleteHooks(concept_id, trx);
 
     // delete concept itself
     await trx("concept").where({ user_id, id: concept_id }).first().del();
