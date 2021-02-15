@@ -10,6 +10,7 @@ import { IMenuAction, Menu } from "../../shared/components/menu/menu.component";
 import { TagPill } from "tag/components/tag-pill.component";
 import { theme } from "shared/styles/theme.style";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface IProps {
   concept: IConcept;
@@ -19,19 +20,13 @@ export const ConceptListItem: FC<IProps> = ({ concept }) => {
   const dispatch = useDispatch();
 
   // event handlers
-  function handleEdit() {
-    dispatch(
-      showModal({
-        modalType: "create-update-concept",
-        modalProps: { concept },
-      })
-    );
-  }
+  function handleEdit(event: React.MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
 
-  function handleDelete() {
     dispatch(
       showModal({
-        modalType: "delete-concept",
+        modalType: "update-concept",
         modalProps: { concept },
       })
     );
@@ -40,11 +35,6 @@ export const ConceptListItem: FC<IProps> = ({ concept }) => {
   function handleDeleteTag(tag: string) {
     dispatch(deleteTagFromConcept({ tagName: tag, conceptId: concept.id }));
   }
-
-  const menuActions: IMenuAction[] = [
-    { action: handleEdit, name: "Edit Concept", icon: faPencilAlt },
-    { action: handleDelete, name: "Delete Concept", icon: faTrash },
-  ];
 
   return (
     <SContainer to={`/concepts/${concept.id}`}>
@@ -57,7 +47,7 @@ export const ConceptListItem: FC<IProps> = ({ concept }) => {
           ))}
         </STagList>
       </div>
-      <Menu actions={menuActions} />
+      <SIcon icon="ellipsis-v" onClick={handleEdit} />
     </SContainer>
   );
 };
@@ -66,6 +56,7 @@ const SContainer = styled(Link)`
   border: 1px solid ${theme.colors.gray[200]};
   display: flex;
   justify-content: space-between;
+    align-items: center;
   padding: ${theme.spacing.md};
   position: relative;
   width: 100%;
@@ -88,4 +79,8 @@ const SConceptName = styled.h3`
 const STagList = styled.ul`
   list-style-type: none;
   display: flex;
+`;
+
+const SIcon = styled(FontAwesomeIcon)`
+  font-size: 2.6rem;
 `;

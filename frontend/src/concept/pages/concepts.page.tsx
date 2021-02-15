@@ -32,7 +32,7 @@ export const ConceptsPage = () => {
 
     dispatch(
       showModal({
-        modalType: "create-update-concept",
+        modalType: "create-concept",
         modalProps: {
           concept: undefined,
         },

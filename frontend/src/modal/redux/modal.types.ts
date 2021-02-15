@@ -1,6 +1,7 @@
 export type TModalType =
-  | "create-update-concept"
+  | "create-concept"
   | "delete-concept"
+  | "update-concept"
   | "confirmation"
   | "delete-tag"
   | "update-tag"

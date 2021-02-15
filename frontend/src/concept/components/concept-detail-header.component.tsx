@@ -18,7 +18,7 @@ export const ConceptDetailHeader: FC<IProps> = ({ concept }) => {
   function showUpdateModal() {
     dispatch(
       showModal({
-        modalType: "create-update-concept",
+        modalType: "update-concept",
         modalProps: { concept },
       })
     );

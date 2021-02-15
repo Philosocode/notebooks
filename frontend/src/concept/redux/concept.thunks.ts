@@ -71,7 +71,10 @@ export const createConcept = createAsyncThunk(
   async function (payload: ICreateConceptPayload, thunkAPI) {
     try {
       const res = await api.post<ICreateConceptResponse>("/concepts/", payload);
-      const createdConcept = res.data.data.concept;
+      let createdConcept = res.data.data.concept;
+      
+      createdConcept.created_at = new Date(createdConcept.created_at);
+      createdConcept.updated_at = new Date(createdConcept.updated_at);
 
       if (!createdConcept.tags) createdConcept.tags = [];
       if (!createdConcept.links) createdConcept.links = [];

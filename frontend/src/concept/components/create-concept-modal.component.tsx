@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 // logic
-import { IConcept } from "concept/redux/concept.types";
-import { createConcept, updateConcept } from "concept/redux/concept.thunks";
+import { IModalProps } from "modal/redux/modal.types";
+import { createConcept } from "concept/redux/concept.thunks";
 import {
   selectConcepts,
   selectConceptTags,
@@ -19,13 +19,8 @@ import { TagAutocompleteInput } from "tag/components/tag-autocomplete-input.comp
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubtitle } from "shared/styles/typography.style";
 import { SButtonGreen } from "shared/styles/button.style";
-import { IModalProps } from "modal/redux/modal.types";
 
-interface IProps extends IModalProps {
-  concept?: IConcept;
-}
-export const CreateUpdateConceptModal: FC<IProps> = ({
-  concept,
+export const CreateConceptModal: FC<IModalProps> = ({
   handleClose,
 }) => {
   // redux stuff
@@ -34,14 +29,12 @@ export const CreateUpdateConceptModal: FC<IProps> = ({
   const concepts = useSelector(selectConcepts);
 
   // component state
-  const [tagsToAdd, setTagsToAdd] = useState<string[]>(concept?.tags ?? []);
-  const { values, handleChange } = useForm({ name: concept?.name ?? "" });
+  const [tagsToAdd, setTagsToAdd] = useState<string[]>([]);
+  const { values, handleChange } = useForm({ name: "" });
   const { name } = values;
   const [submitted, setSubmitted] = useState(false);
 
   // derived state
-  const isUpdate = concept !== undefined;
-
   function buttonIsDisabled() {
     if (name.trim() === "") return true;
     if (isDuplicateConcept()) return true;
@@ -51,15 +44,11 @@ export const CreateUpdateConceptModal: FC<IProps> = ({
 
   function isDuplicateConcept() {
     return concepts.some((c) => {
-      // should be allowed to update a concept if name doesn't change
-      if (concept?.name.toLowerCase() === c.name.toLowerCase()) return false;
-
       return c.name.toLowerCase() === name.toLowerCase();
     });
   }
 
   function getError() {
-    if (concept && concept.name.toLowerCase() === name.toLowerCase()) return;
     if (submitted) return;
 
     if (name.trim() !== "" && isDuplicateConcept()) {
@@ -80,17 +69,7 @@ export const CreateUpdateConceptModal: FC<IProps> = ({
 
     if (!name) return;
 
-    if (isUpdate) {
-      dispatch(
-        updateConcept({
-          id: concept?.id as string,
-          name,
-          tags: tagsToAdd,
-        })
-      );
-    } else {
-      dispatch(createConcept({ name, tags: tagsToAdd }));
-    }
+    dispatch(createConcept({ name, tags: tagsToAdd }));
 
     setSubmitted(true);
     handleClose();
@@ -99,7 +78,7 @@ export const CreateUpdateConceptModal: FC<IProps> = ({
   return (
     <SContent>
       <SHeadingSubtitle>
-        {isUpdate ? "Update" : "Create"} Concept
+        Create Concept
       </SHeadingSubtitle>
       <SForm autoComplete="off" onSubmit={handleSubmit}>
         <FormGroup
@@ -116,9 +95,7 @@ export const CreateUpdateConceptModal: FC<IProps> = ({
           tagsToAdd={tagsToAdd}
           setTagsToAdd={setTagsToAdd}
         />
-        <SButton disabled={buttonIsDisabled()}>
-          {isUpdate ? "Update" : "Create"}
-        </SButton>
+        <SButton disabled={buttonIsDisabled()}>Create</SButton>
       </SForm>
     </SContent>
   );
