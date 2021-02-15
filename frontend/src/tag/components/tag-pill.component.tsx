@@ -7,11 +7,14 @@ import { theme } from "shared/styles/theme.style";
 interface IProps {
   tag: string;
   color?: string;
-  handleClick?: () => void;
+  handleClick?: (event: React.MouseEvent) => void;
   handleDelete?: (tag: string) => void;
 }
 export const TagPill: FC<IProps> = ({ tag, handleDelete }) => {
-  function handleDeleteClick() {
+  function handleDeleteClick(event: React.MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+
     if (handleDelete) {
       handleDelete(tag);
     }
@@ -21,7 +24,7 @@ export const TagPill: FC<IProps> = ({ tag, handleDelete }) => {
     <SContainer>
       <STagText>{tag}</STagText>
       {handleDelete && ( // show delete icon only if delete handler is passed
-        <SDeleteIcon icon="times-circle" onClick={handleDeleteClick} />
+        <SDeleteIcon icon="times-circle" onClick={(event) => handleDeleteClick(event)} />
       )}
     </SContainer>
   );
