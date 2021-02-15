@@ -14,7 +14,7 @@ export interface IConceptFiltersState extends IEntityFilter {}
 
 export interface IConceptState {
   concepts: IConcept[];
-  currConcept?: IConcept;
+  currentConcept?: IConcept;
   filters: IConceptFiltersState;
 }
 

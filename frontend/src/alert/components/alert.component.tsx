@@ -71,7 +71,7 @@ const SAlert = styled.div`
   padding: ${theme.spacing.sm} ${theme.spacing.base};
   position: fixed;
   left: 50%;
-  top: 5vh;
+  top: calc(5vh + ${theme.componentSizes.navbarHeight});
   transform: translateX(-50%);
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 

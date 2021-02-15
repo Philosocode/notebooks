@@ -9,11 +9,11 @@ interface IProps {
   filters: IEntityFilter;
   tags: string[];
   
-  setCurrTag: (tag: string) => void;
+  setCurrentTag: (tag: string) => void;
   setUncategorized: () => void;
 }
-export const TagSidebar: FC<IProps> = ({ filters, tags, setCurrTag, setUncategorized }) => {
-  const { tag: currTag, isUncategorized } = filters;
+export const TagSidebar: FC<IProps> = ({ filters, tags, setCurrentTag, setUncategorized }) => {
+  const { tag: currentTag, isUncategorized } = filters;
 
   return (
     <STagSidebar>
@@ -21,12 +21,12 @@ export const TagSidebar: FC<IProps> = ({ filters, tags, setCurrTag, setUncategor
       <STagList>
         {tags.map((t) => (
           <TagSidebarItem
-            currTag={currTag}
+            currentTag={currentTag}
             key={t}
             tag={t}
             icon="tag"
-            handleClick={setCurrTag}
-            isSelected={!isUncategorized && currTag === t}
+            handleClick={setCurrentTag}
+            isSelected={!isUncategorized && currentTag === t}
             showActions
           >
             {t}
@@ -34,9 +34,9 @@ export const TagSidebar: FC<IProps> = ({ filters, tags, setCurrTag, setUncategor
         ))}
 
         <TagSidebarItem
-          currTag={currTag}
-          isSelected={!isUncategorized && currTag === ""}
-          handleClick={setCurrTag}
+          currentTag={currentTag}
+          isSelected={!isUncategorized && currentTag === ""}
+          handleClick={setCurrentTag}
           tag=""
           icon="layer-group"
         >
@@ -44,7 +44,7 @@ export const TagSidebar: FC<IProps> = ({ filters, tags, setCurrTag, setUncategor
         </TagSidebarItem>
 
         <TagSidebarItem
-          currTag={currTag}
+          currentTag={currentTag}
           isSelected={isUncategorized}
           handleClick={setUncategorized}
           icon="question-circle"

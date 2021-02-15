@@ -2,7 +2,33 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { IConcept } from "./concept.types";
 import { api } from "services/api.service";
+import { showAndHideAlert } from "alert/redux/alert.thunks";
 
+interface IGetConceptResponse {
+  status: string;
+  data: {
+    concept: IConcept;
+  };
+}
+export const getConcept = createAsyncThunk(
+  "concept/getConcept",
+  async function (conceptId: string, thunkAPI) {
+    try {
+      const res = await api.get<IGetConceptResponse>(
+        `/concepts/${conceptId}?tags&links`
+      );
+      return res.data.data.concept;
+    } catch (err) {
+      thunkAPI.dispatch(
+        showAndHideAlert({
+          type: "error",
+          message: "Failed to find concept with that ID",
+        })
+      );
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
 interface IGetConceptsResponse {
   status: string;
   data: {
@@ -14,7 +40,16 @@ export const getConcepts = createAsyncThunk(
   async function (_, thunkAPI) {
     try {
       const res = await api.get<IGetConceptsResponse>("/concepts?tags&links");
-      return res.data.data.concepts;
+      const { concepts } = res.data.data;
+
+      const conceptsWithDates = concepts.map(c => {
+        c.created_at = new Date(c.created_at);
+        c.updated_at = new Date(c.updated_at);
+
+        return c;
+      });
+
+      return conceptsWithDates;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
@@ -55,9 +90,12 @@ interface IUpdateConceptPayload {
 }
 export const updateConcept = createAsyncThunk(
   "concept/updateConcept",
-  async function (data: IUpdateConceptPayload , thunkAPI) {
+  async function (data: IUpdateConceptPayload, thunkAPI) {
     try {
-      await api.patch(`/concepts/${data.id}`, { name: data.name, tags: data.tags });
+      await api.patch(`/concepts/${data.id}`, {
+        name: data.name,
+        tags: data.tags,
+      });
       return data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -92,4 +130,4 @@ export const deleteTagFromConcept = createAsyncThunk(
       return thunkAPI.rejectWithValue(err);
     }
   }
-)
+);

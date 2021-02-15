@@ -10,9 +10,10 @@ import { MaterialDetailPage } from "../../pages/material-detail.page";
 import { PartDetailPage } from "../../pages/part-detail.page";
 import { PracticePage } from "../../pages/practice.page";
 import { SettingsPage } from "../../pages/settings.page";
+import { RouteComponentProps } from "react-router-dom";
 
-interface IAppRoute {
-  component: FC;
+interface IAppRoute<T = {}> {
+  component: FC<T>;
   path: string;
   isPrivate?: boolean;
 }
@@ -38,7 +39,7 @@ const concepts: IAppRoute = {
   isPrivate: true,
 };
 
-const conceptDetail: IAppRoute = {
+const conceptDetail: IAppRoute<RouteComponentProps> = {
   component: ConceptDetailPage,
   path: "/concepts/:conceptId",
   isPrivate: true,

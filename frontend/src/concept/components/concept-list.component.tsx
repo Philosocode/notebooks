@@ -2,12 +2,12 @@ import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { selectConceptsWithCurrTag } from "concept/redux/concept.selectors";
+import { selectConceptsWithCurrentTag } from "concept/redux/concept.selectors";
 import { ConceptListItem } from "concept/components/concept-list-item.component";
 import { theme } from "shared/styles/theme.style";
 
 export const ConceptList = () => {
-  const conceptsWithTag = useSelector(selectConceptsWithCurrTag);
+  const conceptsWithTag = useSelector(selectConceptsWithCurrentTag);
 
   if (conceptsWithTag.length === 0) {
     return <SHeading>No concepts found.</SHeading>;

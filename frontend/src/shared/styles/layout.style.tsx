@@ -12,6 +12,10 @@ export const SPageContent = styled.div`
   padding: ${theme.spacing.base};
 `;
 
+export const SDetailPageContent = styled.div`
+  padding: ${theme.spacing.md} ${theme.spacing.lg};
+`;
+
 interface ISPageContentCenterProps {
   centerContent?: boolean;
 }

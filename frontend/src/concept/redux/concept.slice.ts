@@ -1,18 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import {
   createConcept,
   deleteConcept,
   deleteTagFromConcept,
+  getConcept,
   getConcepts,
   updateConcept,
 } from "./concept.thunks";
 import { deleteConceptTag, updateConceptTag } from "./concept-tag.thunk";
-import { IConceptFiltersState, IConceptState } from "./concept.types";
+import { IConcept, IConceptFiltersState, IConceptState } from "./concept.types";
 
 // tag === "" means "All"
 const initialState: IConceptState = {
   concepts: [],
-  currConcept: undefined,
+  currentConcept: undefined,
   filters: {
     isUncategorized: false,
     tag: "",
@@ -23,15 +25,21 @@ const conceptSlice = createSlice({
   name: "concept",
   initialState,
   reducers: {
-    setCurrConceptTag: (state, action: PayloadAction<string>) => {
+    setCurrentConcept: (state, action: PayloadAction<IConcept>) => {
+      state.currentConcept = action.payload;
+    },
+    setCurrentConceptTag: (state, action: PayloadAction<string>) => {
       state.filters.tag = action.payload;
       state.filters.isUncategorized = false;
     },
-    setConceptFilters: (state, action: PayloadAction<Partial<IConceptFiltersState>>) => {
+    setConceptFilters: (
+      state,
+      action: PayloadAction<Partial<IConceptFiltersState>>
+    ) => {
       state.filters = {
         ...state.filters,
         ...action.payload,
-      }
+      };
     },
   },
   extraReducers: (builder) => {
@@ -47,6 +55,9 @@ const conceptSlice = createSlice({
         if (foundIdx !== -1) {
           state.concepts.splice(foundIdx, 1);
         }
+      })
+      .addCase(getConcept.fulfilled, (state, action) => {
+        state.currentConcept = action.payload;
       })
       .addCase(getConcepts.fulfilled, (state, action) => {
         state.concepts = action.payload;
@@ -104,4 +115,8 @@ const conceptSlice = createSlice({
 });
 
 export const conceptReducer = conceptSlice.reducer;
-export const { setCurrConceptTag, setConceptFilters } = conceptSlice.actions;
+export const {
+  setCurrentConcept,
+  setCurrentConceptTag,
+  setConceptFilters,
+} = conceptSlice.actions;

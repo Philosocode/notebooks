@@ -9,7 +9,7 @@ export const selectConceptFilters = createSelector(
   (concept) => concept.filters
 );
 
-export const selectCurrConceptTag = createSelector(
+export const selectCurrentConceptTag = createSelector(
   [selectConceptFilters],
   (filters) => filters.tag
 );
@@ -19,7 +19,7 @@ export const selectConcepts = createSelector(
   (concept) => concept.concepts
 );
 
-export const selectConceptsWithCurrTag = createSelector(
+export const selectConceptsWithCurrentTag = createSelector(
   selectConcepts,
   selectConceptFilters,
   (concepts, filters) => {
@@ -29,9 +29,9 @@ export const selectConceptsWithCurrTag = createSelector(
   }
 )
 
-export const selectCurrConcept = createSelector(
+export const selectCurrentConcept = createSelector(
   [selectConcept],
-  (concept) => concept.currConcept
+  (concept) => concept.currentConcept
 );
 
 export const selectConceptTags = createSelector(

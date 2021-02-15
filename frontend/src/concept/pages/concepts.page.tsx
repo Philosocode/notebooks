@@ -6,7 +6,7 @@ import { getConcepts } from "concept/redux/concept.thunks";
 import { showModal } from "modal/redux/modal.slice";
 import { selectModalShowing } from "modal/redux/modal.selectors";
 import { selectConceptFilters, selectConceptTags } from "concept/redux/concept.selectors";
-import { setConceptFilters, setCurrConceptTag } from "concept/redux/concept.slice";
+import { setConceptFilters, setCurrentConceptTag } from "concept/redux/concept.slice";
 
 import { ConceptList } from "concept/components/concept-list.component";
 import { FloatingAddButton } from "shared/components/button/floating-add-button.component";
@@ -24,7 +24,7 @@ export const ConceptsPage = () => {
   }, [dispatch]);
 
   function handleSetTag(tag: string) {
-    dispatch(setCurrConceptTag(tag));
+    dispatch(setCurrentConceptTag(tag));
   }
 
   function showAddConceptModal() {
@@ -49,7 +49,7 @@ export const ConceptsPage = () => {
       <TagSidebar
         filters={filters}
         tags={conceptTags}
-        setCurrTag={handleSetTag}
+        setCurrentTag={handleSetTag}
         setUncategorized={handleSetUncategorized}
       />
       <SConceptSection>
