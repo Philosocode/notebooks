@@ -2,17 +2,36 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { faLightbulb, faRandom } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import random from "lodash/random";
+
+import AutosizeTextarea from "react-textarea-autosize";
+
+// logic
+import { allHooks } from "../data/hooks.data";
 
 // components
-import { AutosizeTextarea } from "shared/components/form/autosize-textarea.component";
+// import { AutosizeTextarea } from "shared/components/form/autosize-textarea.component";
 
 // styles
 import { SButtonGreen } from "shared/styles/button.style";
 import { theme } from "shared/styles/theme.style";
 
 export const CreateHookForm: React.FC = () => {
-  const [title, setTitle] = useState<string>();
-  const [content, setContent] = useState<string>();
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+
+  function setRandomTitle() {
+    const lowerTrimmedTitle = title.trim().toLowerCase();
+
+    while (true) {
+      const randomIndex = random(0, allHooks.length - 1);
+      const randomHook = allHooks[randomIndex];
+
+      if (randomHook.title.toLowerCase() !== lowerTrimmedTitle) {
+        return setTitle(randomHook.title);
+      }
+    }
+  }
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -21,19 +40,17 @@ export const CreateHookForm: React.FC = () => {
   return (
     <SHookCreateForm onSubmit={handleSubmit}>
       <SHookTitleContainer>
-        <AutosizeTextarea
-          SWrapper={SHookTitle}
+        <SHookTitleTextarea
           placeholder="Enter a hook title..."
           onChange={(e) => setTitle(e.target.value)}
           value={title}
         />
         <SHookTitleIcons>
           <SHookTitleIcon icon={faLightbulb} />
-          <SHookTitleIcon icon={faRandom} />
+          <SHookTitleIcon icon={faRandom} onClick={setRandomTitle} />
         </SHookTitleIcons>
       </SHookTitleContainer>
-      <AutosizeTextarea
-        SWrapper={SHookContent}
+      <SHookContentTextarea
         placeholder="Enter hook content..."
         onChange={(e) => setContent(e.target.value)}
         value={content}
@@ -67,7 +84,7 @@ const SHookTitleIcon = styled(FontAwesomeIcon)`
   }
 `;
 
-const STextareaBase = styled.textarea`
+const STextareaBase = styled(AutosizeTextarea)`
   resize: none;
   width: 100%;
 
@@ -77,7 +94,7 @@ const STextareaBase = styled.textarea`
   }
 `;
 
-const SHookTitle = styled(STextareaBase)`
+const SHookTitleTextarea = styled(STextareaBase)`
   border: none;
   border-bottom: 1px solid ${theme.colors.gray[400]};
   padding: 0;
@@ -89,7 +106,7 @@ const SHookTitle = styled(STextareaBase)`
   }
 `;
 
-const SHookContent = styled(STextareaBase)`
+const SHookContentTextarea = styled(STextareaBase)`
   margin-top: ${theme.spacing.base};
   padding: ${theme.spacing.sm};
 `;

@@ -1,11 +1,6 @@
-import { THookType } from "hook/hook.types";
+import { IDefaultHook } from "hook/hook.types";
 
-interface IHook {
-  title: string;
-  type: THookType;
-}
-
-export const connectHooks: IHook[] = [
+export const connectHooks: IDefaultHook[] = [
   {
     type: "connect",
     title: "Can I think of a simile, analogy, or metaphor?",
@@ -54,7 +49,7 @@ export const connectHooks: IHook[] = [
   },
 ];
 
-export const processHooks: IHook[] = [
+export const processHooks: IDefaultHook[] = [
   {
     type: "process",
     title: "How do I express this in my own words?",
@@ -107,7 +102,7 @@ export const processHooks: IHook[] = [
   },
 ];
 
-export const memorizeHooks: IHook[] = [
+export const memorizeHooks: IDefaultHook[] = [
   {
     type: "memorize",
     title: "Create an acronym",

@@ -7,10 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import {
   faBrain,
-  faMagic,
   faMemory,
   faNetworkWired,
-  faRandom,
 } from "@fortawesome/free-solid-svg-icons";
 
 interface IProps {
@@ -25,8 +23,6 @@ export const HookTypes: React.FC<IProps> = ({
     { name: "process", icon: faBrain },
     { name: "connect", icon: faNetworkWired },
     { name: "memorize", icon: faMemory },
-    { name: "custom", icon: faMagic },
-    { name: "random", icon: faRandom },
   ];
 
   return (
