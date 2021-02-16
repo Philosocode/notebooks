@@ -1,1 +1,1 @@
-export type THookType = "connect" | "custom" | "memorize" | "process" | "random";
+export type THookType = "connect" | "memorize" | "process";
