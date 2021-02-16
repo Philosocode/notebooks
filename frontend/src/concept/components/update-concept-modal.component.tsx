@@ -1,13 +1,12 @@
 import React, { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import format from "date-fns/format";
 
 // logic
 import { IConcept } from "concept/redux/concept.types";
 import { IModalProps } from "modal/redux/modal.types";
-import { deleteConcept, updateConcept } from "concept/redux/concept.thunks";
+import { updateConcept } from "concept/redux/concept.thunks";
 import {
   selectConcepts,
   selectConceptTags,
@@ -33,7 +32,6 @@ export const UpdateConceptModal: FC<IProps> = ({
 }) => {
   // redux stuff
   const dispatch = useDispatch();
-  const history = useHistory();
   const conceptTags = useSelector(selectConceptTags);
   const concepts = useSelector(selectConcepts);
 

@@ -13,6 +13,7 @@ import { Tab } from "shared/components/nav/tab.component";
 import { SDetailPageContent } from "shared/styles/layout.style";
 import { FloatingAddButton } from "shared/components/button/floating-add-button.component";
 import { selectModalShowing } from "modal/redux/modal.selectors";
+import { ConceptHooks } from "hook/components/concept-hooks.component";
 
 interface IMatchParams {
   conceptId: string;
@@ -49,11 +50,10 @@ export const ConceptDetailPage: FC<RouteComponentProps> = () => {
     <SDetailPageContent>
       <ConceptDetailHeader concept={currentConcept} />
       <Tabs>
-        <Tab title="Hooks">Hooks</Tab>
+        <Tab title="Hooks"><ConceptHooks /></Tab>
         <Tab title="Materials">Materials</Tab>
         <Tab title="Concept Links">Concept Links</Tab>
       </Tabs>
-      <FloatingAddButton handleClick={handleAddClick} />
     </SDetailPageContent>
   );
 };
