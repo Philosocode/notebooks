@@ -69,6 +69,7 @@ const conceptSlice = createSlice({
 
         state.concepts[conceptToUpdateIdx].name = name;
         state.concepts[conceptToUpdateIdx].tags = tags;
+        state.concepts[conceptToUpdateIdx].updated_at = new Date().toUTCString();
       })
       .addCase(deleteTagFromConcept.fulfilled, (state, action) => {
         // remove the tag from the concept
