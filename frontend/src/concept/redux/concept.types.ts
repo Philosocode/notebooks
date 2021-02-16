@@ -3,8 +3,8 @@ import { IEntityFilter } from "shared/types.shared";
 export interface IConcept {
   id: string;
   name: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
   user_id: string;
   tags: string[];
   links: string[];

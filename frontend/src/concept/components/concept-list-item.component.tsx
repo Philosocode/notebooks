@@ -11,6 +11,7 @@ import { TagPill } from "tag/components/tag-pill.component";
 import { theme } from "shared/styles/theme.style";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { TagList } from "tag/components/tag-list.component";
 
 interface IProps {
   concept: IConcept;
@@ -41,11 +42,7 @@ export const ConceptListItem: FC<IProps> = ({ concept }) => {
       <div>
         <SHeadingId>{[concept.id]}</SHeadingId>
         <SConceptName>{concept.name}</SConceptName>
-        <STagList>
-          {concept.tags.map((t) => (
-            <TagPill key={t} tag={t} handleDelete={() => handleDeleteTag(t)} />
-          ))}
-        </STagList>
+        <TagList tags={concept.tags} handleDeleteTag={handleDeleteTag} />
       </div>
       <SIcon icon="ellipsis-v" onClick={handleEdit} />
     </SContainer>
@@ -74,11 +71,6 @@ const SHeadingId = styled.h4`
 
 const SConceptName = styled.h3`
   font-size: ${theme.fontSizes.md};
-`;
-
-const STagList = styled.ul`
-  list-style-type: none;
-  display: flex;
 `;
 
 const SIcon = styled(FontAwesomeIcon)`

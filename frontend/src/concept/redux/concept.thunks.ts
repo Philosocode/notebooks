@@ -42,14 +42,7 @@ export const getConcepts = createAsyncThunk(
       const res = await api.get<IGetConceptsResponse>("/concepts?tags&links");
       const { concepts } = res.data.data;
 
-      const conceptsWithDates = concepts.map(c => {
-        c.created_at = new Date(c.created_at);
-        c.updated_at = new Date(c.updated_at);
-
-        return c;
-      });
-
-      return conceptsWithDates;
+      return concepts;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
@@ -73,9 +66,6 @@ export const createConcept = createAsyncThunk(
       const res = await api.post<ICreateConceptResponse>("/concepts/", payload);
       let createdConcept = res.data.data.concept;
       
-      createdConcept.created_at = new Date(createdConcept.created_at);
-      createdConcept.updated_at = new Date(createdConcept.updated_at);
-
       if (!createdConcept.tags) createdConcept.tags = [];
       if (!createdConcept.links) createdConcept.links = [];
 

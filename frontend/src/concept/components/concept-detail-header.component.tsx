@@ -1,13 +1,16 @@
 import React, { FC } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import format from "date-fns/format";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { IConcept } from "concept/redux/concept.types";
-import { SHeadingSubtitle } from "shared/styles/typography.style";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { theme } from "shared/styles/theme.style";
-import { useDispatch } from "react-redux";
 import { showModal } from "modal/redux/modal.slice";
+import { deleteTagFromConcept } from "concept/redux/concept.thunks";
+import { TagList } from "tag/components/tag-list.component";
+
+import { SHeadingSubtitle } from "shared/styles/typography.style";
+import { theme } from "shared/styles/theme.style";
 
 interface IProps {
   concept: IConcept;
@@ -24,12 +27,17 @@ export const ConceptDetailHeader: FC<IProps> = ({ concept }) => {
     );
   }
 
-  const formattedUpdateDate = format(concept.updated_at, "PPP");
+  function handleDeleteTag(tag: string) {
+    dispatch(deleteTagFromConcept({ tagName: tag, conceptId: concept.id }));
+  }
+
+  const formattedUpdateDate = format(new Date(concept.updated_at), "PPP");
   return (
     <SContainer>
       <SSettingsIcon icon="cog" onClick={showUpdateModal} />
       <SHeadingSubtitle>{concept.name}</SHeadingSubtitle>
-      <div>Last Updated: {formattedUpdateDate}</div>
+      <p>Last Updated: {formattedUpdateDate}</p>
+      <TagList tags={concept.tags} handleDeleteTag={handleDeleteTag} />
     </SContainer>
   );
 };

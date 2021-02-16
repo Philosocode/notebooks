@@ -38,11 +38,13 @@ const SContainer = styled.div<IContainerProps>`
   border-radius: 3rem;
   display: flex;
   align-items: center;
+  justify-content: center;
   height: 4rem;
   margin-right: ${theme.spacing.sm};
   margin-top: ${theme.spacing.sm};
   padding: 1rem 1.5rem;
   width: max-content;
+  min-width: 7rem;
 `;
 
 const STagText = styled.span`

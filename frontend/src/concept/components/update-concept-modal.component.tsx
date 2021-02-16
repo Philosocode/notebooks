@@ -103,11 +103,14 @@ export const UpdateConceptModal: FC<IProps> = ({
     handleClose();
   }
 
+  const createdAtString = format(new Date(concept.created_at), "PPP");
+  const updatedAtString = format(new Date(concept.updated_at), "PPP");
+
   return (
     <SContent>
       <SHeadingSubtitle>{concept.name}</SHeadingSubtitle>
-      <p>Created: {format(concept.created_at, "PPP")}</p>
-      <p>Last Updated: {format(concept.updated_at, "PPP")}</p>
+      <p>Created: {createdAtString}</p>
+      <p>Last Updated: {updatedAtString}</p>
 
       <SForm autoComplete="off" onSubmit={handleSubmit}>
         <FormGroup
