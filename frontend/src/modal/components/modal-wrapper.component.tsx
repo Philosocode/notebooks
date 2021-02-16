@@ -21,10 +21,12 @@ export const ModalWrapper: FC<IProps> = ({ isShowing, handleClose, children }) =
     padding: `${theme.spacing.md} ${theme.spacing.base}`,
     width: "60rem",
     maxWidth: "90vw",
+    zIndex: theme.zIndices.modal,
   };
 
   const overlayStyles: CSSProperties = {
     background: "rgba(0,0,0,0.5)",
+    zIndex: theme.zIndices.modal,
   };
 
   ReactModal.setAppElement("#root");
