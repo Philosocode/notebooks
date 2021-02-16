@@ -1,22 +1,18 @@
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
 import { IConcept } from "concept/redux/concept.types";
 import { deleteTagFromConcept } from "../redux/concept.thunks";
 import { showModal } from "modal/redux/modal.slice";
-import { IMenuAction, Menu } from "../../shared/components/menu/menu.component";
-import { TagPill } from "tag/components/tag-pill.component";
 import { theme } from "shared/styles/theme.style";
-import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { TagList } from "tag/components/tag-list.component";
 
 interface IProps {
   concept: IConcept;
 }
-
 export const ConceptListItem: FC<IProps> = ({ concept }) => {
   const dispatch = useDispatch();
 

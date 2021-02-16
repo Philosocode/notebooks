@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RouteComponentProps, useParams } from "react-router-dom";
+import { RouteComponentProps, useHistory, useLocation, useParams } from "react-router-dom";
 
 import { selectConcepts, selectCurrentConcept } from "concept/redux/concept.selectors";
 import { getConcept } from "concept/redux/concept.thunks";
@@ -11,6 +11,8 @@ import { Tabs } from "shared/components/nav/tabs.component";
 import { Tab } from "shared/components/nav/tab.component";
 
 import { SDetailPageContent } from "shared/styles/layout.style";
+import { FloatingAddButton } from "shared/components/button/floating-add-button.component";
+import { selectModalShowing } from "modal/redux/modal.selectors";
 
 interface IMatchParams {
   conceptId: string;
@@ -18,8 +20,12 @@ interface IMatchParams {
 export const ConceptDetailPage: FC<RouteComponentProps> = () => {
   const concepts = useSelector(selectConcepts);
   const currentConcept = useSelector(selectCurrentConcept);
+  const modalShowing = useSelector(selectModalShowing);
   const dispatch = useDispatch();
   const params = useParams<IMatchParams>();
+  const location = useLocation();
+  const history = useHistory();
+
   const { conceptId } = params;
 
   useEffect(() => {
@@ -33,6 +39,11 @@ export const ConceptDetailPage: FC<RouteComponentProps> = () => {
 
   }, [concepts, conceptId, dispatch]);
 
+  function handleAddClick() {
+    if (!modalShowing)
+      history.push(`${location.pathname}/hooks/create`);
+  }
+
   if (!currentConcept) return <div>Loading...</div>
   return (
     <SDetailPageContent>
@@ -42,6 +53,7 @@ export const ConceptDetailPage: FC<RouteComponentProps> = () => {
         <Tab title="Materials">Materials</Tab>
         <Tab title="Concept Links">Concept Links</Tab>
       </Tabs>
+      <FloatingAddButton handleClick={handleAddClick} />
     </SDetailPageContent>
   );
 };

@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { RouteComponentProps } from "react-router-dom";
 
 import { LoginPage } from "../../auth/pages/login.page";
 import { LibraryPage } from "library/pages/library.page";
@@ -10,7 +11,7 @@ import { MaterialDetailPage } from "../../pages/material-detail.page";
 import { PartDetailPage } from "../../pages/part-detail.page";
 import { PracticePage } from "../../pages/practice.page";
 import { SettingsPage } from "../../pages/settings.page";
-import { RouteComponentProps } from "react-router-dom";
+import { CreateHookPage } from "hook/pages/create-hook.page";
 
 interface IAppRoute<T = {}> {
   component: FC<T>;
@@ -42,6 +43,12 @@ const concepts: IAppRoute = {
 const conceptDetail: IAppRoute<RouteComponentProps> = {
   component: ConceptDetailPage,
   path: "/concepts/:conceptId",
+  isPrivate: true,
+};
+
+const hookCreate: IAppRoute = {
+  component: CreateHookPage,
+  path: "/concepts/:conceptId/hooks/create",
   isPrivate: true,
 };
 
@@ -79,6 +86,7 @@ export const appRoutes = [
   login,
   library,
   libraryDetail,
+  hookCreate,
   concepts,
   conceptDetail,
   materials,

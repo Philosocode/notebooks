@@ -101,6 +101,7 @@ const STagList = styled.ul`
 
 const SDropdownList = styled.ul`
   background: ${theme.colors.white};
+  box-shadow: ${theme.boxShadows.pressed};
   list-style-type: none;
   position: absolute;
   top: 2.8rem;

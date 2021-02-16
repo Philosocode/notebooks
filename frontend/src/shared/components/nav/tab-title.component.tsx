@@ -25,16 +25,17 @@ export const TabTitle: React.FC<IProps> = ({ index, selectedTabIndex, setSelecte
   );
 };
 
+const tabGreen = theme.colors.green[400];
 interface ISTabButtonProps {
   isSelected: boolean;
 }
 const STabButton = styled.button<ISTabButtonProps>`
   border: none;
   border-bottom: 3px solid ${
-    props => props.isSelected ? theme.colors.green[500] : "transparent"
+    props => props.isSelected ? tabGreen : "transparent"
   };
   background: none;
-  color: ${props => props.isSelected && theme.colors.green[500]};
+  color: ${props => props.isSelected && tabGreen};
   cursor: pointer;
   padding: 0;
   font-size: ${theme.fontSizes.md};
@@ -42,7 +43,7 @@ const STabButton = styled.button<ISTabButtonProps>`
   font-weight: 500;
 
   &:hover {
-    color: ${theme.colors.green[500]};
+    color: ${tabGreen};
   }
 
   &:active,

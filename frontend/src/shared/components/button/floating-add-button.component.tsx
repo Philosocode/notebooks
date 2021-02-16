@@ -21,7 +21,7 @@ const SButton = styled.button`
   background: ${theme.colors.green[400]};
   border: none;
   border-radius: 50%;
-  box-shadow: ${theme.boxShadows.light};
+  box-shadow: ${theme.boxShadows.pressed};
   cursor: pointer;
   height: 6rem;
   width: 6rem;
