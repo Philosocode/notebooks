@@ -5,4 +5,4 @@ interface IProps {
 }
 export const Tab: React.FC<IProps> = ({ children }) => (
   <div>{children}</div>
-)
+);

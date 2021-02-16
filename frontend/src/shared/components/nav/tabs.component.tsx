@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { theme } from "shared/styles/theme.style";
+import styled from "styled-components";
 
 import { TabTitle } from "./tab-title.component";
 
@@ -11,7 +13,7 @@ export const Tabs: React.FC<Props> = ({ children }) => {
 
   return (
     <div>
-      <ul>
+      <STabList>
         {/*
           - children: list of <Tab />s
           - need to pass a `title` prop into <Tab /> 
@@ -22,13 +24,20 @@ export const Tabs: React.FC<Props> = ({ children }) => {
           <TabTitle
             key={index}
             index={index}
+            selectedTabIndex={selectedTabIndex}
             title={child.props.title}
             setSelectedTab={setSelectedTabIndex} 
           />
         ))}
-      </ul>
+      </STabList>
       {/* only show the child that matches the selectedTabIndex */}
       {children[selectedTabIndex]}
     </div>
   );
 };
+
+const STabList = styled.ul`
+  display: flex;
+  margin-top: ${theme.spacing.md};
+  margin-bottom: ${theme.spacing.base};
+`;
