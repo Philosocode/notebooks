@@ -3,15 +3,15 @@ import styled from "styled-components";
 
 // logic
 import { THookType } from "hook/hook.types";
-import { allHooksHash } from "../data/hooks.data";
 import { convertToTitleCase } from "shared/utils/string.util";
+import { allHooksHash } from "hook/data/hooks.data";
 
 // components
 import { ModalWrapper } from "modal/components/modal-wrapper.component";
 import { HookTypes } from "./hook-types.component";
+import { HookGrid } from "./hook-grid.component";
 
 // styles
-import { theme } from "shared/styles/theme.style";
 import { SHeadingSubtitle } from "shared/styles/typography.style";
 
 interface IProps {
@@ -76,14 +76,14 @@ export const HookSelectModal: React.FC<IProps> = ({
           <SHeadingSubtitle>
             Select Hook: {hookType && convertToTitleCase(hookType)}
           </SHeadingSubtitle>
-          <SHookList>
-            {hookType &&
-              allHooksHash[hookType].map((hook) => (
-                <SHookCard key={hook} onClick={() => handleSelectHook(hook)}>
-                  {hook}
-                </SHookCard>
-              ))}
-          </SHookList>
+          {
+            hookType && (
+              <HookGrid
+                handleSelect={handleSelectHook}
+                hooks={allHooksHash[hookType]}
+              />
+            )
+          }
         </SModalPanel>
       </ModalWrapper>
     </>
@@ -95,26 +95,4 @@ interface SModalPanelProps {
 }
 const SModalPanel = styled.div<SModalPanelProps>`
   display: ${(props) => (props.isShowing ? "block" : "none")};
-`;
-
-const SHookList = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
-  justify-items: space-between;
-  gap: ${theme.spacing.base};
-  margin-top: ${theme.spacing.sm};
-`;
-
-const SHookCard = styled.div`
-  background: ${theme.colors.gray[100]};
-  border-radius: 5px;
-  box-shadow: ${theme.boxShadows.light};
-  cursor: pointer;
-  font-weight: 500;
-  padding: ${theme.spacing.sm};
-
-  &:hover {
-    background: ${theme.colors.green[400]};
-    color: ${theme.colors.white};
-  }
 `;
