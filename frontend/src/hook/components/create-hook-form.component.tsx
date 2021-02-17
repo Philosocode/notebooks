@@ -3,22 +3,22 @@ import styled from "styled-components";
 import { faLightbulb, faRandom } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import random from "lodash/random";
-
 import AutosizeTextarea from "react-textarea-autosize";
 
 // logic
 import { allHooks } from "../data/hooks.data";
 
 // components
-// import { AutosizeTextarea } from "shared/components/form/autosize-textarea.component";
+import { HookSelectModal } from "./hook-select-modal.component";
 
 // styles
 import { SButtonGreen } from "shared/styles/button.style";
 import { theme } from "shared/styles/theme.style";
 
 export const CreateHookForm: React.FC = () => {
-  const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [hookSelectShowing, setHookSeletingShowing] = useState(false);
 
   function setRandomTitle() {
     const lowerTrimmedTitle = title.trim().toLowerCase();
@@ -33,30 +33,47 @@ export const CreateHookForm: React.FC = () => {
     }
   }
 
+  function showHookSelectModal() {
+    setHookSeletingShowing(true);
+  }
+
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
   }
-  
+
+  function formDisabled() {
+    return title.trim() === "" || content.trim() === "";
+  }
+
   return (
-    <SHookCreateForm onSubmit={handleSubmit}>
-      <SHookTitleContainer>
-        <SHookTitleTextarea
-          placeholder="Enter a hook title..."
-          onChange={(e) => setTitle(e.target.value)}
-          value={title}
+    <>
+      <SHookCreateForm onSubmit={handleSubmit}>
+        <SHookTitleContainer>
+          <SHookTitleTextarea
+            placeholder="Enter a hook title..."
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
+            required
+          />
+          <SHookTitleIcons>
+            <SHookTitleIcon icon={faLightbulb} onClick={showHookSelectModal} />
+            <SHookTitleIcon icon={faRandom} onClick={setRandomTitle} />
+          </SHookTitleIcons>
+        </SHookTitleContainer>
+        <SHookContentTextarea
+          placeholder="Enter hook content..."
+          onChange={(e) => setContent(e.target.value)}
+          value={content}
+          minRows={10}
+          required
         />
-        <SHookTitleIcons>
-          <SHookTitleIcon icon={faLightbulb} />
-          <SHookTitleIcon icon={faRandom} onClick={setRandomTitle} />
-        </SHookTitleIcons>
-      </SHookTitleContainer>
-      <SHookContentTextarea
-        placeholder="Enter hook content..."
-        onChange={(e) => setContent(e.target.value)}
-        value={content}
+        <SCreateButton disabled={formDisabled()}>Create Hook</SCreateButton>
+      </SHookCreateForm>
+      <HookSelectModal
+        modalShowing={hookSelectShowing}
+        setModalShowing={setHookSeletingShowing}
       />
-      <SCreateButton>Create</SCreateButton>
-    </SHookCreateForm>
+    </>
   );
 };
 

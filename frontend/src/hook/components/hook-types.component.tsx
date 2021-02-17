@@ -13,11 +13,9 @@ import {
 
 interface IProps {
   handleSelectHookType: (hookType: THookType) => void;
-  selectedHookType: THookType | undefined;
 }
 export const HookTypes: React.FC<IProps> = ({
   handleSelectHookType,
-  selectedHookType,
 }) => {
   const hookTypes: { name: THookType; icon: IconProp }[] = [
     { name: "process", icon: faBrain },
@@ -30,7 +28,6 @@ export const HookTypes: React.FC<IProps> = ({
       {hookTypes.map((hookType) => (
         <SHookType
           key={hookType.name}
-          isSelected={hookType.name === selectedHookType}
           onClick={() => handleSelectHookType(hookType.name)}
         >
           <SIcon icon={hookType.icon} />
@@ -43,26 +40,22 @@ export const HookTypes: React.FC<IProps> = ({
 
 const SHookTypes = styled.ul`
   display: flex;
+    justify-content: space-between;
   margin-top: ${theme.spacing.base};
 `;
 
-interface SHookTypeProps {
-  isSelected: boolean;
-}
-const SHookType = styled.li<SHookTypeProps>`
-  background: ${(props) =>
-    props.isSelected ? theme.colors.green[400] : theme.colors.gray[100]};
+const SHookType = styled.li`
+  background: ${theme.colors.gray[100]};
   border-radius: 5px;
   box-shadow: ${theme.boxShadows.light};
-  color: ${(props) => props.isSelected && theme.colors.offWhite};
   cursor: pointer;
   font-weight: 500;
   padding: ${theme.spacing.sm};
-  margin-right: ${theme.spacing.md};
   text-transform: uppercase;
 
-  &:last-child {
-    margin-right: 0;
+  &:hover {
+    background: ${theme.colors.green[400]};
+    color: ${theme.colors.offWhite};
   }
 `;
 

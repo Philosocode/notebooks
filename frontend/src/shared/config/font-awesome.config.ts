@@ -1,6 +1,7 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
 
 import {
+  faArrowLeft,
   faBook,
   faBrain,
   faCheckCircle,
@@ -26,6 +27,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 
 library.add(
+  faArrowLeft,
   faBook,
   faBrain,
   faCheckCircle,

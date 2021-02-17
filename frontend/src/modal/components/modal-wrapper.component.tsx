@@ -9,9 +9,11 @@ interface IProps {
   children?: React.ReactNode;
   isShowing: boolean;
   handleClose: (event: MouseEvent) => void;
+  handleBack?: () => void;
+  styles?: CSSProperties;
 }
 
-export const ModalWrapper: FC<IProps> = ({ isShowing, handleClose, children }) => {
+export const ModalWrapper: FC<IProps> = ({ isShowing, handleBack, handleClose, children, styles }) => {
   const contentStyles: CSSProperties = {
     minHeight: "50vh",
     height: "max-content",
@@ -22,6 +24,7 @@ export const ModalWrapper: FC<IProps> = ({ isShowing, handleClose, children }) =
     width: "60rem",
     maxWidth: "90vw",
     zIndex: theme.zIndices.modal,
+    ...styles
   };
 
   const overlayStyles: CSSProperties = {
@@ -41,17 +44,26 @@ export const ModalWrapper: FC<IProps> = ({ isShowing, handleClose, children }) =
         overlay: overlayStyles,
       }}
     >
+      { handleBack && <SBackIcon onClick={handleBack} icon="arrow-left" /> }
       <SCloseIcon onClick={handleClose} icon="times" />
       {children}
     </ReactModal>
   );
 };
 
-const SCloseIcon = styled(FontAwesomeIcon)`
+
+const SIcon = styled(FontAwesomeIcon)`
   color: ${theme.colors.gray["700"]};
   cursor: pointer;
   font-size: 2.4rem;
   position: absolute;
-    top: 0.4em;
+    top: 0.5em;
+`;
+
+const SBackIcon = styled(SIcon)`
+  left: 0.6em;
+`;
+
+const SCloseIcon = styled(SIcon)`
     right: 0.6em;
 `;
