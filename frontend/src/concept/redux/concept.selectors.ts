@@ -46,3 +46,11 @@ export const selectConceptTags = createSelector(
     return Array.from(tags).sort();
   }
 )
+
+export const selectConceptHooks = createSelector(
+  [selectCurrentConcept],
+  (concept) => {
+    if (!concept || !concept.hooks) return [];
+    return concept.hooks;
+  }
+)

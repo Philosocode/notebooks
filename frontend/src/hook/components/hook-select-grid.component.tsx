@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+
+// logic
+import { selectConceptHooks } from "concept/redux/concept.selectors";
 
 // styles
 import { theme } from "../../shared/styles/theme.style";
 import { SInputBorderless } from "shared/styles/form.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface IProps {
   handleSelect: (hook: string) => void;
@@ -14,6 +18,7 @@ interface IProps {
 }
 export const HookSelectGrid: React.FC<IProps> = ({ handleSelect, hooks }) => {
   const [filterText, setFilterText] = useState("");
+  const conceptHooks = useSelector(selectConceptHooks);
 
   function getFilteredHooks() {
     if (filterText.trim() === "") return hooks;
@@ -29,6 +34,12 @@ export const HookSelectGrid: React.FC<IProps> = ({ handleSelect, hooks }) => {
     setFilterText(event.target.value);
   }
 
+  function conceptHasHook(hook: string) {
+    return conceptHooks.some(
+      conceptHook => conceptHook.title.toLowerCase() === hook.trim().toLowerCase()
+    );
+  }
+
   return (
     <div>
       <SInput onChange={handleInputChange} />
@@ -42,7 +53,7 @@ export const HookSelectGrid: React.FC<IProps> = ({ handleSelect, hooks }) => {
             onClick={() => handleSelect(hook)}
           >
             {hook}
-            <SHookCardIcon icon={faCheck} />
+            { conceptHasHook(hook) && <SHookCardIcon icon={faCheck} /> }
           </SHookCard>
         ))}
       </SHookGrid>
