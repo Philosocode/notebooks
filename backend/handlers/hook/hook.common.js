@@ -13,7 +13,7 @@ exports.getValidInsertPosition = async function (
   const maxPosition = await getMaxPosition("hook", { concept_id }, connection);
   
   // +1 so insert after last item is possible
-  if (canAppendToEnd && position > maxPosition + 1) return maxPosition + 1;
+  if (canAppendToEnd && position > maxPosition) return maxPosition + 1;
   else if (position > maxPosition) return maxPosition;
 
   return position;

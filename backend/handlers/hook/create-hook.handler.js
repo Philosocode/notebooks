@@ -1,7 +1,6 @@
 const AppError = require("../../utils/app-error.util");
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
-const { getMaxPosition } = require("../../models/common.model");
 const { createHook } = require("../../models/hook.model");
 const { trimString } = require("../../utils/string.util");
 const { getValidInsertPosition } = require("./hook.common");

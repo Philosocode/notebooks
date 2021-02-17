@@ -10,6 +10,7 @@ import {
 } from "./concept.thunks";
 import { deleteConceptTag, updateConceptTag } from "./concept-tag.thunk";
 import { IConcept, IConceptFiltersState, IConceptState } from "./concept.types";
+import { createHook, getHooks } from "hook/redux/hook.thunks";
 
 // tag === "" means "All"
 const initialState: IConceptState = {
@@ -82,6 +83,7 @@ const conceptSlice = createSlice({
         const tagIdx = conceptTags.findIndex((t) => t === tagName);
         if (tagIdx !== -1) conceptTags.splice(tagIdx, 1);
       })
+
       /* Concept Tag */
       .addCase(updateConceptTag.fulfilled, (state, action) => {
         const { newTagName, oldTagName } = action.payload;
@@ -111,7 +113,28 @@ const conceptSlice = createSlice({
         });
 
         if (state.filters.tag === tagToRemove) state.filters.tag = "";
-      });
+      })
+
+      /* Hooks */
+      .addCase(getHooks.fulfilled, (state, action) => {
+        const { conceptId, hooks } = action.payload;
+
+        // loop through all concepts
+        const conceptToUpdate = state.concepts.find(concept => concept.id === conceptId);
+        if (conceptToUpdate)
+          conceptToUpdate.hooks = hooks;
+      })
+      .addCase(createHook.fulfilled, (state, action) => {
+        const { conceptId, hook } = action.payload;
+
+        // loop through all concepts
+        const conceptToUpdate = state.concepts.find(concept => concept.id === conceptId);
+        if (conceptToUpdate) {
+          if (!conceptToUpdate.hooks) conceptToUpdate.hooks = [];
+          
+          conceptToUpdate.hooks.push(hook);
+        }
+      })
   },
 });
 

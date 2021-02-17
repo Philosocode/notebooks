@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { faLightbulb, faRandom } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import random from "lodash/random";
+import styled from "styled-components";
 import AutosizeTextarea from "react-textarea-autosize";
 
 // logic
+import { createHook } from "hook/redux/hook.thunks";
 import { allHooksArray } from "../data/hooks.data";
+import { selectCurrentConcept } from "concept/redux/concept.selectors";
 
 // components
 import { HookSelectModal } from "./hook-select-modal.component";
@@ -19,6 +23,9 @@ export const CreateHookForm: React.FC = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [hookSelectShowing, setHookSeletingShowing] = useState(false);
+
+  const currentConcept = useSelector(selectCurrentConcept);
+  const dispatch = useDispatch();
 
   function setRandomTitle() {
     const lowerTrimmedTitle = title.trim().toLowerCase();
@@ -33,18 +40,33 @@ export const CreateHookForm: React.FC = () => {
     }
   }
 
+  function formDisabled() {
+    return title.trim() === "" || content.trim() === "";
+  }
+
   function showHookSelectModal() {
     setHookSeletingShowing(true);
   }
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
+    if (formDisabled()) return;
+    if (!currentConcept?.hooks) return;
+
+    const nextPosition = currentConcept.hooks.length + 1;
+
+    dispatch(createHook({
+      conceptId: currentConcept.id,
+      content,
+      title,
+      position: nextPosition,
+    }));
+
+    setTitle("");
+    setContent("");
   }
 
-  function formDisabled() {
-    return title.trim() === "" || content.trim() === "";
-  }
-
+  if (!currentConcept) return <Redirect to="/concepts" />;
   return (
     <>
       <SHookCreateForm onSubmit={handleSubmit}>
@@ -115,14 +137,9 @@ const STextareaBase = styled(AutosizeTextarea)`
 
 const SHookTitleTextarea = styled(STextareaBase)`
   border: none;
-  border-bottom: 1px solid ${theme.colors.gray[400]};
+  border-bottom: 1px solid;
   padding: 0;
   padding-bottom: ${theme.spacing.xs};
-
-  &:active,
-  &:focus {
-    border-color: ${theme.colors.green[300]};
-  }
 `;
 
 const SHookContentTextarea = styled(STextareaBase)`

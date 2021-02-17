@@ -1,4 +1,5 @@
 import { IEntityFilter } from "shared/types.shared";
+import { IHook } from "hook/redux/hook.types";
 
 export interface IConcept {
   id: string;
@@ -8,6 +9,7 @@ export interface IConcept {
   user_id: string;
   tags: string[];
   links: string[];
+  hooks?: IHook[];
 }
 
 export interface IConceptFiltersState extends IEntityFilter {}

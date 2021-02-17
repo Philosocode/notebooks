@@ -17,7 +17,7 @@ async function createHook(
   position,
   connection = db
 ) {
-  return connection.transaction(async (trx) => {
+  const createdHookArray = await connection.transaction(async (trx) => {
     // shift positions of elements after
     await shiftPositions("hook", { concept_id }, position, true, trx);
 
@@ -26,6 +26,8 @@ async function createHook(
       { title, content, concept_id, position }, ["*"]
     );
   });
+
+  return createdHookArray[0];
 }
 
 async function deleteHook(concept_id, hook_id, connection = db) {
