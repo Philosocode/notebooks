@@ -30,13 +30,9 @@ export const ConceptHooks: React.FC<IProps> = ({ currentConcept }) => {
     <>
       <CreateHookForm currentConcept={currentConcept} />
       <SDivider />
-      {
-        currentConcept.hooks.length === 0 && (
-          <SHeadingSubSubtitle
-            style={{ textAlign: "center" }}
-          >No hooks found.</SHeadingSubSubtitle>
-        )
-      }
+      <SHeadingSubSubtitle>
+        # Hooks: {currentConcept.hooks.length}
+      </SHeadingSubSubtitle>
       {
         currentConcept.hooks.map(hook => (
           <div>
