@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IHook } from "hook/redux/hook.types";
 import { useForm } from "../../shared/hooks/use-form.hook";
 import { showModal } from "modal/redux/modal.slice";
-import { deleteHook } from "../redux/hook.thunks";
+import { deleteHook, updateHook } from "../redux/hook.thunks";
 
 // styles
 import { theme } from "../../shared/styles/theme.style";
@@ -42,23 +42,40 @@ export const HookListItem: React.FC<IProps> = ({ hook }) => {
     }));
   }
 
+  function handleUpdateHook() {
+    if (!currentConcept) return;
+
+    const updates = {
+      ...(titleChanged() && { title }),
+      ...(contentChanged() && { content }),
+    };
+
+    dispatch(updateHook({
+      conceptId: currentConcept.id,
+      hookId: hook.id,
+      updates,
+    }));
+  }
+
   function handleDeleteHook() {
-    if (currentConcept) {
-      dispatch(deleteHook({
-        hookId: hook.id,
-        conceptId: currentConcept.id,
-      }));
-    }
+    if (!currentConcept) return;
+
+    dispatch(deleteHook({
+      hookId: hook.id,
+      conceptId: currentConcept.id,
+    }));
+  }
+
+  function titleChanged() {
+    return title.trim() !== hook.title;
+  }
+
+  function contentChanged() {
+    return content.trim() !== hook.content;
   }
 
   function changesMade() {
-    const titleTrimmed = title.trim();
-    const contentTrimmed = content.trim();
-
-    return (
-      titleTrimmed !== hook.title ||
-      contentTrimmed !== hook.content
-    );
+    return titleChanged() || contentChanged();
   }
 
   return (
@@ -70,7 +87,10 @@ export const HookListItem: React.FC<IProps> = ({ hook }) => {
         {hook.content}
       </SContentTextarea>
       <SButtons>
-        <SButtonGreen disabled={!changesMade()}>Update</SButtonGreen>
+        <SButtonGreen
+          disabled={!changesMade()}
+          onClick={handleUpdateHook}
+        >Update</SButtonGreen>
         <SButtonRed onClick={showDeleteHookModal}>Delete</SButtonRed>
       </SButtons>
     </SContainer>

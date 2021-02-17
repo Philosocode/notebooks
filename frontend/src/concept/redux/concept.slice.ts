@@ -10,7 +10,7 @@ import {
 } from "./concept.thunks";
 import { deleteConceptTag, updateConceptTag } from "./concept-tag.thunk";
 import { IConcept, IConceptFiltersState, IConceptState } from "./concept.types";
-import { createHook, deleteHook, getHooks } from "hook/redux/hook.thunks";
+import { createHook, deleteHook, getHooks, updateHook } from "hook/redux/hook.thunks";
 
 // tag === "" means "All"
 const initialState: IConceptState = {
@@ -133,6 +133,30 @@ const conceptSlice = createSlice({
           if (!conceptToUpdate.hooks) conceptToUpdate.hooks = [];
           
           conceptToUpdate.hooks.push(hook);
+        }
+      })
+      .addCase(updateHook.fulfilled, (state, action) => {
+        const { conceptId, hookId, updates } = action.payload;
+
+        // find concept to update
+        const conceptToUpdateIndex = state.concepts.findIndex(
+          (c) => c.id === conceptId
+        );
+
+        if (conceptToUpdateIndex === -1) return;
+
+        const conceptToUpdate = state.concepts[conceptToUpdateIndex];
+        const hooks = conceptToUpdate.hooks;
+        if (!hooks) return;
+
+        // remove hook
+        const hookIndex = hooks.findIndex(h => h.id === hookId);
+        if (hookIndex !== -1) {
+          const oldHook = hooks[hookIndex];
+          hooks[hookIndex] = {
+            ...oldHook,
+            ...updates,
+          };
         }
       })
       .addCase(deleteHook.fulfilled, (state, action) => {

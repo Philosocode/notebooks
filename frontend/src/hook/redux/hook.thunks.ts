@@ -53,7 +53,30 @@ export const getHooks = createAsyncThunk(
       return thunkAPI.rejectWithValue(err);
     }
   }
-)
+);
+
+interface IUpdateHookPayload {
+  conceptId: string;
+  hookId: string;
+  updates: {
+    title?: string;
+    content?: string;
+    position?: number;
+  }
+}
+export const updateHook = createAsyncThunk(
+  "hook/updateHook",
+  async function (payload: IUpdateHookPayload, thunkAPI) {
+    const { conceptId, hookId, updates } = payload;
+
+    try {
+      await api.patch(`/concepts/${conceptId}/hooks/${hookId}`, { ...updates });
+      return payload;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
 
 interface IDeleteHookPayload {
   conceptId: string;
@@ -71,4 +94,4 @@ export const deleteHook = createAsyncThunk(
       return thunkAPI.rejectWithValue(err);
     }
   }
-)
+);

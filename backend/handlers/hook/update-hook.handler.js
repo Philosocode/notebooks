@@ -34,7 +34,7 @@ module.exports = catchAsync(async function (req, res, next) {
   // clean user input
   const updates = {};
 
-  if (title)    updates.title = trimString(title.trim(), 100);
+  if (title)    updates.title = trimString(title.trim(), 100).trim();
   if (content)  updates.content = content.trim();
 
   if (typeof position === "number") {
@@ -42,6 +42,8 @@ module.exports = catchAsync(async function (req, res, next) {
   }
 
   await updateHook(conceptId, hookId, updates);
+
+  console.log("UPDATED", updates);
 
   sendResponse(res, 204);
 });
