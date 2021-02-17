@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
 // styles
 import { theme } from "../../shared/styles/theme.style";
 import { SInputBorderless } from "shared/styles/form.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface IProps {
   handleSelect: (hook: string) => void;
@@ -35,8 +37,12 @@ export const HookSelectGrid: React.FC<IProps> = ({ handleSelect, hooks }) => {
           <SHeadingSubSubtitle>No hooks found.</SHeadingSubSubtitle>
         )}
         {getFilteredHooks().map((hook) => (
-          <SHookCard key={hook} onClick={() => handleSelect(hook)}>
+          <SHookCard
+            key={hook}
+            onClick={() => handleSelect(hook)}
+          >
             {hook}
+            <SHookCardIcon icon={faCheck} />
           </SHookCard>
         ))}
       </SHookGrid>
@@ -61,12 +67,20 @@ const SHookCard = styled.div`
   background: ${theme.colors.gray[100]};
   border-radius: 5px;
   box-shadow: ${theme.boxShadows.light};
+  color: ${theme.colors.gray[600]};
   cursor: pointer;
   font-weight: 500;
   padding: ${theme.spacing.sm};
+  position: relative;
 
   &:hover {
     background: ${theme.colors.green[400]};
     color: ${theme.colors.white};
   }
+`;
+
+const SHookCardIcon = styled(FontAwesomeIcon)`
+  position: absolute;
+    bottom: 5px;
+    right: 5px;
 `;
