@@ -7,7 +7,7 @@ interface IProps {
   handleSelect: (hook: string) => void;
   hooks: string[];
 }
-export const HookGrid: React.FC<IProps> = ({ handleSelect, hooks }) => {
+export const HookSelectGrid: React.FC<IProps> = ({ handleSelect, hooks }) => {
   return (
     <SHookList>
       {hooks.map((hook) => (

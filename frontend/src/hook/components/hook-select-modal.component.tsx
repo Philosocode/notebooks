@@ -3,16 +3,14 @@ import styled from "styled-components";
 
 // logic
 import { THookType } from "hook/hook.types";
-import { convertToTitleCase } from "shared/utils/string.util";
-import { allHooksHash } from "hook/data/hooks.data";
 
 // components
 import { ModalWrapper } from "modal/components/modal-wrapper.component";
 import { HookTypes } from "./hook-types.component";
-import { HookGrid } from "./hook-grid.component";
 
 // styles
 import { SHeadingSubtitle } from "shared/styles/typography.style";
+import { HookSelect } from "./hook-select.component";
 
 interface IProps {
   modalShowing: boolean;
@@ -26,12 +24,6 @@ export const HookSelectModal: React.FC<IProps> = ({
 }) => {
   const [hookType, setHookType] = useState<THookType>();
   const [mode, setMode] = useState<"type" | "select">("type");
-
-  useEffect(() => {
-    if (modalShowing) {
-      setMode("type");
-    }
-  }, [modalShowing]);
 
   function handleBack() {
     setMode("type");
@@ -73,14 +65,11 @@ export const HookSelectModal: React.FC<IProps> = ({
 
         {/* Select Hook */}
         <SModalPanel isShowing={mode === "select"}>
-          <SHeadingSubtitle>
-            Select Hook: {hookType && convertToTitleCase(hookType)}
-          </SHeadingSubtitle>
           {
             hookType && (
-              <HookGrid
-                handleSelect={handleSelectHook}
-                hooks={allHooksHash[hookType]}
+              <HookSelect
+                handleSelectHook={handleSelectHook}
+                hookType={hookType}
               />
             )
           }
