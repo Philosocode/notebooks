@@ -51,6 +51,7 @@ export const theme = {
     "xs": `1.2rem`,
     "sm": `1.4rem`,
     "base": `${BASE_FONT_SIZE}rem`,
+    "basePlus": "1.8rem",
     "md": `${BASE_FONT_SIZE * FONT_MULTIPLIER}rem`,
     "lg": `${BASE_FONT_SIZE * (FONT_MULTIPLIER**2)}rem`,
     "xl": `${BASE_FONT_SIZE * (FONT_MULTIPLIER**3)}rem`,

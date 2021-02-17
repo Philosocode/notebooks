@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { faLightbulb, faRandom } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,9 +8,9 @@ import styled from "styled-components";
 import AutosizeTextarea from "react-textarea-autosize";
 
 // logic
+import { IConcept } from "concept/redux/concept.types";
 import { createHook } from "hook/redux/hook.thunks";
 import { allHooksArray } from "../data/hooks.data";
-import { selectCurrentConcept } from "concept/redux/concept.selectors";
 
 // components
 import { HookSelectModal } from "./hook-select-modal.component";
@@ -19,12 +19,14 @@ import { HookSelectModal } from "./hook-select-modal.component";
 import { SButtonGreen } from "shared/styles/button.style";
 import { theme } from "shared/styles/theme.style";
 
-export const CreateHookForm: React.FC = () => {
+interface IProps {
+  currentConcept: IConcept;
+}
+export const CreateHookForm: React.FC<IProps> = ({ currentConcept }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [hookSelectShowing, setHookSeletingShowing] = useState(false);
 
-  const currentConcept = useSelector(selectCurrentConcept);
   const dispatch = useDispatch();
 
   function setRandomTitle() {
@@ -50,8 +52,8 @@ export const CreateHookForm: React.FC = () => {
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
+    if (!currentConcept.hooks) return;
     if (formDisabled()) return;
-    if (!currentConcept?.hooks) return;
 
     const nextPosition = currentConcept.hooks.length + 1;
 
@@ -126,18 +128,21 @@ const SHookTitleIcon = styled(FontAwesomeIcon)`
 `;
 
 const STextareaBase = styled(AutosizeTextarea)`
+  border: 1px solid ${theme.colors.gray[300]};
   resize: none;
   width: 100%;
 
   &:active,
   &:focus {
+    border-color: ${theme.colors.gray[800]};
     outline: none;
   }
 `;
 
 const SHookTitleTextarea = styled(STextareaBase)`
   border: none;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid ${theme.colors.gray[300]};
+  font-size: ${theme.fontSizes.basePlus};
   padding: 0;
   padding-bottom: ${theme.spacing.xs};
 `;

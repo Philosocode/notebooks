@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 // logic
-import { selectCurrentConcept } from "concept/redux/concept.selectors";
 
 // components
 
@@ -10,6 +9,9 @@ import { selectCurrentConcept } from "concept/redux/concept.selectors";
 import { CreateHookForm } from "./create-hook-form.component";
 import { getHooks } from "hook/redux/hook.thunks";
 import { IConcept } from "concept/redux/concept.types";
+import styled from "styled-components";
+import { theme } from "shared/styles/theme.style";
+import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 
 interface IProps {
   currentConcept: IConcept;
@@ -26,17 +28,31 @@ export const ConceptHooks: React.FC<IProps> = ({ currentConcept }) => {
   if (!currentConcept?.hooks) return null;
   return (
     <>
-    <CreateHookForm />
-    {
-      currentConcept.hooks.map(hook => (
-        <div>
-          <h1>{hook.title}</h1>
-          <p>{hook.content}</p>
-          <p>{hook.position}</p>
-        </div>
-      ))
-    }
+      <CreateHookForm currentConcept={currentConcept} />
+      <SDivider />
+      {
+        currentConcept.hooks.length === 0 && (
+          <SHeadingSubSubtitle
+            style={{ textAlign: "center" }}
+          >No hooks found.</SHeadingSubSubtitle>
+        )
+      }
+      {
+        currentConcept.hooks.map(hook => (
+          <div>
+            <h1>{hook.title}</h1>
+            <p>{hook.content}</p>
+            <p>{hook.position}</p>
+          </div>
+        ))
+      }
     </>
   );
 };
 
+const SDivider = styled.div`
+  background: ${theme.colors.black};
+  height: 1px;
+  width: 100%;
+  margin: ${theme.spacing.md} auto;
+`;
