@@ -13,6 +13,7 @@ import { theme } from "../../shared/styles/theme.style";
 import { STextareaBase } from "../styles/hook.style";
 import { SButtonGreen, SButtonRed } from "shared/styles/button.style";
 import { selectCurrentConcept } from "../../concept/redux/concept.selectors";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface IProps {
   hook: IHook;
@@ -40,6 +41,10 @@ export const HookListItem: React.FC<IProps> = ({ hook }) => {
         isWarning: true
       }
     }));
+  }
+
+  function toggleExpand() {
+    setIsExpanded(prevValue => !prevValue);
   }
 
   function handleUpdateHook() {
@@ -82,6 +87,9 @@ export const HookListItem: React.FC<IProps> = ({ hook }) => {
     <SContainer>
       <SHeader>
         <SPosition>{hook.position}</SPosition>
+        <SCaretContainer onClick={toggleExpand}>
+          <SCaret icon={isExpanded ? "caret-up" : "caret-down" } />
+        </SCaretContainer>
       </SHeader>
       <STitleTextarea name="title" onChange={handleChange} value={title}>
         {hook.title}
@@ -102,7 +110,6 @@ export const HookListItem: React.FC<IProps> = ({ hook }) => {
 
 const SContainer = styled.li`
   background: ${theme.colors.gray[100]};
-  border: 1px solid ${theme.colors.gray[400]};
   border-radius: 3px;
   box-shadow: ${theme.boxShadows.light};
   margin-top: ${theme.spacing.base};
@@ -112,9 +119,11 @@ const SContainer = styled.li`
 
 const SHeader = styled.div`
   background: ${theme.colors.green};
-  margin: ${theme.spacing.base} 0;
+  display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
   position: relative;
-  height: 0.8rem;
+  padding: ${theme.spacing.base} 0;
 `;
 
 const SPosition = styled.div`
@@ -125,8 +134,26 @@ const SPosition = styled.div`
     align-items: center;
   font-size: ${theme.fontSizes.sm};
   height: 2.5rem; width: 2.5rem;
-  position: absolute;
-  transform: translate(-1.5rem, -1.5rem);
+`;
+
+const SCaretContainer = styled.div`
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  text-align: center;
+  height: 3rem; width: 3rem;
+  transition: background 0.1s ease-in-out;
+  
+  &:hover {
+    background: ${theme.colors.gray[200]};
+    transform: scale(1);
+  }
+`;
+
+const SCaret = styled(FontAwesomeIcon)`
+  color: ${theme.colors.gray[500]};
+  font-size: 3rem;
+  transform: translateY(-2px);
 `;
 
 const STitleTextarea = styled(STextareaBase)`
