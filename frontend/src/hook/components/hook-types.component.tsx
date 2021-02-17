@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { THookType } from "hook/hook.types";
+import { THookType } from "hook/redux/hook.types";
 import { theme } from "shared/styles/theme.style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";

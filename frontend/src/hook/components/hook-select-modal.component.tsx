@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 // logic
-import { THookType } from "hook/hook.types";
+import { THookType } from "hook/redux/hook.types";
 
 // components
 import { ModalWrapper } from "modal/components/modal-wrapper.component";

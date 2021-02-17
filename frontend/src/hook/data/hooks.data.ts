@@ -1,6 +1,4 @@
-import { THookType } from "hook/hook.types";
-
-export const connectHooks = [
+const connectHooks = [
   "Can I think of a simile, analogy, or metaphor?",
   "What does this remind me of?",
   "Is this my first time encountering this? If not, where have I encountered this before?",
@@ -14,7 +12,7 @@ export const connectHooks = [
   "How does this fit in with the rest of what I know about this subject?",
 ];
 
-export const processHooks = [
+const processHooks = [
   "How do I express this in my own words?",
   "How do I explain this so a 5 year old can understand?",
   "Can I think of (simple) concrete examples for this?",
@@ -29,7 +27,7 @@ export const processHooks = [
   "Write down everything I know about this topic/concept in as much detail as possible",
 ];
 
-export const memorizeHooks = [
+const memorizeHooks = [
   "Create an acronym",
   "Storage: where & how will this be stored? (e.g. memory palace + location)",
   "Create a story: incorporate senses, emotions, & movement. Make it exaggerated & ridiculous",
@@ -39,7 +37,7 @@ export const allHooksArray = [
   ...connectHooks,
   ...memorizeHooks,
   ...processHooks,
-]
+];
 
 export const allHooksHash = {
   connect: connectHooks,

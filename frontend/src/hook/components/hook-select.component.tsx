@@ -9,7 +9,7 @@ import { HookSelectGrid } from "./hook-select-grid.component";
 
 // styles
 import { SHeadingSubtitle } from "shared/styles/typography.style";
-import { THookType } from "hook/hook.types";
+import { THookType } from "hook/redux/hook.types";
 
 interface IProps {
   handleSelectHook: (hook: string) => void;
