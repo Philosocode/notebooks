@@ -80,6 +80,9 @@ export const HookListItem: React.FC<IProps> = ({ hook }) => {
 
   return (
     <SContainer>
+      <SHeader>
+        <SPosition>{hook.position}</SPosition>
+      </SHeader>
       <STitleTextarea name="title" onChange={handleChange} value={title}>
         {hook.title}
       </STitleTextarea>
@@ -104,6 +107,26 @@ const SContainer = styled.li`
   box-shadow: ${theme.boxShadows.light};
   margin-top: ${theme.spacing.base};
   padding: ${theme.spacing.base};
+  padding-top: 0; // determined by SHeader
+`;
+
+const SHeader = styled.div`
+  background: ${theme.colors.green};
+  margin: ${theme.spacing.base} 0;
+  position: relative;
+  height: 0.8rem;
+`;
+
+const SPosition = styled.div`
+  background: ${theme.colors.gray[200]};
+  border-radius: 3px;
+  display: flex;
+    justify-content: center;
+    align-items: center;
+  font-size: ${theme.fontSizes.sm};
+  height: 2.5rem; width: 2.5rem;
+  position: absolute;
+  transform: translate(-1.5rem, -1.5rem);
 `;
 
 const STitleTextarea = styled(STextareaBase)`

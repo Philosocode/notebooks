@@ -17,7 +17,10 @@ export const HookList: React.FC<IProps> = ({ hooks }) => {
       <SHeadingSubSubtitle># Hooks: {hooks.length}</SHeadingSubSubtitle>
       <SHookList>
         {hooks.map((hook) => (
-          <HookListItem key={hook.id} hook={hook} />
+          <HookListItem
+            key={hook.id}
+            hook={hook}
+          />
         ))}
       </SHookList>
     </SContainer>
