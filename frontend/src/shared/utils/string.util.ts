@@ -10,3 +10,7 @@ export function trimString(text: string, length: number) {
 
   return text.substring(0, length) + "...";
 }
+
+export function convertToTitleCase(text: string) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}

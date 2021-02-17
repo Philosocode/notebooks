@@ -16,6 +16,7 @@ interface IProps {
 export const ModalWrapper: FC<IProps> = ({ isShowing, handleBack, handleClose, children, styles }) => {
   const contentStyles: CSSProperties = {
     minHeight: "50vh",
+    height: "max-content",
     maxHeight: "90vh",
     left: "50%",
     top: "50%",

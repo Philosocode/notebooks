@@ -69,10 +69,13 @@ export const CreateHookForm: React.FC = () => {
         />
         <SCreateButton disabled={formDisabled()}>Create Hook</SCreateButton>
       </SHookCreateForm>
-      <HookSelectModal
-        modalShowing={hookSelectShowing}
-        setModalShowing={setHookSeletingShowing}
-      />
+      {
+        <HookSelectModal
+          modalShowing={hookSelectShowing}
+          setModalShowing={setHookSeletingShowing}
+          setHook={setTitle}
+        />
+      }
     </>
   );
 };
