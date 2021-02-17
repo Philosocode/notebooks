@@ -48,9 +48,16 @@ export function App() {
   }
 
   let paddingLeft: string;
-  if (appLocation === "study") paddingLeft = theme.componentSizes.appSidebarWidth;
-  else if (appLocation === "library") paddingLeft = theme.componentSizes.librarySidebarWidth;
-  else paddingLeft = "0";
+  switch (appLocation) {
+    case "library":
+      paddingLeft = theme.componentSizes.librarySidebarWidth;
+      break;
+    case "study":
+      paddingLeft = theme.componentSizes.appSidebarWidth;
+      break;
+    default:
+      paddingLeft = "0";
+  }
 
   return (
     <>

@@ -42,7 +42,7 @@ export const HookSelectGrid: React.FC<IProps> = ({ handleSelect, hooks }) => {
 
   return (
     <div>
-      <SInput onChange={handleInputChange} />
+      <SInput onChange={handleInputChange} placeholder="Type to filter hooks" />
       <SHookGrid>
         { getFilteredHooks().length === 0 && (
           <SHeadingSubSubtitle style={{ fontWeight: 500 }}>No hooks found.</SHeadingSubSubtitle>

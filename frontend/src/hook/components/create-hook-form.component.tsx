@@ -5,7 +5,6 @@ import { faLightbulb, faRandom } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import random from "lodash/random";
 import styled from "styled-components";
-import AutosizeTextarea from "react-textarea-autosize";
 
 // logic
 import { IConcept } from "concept/redux/concept.types";
@@ -16,8 +15,9 @@ import { allHooksArray } from "../data/hooks.data";
 import { HookSelectModal } from "./hook-select-modal.component";
 
 // styles
-import { SButtonGreen } from "shared/styles/button.style";
 import { theme } from "shared/styles/theme.style";
+import { SButtonGreen } from "shared/styles/button.style";
+import { SHookContentTextarea, SHookTitleTextarea } from "../styles/hook.style";
 
 interface IProps {
   currentConcept: IConcept;
@@ -125,31 +125,6 @@ const SHookTitleIcon = styled(FontAwesomeIcon)`
   &:last-child {
     margin-left: ${theme.spacing.base};
   }
-`;
-
-const STextareaBase = styled(AutosizeTextarea)`
-  border: 1px solid ${theme.colors.gray[300]};
-  resize: none;
-  width: 100%;
-
-  &:active,
-  &:focus {
-    border-color: ${theme.colors.gray[800]};
-    outline: none;
-  }
-`;
-
-const SHookTitleTextarea = styled(STextareaBase)`
-  border: none;
-  border-bottom: 1px solid ${theme.colors.gray[300]};
-  font-size: ${theme.fontSizes.basePlus};
-  padding: 0;
-  padding-bottom: ${theme.spacing.xs};
-`;
-
-const SHookContentTextarea = styled(STextareaBase)`
-  margin-top: ${theme.spacing.base};
-  padding: ${theme.spacing.sm};
 `;
 
 const SCreateButton = styled(SButtonGreen)`

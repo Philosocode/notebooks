@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import styled from "styled-components";
 
 // logic
+import { IConcept } from "concept/redux/concept.types";
+import { getHooks } from "hook/redux/hook.thunks";
 
 // components
+import { CreateHookForm } from "./create-hook-form.component";
+import { HookList } from "./hook-list.component";
 
 // styles
-import { CreateHookForm } from "./create-hook-form.component";
-import { getHooks } from "hook/redux/hook.thunks";
-import { IConcept } from "concept/redux/concept.types";
-import styled from "styled-components";
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 
@@ -30,18 +31,7 @@ export const ConceptHooks: React.FC<IProps> = ({ currentConcept }) => {
     <>
       <CreateHookForm currentConcept={currentConcept} />
       <SDivider />
-      <SHeadingSubSubtitle>
-        # Hooks: {currentConcept.hooks.length}
-      </SHeadingSubSubtitle>
-      {
-        currentConcept.hooks.map(hook => (
-          <div>
-            <h1>{hook.title}</h1>
-            <p>{hook.content}</p>
-            <p>{hook.position}</p>
-          </div>
-        ))
-      }
+      <HookList hooks={currentConcept.hooks} />
     </>
   );
 };
