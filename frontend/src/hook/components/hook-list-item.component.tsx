@@ -50,6 +50,7 @@ export const HookListItem: React.FC<IProps> = ({ hook }) => {
 
   function handleUpdateHook() {
     if (!currentConcept) return;
+    if (buttonDisabled()) return;
 
     const updates = {
       ...(titleChanged() && { title }),
@@ -80,8 +81,10 @@ export const HookListItem: React.FC<IProps> = ({ hook }) => {
     return content.trim() !== hook.content;
   }
 
-  function changesMade() {
-    return titleChanged() || contentChanged();
+  function buttonDisabled() {
+    if (title.trim() === "" || content.trim() === "") return true;
+
+    return (!titleChanged() && !contentChanged());
   }
 
   return (
@@ -96,15 +99,15 @@ export const HookListItem: React.FC<IProps> = ({ hook }) => {
       {
         isExpanded && (
           <>
-            <STitleTextarea name="title" onChange={handleChange} value={title}>
+            <STitleTextarea name="title" onChange={handleChange} value={title} placeholder="Enter hook title">
               {hook.title}
             </STitleTextarea>
-            <SContentTextarea name="content" onChange={handleChange} value={content}>
+            <SContentTextarea name="content" onChange={handleChange} value={content} placeholder="Enter hook content">
               {hook.content}
             </SContentTextarea>
             <SButtons>
               <SButtonGreen
-                disabled={!changesMade()}
+                disabled={buttonDisabled()}
                 onClick={handleUpdateHook}
               >Update</SButtonGreen>
               <SButtonRed onClick={showDeleteHookModal}>Delete</SButtonRed>
@@ -150,7 +153,6 @@ const SHookTitle = styled.h3`
   text-align: left;
   font-weight: 500;
   margin-left: ${theme.spacing.sm};
-  line-height: 1;
 `;
 
 const SPosition = styled.div`
