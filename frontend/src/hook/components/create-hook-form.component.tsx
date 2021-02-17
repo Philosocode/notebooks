@@ -6,7 +6,7 @@ import random from "lodash/random";
 import AutosizeTextarea from "react-textarea-autosize";
 
 // logic
-import { allHooks } from "../data/hooks.data";
+import { allHooksArray } from "../data/hooks.data";
 
 // components
 import { HookSelectModal } from "./hook-select-modal.component";
@@ -24,11 +24,11 @@ export const CreateHookForm: React.FC = () => {
     const lowerTrimmedTitle = title.trim().toLowerCase();
 
     while (true) {
-      const randomIndex = random(0, allHooks.length - 1);
-      const randomHook = allHooks[randomIndex];
+      const randomIndex = random(0, allHooksArray.length - 1);
+      const randomHook = allHooksArray[randomIndex];
 
-      if (randomHook.title.toLowerCase() !== lowerTrimmedTitle) {
-        return setTitle(randomHook.title);
+      if (randomHook.toLowerCase() !== lowerTrimmedTitle) {
+        return setTitle(randomHook);
       }
     }
   }

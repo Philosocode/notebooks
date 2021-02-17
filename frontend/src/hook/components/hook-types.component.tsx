@@ -55,7 +55,7 @@ const SHookType = styled.li`
 
   &:hover {
     background: ${theme.colors.green[400]};
-    color: ${theme.colors.offWhite};
+    color: ${theme.colors.white};
   }
 `;
 
