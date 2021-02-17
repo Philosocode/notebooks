@@ -12,7 +12,6 @@ import { HookList } from "./hook-list.component";
 
 // styles
 import { theme } from "shared/styles/theme.style";
-import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 
 interface IProps {
   currentConcept: IConcept;

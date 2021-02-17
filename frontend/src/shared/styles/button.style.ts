@@ -15,7 +15,7 @@ export const SButton = styled.button`
 
   &:active,
   &:focus {
-    outline: 1px solid ${theme.colors.gray[100]};
+    outline: 1px solid ${theme.colors.gray[500]};
   }
 
   &:disabled {
@@ -46,6 +46,11 @@ export const SButtonGreen = styled(SButton)`
   &:hover:enabled {
     background: ${theme.colors.green[400]};
   }
+
+  &:active,
+  &:focus {
+    outline: 1px solid ${theme.colors.green[500]};
+  }
 `;
 
 export const SButtonRed = styled(SButton)`
@@ -54,5 +59,10 @@ export const SButtonRed = styled(SButton)`
 
   &:hover:enabled {
     background: ${theme.colors.red[400]};
+  }
+
+  &:active,
+  &:focus {
+    outline: 1px solid ${theme.colors.red[400]};
   }
 `;

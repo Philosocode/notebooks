@@ -54,3 +54,21 @@ export const getHooks = createAsyncThunk(
     }
   }
 )
+
+interface IDeleteHookPayload {
+  conceptId: string;
+  hookId: string;
+}
+export const deleteHook = createAsyncThunk(
+  "hook/deleteHook",
+  async function (payload: IDeleteHookPayload, thunkAPI) {
+    const { conceptId, hookId } = payload;
+
+    try {
+      await api.delete(`/concepts/${conceptId}/hooks/${hookId}`);
+      return payload;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+)

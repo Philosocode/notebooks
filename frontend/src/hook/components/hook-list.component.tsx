@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { IHook } from "hook/redux/hook.types";
 
 // styles
-import { theme } from "shared/styles/theme.style";
 import { HookListItem } from "./hook-list-item.component";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 

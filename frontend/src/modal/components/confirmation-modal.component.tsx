@@ -4,12 +4,12 @@ import styled from "styled-components";
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubtitle } from "shared/styles/typography.style";
 import { SButtonGreen, SButtonRed, SButton } from "shared/styles/button.style";
+import { IModalProps } from "../redux/modal.types";
 
-interface IProps {
+interface IProps extends IModalProps {
   title: string;
   text: string;
   confirmButtonText: string;
-  handleClose: () => void;
   handleConfirm: () => void;
   isWarning?: boolean;
 }
