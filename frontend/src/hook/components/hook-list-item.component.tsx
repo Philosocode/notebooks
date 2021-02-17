@@ -18,6 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 interface IProps {
   hook: IHook;
 }
+
 export const HookListItem: React.FC<IProps> = ({ hook }) => {
   const dispatch = useDispatch();
   const [isExpanded, setIsExpanded] = useState(true);
@@ -84,76 +85,88 @@ export const HookListItem: React.FC<IProps> = ({ hook }) => {
   }
 
   return (
-    <SContainer>
-      <SHeader>
-        <SPosition>{hook.position}</SPosition>
-        <SCaretContainer onClick={toggleExpand}>
-          <SCaret icon={isExpanded ? "caret-up" : "caret-down" } />
-        </SCaretContainer>
+    <SContainer isExpanded={isExpanded}>
+      <SHeader isExpanded={isExpanded} onClick={toggleExpand}>
+        <SHeaderColumn>
+          <SPosition>{hook.position}</SPosition>
+          { !isExpanded && <SHookTitle>{hook.title}</SHookTitle> }
+        </SHeaderColumn>
+        <SCaret icon={isExpanded ? "caret-up" : "caret-down"} />
       </SHeader>
-      <STitleTextarea name="title" onChange={handleChange} value={title}>
-        {hook.title}
-      </STitleTextarea>
-      <SContentTextarea name="content" onChange={handleChange} value={content}>
-        {hook.content}
-      </SContentTextarea>
-      <SButtons>
-        <SButtonGreen
-          disabled={!changesMade()}
-          onClick={handleUpdateHook}
-        >Update</SButtonGreen>
-        <SButtonRed onClick={showDeleteHookModal}>Delete</SButtonRed>
-      </SButtons>
+      {
+        isExpanded && (
+          <>
+            <STitleTextarea name="title" onChange={handleChange} value={title}>
+              {hook.title}
+            </STitleTextarea>
+            <SContentTextarea name="content" onChange={handleChange} value={content}>
+              {hook.content}
+            </SContentTextarea>
+            <SButtons>
+              <SButtonGreen
+                disabled={!changesMade()}
+                onClick={handleUpdateHook}
+              >Update</SButtonGreen>
+              <SButtonRed onClick={showDeleteHookModal}>Delete</SButtonRed>
+            </SButtons>
+          </>
+        )
+      }
     </SContainer>
   );
 };
 
-const SContainer = styled.li`
-  background: ${theme.colors.gray[100]};
-  border-radius: 3px;
-  box-shadow: ${theme.boxShadows.light};
-  margin-top: ${theme.spacing.base};
-  padding: ${theme.spacing.base};
-  padding-top: 0; // determined by SHeader
+interface IExpanded {
+  isExpanded: boolean;
+}
+const SContainer = styled.li<IExpanded>`
+  background: ${theme.colors.offWhite};
+  border-top: 1px solid ${theme.colors.gray[200]};
+  margin-top: 0;
+  padding: 0 ${theme.spacing.base};
+  
+  &:first-child {
+    border-top: none;
+    margin-top: 0;
+  }
 `;
 
-const SHeader = styled.div`
+const SHeader = styled.div<IExpanded>`
   background: ${theme.colors.green};
+  cursor: pointer;
   display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
   position: relative;
-  padding: ${theme.spacing.base} 0;
+  padding: ${(props) => props.isExpanded ? theme.spacing.base : theme.spacing.sm} 0;
+`;
+
+const SHeaderColumn = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const SHookTitle = styled.h3`
+  text-align: left;
+  font-weight: 500;
+  margin-left: ${theme.spacing.sm};
+  line-height: 1;
 `;
 
 const SPosition = styled.div`
   background: ${theme.colors.gray[200]};
   border-radius: 3px;
   display: flex;
-    justify-content: center;
-    align-items: center;
+  justify-content: center;
+  align-items: center;
   font-size: ${theme.fontSizes.sm};
-  height: 2.5rem; width: 2.5rem;
-`;
-
-const SCaretContainer = styled.div`
-  background: transparent;
-  border-radius: 50%;
-  cursor: pointer;
-  text-align: center;
-  height: 3rem; width: 3rem;
-  transition: background 0.1s ease-in-out;
-  
-  &:hover {
-    background: ${theme.colors.gray[200]};
-    transform: scale(1);
-  }
+  height: 2.5rem;
+  width: 2.5rem;
 `;
 
 const SCaret = styled(FontAwesomeIcon)`
   color: ${theme.colors.gray[500]};
   font-size: 3rem;
-  transform: translateY(-2px);
 `;
 
 const STitleTextarea = styled(STextareaBase)`
@@ -170,6 +183,7 @@ const SContentTextarea = styled(STextareaBase)`
 
 const SButtons = styled.div`
   margin-top: ${theme.spacing.sm};
+  padding-bottom: ${theme.spacing.base};
 
   & > button {
     font-size: ${theme.fontSizes.sm};

@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { IHook } from "hook/redux/hook.types";
 
 // styles
+import { theme } from "../../shared/styles/theme.style";
 import { HookListItem } from "./hook-list-item.component";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 
@@ -34,6 +35,8 @@ const SContainer = styled.div`
 `;
 
 const SHookList = styled.ul`
+  box-shadow: ${theme.boxShadows.light};
+  margin-top: ${theme.spacing.md};
   width: 100%;
   max-width: 80rem;
 `;
