@@ -11,12 +11,13 @@ import {
 import { deleteConceptTag, updateConceptTag } from "./concept-tag.thunk";
 import { IConcept, IConceptFiltersState, IConceptState } from "./concept.types";
 import { IHook } from "hook/redux/hook.types";
-import { createHook, deleteHook, getHooks, repositionHook, updateHook } from "hook/redux/hook.thunks";
+import { createHook, deleteHook, getHooks, updateHook } from "hook/redux/hook.thunks";
+import { IRepositionEntityPayload } from "../../shared/types.shared";
 
 // tag === "" means "All"
 const initialState: IConceptState = {
   concepts: [],
-  currentConcept: undefined,
+  currentConceptId: undefined,
   filters: {
     isUncategorized: false,
     tag: "",
@@ -27,8 +28,8 @@ const conceptSlice = createSlice({
   name: "concept",
   initialState,
   reducers: {
-    setCurrentConcept: (state, action: PayloadAction<IConcept>) => {
-      state.currentConcept = action.payload;
+    setCurrentConceptId: (state, action: PayloadAction<string>) => {
+      state.currentConceptId = action.payload;
     },
     setCurrentConceptTag: (state, action: PayloadAction<string>) => {
       state.filters.tag = action.payload;
@@ -43,6 +44,19 @@ const conceptSlice = createSlice({
         ...action.payload,
       };
     },
+    repositionHook: (
+      state,
+      action: PayloadAction<IRepositionEntityPayload>
+    ) => {
+      const { ownerEntityId: conceptId, oldIndex, newIndex } = action.payload;
+
+      const conceptWithHook = findConcept(state.concepts, conceptId);
+      const hooks = conceptWithHook?.hooks;
+      if (!hooks) return;
+
+      const [hookToReposition] = hooks.splice(oldIndex, 1);
+      hooks.splice(newIndex, 0, hookToReposition);
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -59,7 +73,7 @@ const conceptSlice = createSlice({
         }
       })
       .addCase(getConcept.fulfilled, (state, action) => {
-        state.currentConcept = action.payload;
+        state.currentConceptId = action.payload.id;
       })
       .addCase(getConcepts.fulfilled, (state, action) => {
         state.concepts = action.payload;
@@ -122,8 +136,7 @@ const conceptSlice = createSlice({
 
         // loop through all concepts
         const conceptToUpdate = state.concepts.find(concept => concept.id === conceptId);
-        if (conceptToUpdate)
-          conceptToUpdate.hooks = hooks;
+        if (conceptToUpdate) conceptToUpdate.hooks = hooks;
       })
       .addCase(createHook.fulfilled, (state, action) => {
         const { conceptId, hook } = action.payload;
@@ -178,24 +191,15 @@ const conceptSlice = createSlice({
         if (hookIndex === -1) return;
         hooks.splice(hookIndex, 1);
       })
-      .addCase(repositionHook.fulfilled, (state, action) => {
-        const { conceptId, hookId, oldIndex, newIndex } = action.payload;
-
-        const conceptWithHook = findConcept(state.concepts, conceptId);
-        const hooks = conceptWithHook?.hooks;
-        if (!hooks) return;
-
-        const [hookToReposition] = hooks.splice(oldIndex, 1);
-        hooks.splice(newIndex, 0, hookToReposition);
-      });
-  },
+  }
 });
 
 export const conceptReducer = conceptSlice.reducer;
 export const {
-  setCurrentConcept,
+  setCurrentConceptId,
   setCurrentConceptTag,
   setConceptFilters,
+  repositionHook,
 } = conceptSlice.actions;
 
 /* HELPERS */

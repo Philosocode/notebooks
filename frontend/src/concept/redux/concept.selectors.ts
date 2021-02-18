@@ -27,12 +27,23 @@ export const selectConceptsWithCurrentTag = createSelector(
     if (!filters.tag) return concepts;
     return concepts.filter(c => c.tags.includes(filters.tag));
   }
-)
+);
 
 export const selectCurrentConcept = createSelector(
   [selectConcept],
-  (concept) => concept.currentConcept
+  (concept) => {
+    if (!concept.currentConceptId) return;
+    return concept.concepts.find(c => c.id === concept.currentConceptId);
+  }
 );
+
+export const selectCurrentConceptHooks = createSelector(
+  [selectCurrentConcept],
+  (concept) => {
+    if (!concept?.hooks) return [];
+    return concept.hooks;
+  }
+)
 
 export const selectConceptTags = createSelector(
   [selectConcepts],
@@ -40,12 +51,14 @@ export const selectConceptTags = createSelector(
     const tags = new Set<string>();
 
     concepts.forEach(c => {
-      c.tags.forEach(t => { tags.add(t) });
+      c.tags.forEach(t => {
+        tags.add(t);
+      });
     });
 
     return Array.from(tags).sort();
   }
-)
+);
 
 export const selectConceptHooks = createSelector(
   [selectCurrentConcept],
@@ -53,4 +66,4 @@ export const selectConceptHooks = createSelector(
     if (!concept || !concept.hooks) return [];
     return concept.hooks;
   }
-)
+);

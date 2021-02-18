@@ -25,7 +25,7 @@ interface IProps {
 export const CreateHookForm: React.FC<IProps> = ({ currentConcept }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [hookSelectShowing, setHookSeletingShowing] = useState(false);
+  const [hookSelectShowing, setHookSelectShowing] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -47,7 +47,7 @@ export const CreateHookForm: React.FC<IProps> = ({ currentConcept }) => {
   }
 
   function showHookSelectModal() {
-    setHookSeletingShowing(true);
+    setHookSelectShowing(true);
   }
 
   function handleSubmit(event: React.FormEvent) {
@@ -96,7 +96,7 @@ export const CreateHookForm: React.FC<IProps> = ({ currentConcept }) => {
 
       <HookSelectModal
         modalShowing={hookSelectShowing}
-        setModalShowing={setHookSeletingShowing}
+        setModalShowing={setHookSelectShowing}
         setHook={setTitle}
       />
     </>

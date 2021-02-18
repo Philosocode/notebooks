@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 
 // logic
 import { IHook } from "hook/redux/hook.types";
@@ -10,26 +10,26 @@ import { theme } from "../../shared/styles/theme.style";
 import { HookListItem } from "./hook-list-item.component";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 import { useDispatch, useSelector } from "react-redux";
-import { repositionHook } from "../redux/hook.thunks";
-import { selectCurrentConcept } from "../../concept/redux/concept.selectors";
+import { repositionHook } from "concept/redux/concept.slice";
+import { selectCurrentConcept, selectCurrentConceptHooks } from "../../concept/redux/concept.selectors";
 
 interface IExpandedHooks {
   [key: string]: boolean;
 }
-
 interface IProps {
+  conceptId: string;
   hooks: IHook[];
 }
-
-export const HookList: React.FC<IProps> = ({ hooks }) => {
+export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
   const [expandedHooks, setExpandedHooks] = useState<IExpandedHooks>(initExpandedHooks());
   const dispatch = useDispatch();
-  const currentConcept = useSelector(selectCurrentConcept);
+
+  console.log("HOOKS", hooks);
 
   function initExpandedHooks() {
     const hash: IExpandedHooks = {};
 
-    hooks.forEach(hook => hash[hook.id] = true);
+    hooks.forEach(hook => hash[hook.id] = false);
 
     return hash;
   }
@@ -41,8 +41,6 @@ export const HookList: React.FC<IProps> = ({ hooks }) => {
   }
 
   function handleDragEnd(result: DropResult) {
-    if (!currentConcept) return;
-
     const { source, destination } = result;
     if (!destination || destination.index === source.index) return;
 
@@ -50,8 +48,7 @@ export const HookList: React.FC<IProps> = ({ hooks }) => {
     const newIndex = destination.index;
 
     dispatch(repositionHook({
-      hookId: hooks[oldIndex].id,
-      conceptId: currentConcept.id,
+      ownerEntityId: conceptId,
       oldIndex,
       newIndex
     }));
@@ -100,7 +97,6 @@ const SDroppableContainer = styled.div`
 `;
 
 const SHookList = styled.ul`
-  box-shadow: ${theme.boxShadows.light};
   margin-top: ${theme.spacing.md};
   max-width: 80rem;
   margin-left: auto;

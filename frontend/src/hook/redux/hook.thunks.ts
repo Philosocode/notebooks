@@ -95,16 +95,3 @@ export const deleteHook = createAsyncThunk(
     }
   }
 );
-
-interface IRepositionHookPayload {
-  conceptId: string;
-  hookId: string;
-  oldIndex: number;
-  newIndex: number;
-}
-export const repositionHook = createAsyncThunk(
-  "hook/repositionHook",
-  async function (payload: IRepositionHookPayload, thunkAPI) {
-    return payload;
-  }
-)

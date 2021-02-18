@@ -16,7 +16,7 @@ export interface IConceptFiltersState extends IEntityFilter {}
 
 export interface IConceptState {
   concepts: IConcept[];
-  currentConcept?: IConcept;
+  currentConceptId?: string;
   filters: IConceptFiltersState;
 }
 

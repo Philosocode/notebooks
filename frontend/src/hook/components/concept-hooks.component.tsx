@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 // logic
@@ -12,25 +12,29 @@ import { HookList } from "./hook-list.component";
 
 // styles
 import { theme } from "shared/styles/theme.style";
+import { selectCurrentConceptHooks } from "../../concept/redux/concept.selectors";
 
 interface IProps {
-  currentConcept: IConcept;
+  concept: IConcept;
 }
-export const ConceptHooks: React.FC<IProps> = ({ currentConcept }) => {
+export const ConceptHooks: React.FC<IProps> = ({ concept }) => {
   const dispatch = useDispatch();
+  const hooks = useSelector(selectCurrentConceptHooks);
 
   useEffect(() => {
-    if (!currentConcept.hooks) {
-      dispatch(getHooks(currentConcept.id));
+    if (!concept.hooks) {
+      dispatch(getHooks(concept.id));
     }
-  }, [currentConcept, dispatch]);
+  }, [concept, dispatch]);
 
-  if (!currentConcept?.hooks) return null;
+  console.log("HOOKS", hooks);
+
+  if (!concept.hooks) return <div>Concept Hooks Loading...</div>;
   return (
     <>
-      <CreateHookForm currentConcept={currentConcept} />
+      <CreateHookForm currentConcept={concept} />
       <SDivider />
-      <HookList hooks={currentConcept.hooks} />
+      <HookList hooks={hooks} conceptId={concept.id} />
     </>
   );
 };

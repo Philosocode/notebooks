@@ -101,6 +101,7 @@ export const HookListItem: React.FC<IProps> = ({ index, isExpanded, hook, toggle
         >
           <SHeader isExpanded={isExpanded} onClick={handleToggleClick}>
             <SHeaderColumn>
+              <SPosition>{index + 1}</SPosition>
               {!isExpanded && <SHookTitle>{hook.title}</SHookTitle>}
             </SHeaderColumn>
             <SCaret icon={isExpanded ? "caret-up" : "caret-down"} />
@@ -136,14 +137,13 @@ interface IExpanded {
 
 const SContainer = styled.li<IExpanded>`
   background: ${theme.colors.offWhite};
-  border-top: 1px solid ${theme.colors.gray[200]};
-  margin-top: 0;
+  box-shadow: ${theme.boxShadows.light};
+  margin-top: ${theme.spacing.base};
   padding: 0 ${theme.spacing.base};
   list-style-type: none;
 
   &:first-child {
     border-top: none;
-    margin-top: 0;
   }
 `;
 

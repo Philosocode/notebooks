@@ -4,7 +4,7 @@ import { RouteComponentProps, useParams } from "react-router-dom";
 
 import { selectConcepts, selectCurrentConcept } from "concept/redux/concept.selectors";
 import { getConcept } from "concept/redux/concept.thunks";
-import { setCurrentConcept } from "concept/redux/concept.slice";
+import { setCurrentConceptId } from "concept/redux/concept.slice";
 
 import { ConceptDetailHeader } from "concept/components/concept-detail-header.component";
 import { Tabs } from "shared/components/nav/tabs.component";
@@ -27,20 +27,23 @@ export const ConceptDetailPage: FC<RouteComponentProps> = () => {
   useEffect(() => {
     const currentConcept = concepts.find((c) => c.id === conceptId);
 
-    // concept not available locally
-    // try fetching from server
-    currentConcept
-      ? dispatch(setCurrentConcept(currentConcept))
-      : dispatch(getConcept(conceptId));
-
-  }, [concepts, conceptId, dispatch]);
+    if (currentConcept) {
+      dispatch(setCurrentConceptId(currentConcept.id))
+    } else {
+      // concept not available locally
+      // try fetching from server
+      dispatch(getConcept(conceptId));
+    }
+  }, [conceptId, dispatch]);
 
   if (!currentConcept) return <div>Loading...</div>
   return (
     <SDetailPageContent>
       <ConceptDetailHeader concept={currentConcept} />
       <Tabs>
-        <Tab title="Hooks"><ConceptHooks currentConcept={currentConcept} /></Tab>
+        <Tab title="Hooks">
+          <ConceptHooks concept={currentConcept} />
+        </Tab>
         <Tab title="Materials">Materials</Tab>
         <Tab title="Concept Links">Concept Links</Tab>
       </Tabs>
