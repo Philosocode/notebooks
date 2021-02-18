@@ -22,7 +22,7 @@ async function createHook(
     await shiftPositions("hook", { concept_id }, position, true, trx);
 
     // create hook
-    return await trx("hook").insert(
+    return trx("hook").insert(
       { title, content, concept_id, position }, ["*"]
     );
   });

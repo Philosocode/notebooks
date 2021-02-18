@@ -131,7 +131,7 @@ const conceptSlice = createSlice({
         const conceptToUpdate = state.concepts.find(concept => concept.id === conceptId);
         if (conceptToUpdate) {
           if (!conceptToUpdate.hooks) conceptToUpdate.hooks = [];
-          
+
           conceptToUpdate.hooks.push(hook);
         }
       })
@@ -163,19 +163,27 @@ const conceptSlice = createSlice({
         const { conceptId, hookId } = action.payload;
 
         // find concept to update
-        const conceptToUpdateIdx = state.concepts.findIndex(
+        const conceptToUpdateIndex = state.concepts.findIndex(
           (c) => c.id === conceptId
         );
 
-        if (conceptToUpdateIdx === -1) return;
+        if (conceptToUpdateIndex === -1) return;
 
-        const hooks = state.concepts[conceptToUpdateIdx].hooks;
+        const hooks = state.concepts[conceptToUpdateIndex].hooks;
         if (!hooks) return;
 
         // remove hook
-        const hookIdx = hooks.findIndex(h => h.id === hookId);
-        if (hookIdx !== -1) hooks.splice(hookIdx, 1);
-      })
+        const hookIndex = hooks.findIndex(h => h.id === hookId);
+        if (hookIndex === -1) return;
+
+        const oldPosition = hooks[hookIndex].position;
+        hooks.splice(hookIndex, 1);
+
+        // shift later positions down
+        hooks.forEach(hook => {
+          if (hook.position >= oldPosition) hook.position--;
+        });
+      });
   },
 });
 

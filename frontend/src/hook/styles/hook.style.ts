@@ -8,6 +8,7 @@ export const STextareaBase = styled(AutosizeTextarea)`
   border: 1px solid ${theme.colors.gray[300]};
   padding: 0;
   resize: none;
+  overflow: hidden;
   width: 100%;
 
   &:active,

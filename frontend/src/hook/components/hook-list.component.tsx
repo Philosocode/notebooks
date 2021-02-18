@@ -9,22 +9,22 @@ import { theme } from "../../shared/styles/theme.style";
 import { HookListItem } from "./hook-list-item.component";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 
-interface IProps {
-  hooks: IHook[];
-}
 interface IExpandedHooks {
   [key: string]: boolean;
 }
+interface IProps {
+  hooks: IHook[];
+}
 export const HookList: React.FC<IProps> = ({ hooks }) => {
-  const initExpandedHooks = useCallback(() => {
+  const [expandedHooks, setExpandedHooks] = useState<IExpandedHooks>(initExpandedHooks());
+
+  function initExpandedHooks() {
     const hash: IExpandedHooks = {};
 
-    hooks.forEach(hook => { hash[hook.id] = false });
+    hooks.forEach(hook => hash[hook.id] = true);
 
     return hash;
-  }, [hooks]);
-
-  const [expandedHooks, setExpandedHooks] = useState<IExpandedHooks>(initExpandedHooks());
+  }
 
   function toggleExpandedHook(hookId: string) {
     const updatedValue = !expandedHooks[hookId];
@@ -35,6 +35,7 @@ export const HookList: React.FC<IProps> = ({ hooks }) => {
   return (
     <SContainer>
       <SHeadingSubSubtitle># Hooks: {hooks.length}</SHeadingSubSubtitle>
+
       <SHookList>
         {hooks.map((hook) => (
           <HookListItem
@@ -51,8 +52,8 @@ export const HookList: React.FC<IProps> = ({ hooks }) => {
 
 const SContainer = styled.div`
   display: flex;
-    flex-direction: column;
-    align-items: center;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const SHookList = styled.ul`
