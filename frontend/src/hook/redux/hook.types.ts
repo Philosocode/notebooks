@@ -5,6 +5,5 @@ export interface IHook {
   created_at: string;
   updated_at: string;
   id: string;
-  position: number;
   title: string;
-};
+}

@@ -43,7 +43,5 @@ module.exports = catchAsync(async function (req, res, next) {
 
   await updateHook(conceptId, hookId, updates);
 
-  console.log("UPDATED", updates);
-
   sendResponse(res, 204);
 });

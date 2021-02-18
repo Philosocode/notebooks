@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
+import { Draggable } from "react-beautiful-dnd";
 
 // logic
 import { IHook } from "hook/redux/hook.types";
@@ -16,12 +17,13 @@ import { selectCurrentConcept } from "../../concept/redux/concept.selectors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface IProps {
+  index: number;
   isExpanded: boolean;
   toggleIsExpanded: (hookId: string) => void;
   hook: IHook;
 }
 
-export const HookListItem: React.FC<IProps> = ({ isExpanded, hook, toggleIsExpanded }) => {
+export const HookListItem: React.FC<IProps> = ({ index, isExpanded, hook, toggleIsExpanded }) => {
   const dispatch = useDispatch();
   const currentConcept = useSelector(selectCurrentConcept);
 
@@ -89,34 +91,43 @@ export const HookListItem: React.FC<IProps> = ({ isExpanded, hook, toggleIsExpan
   }
 
   return (
-    <SContainer isExpanded={isExpanded}>
-      <SHeader isExpanded={isExpanded} onClick={handleToggleClick}>
-        <SHeaderColumn>
-          <SPosition>{hook.position}</SPosition>
-          {!isExpanded && <SHookTitle>{hook.title}</SHookTitle>}
-        </SHeaderColumn>
-        <SCaret icon={isExpanded ? "caret-up" : "caret-down"} />
-      </SHeader>
-      {
-        isExpanded && (
-          <>
-            <STitleTextarea name="title" onChange={handleChange} value={title} placeholder="Enter hook title">
-              {hook.title}
-            </STitleTextarea>
-            <SContentTextarea name="content" onChange={handleChange} value={content} placeholder="Enter hook content">
-              {hook.content}
-            </SContentTextarea>
-            <SButtons>
-              <SButtonGreen
-                disabled={buttonDisabled()}
-                onClick={handleUpdateHook}
-              >Update</SButtonGreen>
-              <SButtonRed onClick={showDeleteHookModal}>Delete</SButtonRed>
-            </SButtons>
-          </>
-        )
-      }
-    </SContainer>
+    <Draggable draggableId={hook.id} index={index}>
+      {provided => (
+        <SContainer
+          isExpanded={isExpanded}
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          <SHeader isExpanded={isExpanded} onClick={handleToggleClick}>
+            <SHeaderColumn>
+              <SPosition>{index}</SPosition>
+              {!isExpanded && <SHookTitle>{hook.title}</SHookTitle>}
+            </SHeaderColumn>
+            <SCaret icon={isExpanded ? "caret-up" : "caret-down"} />
+          </SHeader>
+          {
+            isExpanded && (
+              <>
+                <STitleTextarea name="title" onChange={handleChange} value={title} placeholder="Enter hook title">
+                  {hook.title}
+                </STitleTextarea>
+                <SContentTextarea name="content" onChange={handleChange} value={content} placeholder="Enter hook content">
+                  {hook.content}
+                </SContentTextarea>
+                <SButtons>
+                  <SButtonGreen
+                    disabled={buttonDisabled()}
+                    onClick={handleUpdateHook}
+                  >Update</SButtonGreen>
+                  <SButtonRed onClick={showDeleteHookModal}>Delete</SButtonRed>
+                </SButtons>
+              </>
+            )
+          }
+        </SContainer>
+      )}
+    </Draggable>
   );
 };
 
@@ -129,6 +140,7 @@ const SContainer = styled.li<IExpanded>`
   border-top: 1px solid ${theme.colors.gray[200]};
   margin-top: 0;
   padding: 0 ${theme.spacing.base};
+  list-style-type: none;
 
   &:first-child {
     border-top: none;

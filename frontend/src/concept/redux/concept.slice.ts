@@ -10,7 +10,8 @@ import {
 } from "./concept.thunks";
 import { deleteConceptTag, updateConceptTag } from "./concept-tag.thunk";
 import { IConcept, IConceptFiltersState, IConceptState } from "./concept.types";
-import { createHook, deleteHook, getHooks, updateHook } from "hook/redux/hook.thunks";
+import { IHook } from "hook/redux/hook.types";
+import { createHook, deleteHook, getHooks, repositionHook, updateHook } from "hook/redux/hook.thunks";
 
 // tag === "" means "All"
 const initialState: IConceptState = {
@@ -175,14 +176,21 @@ const conceptSlice = createSlice({
         // remove hook
         const hookIndex = hooks.findIndex(h => h.id === hookId);
         if (hookIndex === -1) return;
-
-        const oldPosition = hooks[hookIndex].position;
         hooks.splice(hookIndex, 1);
+      })
+      .addCase(repositionHook.fulfilled, (state, action) => {
+        const { conceptId, hookId, newPosition } = action.payload;
 
-        // shift later positions down
-        hooks.forEach(hook => {
-          if (hook.position >= oldPosition) hook.position--;
-        });
+        const conceptWithHook = findConcept(state.concepts, conceptId);
+        const hooks = conceptWithHook?.hooks;
+        if (!hooks) return;
+
+        const hookToMove = findHook(hooks, hookId);
+        if (!hookToMove) return;
+
+        // decrement positions after old position
+
+        // increment positions after the new position
       });
   },
 });
@@ -193,3 +201,12 @@ export const {
   setCurrentConceptTag,
   setConceptFilters,
 } = conceptSlice.actions;
+
+/* HELPERS */
+function findConcept(concepts: IConcept[], conceptId: string) {
+  return concepts.find((c) => c.id === conceptId);
+}
+
+function findHook(hooks: IHook[], hookId: string) {
+  return hooks.find(hook => hook.id === hookId);
+}

@@ -50,6 +50,7 @@ async function deleteHooks(concept_id, connection = db) {
 
 async function getHooks(concept_id, filterObj, connection = db) {
   return connection("hook")
+    .select("id", "title", "content", "created_at", "updated_at")
     .where({ concept_id, ...filterObj })
     .orderBy("position");
 }
