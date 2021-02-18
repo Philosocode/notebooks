@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps, useParams } from "react-router-dom";
 
 import { selectConcepts, selectCurrentConcept } from "concept/redux/concept.selectors";
-import { getConcept } from "concept/redux/concept.thunks";
 import { setCurrentConceptId } from "concept/redux/concept.slice";
 
 import { ConceptDetailHeader } from "concept/components/concept-detail-header.component";
@@ -12,6 +11,7 @@ import { Tab } from "shared/components/nav/tab.component";
 
 import { SDetailPageContent } from "shared/styles/layout.style";
 import { ConceptHooks } from "hook/components/concept-hooks.component";
+import { showAndHideAlert } from "../../alert/redux/alert.thunks";
 
 interface IMatchParams {
   conceptId: string;
@@ -25,18 +25,18 @@ export const ConceptDetailPage: FC<RouteComponentProps> = () => {
   const { conceptId } = params;
 
   useEffect(() => {
-    const currentConcept = concepts.find((c) => c.id === conceptId);
+    const conceptExists = concepts.some((c) => c.id === conceptId);
 
-    if (currentConcept) {
-      dispatch(setCurrentConceptId(currentConcept.id))
-    } else {
-      // concept not available locally
-      // try fetching from server
-      dispatch(getConcept(conceptId));
-    }
+    conceptExists
+      ? dispatch(setCurrentConceptId(conceptId))
+      : dispatch(showAndHideAlert({
+          message: "Concept with that ID not found.",
+          type: "warning",
+        }));
+    // eslint-disable-next-line
   }, [conceptId, dispatch]);
 
-  if (!currentConcept) return <div>Loading...</div>
+  if (!currentConcept) return null;
   return (
     <SDetailPageContent>
       <ConceptDetailHeader concept={currentConcept} />

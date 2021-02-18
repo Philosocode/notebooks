@@ -13,19 +13,19 @@ import { SInputBorderless } from "shared/styles/form.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 
 interface IProps {
+  defaultHooks: string[];
   handleSelect: (hook: string) => void;
-  hooks: string[];
 }
-export const HookSelectGrid: React.FC<IProps> = ({ handleSelect, hooks }) => {
+export const HookSelectGrid: React.FC<IProps> = ({ handleSelect, defaultHooks }) => {
   const [filterText, setFilterText] = useState("");
   const conceptHooks = useSelector(selectConceptHooks);
 
   function getFilteredHooks() {
-    if (filterText.trim() === "") return hooks;
+    if (filterText.trim() === "") return defaultHooks;
 
     const filterTrimLower = filterText.trim().toLowerCase();
 
-    return hooks.filter((hook) =>
+    return defaultHooks.filter((hook) =>
       hook.toLowerCase().includes(filterTrimLower.toLowerCase())
     );
   }
@@ -35,7 +35,7 @@ export const HookSelectGrid: React.FC<IProps> = ({ handleSelect, hooks }) => {
   }
 
   function conceptHasHook(hook: string) {
-    return conceptHooks.some(
+    return conceptHooks?.some(
       conceptHook => conceptHook.title.toLowerCase() === hook.trim().toLowerCase()
     );
   }

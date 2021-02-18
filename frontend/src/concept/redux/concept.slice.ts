@@ -50,8 +50,10 @@ const conceptSlice = createSlice({
     ) => {
       const { ownerEntityId: conceptId, oldIndex, newIndex } = action.payload;
 
-      const conceptWithHook = findConcept(state.concepts, conceptId);
-      const hooks = conceptWithHook?.hooks;
+      const conceptIndex = getConceptIndex(state.concepts, conceptId);
+      if (conceptIndex === -1) return;
+
+      const hooks = state.concepts[conceptIndex].hooks;
       if (!hooks) return;
 
       const [hookToReposition] = hooks.splice(oldIndex, 1);
@@ -79,24 +81,27 @@ const conceptSlice = createSlice({
         state.concepts = action.payload;
       })
       .addCase(updateConcept.fulfilled, (state, action) => {
-        const { id, name, tags } = action.payload;
+        const { id, updates } = action.payload;
 
-        const conceptToUpdateIdx = state.concepts.findIndex((c) => c.id === id);
+        const conceptIndex = getConceptIndex(state.concepts, id);
+        if (conceptIndex === -1) return;
 
-        state.concepts[conceptToUpdateIdx].name = name;
-        state.concepts[conceptToUpdateIdx].tags = tags;
-        state.concepts[conceptToUpdateIdx].updated_at = new Date().toUTCString();
+        state.concepts[conceptIndex] = {
+          ...state.concepts[conceptIndex],
+          ...updates,
+          updated_at: new Date().toUTCString()
+        };
       })
       .addCase(deleteTagFromConcept.fulfilled, (state, action) => {
-        // remove the tag from the concept
         const { conceptId, tagName } = action.payload;
-        const conceptToUpdateIdx = state.concepts.findIndex(
-          (c) => c.id === conceptId
-        );
-        const conceptTags = state.concepts[conceptToUpdateIdx].tags;
+
+        const conceptIndex = getConceptIndex(state.concepts, conceptId);
+        const conceptTags = state.concepts[conceptIndex].tags;
 
         const tagIdx = conceptTags.findIndex((t) => t === tagName);
-        if (tagIdx !== -1) conceptTags.splice(tagIdx, 1);
+        if (tagIdx === -1) return;
+
+        conceptTags.splice(tagIdx, 1);
       })
 
       /* Concept Tag */
@@ -135,60 +140,54 @@ const conceptSlice = createSlice({
         const { conceptId, hooks } = action.payload;
 
         // loop through all concepts
-        const conceptToUpdate = state.concepts.find(concept => concept.id === conceptId);
-        if (conceptToUpdate) conceptToUpdate.hooks = hooks;
+        const conceptIndex = getConceptIndex(state.concepts, conceptId);
+        if (conceptIndex === -1) return;
+
+        state.concepts[conceptIndex].hooks = hooks;
       })
       .addCase(createHook.fulfilled, (state, action) => {
         const { conceptId, hook } = action.payload;
 
-        // loop through all concepts
-        const conceptToUpdate = state.concepts.find(concept => concept.id === conceptId);
-        if (conceptToUpdate) {
-          if (!conceptToUpdate.hooks) conceptToUpdate.hooks = [];
+        const conceptIndex = getConceptIndex(state.concepts, conceptId);
+        if (conceptIndex === -1) return;
 
-          conceptToUpdate.hooks.push(hook);
-        }
+        const conceptToUpdate = state.concepts[conceptIndex];
+        if (!conceptToUpdate.hooks) conceptToUpdate.hooks = [];
+
+        conceptToUpdate.hooks.push(hook);
       })
       .addCase(updateHook.fulfilled, (state, action) => {
         const { conceptId, hookId, updates } = action.payload;
 
-        // find concept to update
-        const conceptToUpdateIndex = state.concepts.findIndex(
-          (c) => c.id === conceptId
-        );
+        const conceptIndex = getConceptIndex(state.concepts, conceptId);
+        if (conceptIndex === -1) return;
 
-        if (conceptToUpdateIndex === -1) return;
-
-        const conceptToUpdate = state.concepts[conceptToUpdateIndex];
-        const hooks = conceptToUpdate.hooks;
+        const hooks = state.concepts[conceptIndex].hooks;
         if (!hooks) return;
 
         // remove hook
-        const hookIndex = hooks.findIndex(h => h.id === hookId);
-        if (hookIndex !== -1) {
-          const oldHook = hooks[hookIndex];
-          hooks[hookIndex] = {
-            ...oldHook,
-            ...updates,
-          };
+        let hookIndex = getHookIndex(hooks, hookId);
+        if (hookIndex === -1) return;
+
+        hooks[hookIndex] = {
+          ...hooks[hookIndex],
+          ...updates,
         }
       })
       .addCase(deleteHook.fulfilled, (state, action) => {
         const { conceptId, hookId } = action.payload;
 
         // find concept to update
-        const conceptToUpdateIndex = state.concepts.findIndex(
-          (c) => c.id === conceptId
-        );
-
+        const conceptToUpdateIndex = getConceptIndex(state.concepts, conceptId);
         if (conceptToUpdateIndex === -1) return;
 
         const hooks = state.concepts[conceptToUpdateIndex].hooks;
         if (!hooks) return;
 
         // remove hook
-        const hookIndex = hooks.findIndex(h => h.id === hookId);
+        const hookIndex = getHookIndex(hooks, hookId);
         if (hookIndex === -1) return;
+
         hooks.splice(hookIndex, 1);
       })
   }
@@ -203,10 +202,10 @@ export const {
 } = conceptSlice.actions;
 
 /* HELPERS */
-function findConcept(concepts: IConcept[], conceptId: string) {
-  return concepts.find((c) => c.id === conceptId);
+function getConceptIndex(concepts: IConcept[], conceptId: string) {
+  return concepts.findIndex((c) => c.id === conceptId);
 }
 
-function findHook(hooks: IHook[], hookId: string) {
-  return hooks.find(hook => hook.id === hookId);
+function getHookIndex(hooks: IHook[], hookId: string) {
+  return hooks.findIndex(hook => hook.id === hookId);
 }

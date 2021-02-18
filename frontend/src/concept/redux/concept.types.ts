@@ -19,7 +19,3 @@ export interface IConceptState {
   currentConceptId?: string;
   filters: IConceptFiltersState;
 }
-
-export interface ICreateConceptPayload {
-  name: string;
-}

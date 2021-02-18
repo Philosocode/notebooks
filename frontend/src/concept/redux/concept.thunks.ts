@@ -89,7 +89,13 @@ export const updateConcept = createAsyncThunk(
         name: data.name,
         tags: data.tags,
       });
-      return data;
+      return {
+        id: data.id,
+        updates: {
+          name: data.name,
+          tags: data.tags,
+        }
+      };
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }

@@ -1,17 +1,18 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 
 // logic
-import { IHook } from "hook/redux/hook.types";
+import { repositionHook } from "concept/redux/concept.slice";
+
+// components
+import { HookListItem } from "./hook-list-item.component";
 
 // styles
 import { theme } from "../../shared/styles/theme.style";
-import { HookListItem } from "./hook-list-item.component";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
-import { useDispatch, useSelector } from "react-redux";
-import { repositionHook } from "concept/redux/concept.slice";
-import { selectCurrentConcept, selectCurrentConceptHooks } from "../../concept/redux/concept.selectors";
+import { IHook } from "../redux/hook.types";
 
 interface IExpandedHooks {
   [key: string]: boolean;
@@ -21,18 +22,9 @@ interface IProps {
   hooks: IHook[];
 }
 export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
-  const [expandedHooks, setExpandedHooks] = useState<IExpandedHooks>(initExpandedHooks());
   const dispatch = useDispatch();
 
-  console.log("HOOKS", hooks);
-
-  function initExpandedHooks() {
-    const hash: IExpandedHooks = {};
-
-    hooks.forEach(hook => hash[hook.id] = false);
-
-    return hash;
-  }
+  const [expandedHooks, setExpandedHooks] = useState<IExpandedHooks>({});
 
   function toggleExpandedHook(hookId: string) {
     const updatedValue = !expandedHooks[hookId];

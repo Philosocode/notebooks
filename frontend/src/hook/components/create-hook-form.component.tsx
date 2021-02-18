@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { faLightbulb, faRandom } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import random from "lodash/random";
 import styled from "styled-components";
 
 // logic
-import { IConcept } from "concept/redux/concept.types";
 import { createHook } from "hook/redux/hook.thunks";
 import { allHooksArray } from "../data/hooks.data";
 
@@ -20,9 +18,10 @@ import { SButtonGreen } from "shared/styles/button.style";
 import { SHookContentTextarea, SHookTitleTextarea } from "../styles/hook.style";
 
 interface IProps {
-  currentConcept: IConcept;
+  conceptId: string;
+  numberOfHooks: number;
 }
-export const CreateHookForm: React.FC<IProps> = ({ currentConcept }) => {
+export const CreateHookForm: React.FC<IProps> = ({ conceptId, numberOfHooks }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [hookSelectShowing, setHookSelectShowing] = useState(false);
@@ -52,13 +51,12 @@ export const CreateHookForm: React.FC<IProps> = ({ currentConcept }) => {
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    if (!currentConcept.hooks) return;
     if (formDisabled()) return;
 
-    const nextPosition = currentConcept.hooks.length + 1;
+    const nextPosition = numberOfHooks + 1;
 
     dispatch(createHook({
-      conceptId: currentConcept.id,
+      conceptId,
       content,
       title,
       position: nextPosition,
@@ -68,7 +66,6 @@ export const CreateHookForm: React.FC<IProps> = ({ currentConcept }) => {
     setContent("");
   }
 
-  if (!currentConcept) return <Redirect to="/concepts" />;
   return (
     <>
       <SHookCreateForm onSubmit={handleSubmit}>

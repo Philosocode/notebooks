@@ -22,8 +22,8 @@ export const HookSelect: React.FC<IProps> = ({ handleSelectHook, hookType }) => 
         Select Hook: {hookType && convertToTitleCase(hookType)}
       </SHeadingSubtitle>
       <HookSelectGrid
+        defaultHooks={allHooksHash[hookType]}
         handleSelect={handleSelectHook}
-        hooks={allHooksHash[hookType]}
       />
     </>
   );
