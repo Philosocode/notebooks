@@ -101,7 +101,6 @@ export const HookListItem: React.FC<IProps> = ({ index, isExpanded, hook, toggle
         >
           <SHeader isExpanded={isExpanded} onClick={handleToggleClick}>
             <SHeaderColumn>
-              <SPosition>{index}</SPosition>
               {!isExpanded && <SHookTitle>{hook.title}</SHookTitle>}
             </SHeaderColumn>
             <SCaret icon={isExpanded ? "caret-up" : "caret-down"} />

@@ -99,7 +99,8 @@ export const deleteHook = createAsyncThunk(
 interface IRepositionHookPayload {
   conceptId: string;
   hookId: string;
-  newPosition: number;
+  oldIndex: number;
+  newIndex: number;
 }
 export const repositionHook = createAsyncThunk(
   "hook/repositionHook",

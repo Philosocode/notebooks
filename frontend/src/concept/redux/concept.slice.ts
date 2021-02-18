@@ -179,18 +179,14 @@ const conceptSlice = createSlice({
         hooks.splice(hookIndex, 1);
       })
       .addCase(repositionHook.fulfilled, (state, action) => {
-        const { conceptId, hookId, newPosition } = action.payload;
+        const { conceptId, hookId, oldIndex, newIndex } = action.payload;
 
         const conceptWithHook = findConcept(state.concepts, conceptId);
         const hooks = conceptWithHook?.hooks;
         if (!hooks) return;
 
-        const hookToMove = findHook(hooks, hookId);
-        if (!hookToMove) return;
-
-        // decrement positions after old position
-
-        // increment positions after the new position
+        const [hookToReposition] = hooks.splice(oldIndex, 1);
+        hooks.splice(newIndex, 0, hookToReposition);
       });
   },
 });

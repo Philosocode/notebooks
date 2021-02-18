@@ -9,7 +9,9 @@ import { IHook } from "hook/redux/hook.types";
 import { theme } from "../../shared/styles/theme.style";
 import { HookListItem } from "./hook-list-item.component";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { repositionHook } from "../redux/hook.thunks";
+import { selectCurrentConcept } from "../../concept/redux/concept.selectors";
 
 interface IExpandedHooks {
   [key: string]: boolean;
@@ -22,6 +24,7 @@ interface IProps {
 export const HookList: React.FC<IProps> = ({ hooks }) => {
   const [expandedHooks, setExpandedHooks] = useState<IExpandedHooks>(initExpandedHooks());
   const dispatch = useDispatch();
+  const currentConcept = useSelector(selectCurrentConcept);
 
   function initExpandedHooks() {
     const hash: IExpandedHooks = {};
@@ -38,8 +41,20 @@ export const HookList: React.FC<IProps> = ({ hooks }) => {
   }
 
   function handleDragEnd(result: DropResult) {
+    if (!currentConcept) return;
+
     const { source, destination } = result;
     if (!destination || destination.index === source.index) return;
+
+    const oldIndex = source.index;
+    const newIndex = destination.index;
+
+    dispatch(repositionHook({
+      hookId: hooks[oldIndex].id,
+      conceptId: currentConcept.id,
+      oldIndex,
+      newIndex
+    }));
   }
 
   return (
