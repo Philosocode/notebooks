@@ -16,12 +16,13 @@ import { selectCurrentConcept } from "../../concept/redux/concept.selectors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface IProps {
+  isExpanded: boolean;
+  toggleIsExpanded: (hookId: string) => void;
   hook: IHook;
 }
 
-export const HookListItem: React.FC<IProps> = ({ hook }) => {
+export const HookListItem: React.FC<IProps> = ({ isExpanded, hook, toggleIsExpanded }) => {
   const dispatch = useDispatch();
-  const [isExpanded, setIsExpanded] = useState(true);
   const currentConcept = useSelector(selectCurrentConcept);
 
   const { handleChange, values } = useForm({
@@ -44,10 +45,6 @@ export const HookListItem: React.FC<IProps> = ({ hook }) => {
     }));
   }
 
-  function toggleExpand() {
-    setIsExpanded(prevValue => !prevValue);
-  }
-
   function handleUpdateHook() {
     if (!currentConcept) return;
     if (buttonDisabled()) return;
@@ -62,6 +59,10 @@ export const HookListItem: React.FC<IProps> = ({ hook }) => {
       hookId: hook.id,
       updates,
     }));
+  }
+
+  function handleToggleClick() {
+    toggleIsExpanded(hook.id);
   }
 
   function handleDeleteHook() {
@@ -89,10 +90,10 @@ export const HookListItem: React.FC<IProps> = ({ hook }) => {
 
   return (
     <SContainer isExpanded={isExpanded}>
-      <SHeader isExpanded={isExpanded} onClick={toggleExpand}>
+      <SHeader isExpanded={isExpanded} onClick={handleToggleClick}>
         <SHeaderColumn>
           <SPosition>{hook.position}</SPosition>
-          { !isExpanded && <SHookTitle>{hook.title}</SHookTitle> }
+          {!isExpanded && <SHookTitle>{hook.title}</SHookTitle>}
         </SHeaderColumn>
         <SCaret icon={isExpanded ? "caret-up" : "caret-down"} />
       </SHeader>
@@ -122,12 +123,13 @@ export const HookListItem: React.FC<IProps> = ({ hook }) => {
 interface IExpanded {
   isExpanded: boolean;
 }
+
 const SContainer = styled.li<IExpanded>`
   background: ${theme.colors.offWhite};
   border-top: 1px solid ${theme.colors.gray[200]};
   margin-top: 0;
   padding: 0 ${theme.spacing.base};
-  
+
   &:first-child {
     border-top: none;
     margin-top: 0;
@@ -138,8 +140,8 @@ const SHeader = styled.div<IExpanded>`
   background: ${theme.colors.green};
   cursor: pointer;
   display: flex;
-    align-items: center;
-    justify-content: space-between;
+  align-items: center;
+  justify-content: space-between;
   position: relative;
   padding: ${(props) => props.isExpanded ? theme.spacing.base : theme.spacing.sm} 0;
 `;

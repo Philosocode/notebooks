@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 
 // logic
@@ -12,7 +12,26 @@ import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 interface IProps {
   hooks: IHook[];
 }
+interface IExpandedHooks {
+  [key: string]: boolean;
+}
 export const HookList: React.FC<IProps> = ({ hooks }) => {
+  const initExpandedHooks = useCallback(() => {
+    const hash: IExpandedHooks = {};
+
+    hooks.forEach(hook => { hash[hook.id] = false });
+
+    return hash;
+  }, [hooks]);
+
+  const [expandedHooks, setExpandedHooks] = useState<IExpandedHooks>(initExpandedHooks());
+
+  function toggleExpandedHook(hookId: string) {
+    const updatedValue = !expandedHooks[hookId];
+
+    setExpandedHooks(prevState => ({ ...prevState, [hookId]: updatedValue }));
+  }
+
   return (
     <SContainer>
       <SHeadingSubSubtitle># Hooks: {hooks.length}</SHeadingSubSubtitle>
@@ -21,6 +40,8 @@ export const HookList: React.FC<IProps> = ({ hooks }) => {
           <HookListItem
             key={hook.id}
             hook={hook}
+            isExpanded={expandedHooks[hook.id]}
+            toggleIsExpanded={toggleExpandedHook}
           />
         ))}
       </SHookList>
