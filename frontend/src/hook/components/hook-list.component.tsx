@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
@@ -14,57 +14,16 @@ import { HookListItem } from "./hook-list-item.component";
 // styles
 import { theme } from "../../shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
-import { SButton } from "shared/styles/button.style";
 import { HookListControls } from "./hook-list-controls.component";
+import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
 
-interface IExpandedHooks {
-  [key: string]: boolean;
-}
 interface IProps {
   conceptId: string;
   hooks: IHook[];
 }
 export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
-  const [expandedHooks, setExpandedHooks] = useState<IExpandedHooks>({});
+  const { expandedHash, toggleEntityExpansion, hasExpandedEntity, toggleAllExpansions } = useExpandHash(hooks);
   const dispatch = useDispatch();
-
-  // init expandedHooks hash
-  useEffect(() => {
-    setExpandedHooks(oldHash => {
-      const newHash = {...oldHash};
-
-      hooks.forEach(hook => {
-        // hook ID not added yet. Add it to hash
-        if (!newHash.hasOwnProperty(hook.id)) {
-          newHash[hook.id] = true;
-        }
-      });
-
-      return newHash;
-    });
-  }, [hooks]);
-
-  function toggleExpandedHooks() {
-    const shouldExpand = !hasExpandedHook();
-
-    setExpandedHooks(oldHash => {
-      const newHash = {...oldHash};
-
-      hooks.forEach(hook => newHash[hook.id] = shouldExpand);
-
-      return newHash;
-    });
-  }
-
-  function toggleExpandedHook(hookId: string) {
-    const updatedValue = !expandedHooks[hookId];
-
-    setExpandedHooks(prevState => ({ ...prevState, [hookId]: updatedValue }));
-  }
-
-  function hasExpandedHook() {
-    return Object.values(expandedHooks).includes(true);
-  }
 
   function handleDragEnd(result: DropResult) {
     const { source, destination } = result;
@@ -92,8 +51,8 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
       <SHeadingSubSubtitle># Hooks: {hooks.length}</SHeadingSubSubtitle>
 
       <HookListControls
-        hasExpandedHook={hasExpandedHook()}
-        toggleExpand={toggleExpandedHooks}
+        hasExpandedHook={hasExpandedEntity()}
+        toggleExpand={toggleAllExpansions}
       />
 
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -109,8 +68,8 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
                     key={hook.id}
                     hook={hook}
                     index={index}
-                    isExpanded={expandedHooks[hook.id]}
-                    toggleIsExpanded={toggleExpandedHook}
+                    isExpanded={expandedHash[hook.id]}
+                    toggleIsExpanded={toggleEntityExpansion}
                   />
                 ))}
               </SHookList>
