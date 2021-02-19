@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { AnyAction, createSlice } from "@reduxjs/toolkit";
 
 import {
   isFulfilledMatcher,
@@ -6,6 +6,7 @@ import {
   isRejectedMatcher,
 } from "shared/redux/builder-actions";
 import { ILoadingState } from "./loading.interfaces";
+import { updateHook, updateHookPosition } from "../../hook/redux/hook.thunks";
 
 // https://www.reddit.com/r/reactjs/comments/8iek94/react_redux_handling_the_loading_of_multiple/
 // 0 == not loading
@@ -14,6 +15,14 @@ const initialState: ILoadingState = {
   loadingCount: 0,
 };
 
+const loadingMatcherBlacklist = [
+  updateHookPosition.pending.type
+];
+
+function loadingPendingMatcher(action: AnyAction) {
+  return !loadingMatcherBlacklist.includes(action.type) && isPendingMatcher(action);
+}
+
 const loadingSlice = createSlice({
   name: "loading",
   initialState,
@@ -21,7 +30,7 @@ const loadingSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // on all pending actions, start loading
-      .addMatcher(isPendingMatcher, (state) => {
+      .addMatcher(loadingPendingMatcher, (state) => {
         state.loadingCount++;
       })
       .addMatcher(isRejectedMatcher, (state) => {

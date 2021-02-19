@@ -13,6 +13,7 @@ import { HookListItem } from "./hook-list-item.component";
 import { theme } from "../../shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 import { IHook } from "../redux/hook.types";
+import { updateHook, updateHookPosition } from "../redux/hook.thunks";
 
 interface IExpandedHooks {
   [key: string]: boolean;
@@ -43,6 +44,13 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
       ownerEntityId: conceptId,
       oldIndex,
       newIndex
+    }));
+
+    // async call to update position on backend
+    dispatch(updateHookPosition({
+      conceptId,
+      hookId: hooks[oldIndex].id,
+      newPosition: newIndex,
     }));
   }
 

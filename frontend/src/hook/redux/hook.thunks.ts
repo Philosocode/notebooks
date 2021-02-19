@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { IHook } from "./hook.types";
 import { api } from "services/api.service";
+import { IRepositionEntityPayload } from "../../shared/types.shared";
 
 interface ICreateHookPayload {
   title: string;
@@ -61,7 +62,6 @@ interface IUpdateHookPayload {
   updates: {
     title?: string;
     content?: string;
-    position?: number;
   }
 }
 export const updateHook = createAsyncThunk(
@@ -77,6 +77,24 @@ export const updateHook = createAsyncThunk(
     }
   }
 );
+
+interface IUpdateHookPosition {
+  conceptId: string;
+  hookId: string;
+  newPosition: number;
+}
+export const updateHookPosition = createAsyncThunk(
+  "hook/updateHookPosition",
+  async function (payload: IUpdateHookPosition, thunkAPI) {
+    const { conceptId, hookId, newPosition } = payload;
+
+    try {
+      await api.patch(`/concepts/${conceptId}/hooks/${hookId}`, { position: newPosition });
+    } catch(err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+)
 
 interface IDeleteHookPayload {
   conceptId: string;
