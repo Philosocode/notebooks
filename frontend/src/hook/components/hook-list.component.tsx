@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 
 // logic
+import { IHook } from "../redux/hook.types";
 import { repositionHook } from "concept/redux/concept.slice";
+import { updateHookPosition } from "../redux/hook.thunks";
 
 // components
 import { HookListItem } from "./hook-list-item.component";
@@ -12,8 +14,8 @@ import { HookListItem } from "./hook-list-item.component";
 // styles
 import { theme } from "../../shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
-import { IHook } from "../redux/hook.types";
-import { updateHook, updateHookPosition } from "../redux/hook.thunks";
+import { SButton } from "shared/styles/button.style";
+import { HookListControls } from "./hook-list-controls.component";
 
 interface IExpandedHooks {
   [key: string]: boolean;
@@ -23,14 +25,45 @@ interface IProps {
   hooks: IHook[];
 }
 export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
+  const [expandedHooks, setExpandedHooks] = useState<IExpandedHooks>({});
   const dispatch = useDispatch();
 
-  const [expandedHooks, setExpandedHooks] = useState<IExpandedHooks>({});
+  // init expandedHooks hash
+  useEffect(() => {
+    setExpandedHooks(oldHash => {
+      const newHash = {...oldHash};
+
+      hooks.forEach(hook => {
+        // hook ID not added yet. Add it to hash
+        if (!newHash.hasOwnProperty(hook.id)) {
+          newHash[hook.id] = true;
+        }
+      });
+
+      return newHash;
+    });
+  }, [hooks]);
+
+  function toggleExpandedHooks() {
+    const shouldExpand = !hasExpandedHook();
+
+    setExpandedHooks(oldHash => {
+      const newHash = {...oldHash};
+
+      hooks.forEach(hook => newHash[hook.id] = shouldExpand);
+
+      return newHash;
+    });
+  }
 
   function toggleExpandedHook(hookId: string) {
     const updatedValue = !expandedHooks[hookId];
 
     setExpandedHooks(prevState => ({ ...prevState, [hookId]: updatedValue }));
+  }
+
+  function hasExpandedHook() {
+    return Object.values(expandedHooks).includes(true);
   }
 
   function handleDragEnd(result: DropResult) {
@@ -57,6 +90,11 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
   return (
     <SContainer>
       <SHeadingSubSubtitle># Hooks: {hooks.length}</SHeadingSubSubtitle>
+
+      <HookListControls
+        hasExpandedHook={hasExpandedHook()}
+        toggleExpand={toggleExpandedHooks}
+      />
 
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="hook-list-droppable">

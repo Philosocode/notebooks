@@ -7,7 +7,7 @@ const { transitionAppend } = theme.animations;
 export const SButton = styled.button`
   border: none;
   border-radius: 5px;
-  box-shadow: ${theme.boxShadows.pressed};
+  box-shadow: ${theme.boxShadows.light};
   cursor: pointer;
   font-weight: 500;
   transition: background ${theme.animations.transitionAppend};

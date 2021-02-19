@@ -138,7 +138,6 @@ interface IExpanded {
 const SContainer = styled.li<IExpanded>`
   background: ${theme.colors.offWhite};
   box-shadow: ${theme.boxShadows.light};
-  margin-top: ${theme.spacing.base};
   padding: 0 ${theme.spacing.base};
   list-style-type: none;
 
