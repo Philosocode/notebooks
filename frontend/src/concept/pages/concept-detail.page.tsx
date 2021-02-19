@@ -12,6 +12,7 @@ import { Tab } from "shared/components/nav/tab.component";
 import { SDetailPageContent } from "shared/styles/layout.style";
 import { ConceptHooks } from "hook/components/concept-hooks.component";
 import { showAndHideAlert } from "../../alert/redux/alert.thunks";
+import styled from "styled-components";
 
 interface IMatchParams {
   conceptId: string;

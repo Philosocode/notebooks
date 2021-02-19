@@ -4,8 +4,9 @@ import { faCompress, faExpand } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // styles
-import { theme } from "../../shared/styles/theme.style";
-import { SButton } from "../../shared/styles/button.style";
+import { theme } from "shared/styles/theme.style";
+import { SButton } from "shared/styles/button.style";
+import { SInputBorderless } from "shared/styles/form.style";
 
 interface IProps {
   hasExpandedHook: boolean;
@@ -16,23 +17,38 @@ export const HookListControls: React.FC<IProps> = ({
   toggleExpand,
 }) => {
   return (
-    <SControls>
-      <SExpandButton onClick={toggleExpand}>
-        <SIcon icon={hasExpandedHook ? faCompress : faExpand} />
-        { hasExpandedHook ? "Collapse All" : "Expand All" }
-      </SExpandButton>
-    </SControls>
+    <>
+      <SSortButtons>
+        <SSortButton>
+          A-Z <SSortIcon icon="caret-down" />
+        </SSortButton>
+        <SSortButton>
+          Created <SSortIcon icon="caret-down" />
+        </SSortButton>
+        <SSortButton>
+          Updated <SSortIcon icon="caret-down" />
+        </SSortButton>
+      </SSortButtons>
+    </>
   );
 };
 
-const SControls = styled.div`
-  margin-top: ${theme.spacing.base};
+
+
+const SSortIcon = styled(FontAwesomeIcon)`
+  font-size: 1.8rem;
+  margin-left: ${theme.spacing.xs};
 `;
 
-const SIcon = styled(FontAwesomeIcon)`
-  margin-right: ${theme.spacing.sm};
+const SSortButtons = styled.div`
+  margin-top: ${theme.spacing.sm};
 `;
 
-const SExpandButton = styled(SButton)`
-  box-shadow: none;
+const SSortButton = styled.button`
+  border: none;
+  cursor: pointer;
+  margin-left: ${theme.spacing.xs};
+  margin-right: ${theme.spacing.xs};
+  padding: ${theme.spacing.xs};
+  width: 12rem;
 `;
