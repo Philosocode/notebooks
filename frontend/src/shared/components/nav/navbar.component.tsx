@@ -4,12 +4,12 @@ import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
 import { theme } from "shared/styles/theme.style";
-import { selectIsLoggedIn } from "auth/redux/auth.selectors";
+import { selectUser } from "auth/redux/auth.selectors";
 import { useAppLocation } from "../../hooks/use-app-location.hook";
 import { logout } from "auth/redux/auth.slice";
 
 export const Navbar = () => {
-  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const appLocation = useAppLocation();
 
@@ -32,9 +32,9 @@ export const Navbar = () => {
           >Study</SStudyLink>
         </SNavItem>
         {LibraryLink}
-        <SNavItem>
-          <SLinkDiv onClick={handleLogout}>Logout</SLinkDiv>
-        </SNavItem>
+        <SProfilePictureContainer onClick={handleLogout}>
+          <SProfilePicture src={user?.photo_url} alt={user?.name} />
+        </SProfilePictureContainer>
       </>
     );
   };
@@ -54,7 +54,7 @@ export const Navbar = () => {
     <SNav>
       <SNavList>
         {
-          isLoggedIn ? getLoggedInLinks() : getLoggedOutLinks()
+          user ? getLoggedInLinks() : getLoggedOutLinks()
         }
       </SNavList>
     </SNav>
@@ -77,13 +77,27 @@ const SNav = styled.nav`
 
 const SNavList = styled.ul`
   display: flex;
-  justify-content: flex-end;
+    justify-content: flex-end;
+    align-items: center;
 `;
 
 const SNavItem = styled.li`
   &:not(:last-child) {
     margin-right: 2rem;
   }
+`;
+
+const SProfilePictureContainer = styled(SNavItem)`
+  cursor: pointer;
+  display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+const SProfilePicture = styled.img`
+  border-radius: 50%;
+  height: 3rem;
+  width: 3rem;
 `;
 
 const SLinkStyles = css`
