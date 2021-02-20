@@ -46,8 +46,14 @@ async function deleteConcept(user_id, concept_id) {
   });
 }
 
-async function getConcepts(user_id, options) {
-  const columnsToSelect = ["concept.id", "concept.name", "concept.created_at", "concept.updated_at"];
+async function getConcepts(user_id, options, connection=db) {
+  const conceptIdRef = connection.ref("concept.id");
+  const numberOfHooksSubquery = connection("hook").count("*").where("concept_id", conceptIdRef).as("num_hooks");
+
+  const columnsToSelect = [
+    "concept.id", "concept.name", "concept.created_at", "concept.updated_at",
+    numberOfHooksSubquery,
+  ];
 
   if (options.include?.tags) {
     columnsToSelect.push("tag.name AS tag");
