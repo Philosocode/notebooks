@@ -172,6 +172,7 @@ const conceptSlice = createSlice({
         hooks[hookIndex] = {
           ...hooks[hookIndex],
           ...updates,
+          updated_at: new Date().toUTCString()
         }
       })
       .addCase(deleteHook.fulfilled, (state, action) => {

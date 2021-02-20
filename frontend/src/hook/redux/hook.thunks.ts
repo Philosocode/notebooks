@@ -2,7 +2,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { IHook } from "./hook.types";
 import { api } from "services/api.service";
-import { IRepositionEntityPayload } from "../../shared/types.shared";
 
 interface ICreateHookPayload {
   title: string;

@@ -20,7 +20,6 @@ import { faCompress, faExpand } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SButton } from "../../shared/styles/button.style";
 import { SInputBorderless } from "../../shared/styles/form.style";
-import { useEntityFilter } from "../../shared/hooks/use-entity-filter.hook";
 
 interface IProps {
   conceptId: string;

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import orderBy from "lodash/orderBy";
 
@@ -26,19 +26,29 @@ export function useEntityFilterSort<TEntity>(
         )
       );
     }
-  }, [entities, filterText]);
+  }, [entities, filterKey, filterText]);
 
   useEffect(() => {
-    if (sortMode === "custom") return;
+    if (sortMode === "custom") {
+      // reset to default order
+      return setFilteredEntities(entities);
+    }
 
     let sortKey = filterKey;
+    let direction = sortDirection;
     if (sortMode === "created") sortKey = "created_at";
-    else if (sortMode === "updated") sortKey = "updated_at";
+    else if (sortMode === "updated") {
+      sortKey = "updated_at";
+
+      // need to flip the direction around for last updated sort
+      direction = (sortDirection === "asc")
+        ? "desc" : "asc";
+    }
 
     setFilteredEntities(previousEntities => {
-      return orderBy(previousEntities, [sortKey], sortDirection);
+      return orderBy(previousEntities, [sortKey], direction);
     });
-  }, [sortMode, sortDirection, entities]);
+  }, [entities, filterKey, sortMode, sortDirection]);
 
   function getSortIconCaret(mode: TSortMode): IconProp {
     if (mode !== sortMode || sortDirection === "desc") return "caret-down";

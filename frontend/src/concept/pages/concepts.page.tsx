@@ -9,7 +9,7 @@ import { selectConceptFilters, selectConceptTags } from "concept/redux/concept.s
 import { setConceptFilters, setCurrentConceptTag } from "concept/redux/concept.slice";
 
 import { ConceptList } from "concept/components/concept-list.component";
-import { FloatingAddButton } from "shared/components/button/floating-add-button.component";
+import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
 import { TagSidebar } from "concept/components/tag-sidebar.component";
 import { theme } from "shared/styles/theme.style";
 
@@ -55,7 +55,7 @@ export const ConceptsPage = () => {
       <SConceptSection>
         <SHeading>Concepts</SHeading>
         <ConceptList />
-        <FloatingAddButton handleClick={showAddConceptModal} />
+        <FloatingCornerButton icon="plus" handleClick={showAddConceptModal} />
       </SConceptSection>
     </SPage>
   );

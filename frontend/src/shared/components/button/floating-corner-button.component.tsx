@@ -3,16 +3,18 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { theme } from "shared/styles/theme.style";
 import useKeypress from "shared/hooks/use-key-press.hook";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 interface IProps {
   handleClick: () => void;
+  icon: IconProp;
 }
-export const FloatingAddButton: FC<IProps> = ({ handleClick }) => {
+export const FloatingCornerButton: FC<IProps> = ({ icon, handleClick }) => {
   useKeypress({ key: "a", action: handleClick });
 
   return (
     <SButton onClick={handleClick}>
-      <SIcon icon="plus" />
+      <SIcon icon={icon} />
     </SButton>
   )
 };

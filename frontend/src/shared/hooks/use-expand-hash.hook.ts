@@ -23,7 +23,7 @@ export function useExpandHash(entities: IEntity[], initialValue = false) {
 
       return newHash;
     });
-  }, [entities]);
+  }, [entities, initialValue]);
 
   function toggleAllExpansions() {
     const shouldExpand = !hasExpandedEntity();
