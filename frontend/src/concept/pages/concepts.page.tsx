@@ -33,10 +33,6 @@ export const ConceptsPage = () => {
     sortMode,
   } = useEntityFilterSort<IConcept>(conceptsWithTag, "name", "alphabetical");
 
-  useEffect(() => {
-    dispatch(getConcepts());
-  }, [dispatch]);
-
   function handleSetTag(tag: string) {
     dispatch(setCurrentConceptTag(tag));
   }
