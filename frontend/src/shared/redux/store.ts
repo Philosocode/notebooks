@@ -1,10 +1,10 @@
-import { AnyAction, combineReducers, configureStore, Reducer } from "@reduxjs/toolkit";
+import { AnyAction, combineReducers, configureStore, getDefaultMiddleware, Reducer } from "@reduxjs/toolkit";
 
 import { alertReducer } from "alert/redux/alert.slice";
 import { authReducer } from "auth/redux/auth.slice";
 import { conceptReducer } from "concept/redux/concept.slice";
 import { loadingReducer } from "loading/redux/loading.slice";
-import { modalReducer } from "modal/redux/modal.slice";
+import { modalReducer, showModal, hideModal } from "modal/redux/modal.slice";
 import { userReducer } from "user/redux/user.slice";
 
 const appReducer = combineReducers({
@@ -30,7 +30,11 @@ const rootReducer: Reducer = (state: TAppState, action: AnyAction) => {
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+  middleware: getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [showModal.type, hideModal.type]
+    }
+  })
 });
 
 export type TAppDispatch = typeof store.dispatch;
