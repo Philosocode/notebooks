@@ -55,7 +55,11 @@ export const ConceptsPage = () => {
       <SConceptSection>
         <SHeading>Concepts</SHeading>
         <ConceptList />
-        <FloatingCornerButton icon="plus" handleClick={showAddConceptModal} />
+        <FloatingCornerButton
+          icon="plus"
+          handleClick={showAddConceptModal}
+          triggerKey="a"
+        />
       </SConceptSection>
     </SPage>
   );

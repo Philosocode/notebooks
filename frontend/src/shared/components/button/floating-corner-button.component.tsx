@@ -8,9 +8,14 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 interface IProps {
   handleClick: () => void;
   icon: IconProp;
+  triggerKey?: string;
 }
-export const FloatingCornerButton: FC<IProps> = ({ icon, handleClick }) => {
-  useKeypress({ key: "a", action: handleClick });
+export const FloatingCornerButton: FC<IProps> = ({
+  handleClick,
+  icon,
+  triggerKey,
+}) => {
+  useKeypress({ key: triggerKey, action: handleClick });
 
   return (
     <SButton onClick={handleClick}>

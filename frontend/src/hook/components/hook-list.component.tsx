@@ -20,6 +20,7 @@ import { faCompress, faExpand } from "@fortawesome/free-solid-svg-icons";
 import { SInputBorderless } from "../../shared/styles/form.style";
 import { FloatingCornerButton } from "../../shared/components/button/floating-corner-button.component";
 import { SortButtons } from "../../shared/components/button/sort-buttons.component";
+import { SortFilterControls } from "../../shared/components/button/sort-filter-controls.component";
 
 interface IProps {
   conceptId: string;
@@ -77,18 +78,13 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
     <SContainer>
       <SHeadingSubSubtitle># Hooks: {hooks.length}</SHeadingSubSubtitle>
 
-      <SControls>
-        <SInput
-          placeholder="Filter by hook title..."
-          onChange={handleFilterTextChange}
-          value={filterText}
-        />
-        <SortButtons
-          getIcon={getSortIconCaret}
-          handleSortClick={handleSortClick}
-          sortMode={sortMode}
-        />
-      </SControls>
+      <SortFilterControls
+        filterText={filterText}
+        getIcon={getSortIconCaret}
+        handleFilterTextChange={handleFilterTextChange}
+        handleSortClick={handleSortClick}
+        sortMode={sortMode}
+      />
 
       {filteredHooks.length === 0 && <SNoHooksHeading>No hooks found...</SNoHooksHeading>}
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -134,23 +130,9 @@ const SContainer = styled.div`
 \`  ;
 `;
 
-const SControls = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: ${theme.spacing.base};
-  width: 100%;
-`;
-
 const SNoHooksHeading = styled(SHeadingSubSubtitle)`
   font-weight: 500;
   margin-top: ${theme.spacing.md};
-`;
-
-const SInput = styled(SInputBorderless)`
-  margin-top: ${theme.spacing.base};
-  max-width: 40rem;
 `;
 
 const SDroppableContainer = styled.div`
