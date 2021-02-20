@@ -8,7 +8,6 @@ import { LOCAL_STORAGE_TOKEN_KEY } from "shared/constants.shared";
 import { login, logout } from "auth/redux/auth.slice";
 import { setAuthLoaded } from "loading/redux/loading.slice";
 import { selectAppLoaded } from "loading/redux/loading.selectors";
-import { getConcepts } from "../../concept/redux/concept.thunks";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
@@ -33,7 +32,6 @@ export const useAuth = () => {
 
       if (timeRemaining > 0) {
         dispatch(login({ token: tokenFromStorage, user: decoded.user }));
-        dispatch(getConcepts());
       } else {
         handleLogout();
       }

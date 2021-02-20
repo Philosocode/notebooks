@@ -7,7 +7,7 @@ import { appRoutes } from "./shared/config/app-routes.config";
 import { useAuth } from "auth/hooks/use-auth.hook";
 import { useScrollToTop } from "shared/hooks/use-scroll-to-top.hook";
 import { useAppLocation } from "shared/hooks/use-app-location.hook";
-import { selectAppLoaded } from "./loading/redux/loading.selectors";
+import { selectAppLoaded, selectLoading } from "./loading/redux/loading.selectors";
 
 // components
 import { Alert } from "alert/components/alert.component";
@@ -22,10 +22,12 @@ import { Loader } from "./loading/components/loader.component";
 // styles
 import { theme } from "./shared/styles/theme.style";
 import { SMainContent } from "shared/styles/layout.style";
-import { selectUser } from "./auth/redux/auth.selectors";
+import { selectIsLoggedIn, selectUser } from "./auth/redux/auth.selectors";
 import { getConcepts } from "./concept/redux/concept.thunks";
 
 export function App() {
+  const loading = useSelector(selectLoading);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const appLoaded = useSelector(selectAppLoaded);
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
@@ -34,7 +36,9 @@ export function App() {
   useScrollToTop();
 
   useEffect(() => {
-    if (user && !appLoaded) dispatch(getConcepts());
+    if (!loading.authLoaded) return;
+
+    if (isLoggedIn && !appLoaded) dispatch(getConcepts());
   }, [dispatch, user]);
 
   const appLocation = useAppLocation();
