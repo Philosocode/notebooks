@@ -1,5 +1,4 @@
 import { AnyAction, combineReducers, configureStore, Reducer } from "@reduxjs/toolkit";
-import logger from "redux-logger";
 
 import { alertReducer } from "alert/redux/alert.slice";
 import { authReducer } from "auth/redux/auth.slice";
@@ -31,7 +30,7 @@ const rootReducer: Reducer = (state: TAppState, action: AnyAction) => {
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 
 export type TAppDispatch = typeof store.dispatch;
