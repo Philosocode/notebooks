@@ -20,7 +20,7 @@ export const ConceptHooks: React.FC<IProps> = ({ concept }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!concept.hooks) {
+    if (concept.hooks === undefined) {
       dispatch(getHooks(concept.id));
     }
   }, [concept, dispatch]);

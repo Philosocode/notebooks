@@ -38,7 +38,7 @@ export const ConceptListItem: FC<IProps> = ({ concept }) => {
       <div>
         <SHeadingId>{[concept.id]}</SHeadingId>
         <SConceptName>{concept.name}</SConceptName>
-        <SNumHooks># Hooks: {concept.num_hooks}</SNumHooks>
+        <SNumHooks># Hooks: {concept.hooks?.length ?? concept.num_hooks}</SNumHooks>
         <TagList tags={concept.tags} handleDeleteTag={handleDeleteTag} />
       </div>
       <SIcon icon="ellipsis-v" onClick={handleEdit} />
