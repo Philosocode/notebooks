@@ -116,10 +116,6 @@ const SNavLink = styled(NavLink).attrs({
   ${SLinkStyles}
 `;
 
-const SLinkDiv = styled.div`
-  ${SLinkStyles};
-`;
-
 const SStudyLink = styled(Link)`
   font-weight: ${(props: { $activeLink: boolean }) => props.$activeLink ? "bold" : "400"};
 `;
