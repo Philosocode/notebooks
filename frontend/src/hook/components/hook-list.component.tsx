@@ -17,16 +17,14 @@ import { HookListItem } from "./hook-list-item.component";
 import { theme } from "../../shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 import { faCompress, faExpand } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { SButton } from "../../shared/styles/button.style";
 import { SInputBorderless } from "../../shared/styles/form.style";
 import { FloatingCornerButton } from "../../shared/components/button/floating-corner-button.component";
+import { SortButtons } from "../../shared/components/button/sort-buttons.component";
 
 interface IProps {
   conceptId: string;
   hooks: IHook[];
 }
-
 export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
   const dispatch = useDispatch();
 
@@ -35,7 +33,6 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
     filterText,
     setFilterText,
     sortMode,
-    setSortMode,
     getSortIconCaret,
     handleSortClick,
   } = useEntityFilterSort<IHook>(hooks, "title");
@@ -86,29 +83,11 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
           onChange={handleFilterTextChange}
           value={filterText}
         />
-        <SSortButtons>
-          <SSortButton
-            isSelected={sortMode === "alphabetical"}
-            onClick={() => handleSortClick("alphabetical")}
-          >
-            A-Z <SSortIcon icon={getSortIconCaret("alphabetical")} />
-          </SSortButton>
-          <SSortButton
-            isSelected={sortMode === "created"}
-            onClick={() => handleSortClick("created")}
-          >
-            Created <SSortIcon icon={getSortIconCaret("created")} />
-          </SSortButton>
-          <SSortButton
-            isSelected={sortMode === "updated"}
-            onClick={() => handleSortClick("updated")}
-          >
-            Updated <SSortIcon icon={getSortIconCaret("updated")} />
-          </SSortButton>
-          <SSortButton isSelected={sortMode === "custom"} onClick={() => setSortMode("custom")}>
-            Custom
-          </SSortButton>
-        </SSortButtons>
+        <SortButtons
+          getIcon={getSortIconCaret}
+          handleSortClick={handleSortClick}
+          sortMode={sortMode}
+        />
       </SControls>
 
       {filteredHooks.length === 0 && <SNoHooksHeading>No hooks found...</SNoHooksHeading>}
@@ -141,7 +120,6 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
         handleClick={toggleAllExpansions}
         icon={hasExpandedHook ? faCompress : faExpand}
       />
-
     </SContainer>
   );
 };
@@ -163,46 +141,6 @@ const SControls = styled.div`
   align-items: center;
   margin-top: ${theme.spacing.base};
   width: 100%;
-`;
-
-const SExpandIcon = styled(FontAwesomeIcon)`
-  margin-right: ${theme.spacing.sm};
-`;
-
-const SExpandButton = styled(SButton)`
-  box-shadow: none;
-  margin: 0 auto;
-  width: max-content;
-`;
-
-const SSortIcon = styled(FontAwesomeIcon)`
-  font-size: 1.8rem;
-  margin-left: ${theme.spacing.xs};
-`;
-
-const SSortButtons = styled.div`
-  margin-top: ${theme.spacing.sm};
-`;
-
-interface SSortButtonProps {
-  isSelected: boolean;
-}
-
-const SSortButton = styled.button<SSortButtonProps>`
-  background: ${props => props.isSelected && theme.colors.green[400]};
-  color: ${props => props.isSelected && theme.colors.white};
-  border: none;
-  cursor: pointer;
-  margin-left: ${theme.spacing.xs};
-  margin-right: ${theme.spacing.xs};
-  padding: ${theme.spacing.xs};
-  font-weight: 500;
-  width: 12rem;
-
-  &:active,
-  &:focus {
-    outline: none;
-  }
 `;
 
 const SNoHooksHeading = styled(SHeadingSubSubtitle)`

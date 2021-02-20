@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import orderBy from "lodash/orderBy";
 
-
-type TSortMode = "alphabetical" | "created" | "updated" | "custom";
+export type TSortMode = "alphabetical" | "created" | "updated" | "custom";
 type TSortDirection = "asc" | "desc";
 
 export function useEntityFilterSort<TEntity>(
@@ -81,7 +80,6 @@ export function useEntityFilterSort<TEntity>(
     filterText,
     setFilterText,
     sortMode,
-    setSortMode,
     getSortIconCaret,
     handleSortClick,
   }
