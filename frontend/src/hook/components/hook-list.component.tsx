@@ -20,6 +20,7 @@ import { faCompress, faExpand } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SButton } from "../../shared/styles/button.style";
 import { SInputBorderless } from "../../shared/styles/form.style";
+import { FloatingCornerButton } from "../../shared/components/button/floating-corner-button.component";
 
 interface IProps {
   conceptId: string;
@@ -80,10 +81,6 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
       <SHeadingSubSubtitle># Hooks: {hooks.length}</SHeadingSubSubtitle>
 
       <SControls>
-        <SExpandButton onClick={toggleAllExpansions}>
-          <SExpandIcon icon={hasExpandedHook ? faCompress : faExpand} />
-          {hasExpandedHook ? "Collapse All" : "Expand All"}
-        </SExpandButton>
         <SInput
           placeholder="Filter by hook title..."
           onChange={handleFilterTextChange}
@@ -139,6 +136,12 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
           ))}
         </Droppable>
       </DragDropContext>
+
+      <FloatingCornerButton
+        handleClick={toggleAllExpansions}
+        icon={hasExpandedHook ? faCompress : faExpand}
+      />
+
     </SContainer>
   );
 };
@@ -150,7 +153,7 @@ const SContainer = styled.div`
 
   // add bottom padding so page doesn't jump when expanding/contracting hooks
   padding-bottom: 20rem;
-\` ;
+\`  ;
 `;
 
 const SControls = styled.div`
