@@ -17,9 +17,7 @@ import { HookListItem } from "./hook-list-item.component";
 import { theme } from "../../shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 import { faCompress, faExpand } from "@fortawesome/free-solid-svg-icons";
-import { SInputBorderless } from "../../shared/styles/form.style";
 import { FloatingCornerButton } from "../../shared/components/button/floating-corner-button.component";
-import { SortButtons } from "../../shared/components/button/sort-buttons.component";
 import { SortFilterControls } from "../../shared/components/button/sort-filter-controls.component";
 
 interface IProps {
@@ -32,7 +30,7 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
   const {
     filteredEntities: filteredHooks,
     filterText,
-    setFilterText,
+    handleFilterTextChange,
     sortMode,
     getSortIconCaret,
     handleSortClick,
@@ -44,10 +42,6 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
     hasExpandedEntity,
     toggleAllExpansions
   } = useExpandHash(hooks);
-
-  function handleFilterTextChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setFilterText(event.target.value);
-  }
 
   function handleDragEnd(result: DropResult) {
     const { source, destination } = result;
@@ -84,6 +78,8 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
         handleFilterTextChange={handleFilterTextChange}
         handleSortClick={handleSortClick}
         sortMode={sortMode}
+        isCentered
+        includeCustom
       />
 
       {filteredHooks.length === 0 && <SNoHooksHeading>No hooks found...</SNoHooksHeading>}

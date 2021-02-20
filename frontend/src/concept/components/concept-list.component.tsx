@@ -1,31 +1,27 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { selectConceptsWithCurrentTag } from "concept/redux/concept.selectors";
+// logic
+import { IConcept } from "../redux/concept.types";
+
+// components
 import { ConceptListItem } from "concept/components/concept-list-item.component";
+
+// styles
 import { theme } from "shared/styles/theme.style";
 
-export const ConceptList = () => {
-  const conceptsWithTag = useSelector(selectConceptsWithCurrentTag);
-
-  if (conceptsWithTag.length === 0) {
-    return <SHeading>No concepts found.</SHeading>;
-  }
-
+interface IProps {
+  concepts: IConcept[];
+}
+export const ConceptList: React.FC<IProps> = ({ concepts }) => {
   return (
     <SConceptList>
-      {conceptsWithTag.map((concept) => (
+      {concepts.map((concept) => (
         <ConceptListItem concept={concept} key={concept.id} />
       ))}
     </SConceptList>
   );
 };
-
-const SHeading = styled.h3`
-  font-size: ${theme.fontSizes.md};
-  text-align: center;
-`;
 
 const SConceptList = styled.ul`
   display: flex;
@@ -33,4 +29,8 @@ const SConceptList = styled.ul`
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+`;
+
+const SControls = styled.div`
+  padding-left: ${theme.spacing.md};
 `;

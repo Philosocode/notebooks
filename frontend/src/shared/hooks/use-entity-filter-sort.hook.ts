@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import orderBy from "lodash/orderBy";
 
@@ -8,11 +8,12 @@ type TSortDirection = "asc" | "desc";
 export function useEntityFilterSort<TEntity>(
   entities: any[],
   filterKey: string,
+  initialMode?: TSortMode
 ) {
   const [filteredEntities, setFilteredEntities] = useState<TEntity[]>(entities);
   const [filterText, setFilterText] = useState("");
 
-  const [sortMode, setSortMode] = useState<TSortMode>("custom");
+  const [sortMode, setSortMode] = useState<TSortMode>(initialMode ?? "custom");
   const [sortDirection, setSortDirection] = useState<TSortDirection>("asc");
 
   useEffect(() => {
@@ -56,6 +57,10 @@ export function useEntityFilterSort<TEntity>(
     return "caret-up";
   }
 
+  function handleFilterTextChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setFilterText(event.target.value);
+  }
+
   function handleSortClick(mode: TSortMode) {
     if (mode !== sortMode) {
       // click on different mode -> change mode, set direction to ascending
@@ -78,9 +83,9 @@ export function useEntityFilterSort<TEntity>(
   return {
     filteredEntities,
     filterText,
-    setFilterText,
-    sortMode,
     getSortIconCaret,
+    handleFilterTextChange,
     handleSortClick,
+    sortMode,
   }
 }
