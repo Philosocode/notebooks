@@ -38,6 +38,7 @@ export const ConceptListItem: FC<IProps> = ({ concept }) => {
       <div>
         <SHeadingId>{[concept.id]}</SHeadingId>
         <SConceptName>{concept.name}</SConceptName>
+        <SNumHooks># Hooks: {concept.num_hooks}</SNumHooks>
         <TagList tags={concept.tags} handleDeleteTag={handleDeleteTag} />
       </div>
       <SIcon icon="ellipsis-v" onClick={handleEdit} />
@@ -67,6 +68,14 @@ const SHeadingId = styled.h4`
 
 const SConceptName = styled.h3`
   font-size: ${theme.fontSizes.md};
+`;
+
+const SNumHooks = styled.p`
+  font-size: ${theme.fontSizes.sm};
+  font-weight: 500;
+  margin: 3px 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 `;
 
 const SIcon = styled(FontAwesomeIcon)`

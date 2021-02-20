@@ -9,6 +9,7 @@ export interface IConcept {
   user_id: string;
   tags: string[];
   links: string[];
+  num_hooks: number;
   hooks?: IHook[];
 }
 
