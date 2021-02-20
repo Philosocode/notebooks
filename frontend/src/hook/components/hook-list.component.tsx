@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
@@ -7,11 +7,10 @@ import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { IHook } from "../redux/hook.types";
 import { repositionHook } from "concept/redux/concept.slice";
 import { updateHookPosition } from "../redux/hook.thunks";
-import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
-import { useFilterSort } from "../../shared/hooks/use-filter-sort.hook";
+import { useExpandHash } from "shared/hooks/use-expand-hash.hook";
+import { useEntityFilterSort } from "shared/hooks/use-entity-filter-sort.hook";
 
 // components
-import { HookListControls } from "./hook-list-controls.component";
 import { HookListItem } from "./hook-list-item.component";
 
 // styles
@@ -21,6 +20,7 @@ import { faCompress, faExpand } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SButton } from "../../shared/styles/button.style";
 import { SInputBorderless } from "../../shared/styles/form.style";
+import { useEntityFilter } from "../../shared/hooks/use-entity-filter.hook";
 
 interface IProps {
   conceptId: string;
@@ -30,12 +30,22 @@ interface IProps {
 export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
   const dispatch = useDispatch();
 
-  const [filterText, setFilterText] = useState("");
-
-  const { expandedHash, toggleEntityExpansion, hasExpandedEntity, toggleAllExpansions } = useExpandHash(hooks);
   const {
-    filteredEntities: filteredHooks
-  } = useFilterSort<IHook>(hooks, "title", filterText);
+    filteredEntities: filteredHooks,
+    filterText,
+    setFilterText,
+    sortMode,
+    setSortMode,
+    getSortIconCaret,
+    handleSortClick,
+  } = useEntityFilterSort<IHook>(hooks, "title");
+
+  const {
+    expandedHash,
+    toggleEntityExpansion,
+    hasExpandedEntity,
+    toggleAllExpansions
+  } = useExpandHash(hooks);
 
   function handleFilterTextChange(event: React.ChangeEvent<HTMLInputElement>) {
     setFilterText(event.target.value);
@@ -58,11 +68,13 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
     dispatch(updateHookPosition({
       conceptId,
       hookId: hooks[oldIndex].id,
-      newPosition: newIndex,
+      // positions in DB start at 1, not 0
+      newPosition: newIndex + 1,
     }));
   }
 
   const hasExpandedHook = hasExpandedEntity();
+  const dragDisabled = filterText.trim() === "" && sortMode !== "custom";
 
   return (
     <SContainer>
@@ -71,16 +83,39 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
       <SControls>
         <SExpandButton onClick={toggleAllExpansions}>
           <SExpandIcon icon={hasExpandedHook ? faCompress : faExpand} />
-          { hasExpandedHook ? "Collapse All" : "Expand All" }
+          {hasExpandedHook ? "Collapse All" : "Expand All"}
         </SExpandButton>
         <SInput
-          placeholder="Enter filter text..."
+          placeholder="Filter by hook title..."
           onChange={handleFilterTextChange}
           value={filterText}
         />
+        <SSortButtons>
+          <SSortButton
+            isSelected={sortMode === "alphabetical"}
+            onClick={() => handleSortClick("alphabetical")}
+          >
+            A-Z <SSortIcon icon={getSortIconCaret("alphabetical")} />
+          </SSortButton>
+          <SSortButton
+            isSelected={sortMode === "created"}
+            onClick={() => handleSortClick("created")}
+          >
+            Created <SSortIcon icon={getSortIconCaret("created")} />
+          </SSortButton>
+          <SSortButton
+            isSelected={sortMode === "updated"}
+            onClick={() => handleSortClick("updated")}
+          >
+            Updated <SSortIcon icon={getSortIconCaret("updated")} />
+          </SSortButton>
+          <SSortButton isSelected={sortMode === "custom"} onClick={() => setSortMode("custom")}>
+            Custom
+          </SSortButton>
+        </SSortButtons>
       </SControls>
 
-      { filteredHooks.length === 0 && <SNoHooksHeading>No hooks found...</SNoHooksHeading> }
+      {filteredHooks.length === 0 && <SNoHooksHeading>No hooks found...</SNoHooksHeading>}
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="hook-list-droppable">
           {((provided) => (
@@ -91,6 +126,7 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
               <SHookList>
                 {filteredHooks.map((hook, index) => (
                   <HookListItem
+                    dragDisabled={dragDisabled}
                     key={hook.id}
                     hook={hook}
                     index={index}
@@ -115,7 +151,7 @@ const SContainer = styled.div`
 
   // add bottom padding so page doesn't jump when expanding/contracting hooks
   padding-bottom: 20rem;
-\`;
+\` ;
 `;
 
 const SControls = styled.div`
@@ -135,6 +171,36 @@ const SExpandButton = styled(SButton)`
   box-shadow: none;
   margin: 0 auto;
   width: max-content;
+`;
+
+const SSortIcon = styled(FontAwesomeIcon)`
+  font-size: 1.8rem;
+  margin-left: ${theme.spacing.xs};
+`;
+
+const SSortButtons = styled.div`
+  margin-top: ${theme.spacing.sm};
+`;
+
+interface SSortButtonProps {
+  isSelected: boolean;
+}
+
+const SSortButton = styled.button<SSortButtonProps>`
+  background: ${props => props.isSelected && theme.colors.green[400]};
+  color: ${props => props.isSelected && theme.colors.white};
+  border: none;
+  cursor: pointer;
+  margin-left: ${theme.spacing.xs};
+  margin-right: ${theme.spacing.xs};
+  padding: ${theme.spacing.xs};
+  font-weight: 500;
+  width: 12rem;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
 `;
 
 const SNoHooksHeading = styled(SHeadingSubSubtitle)`

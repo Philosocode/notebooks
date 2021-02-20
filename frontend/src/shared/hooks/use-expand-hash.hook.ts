@@ -6,7 +6,7 @@ interface IExpandedHash {
 interface IEntity {
   id: string;
 }
-export function useExpandHash(entities: IEntity[]) {
+export function useExpandHash(entities: IEntity[], initialValue = false) {
   const [expandedHash, setExpandedHash] = useState<IExpandedHash>({});
 
   // recompute hash whenever entities change
@@ -17,7 +17,7 @@ export function useExpandHash(entities: IEntity[]) {
       entities.forEach(entity => {
         // ID not added yet. Add it to hash
         if (!newHash.hasOwnProperty(entity.id)) {
-          newHash[entity.id] = true;
+          newHash[entity.id] = initialValue;
         }
       });
 

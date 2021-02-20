@@ -41,6 +41,8 @@ module.exports = catchAsync(async function (req, res, next) {
     updates.position = await getValidInsertPosition(conceptId, position, false);
   }
 
+  console.log(updates);
+
   await updateHook(conceptId, hookId, updates);
 
   sendResponse(res, 204);

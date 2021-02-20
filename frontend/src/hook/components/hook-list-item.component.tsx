@@ -17,13 +17,14 @@ import { selectCurrentConcept } from "../../concept/redux/concept.selectors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface IProps {
+  dragDisabled: boolean;
   index: number;
   isExpanded: boolean;
   toggleIsExpanded: (hookId: string) => void;
   hook: IHook;
 }
 
-export const HookListItem: React.FC<IProps> = ({ index, isExpanded, hook, toggleIsExpanded }) => {
+export const HookListItem: React.FC<IProps> = ({ dragDisabled, index, isExpanded, hook, toggleIsExpanded }) => {
   const dispatch = useDispatch();
   const currentConcept = useSelector(selectCurrentConcept);
 
@@ -91,7 +92,7 @@ export const HookListItem: React.FC<IProps> = ({ index, isExpanded, hook, toggle
   }
 
   return (
-    <Draggable draggableId={hook.id} index={index}>
+    <Draggable draggableId={hook.id} index={index} isDragDisabled={dragDisabled}>
       {provided => (
         <SContainer
           isExpanded={isExpanded}
