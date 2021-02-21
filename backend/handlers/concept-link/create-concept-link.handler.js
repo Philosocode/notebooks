@@ -10,7 +10,11 @@ module.exports = catchAsync(async function (req, res, next) {
 
   // validation: array with two items
   if (!Array.isArray(conceptIds) || conceptIds.length !== 2) {
-    return next(new AppError("conceptIds must be an array with 2 concept IDs"), 422);
+    return next(new AppError("conceptIds must be an array with 2 concept IDs", 422));
+  }
+
+  if (conceptIds[0].trim() === conceptIds[1].trim()) {
+    return next(new AppError("Concept IDs must be different.", 422));
   }
 
   // both concepts must exist
