@@ -3,6 +3,8 @@ const db = require("../db/db");
 module.exports = {
   conceptLinkExists,
   createConceptLink,
+  deleteConceptLink,
+  getConceptLinks,
 };
 
 async function conceptLinkExists(concept_ids, link_id, connection = db) {
@@ -25,4 +27,19 @@ async function createConceptLink(concept_ids, connection = db) {
     .returning("*");
 }
 
-/* HELPER FUNCTIONS */
+async function deleteConceptLink(link_id, connection = db) {
+  return connection("concept_link")
+    .where({ id: link_id })
+    .del();
+}
+
+async function getConceptLinks(user_id, filterObj, connection = db) {
+  return connection("concept_link")
+    .where({ ...filterObj })
+    .whereIn("concept1_id", function() {
+      this.select("id").from("concept").where({ user_id });
+    })
+    .whereIn("concept2_id", function() {
+      this.select("id").from("concept").where({ user_id });
+    });
+}
