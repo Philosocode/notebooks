@@ -5,9 +5,12 @@ module.exports = {
   createConceptLink,
   deleteConceptLink,
   getConceptLinks,
+
+  deleteConceptLinksForConcept,
+  getConceptLinksForConcept,
 };
 
-async function conceptLinkExists(concept_ids, link_id, connection = db) {
+async function conceptLinkExists(concept_ids, connection = db) {
   const res = await connection.first(
     connection.raw(
       "exists ? as exists",
@@ -31,6 +34,19 @@ async function deleteConceptLink(link_id, connection = db) {
   return connection("concept_link")
     .where({ id: link_id })
     .del();
+}
+
+async function deleteConceptLinksForConcept(concept_id, connection = db) {
+  return connection("concept_link")
+    .where({ concept1_id: concept_id })
+    .orWhere({ concept2_id: concept_id })
+    .del();
+}
+
+async function getConceptLinksForConcept(concept_id, connection = db) {
+  return connection("concept_link")
+    .where({ concept1_id: concept_id })
+    .orWhere({ concept2_id: concept_id });
 }
 
 async function getConceptLinks(user_id, filterObj, connection = db) {
