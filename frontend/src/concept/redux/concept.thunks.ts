@@ -68,6 +68,7 @@ export const createConcept = createAsyncThunk(
       
       if (!createdConcept.tags) createdConcept.tags = [];
       if (!createdConcept.links) createdConcept.links = [];
+      if (!createdConcept.hooks) createdConcept.hooks = [];
 
       return createdConcept;
     } catch (err) {
