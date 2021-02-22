@@ -61,6 +61,13 @@ export const selectConceptHooks = createSelector(
 );
 
 export const selectConceptLinks = createSelector(
-  [selectCurrentConcept],
-  (currentConcept) => currentConcept?.links
+  [selectConcepts, selectCurrentConcept],
+  (concepts, currentConcept) => {
+    const conceptLinks = currentConcept?.links;
+    if (!conceptLinks) return;
+
+    return concepts.filter(concept => {
+      return conceptLinks.some(conceptLink => conceptLink.concept_id === concept.id);
+    });
+  }
 );
