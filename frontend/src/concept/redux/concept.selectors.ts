@@ -1,6 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit";
 
 import { TAppState } from "shared/redux/store";
+import { IConceptLinkWithName } from "./concept.types";
 
 const selectConcept = (state: TAppState) => state.concept;
 
@@ -63,11 +64,24 @@ export const selectConceptHooks = createSelector(
 export const selectConceptLinks = createSelector(
   [selectConcepts, selectCurrentConcept],
   (concepts, currentConcept) => {
-    const conceptLinks = currentConcept?.links;
-    if (!conceptLinks) return;
+    const links = currentConcept?.links;
+    if (!links) return;
 
-    return concepts.filter(concept => {
-      return conceptLinks.some(conceptLink => conceptLink.concept_id === concept.id);
-    });
+    const conceptLinks: IConceptLinkWithName[] = [];
+
+    links.forEach(link => {
+      const conceptForLink = concepts.find(c => c.id === link.concept_id);
+      if (!conceptForLink) return;
+
+      conceptLinks.push({
+        id: link.id,
+        concept_id: link.concept_id,
+        concept_name: conceptForLink.name,
+        created_at: conceptForLink.created_at,
+        updated_at: conceptForLink.updated_at,
+      });
+    })
+
+    return conceptLinks;
   }
 );

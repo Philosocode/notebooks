@@ -3,8 +3,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   createConcept,
   deleteConcept,
+  deleteConceptLink,
   deleteTagFromConcept,
-  getConcept, getConceptLinks,
+  getConcept,
+  getConceptLinks,
   getConcepts,
   updateConcept,
 } from "./concept.thunks";
@@ -79,16 +81,6 @@ const conceptSlice = createSlice({
       })
       .addCase(getConcepts.fulfilled, (state, action) => {
         state.concepts = action.payload;
-      })
-      .addCase(getConceptLinks.fulfilled, (state, action) => {
-        const {currentConceptId} = state;
-        if (!currentConceptId) return;
-
-        const currentConceptIndex = getConceptIndex(state.concepts, currentConceptId);
-        if (currentConceptIndex === -1) return;
-
-        const currentConcept = state.concepts[currentConceptIndex];
-        currentConcept.links = action.payload;
       })
       .addCase(updateConcept.fulfilled, (state, action) => {
         const { id, updates } = action.payload;
@@ -200,6 +192,32 @@ const conceptSlice = createSlice({
         if (hookIndex === -1) return;
 
         hooks.splice(hookIndex, 1);
+      })
+      // Concept Links
+      .addCase(getConceptLinks.fulfilled, (state, action) => {
+        const {currentConceptId} = state;
+        if (!currentConceptId) return;
+
+        const currentConceptIndex = getConceptIndex(state.concepts, currentConceptId);
+        if (currentConceptIndex === -1) return;
+
+        const currentConcept = state.concepts[currentConceptIndex];
+        currentConcept.links = action.payload;
+      })
+      .addCase(deleteConceptLink.fulfilled, (state, action) => {
+        const { linkId, conceptId } = action.payload;
+
+        const conceptWithLinkIndex = getConceptIndex(state.concepts, conceptId);
+        if (conceptWithLinkIndex === -1) return;
+        const conceptWithLink = state.concepts[conceptWithLinkIndex];
+
+        // remove link from concept's array
+        if (!conceptWithLink.links) return;
+
+        const linkIndex = conceptWithLink.links.findIndex(link => link.id === linkId);
+        if (linkIndex === -1) return;
+
+        conceptWithLink.links.splice(linkIndex, 1);
       })
   }
 });

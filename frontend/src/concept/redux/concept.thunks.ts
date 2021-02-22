@@ -150,3 +150,21 @@ export const getConceptLinks = createAsyncThunk(
     }
   }
 )
+
+export interface IDeleteConceptLinkPayload {
+  linkId: string;
+  conceptId: string;
+}
+export const deleteConceptLink = createAsyncThunk(
+  "concept/deleteConceptLink",
+  async function (payload: IDeleteConceptLinkPayload, thunkAPI) {
+    const { linkId } = payload;
+
+    try {
+      await api.delete(`/concepts/links/${linkId}`);
+      return payload;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);

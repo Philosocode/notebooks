@@ -25,3 +25,9 @@ export interface IConceptLink {
   id: string;
   concept_id: string;
 }
+
+export interface IConceptLinkWithName extends IConceptLink {
+  concept_name: string;
+  updated_at: string;
+  created_at: string;
+}
