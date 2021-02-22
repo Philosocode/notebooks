@@ -2,15 +2,19 @@ import React, { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps, useParams } from "react-router-dom";
 
+// logic
 import { selectConcepts, selectCurrentConcept } from "concept/redux/concept.selectors";
 import { setCurrentConceptId } from "concept/redux/concept.slice";
 
+// components
 import { ConceptDetailHeader } from "concept/components/concept-detail-header.component";
+import { ConceptHooks } from "hook/components/concept-hooks.component";
+import { ConceptLinks } from "../components/concept-links.component";
 import { Tabs } from "shared/components/nav/tabs.component";
 import { Tab } from "shared/components/nav/tab.component";
 
+// styles
 import { SDetailPageContent } from "shared/styles/layout.style";
-import { ConceptHooks } from "hook/components/concept-hooks.component";
 import { showAndHideAlert } from "../../alert/redux/alert.thunks";
 
 interface IMatchParams {
@@ -45,7 +49,9 @@ export const ConceptDetailPage: FC<RouteComponentProps> = () => {
           <ConceptHooks concept={currentConcept} />
         </Tab>
         <Tab title="Materials">Materials</Tab>
-        <Tab title="Concept Links">Concept Links</Tab>
+        <Tab title="Concept Links">
+          <ConceptLinks concept={currentConcept} />
+        </Tab>
       </Tabs>
     </SDetailPageContent>
   );

@@ -4,7 +4,7 @@ import {
   createConcept,
   deleteConcept,
   deleteTagFromConcept,
-  getConcept,
+  getConcept, getConceptLinks,
   getConcepts,
   updateConcept,
 } from "./concept.thunks";
@@ -79,6 +79,16 @@ const conceptSlice = createSlice({
       })
       .addCase(getConcepts.fulfilled, (state, action) => {
         state.concepts = action.payload;
+      })
+      .addCase(getConceptLinks.fulfilled, (state, action) => {
+        const {currentConceptId} = state;
+        if (!currentConceptId) return;
+
+        const currentConceptIndex = getConceptIndex(state.concepts, currentConceptId);
+        if (currentConceptIndex === -1) return;
+
+        const currentConcept = state.concepts[currentConceptIndex];
+        currentConcept.links = action.payload;
       })
       .addCase(updateConcept.fulfilled, (state, action) => {
         const { id, updates } = action.payload;

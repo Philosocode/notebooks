@@ -1,7 +1,7 @@
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
 const { getConcepts } = require("../../models/concept.model");
-const mergeEntityWithTagsAndLinks = require("../../utils/merge-entity-tags-links.util");
+const { mergeEntityWithTags } = require("../tag/tag.common");
 
 module.exports = catchAsync(async function (req, res) {
   const userId = req.user.id;
@@ -11,7 +11,6 @@ module.exports = catchAsync(async function (req, res) {
   const options = {
     include: {
       tags: "tags" in req.query,
-      links: "links" in req.query,
     },
     filter: {
       "concept.id": conceptId,
@@ -19,7 +18,7 @@ module.exports = catchAsync(async function (req, res) {
   }
 
   const conceptFlat = await getConcepts(userId, options);
-  const conceptMerged = mergeEntityWithTagsAndLinks(conceptFlat)[0];
+  const conceptMerged = mergeEntityWithTags(conceptFlat)[0];
 
   sendResponse(res, 200, {
     concept: conceptMerged

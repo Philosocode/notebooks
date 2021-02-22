@@ -8,9 +8,9 @@ export interface IConcept {
   updated_at: string;
   user_id: string;
   tags: string[];
-  links: string[];
   num_hooks: number;
   hooks?: IHook[];
+  links?: IConceptLink[];
 }
 
 export interface IConceptFiltersState extends IEntityFilter {}
@@ -19,4 +19,9 @@ export interface IConceptState {
   concepts: IConcept[];
   currentConceptId?: string;
   filters: IConceptFiltersState;
+}
+
+export interface IConceptLink {
+  id: string;
+  concept_id: string;
 }

@@ -59,3 +59,8 @@ export const selectConceptHooks = createSelector(
   [selectCurrentConcept],
   (currentConcept) => currentConcept?.hooks
 );
+
+export const selectConceptLinks = createSelector(
+  [selectCurrentConcept],
+  (currentConcept) => currentConcept?.links
+);

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { IConcept } from "./concept.types";
+import { IConcept, IConceptLink } from "./concept.types";
 import { api } from "services/api.service";
 import { showAndHideAlert } from "alert/redux/alert.thunks";
 
@@ -15,7 +15,7 @@ export const getConcept = createAsyncThunk(
   async function (conceptId: string, thunkAPI) {
     try {
       const res = await api.get<IGetConceptResponse>(
-        `/concepts/${conceptId}?tags&links`
+        `/concepts/${conceptId}?tags`
       );
       return res.data.data.concept;
     } catch (err) {
@@ -26,7 +26,7 @@ export const getConcept = createAsyncThunk(
         })
       );
       return thunkAPI.rejectWithValue(err);
-    }
+     }
   }
 );
 interface IGetConceptsResponse {
@@ -39,7 +39,7 @@ export const getConcepts = createAsyncThunk(
   "concept/getConcepts",
   async function (_, thunkAPI) {
     try {
-      const res = await api.get<IGetConceptsResponse>("/concepts?tags&links");
+      const res = await api.get<IGetConceptsResponse>("/concepts?tags");
       const { concepts } = res.data.data;
 
       return concepts;
@@ -67,8 +67,9 @@ export const createConcept = createAsyncThunk(
       let createdConcept = res.data.data.concept;
       
       if (!createdConcept.tags) createdConcept.tags = [];
-      if (!createdConcept.links) createdConcept.links = [];
-      if (!createdConcept.hooks) createdConcept.hooks = [];
+
+      createdConcept.hooks = [];
+      createdConcept.links = [];
 
       return createdConcept;
     } catch (err) {
@@ -131,3 +132,21 @@ export const deleteTagFromConcept = createAsyncThunk(
     }
   }
 );
+
+interface IGetConceptLinksResponse {
+  status: string;
+  data: {
+    conceptLinks: IConceptLink[];
+  };
+}
+export const getConceptLinks = createAsyncThunk(
+  "concept/getConceptLinks",
+  async function (conceptId: string, thunkAPI) {
+    try {
+      const response = await api.get<IGetConceptLinksResponse>(`/concepts/${conceptId}/links`);
+      return response.data.data.conceptLinks;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+)
