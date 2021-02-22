@@ -65,7 +65,7 @@ export const SortFilterControls: React.FC<IProps> = ({
               onClick={() => handleSortClick(data.key)}
             >
               {data.text}
-              { sortMode !== "custom" && <SSortIcon icon={getIcon(data.key)} /> }
+              { data.key !== "custom" && <SSortIcon icon={getIcon(data.key)} /> }
             </SSortButton>
           ))
         }
