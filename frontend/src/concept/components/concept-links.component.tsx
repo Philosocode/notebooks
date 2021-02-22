@@ -3,8 +3,12 @@ import React, { useEffect } from "react";
 import { IConcept } from "../redux/concept.types";
 import { useDispatch, useSelector } from "react-redux";
 
+// logic
 import { selectConceptLinks } from "../redux/concept.selectors";
 import { getConceptLinks } from "../redux/concept.thunks";
+
+// styles
+import { LinkGrid } from "../../shared/components/link/link-grid.component";
 
 interface IProps {
   concept: IConcept;
@@ -19,16 +23,15 @@ export const ConceptLinks: React.FC<IProps> = ({ concept }) => {
     }
   }, [conceptLinks, dispatch]);
 
+  const linkGridItems = conceptLinks?.map(conceptLink => {
+    return {
+      id: conceptLink.id,
+      name: conceptLink.name,
+      url: `/concepts/${conceptLink.id}`
+    };
+  }) ?? [];
+
   return (
-    <>
-      {
-        conceptLinks?.map(concept => (
-          <>
-            <div>{concept.id}</div>
-            <div>{concept.name}</div>
-          </>
-        ))
-      }
-    </>
+    <LinkGrid links={linkGridItems} />
   )
 }
