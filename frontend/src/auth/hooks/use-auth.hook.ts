@@ -1,18 +1,15 @@
 import { useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
 import { IAuthToken } from "auth/redux/auth.types";
 import { LOCAL_STORAGE_TOKEN_KEY } from "shared/constants.shared";
 import { login, logout } from "auth/redux/auth.slice";
-import { setAuthLoaded } from "loading/redux/loading.slice";
-import { selectAppLoaded } from "loading/redux/loading.selectors";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const appLoaded = useSelector(selectAppLoaded);
 
   const tokenTimeRemaining = useCallback((token: IAuthToken) => {
     return token.exp * 1000 - new Date().getTime();
@@ -36,7 +33,5 @@ export const useAuth = () => {
         handleLogout();
       }
     }
-
-    if (!appLoaded) dispatch(setAuthLoaded());
   }, [dispatch, tokenTimeRemaining, handleLogout]);
 };

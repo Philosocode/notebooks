@@ -1,4 +1,4 @@
-import React  from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
@@ -15,12 +15,17 @@ import { SortFilterControls } from "../../shared/components/button/sort-filter-c
 import { useEntityFilterSort } from "../../shared/hooks/use-entity-filter-sort.hook";
 import { IConcept } from "../redux/concept.types";
 import { SHeadingSubSubtitle, SHeadingSubtitle } from "../../shared/styles/typography.style";
+import { getConcepts } from "../redux/concept.thunks";
 
 export const ConceptsPage = () => {
   const dispatch = useDispatch();
   const modalShowing = useSelector(selectModalShowing);
   const conceptTags = useSelector(selectConceptTags);
   const filters = useSelector(selectConceptFilters);
+
+  useEffect(() => {
+    dispatch(getConcepts())
+  }, [dispatch]);
 
   const conceptsWithTag = useSelector(selectConceptsWithCurrentTag);
   const {

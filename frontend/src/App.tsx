@@ -7,7 +7,6 @@ import { appRoutes } from "./shared/config/app-routes.config";
 import { useAuth } from "auth/hooks/use-auth.hook";
 import { useScrollToTop } from "shared/hooks/use-scroll-to-top.hook";
 import { useAppLocation } from "shared/hooks/use-app-location.hook";
-import { selectAppLoaded, selectLoading } from "./loading/redux/loading.selectors";
 
 // components
 import { Alert } from "alert/components/alert.component";
@@ -17,29 +16,14 @@ import { Navbar } from "shared/components/nav/navbar.component";
 import { Sidebar } from "./shared/components/nav/sidebar.component";
 import { NotFoundPage } from "shared/pages/not-found.page";
 import { ModalRoot } from "./modal/components/modal-root.component";
-import { Loader } from "./loading/components/loader.component";
 
 // styles
 import { theme } from "./shared/styles/theme.style";
 import { SMainContent } from "shared/styles/layout.style";
-import { selectIsLoggedIn, selectUser } from "./auth/redux/auth.selectors";
-import { getConcepts } from "./concept/redux/concept.thunks";
 
 export function App() {
-  const loading = useSelector(selectLoading);
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  const appLoaded = useSelector(selectAppLoaded);
-  const user = useSelector(selectUser);
-  const dispatch = useDispatch();
-
   useAuth();
   useScrollToTop();
-
-  useEffect(() => {
-    if (!loading.authLoaded) return;
-
-    if (isLoggedIn && !appLoaded) dispatch(getConcepts());
-  }, [dispatch, user]);
 
   const appLocation = useAppLocation();
 
@@ -79,7 +63,6 @@ export function App() {
       paddingLeft = "0";
   }
 
-  if (!appLoaded) return <Loader />;
   return (
     <>
       <Navbar />
