@@ -16,6 +16,5 @@ export const LinkGrid: React.FC<IProps> = ({ links }) => {
 
 const SGrid = styled.div`
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
 `;

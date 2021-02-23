@@ -51,6 +51,9 @@ export const ConceptLinks: React.FC<IProps> = ({ concept }) => {
       url: `/concepts/${conceptLink.concept_id}`,
       handleDelete: handleLinkDelete,
     };
+  }).sort((a,b) => {
+    if (a.name > b.name) return 1;
+    return -1;
   }) ?? [];
 
   return (

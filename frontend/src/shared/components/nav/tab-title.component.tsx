@@ -18,7 +18,7 @@ export const TabTitle: React.FC<IProps> = ({
     if (isSelected) return;
 
     setSelectedTab(title);
-  }, [isSelected]);
+  }, [isSelected]); // eslint-disable-line
 
   return (
     <li>

@@ -32,14 +32,19 @@ export const ConceptDetailPage: FC<RouteComponentProps> = () => {
   const { conceptId } = params;
 
   useEffect(() => {
+    if (currentConcept?.id === conceptId) return;
+
     const conceptExists = concepts.some((c) => c.id === conceptId);
 
-    conceptExists
-      ? dispatch(setCurrentConceptId(conceptId))
-      : dispatch(showAndHideAlert({
-          message: "Concept with that ID not found.",
-          type: "warning",
-        }));
+    if (conceptExists) {
+      dispatch(setCurrentConceptId(conceptId));
+      setSelectedTab("Hooks");
+    } else {
+      dispatch(showAndHideAlert({
+        message: "Concept with that ID not found.",
+        type: "warning",
+      }));
+    }
     // eslint-disable-next-line
   }, [conceptId, dispatch]);
 
