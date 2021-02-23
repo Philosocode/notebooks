@@ -152,8 +152,8 @@ export const getConceptLinks = createAsyncThunk(
 )
 
 export interface IDeleteConceptLinkPayload {
-  linkId: string;
   conceptId: string;
+  linkId: string;
 }
 export const deleteConceptLink = createAsyncThunk(
   "concept/deleteConceptLink",

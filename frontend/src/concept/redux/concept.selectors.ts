@@ -67,21 +67,21 @@ export const selectConceptLinks = createSelector(
     const links = currentConcept?.links;
     if (!links) return;
 
-    const conceptLinks: IConceptLinkWithName[] = [];
+    // find concepts matching link IDs
+    const conceptsForLinks: IConceptLinkWithName[] = [];
 
     links.forEach(link => {
-      const conceptForLink = concepts.find(c => c.id === link.concept_id);
-      if (!conceptForLink) return;
+      const concept = concepts.find(c => c.id === link.concept_id);
+      if (!concept) return;
 
-      conceptLinks.push({
-        id: link.id,
-        concept_id: link.concept_id,
-        concept_name: conceptForLink.name,
-        created_at: conceptForLink.created_at,
-        updated_at: conceptForLink.updated_at,
+      conceptsForLinks.push({
+        ...link,
+        concept_name: concept.name,
+        created_at: concept.created_at,
+        updated_at: concept.updated_at,
       });
-    })
+    });
 
-    return conceptLinks;
+    return conceptsForLinks;
   }
 );

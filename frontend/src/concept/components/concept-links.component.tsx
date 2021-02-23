@@ -22,7 +22,7 @@ export const ConceptLinks: React.FC<IProps> = ({ concept }) => {
     if (conceptLinks === undefined) {
       dispatch(getConceptLinks(concept.id));
     }
-  }, [conceptLinks, dispatch]);
+  }, [concept.id, conceptLinks, dispatch]);
 
   function handleLinkDelete(linkId: string, conceptId: string) {
     dispatch(deleteConceptLink({
@@ -34,7 +34,7 @@ export const ConceptLinks: React.FC<IProps> = ({ concept }) => {
   const linkGridItems = conceptLinks?.map(conceptLink => {
     return {
       link_id: conceptLink.id,
-      ownerEntityId: conceptLink.concept_id,
+      ownerEntityId: concept.id,
       name: conceptLink.concept_name,
       url: `/concepts/${conceptLink.concept_id}`,
       handleDelete: handleLinkDelete,

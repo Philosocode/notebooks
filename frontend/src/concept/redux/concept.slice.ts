@@ -15,6 +15,8 @@ import { IConcept, IConceptFiltersState, IConceptState } from "./concept.types";
 import { IHook } from "hook/redux/hook.types";
 import { createHook, deleteHook, getHooks, updateHook } from "hook/redux/hook.thunks";
 import { IRepositionEntityPayload } from "../../shared/types.shared";
+import { loginGoogle } from "../../auth/redux/auth.thunks";
+import { log } from "util";
 
 // tag === "" means "All"
 const initialState: IConceptState = {
@@ -205,19 +207,19 @@ const conceptSlice = createSlice({
         currentConcept.links = action.payload;
       })
       .addCase(deleteConceptLink.fulfilled, (state, action) => {
-        const { linkId, conceptId } = action.payload;
+        const { conceptId, linkId } = action.payload;
 
         const conceptWithLinkIndex = getConceptIndex(state.concepts, conceptId);
         if (conceptWithLinkIndex === -1) return;
-        const conceptWithLink = state.concepts[conceptWithLinkIndex];
+
+        const conceptLinks = state.concepts[conceptWithLinkIndex].links;
+        if (!conceptLinks) return;
 
         // remove link from concept's array
-        if (!conceptWithLink.links) return;
-
-        const linkIndex = conceptWithLink.links.findIndex(link => link.id === linkId);
+        const linkIndex = conceptLinks.findIndex(link => link.id === linkId);
         if (linkIndex === -1) return;
 
-        conceptWithLink.links.splice(linkIndex, 1);
+        conceptLinks.splice(linkIndex, 1);
       })
   }
 });

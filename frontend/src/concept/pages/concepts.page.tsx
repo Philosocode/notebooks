@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React  from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { getConcepts } from "concept/redux/concept.thunks";
 import { showModal } from "modal/redux/modal.slice";
 import { selectModalShowing } from "modal/redux/modal.selectors";
 import { selectConceptFilters, selectConceptsWithCurrentTag, selectConceptTags } from "concept/redux/concept.selectors";
