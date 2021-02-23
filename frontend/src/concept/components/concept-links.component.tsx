@@ -42,10 +42,10 @@ export const ConceptLinks: React.FC<IProps> = ({ concept }) => {
   }) ?? [];
 
   if (linkGridItems.length === 0) return (
-    <SHeadingSubSubtitle style={{ fontWeight: 500 }}>No links found.</SHeadingSubSubtitle>
+    <SHeadingSubSubtitle weight={500}>No links found.</SHeadingSubSubtitle>
   );
 
   return (
     <LinkGrid links={linkGridItems} />
-  )
-}
+  );
+};
