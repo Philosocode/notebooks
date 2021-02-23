@@ -197,19 +197,8 @@ const conceptSlice = createSlice({
       .addCase(createConceptLink.fulfilled, (state, action) => {
         const { currentConceptId, otherConceptId, id } = action.payload;
 
-        const currentConceptIndex = getConceptIndex(state.concepts, currentConceptId);
-        const otherConceptIndex = getConceptIndex(state.concepts, otherConceptId);
-
-        if (currentConceptIndex === -1 || otherConceptIndex === -1) return;
-
-        const currentConcept = state.concepts[currentConceptIndex];
-        const otherConcept = state.concepts[otherConceptIndex];
-
-        if (!currentConcept.links) currentConcept.links = [];
-        if (!otherConcept.links)   otherConcept.links = [];
-
-        currentConcept.links.push({ id, concept_id: otherConceptId });
-        otherConcept.links.push({ id, concept_id: currentConceptId });
+        addLinkToConcept(state.concepts, currentConceptId, otherConceptId, id);
+        addLinkToConcept(state.concepts, otherConceptId, currentConceptId, id);
       })
       .addCase(getConceptLinks.fulfilled, (state, action) => {
         const {currentConceptId} = state;
@@ -222,19 +211,10 @@ const conceptSlice = createSlice({
         currentConcept.links = action.payload;
       })
       .addCase(deleteConceptLink.fulfilled, (state, action) => {
-        const { conceptId, linkId } = action.payload;
+        const { currentConceptId, otherConceptId, linkId } = action.payload;
 
-        const conceptWithLinkIndex = getConceptIndex(state.concepts, conceptId);
-        if (conceptWithLinkIndex === -1) return;
-
-        const conceptLinks = state.concepts[conceptWithLinkIndex].links;
-        if (!conceptLinks) return;
-
-        // remove link from concept's array
-        const linkIndex = conceptLinks.findIndex(link => link.id === linkId);
-        if (linkIndex === -1) return;
-
-        conceptLinks.splice(linkIndex, 1);
+        removeLinkFromConcept(state.concepts, currentConceptId, linkId);
+        removeLinkFromConcept(state.concepts, otherConceptId, linkId);
       })
   }
 });
@@ -254,4 +234,28 @@ function getConceptIndex(concepts: IConcept[], conceptId: string) {
 
 function getHookIndex(hooks: IHook[], hookId: string) {
   return hooks.findIndex(hook => hook.id === hookId);
+}
+
+function addLinkToConcept(concepts: IConcept[], conceptId: string, otherConceptId: string, linkId: string) {
+  const conceptIndex = getConceptIndex(concepts, conceptId);
+  if (conceptIndex === -1) return;
+
+  const conceptLinks = concepts[conceptIndex].links;
+  if (!conceptLinks) return;
+
+  conceptLinks.push({ id: linkId, concept_id: otherConceptId });
+}
+
+function removeLinkFromConcept(concepts: IConcept[], conceptId: string, linkId: string) {
+  const conceptIndex = getConceptIndex(concepts, conceptId);
+  if (conceptIndex === -1) return;
+
+  const conceptLinks = concepts[conceptIndex].links;
+  if (!conceptLinks) return;
+
+  const linkIndex = conceptLinks.findIndex(link => link.id === linkId);
+  if (linkIndex === -1) return;
+
+  conceptLinks.splice(linkIndex, 1);
+
 }

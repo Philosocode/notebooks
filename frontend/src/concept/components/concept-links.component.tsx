@@ -28,7 +28,8 @@ export const ConceptLinks: React.FC<IProps> = ({ concept }) => {
 
   function handleLinkDelete(linkId: string, conceptId: string) {
     dispatch(deleteConceptLink({
-      conceptId,
+      currentConceptId: concept.id,
+      otherConceptId: conceptId,
       linkId,
     }));
   }
