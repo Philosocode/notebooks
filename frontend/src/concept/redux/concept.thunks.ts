@@ -151,6 +151,39 @@ export const getConceptLinks = createAsyncThunk(
   }
 )
 
+
+interface ICreateConceptLinkPayload {
+  currentConceptId: string;
+  otherConceptId: string;
+}
+interface ICreateConceptLinkResponse {
+  status: string;
+  data: {
+    conceptLink: {
+      id: string;
+      concept1_id: string;
+      concept2_id: string;
+    };
+  };
+}
+export const createConceptLink = createAsyncThunk(
+  "concept/createConceptLink",
+  async function (payload: ICreateConceptLinkPayload, thunkAPI) {
+    try {
+      const conceptIds = [ payload.currentConceptId, payload.otherConceptId ];
+      const res = await api.post<ICreateConceptLinkResponse>("/concepts/links", { conceptIds });
+
+      const newLink = res.data.data.conceptLink;
+      return {
+        ...payload,
+        id: newLink.id,
+      };
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+)
+
 export interface IDeleteConceptLinkPayload {
   conceptId: string;
   linkId: string;

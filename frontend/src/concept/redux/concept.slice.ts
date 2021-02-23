@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import {
-  createConcept,
+  createConcept, createConceptLink,
   deleteConcept,
   deleteConceptLink,
   deleteTagFromConcept,
@@ -15,8 +15,6 @@ import { IConcept, IConceptFiltersState, IConceptState } from "./concept.types";
 import { IHook } from "hook/redux/hook.types";
 import { createHook, deleteHook, getHooks, updateHook } from "hook/redux/hook.thunks";
 import { IRepositionEntityPayload } from "../../shared/types.shared";
-import { loginGoogle } from "../../auth/redux/auth.thunks";
-import { log } from "util";
 
 // tag === "" means "All"
 const initialState: IConceptState = {
@@ -196,6 +194,23 @@ const conceptSlice = createSlice({
         hooks.splice(hookIndex, 1);
       })
       // Concept Links
+      .addCase(createConceptLink.fulfilled, (state, action) => {
+        const { currentConceptId, otherConceptId, id } = action.payload;
+
+        const currentConceptIndex = getConceptIndex(state.concepts, currentConceptId);
+        const otherConceptIndex = getConceptIndex(state.concepts, otherConceptId);
+
+        if (currentConceptIndex === -1 || otherConceptIndex === -1) return;
+
+        const currentConcept = state.concepts[currentConceptIndex];
+        const otherConcept = state.concepts[otherConceptIndex];
+
+        if (!currentConcept.links) currentConcept.links = [];
+        if (!otherConcept.links)   otherConcept.links = [];
+
+        currentConcept.links.push({ id, concept_id: otherConceptId });
+        otherConcept.links.push({ id, concept_id: currentConceptId });
+      })
       .addCase(getConceptLinks.fulfilled, (state, action) => {
         const {currentConceptId} = state;
         if (!currentConceptId) return;

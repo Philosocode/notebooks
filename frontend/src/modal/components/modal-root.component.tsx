@@ -11,6 +11,7 @@ import { DeleteConceptModal } from "concept/components/delete-concept-modal.comp
 import { ConfirmationModal } from "./confirmation-modal.component";
 import { DeleteTagModal } from "tag/components/delete-tag-modal.component";
 import { UpdateTagModal } from "tag/components/update-tag-modal.component";
+import { CreateConceptLinkModal } from "../../concept/components/create-concept-link-modal.component";
 
 type TModalComponents = {
   [key in TModalType]: React.FC<any>;
@@ -23,6 +24,7 @@ const MODAL_COMPONENTS: TModalComponents = {
   "delete-tag": DeleteTagModal,
   "update-tag": UpdateTagModal,
   "confirmation": ConfirmationModal,
+  "create-concept-link": CreateConceptLinkModal,
 };
 
 export const ModalRoot = () => {

@@ -6,10 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 // logic
 import { selectConceptLinks } from "../redux/concept.selectors";
 import { deleteConceptLink, getConceptLinks } from "../redux/concept.thunks";
+import { showModal } from "modal/redux/modal.slice";
 
 // styles
 import { LinkGrid } from "../../shared/components/link/link-grid.component";
 import { SHeadingSubSubtitle } from "../../shared/styles/typography.style";
+import { FloatingCornerButton } from "../../shared/components/button/floating-corner-button.component";
 
 interface IProps {
   concept: IConcept;
@@ -31,6 +33,15 @@ export const ConceptLinks: React.FC<IProps> = ({ concept }) => {
     }));
   }
 
+  function showCreateConceptLinkModal() {
+    dispatch(showModal({
+      modalType: "create-concept-link",
+      modalProps: {
+        currentConcept: concept,
+      }
+    }));
+  }
+
   const linkGridItems = conceptLinks?.map(conceptLink => {
     return {
       link_id: conceptLink.id,
@@ -41,11 +52,15 @@ export const ConceptLinks: React.FC<IProps> = ({ concept }) => {
     };
   }) ?? [];
 
-  if (linkGridItems.length === 0) return (
-    <SHeadingSubSubtitle weight={500}>No links found.</SHeadingSubSubtitle>
-  );
-
   return (
-    <LinkGrid links={linkGridItems} />
+    <>
+      {
+        linkGridItems.length === 0 && (
+          <SHeadingSubSubtitle weight={500}>No links found.</SHeadingSubSubtitle>
+        )
+      }
+      <LinkGrid links={linkGridItems} />
+      <FloatingCornerButton handleClick={showCreateConceptLinkModal} icon="plus" />
+    </>
   );
 };
