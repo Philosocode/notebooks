@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps, useParams } from "react-router-dom";
 
@@ -10,7 +10,7 @@ import { setCurrentConceptId } from "concept/redux/concept.slice";
 import { ConceptDetailHeader } from "concept/components/concept-detail-header.component";
 import { ConceptHooks } from "hook/components/concept-hooks.component";
 import { ConceptLinks } from "../components/concept-links.component";
-import { Tabs } from "shared/components/nav/tabs.component";
+import { TabNames } from "shared/components/nav/tab-names.component";
 import { Tab } from "shared/components/nav/tab.component";
 
 // styles
@@ -25,6 +25,9 @@ export const ConceptDetailPage: FC<RouteComponentProps> = () => {
   const currentConcept = useSelector(selectCurrentConcept);
   const dispatch = useDispatch();
   const params = useParams<IMatchParams>();
+
+  const tabNames = ["Hooks", "Materials", "Concept Links"];
+  const [selectedTab, setSelectedTab] = useState("Hooks");
 
   const { conceptId } = params;
 
@@ -44,15 +47,17 @@ export const ConceptDetailPage: FC<RouteComponentProps> = () => {
   return (
     <SDetailPageContent>
       <ConceptDetailHeader concept={currentConcept} />
-      <Tabs>
-        <Tab title="Hooks">
+
+      <TabNames tabNames={tabNames} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+      <div>
+        <Tab title="Hooks" selectedTab={selectedTab}>
           <ConceptHooks concept={currentConcept} />
         </Tab>
-        <Tab title="Materials">Materials</Tab>
-        <Tab title="Concept Links">
+        <Tab title="Materials" selectedTab={selectedTab}>Materials</Tab>
+        <Tab title="Concept Links" selectedTab={selectedTab}>
           <ConceptLinks concept={currentConcept} />
         </Tab>
-      </Tabs>
+      </div>
     </SDetailPageContent>
   );
 };

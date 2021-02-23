@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 
 // logic
 import { appRoutes } from "./shared/config/app-routes.config";

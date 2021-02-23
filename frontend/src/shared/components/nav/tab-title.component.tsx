@@ -3,17 +3,22 @@ import { theme } from "shared/styles/theme.style";
 import styled from "styled-components";
 
 interface IProps {
-  index: number;
-  selectedTabIndex: number;
-  setSelectedTab: (index: number) => void;
+  selectedTab: string;
+  setSelectedTab: (name: string) => void;
   title: string;
 }
-export const TabTitle: React.FC<IProps> = ({ index, selectedTabIndex, setSelectedTab, title }) => {
-  const handleClick = useCallback(() => {
-    setSelectedTab(index);
-  }, [setSelectedTab, index]);
+export const TabTitle: React.FC<IProps> = ({
+  selectedTab,
+  setSelectedTab,
+  title,
+}) => {
+  const isSelected = selectedTab === title;
 
-  const isSelected = index === selectedTabIndex;
+  const handleClick = useCallback(() => {
+    if (isSelected) return;
+
+    setSelectedTab(title);
+  }, [isSelected]);
 
   return (
     <li>
@@ -26,6 +31,7 @@ export const TabTitle: React.FC<IProps> = ({ index, selectedTabIndex, setSelecte
 };
 
 const tabGreen = theme.colors.green[400];
+
 interface ISTabButtonProps {
   isSelected: boolean;
 }
