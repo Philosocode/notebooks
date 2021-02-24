@@ -1,5 +1,5 @@
 const db = require("../db/db");
-const { getTagsDiff } = require("../handlers/tag/tag.common");
+const { getTagsDiff, mergeEntityWithTags } = require("../handlers/tag/tag.common");
 
 module.exports = {
   conceptHasTag,
@@ -200,7 +200,8 @@ async function deleteUnreferencedConceptTags(connection) {
 
 async function updateTagsForConcept(connection, concept_id, updatedTags) {
   // get tags for concept as an array of strings
-  const currTags = await getTagsForConcept(concept_id);
+  const currTagsFlat = await getTagsForConcept(concept_id);
+  const currTags = mergeEntityWithTags(currTagsFlat)[0].tags;
   const { tagsToCreate, tagsToDelete } = getTagsDiff(currTags, updatedTags);
 
   if (tagsToCreate.length > 0)

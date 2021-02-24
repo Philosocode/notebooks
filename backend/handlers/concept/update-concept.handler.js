@@ -26,7 +26,7 @@ module.exports = catchAsync(async function (req, res, next) {
   }
 
   // ensure tags are lowercase
-  const lowercaseTags = tags?.map(tn => tn.toLowerCase());
+  const lowercaseTags = tags?.map(tn => tn.trim().toLowerCase());
 
   await updateConcept(conceptId, { name, tags: lowercaseTags });
 
