@@ -101,6 +101,8 @@ const SPage = styled.div`
 
 const SConceptSection = styled.section`
   width: 100%;
+  height: calc(100vh - ${theme.componentSizes.navbarHeight});
+  overflow: auto;
 `;
 
 const SPaddedContainer = styled.div`
