@@ -1,4 +1,5 @@
 const db = require("../db/db");
+const { deleteConceptLinksForConcept } = require("./concept-link.model");
 const {
   addTagsToConcept,
   updateTagsForConcept,
@@ -40,6 +41,9 @@ async function deleteConcept(user_id, concept_id) {
 
     // delete all hooks for concept
     await deleteHooks(concept_id, trx);
+
+    // delete all concept links for concept
+    await deleteConceptLinksForConcept(concept_id, trx);
 
     // delete concept itself
     await trx("concept").where({ user_id, id: concept_id }).first().del();
