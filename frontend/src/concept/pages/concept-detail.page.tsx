@@ -16,6 +16,8 @@ import { Tab } from "shared/components/nav/tab.component";
 // styles
 import { SDetailPageContent } from "shared/styles/layout.style";
 import { showAndHideAlert } from "../../alert/redux/alert.thunks";
+import { getConcepts } from "../redux/concept.thunks";
+import { selectConceptsLoaded } from "../../loading/redux/loading.selectors";
 
 interface IMatchParams {
   conceptId: string;
@@ -25,13 +27,20 @@ export const ConceptDetailPage: FC<RouteComponentProps> = () => {
   const currentConcept = useSelector(selectCurrentConcept);
   const dispatch = useDispatch();
   const params = useParams<IMatchParams>();
+  const conceptsLoaded = useSelector(selectConceptsLoaded);
 
   const tabNames = ["Hooks", "Materials", "Concept Links"];
   const [selectedTab, setSelectedTab] = useState("Hooks");
 
   const { conceptId } = params;
 
+
   useEffect(() => {
+    if (!conceptsLoaded) {
+      dispatch(getConcepts());
+      return
+    }
+
     if (currentConcept?.id === conceptId) return;
 
     const conceptExists = concepts.some((c) => c.id === conceptId);
@@ -46,7 +55,7 @@ export const ConceptDetailPage: FC<RouteComponentProps> = () => {
       }));
     }
     // eslint-disable-next-line
-  }, [conceptId, dispatch]);
+  }, [conceptsLoaded, conceptId, dispatch]);
 
   if (!currentConcept) return null;
   return (

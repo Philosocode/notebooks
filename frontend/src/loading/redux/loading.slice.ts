@@ -1,19 +1,19 @@
-import { AnyAction, createSlice } from "@reduxjs/toolkit";
+import { AnyAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import {
   isFulfilledMatcher,
   isPendingMatcher,
   isRejectedMatcher,
 } from "shared/redux/builder-actions";
+
 import { ILoadingState } from "./loading.types";
-import { updateHookPosition } from "../../hook/redux/hook.thunks";
-import { getConcepts } from "../../concept/redux/concept.thunks";
+import { updateHookPosition } from "hook/redux/hook.thunks";
+import { getConcepts } from "concept/redux/concept.thunks";
 
 // https://www.reddit.com/r/reactjs/comments/8iek94/react_redux_handling_the_loading_of_multiple/
 // 0 == not loading
 // >0 == loading
 const initialState: ILoadingState = {
-  authLoaded: false,
   conceptsLoaded: false,
   loadingCount: 0,
 };
@@ -30,18 +30,14 @@ const loadingSlice = createSlice({
   name: "loading",
   initialState,
   reducers: {
-    setAuthLoaded: (state) => {
-      state.authLoaded = true;
-    },
-    setConceptsLoaded: (state) => {
-      state.conceptsLoaded = true;
+    setConceptsLoaded: (state, action: PayloadAction<boolean>) => {
+      state.conceptsLoaded = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getConcepts.fulfilled, (state, action) => {
-        if (!state.conceptsLoaded)
-          state.conceptsLoaded = true;
+        state.conceptsLoaded = true;
       })
       // on all pending actions, start loading
       .addMatcher(loadingPendingMatcher, (state) => {
@@ -56,5 +52,4 @@ const loadingSlice = createSlice({
   },
 });
 
-export const { setAuthLoaded, setConceptsLoaded } = loadingSlice.actions;
 export const loadingReducer = loadingSlice.reducer;

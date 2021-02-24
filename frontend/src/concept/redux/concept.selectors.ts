@@ -17,7 +17,7 @@ export const selectCurrentConceptTag = createSelector(
 
 export const selectConcepts = createSelector(
   [selectConcept],
-  (concept) => concept.concepts
+  (concept) => concept.concepts ?? []
 );
 
 export const selectConceptsWithCurrentTag = createSelector(

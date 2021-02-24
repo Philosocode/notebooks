@@ -21,8 +21,8 @@ import { theme } from "./shared/styles/theme.style";
 import { SMainContent } from "shared/styles/layout.style";
 
 export function App() {
-  useAuth();
   useScrollToTop();
+  useAuth();
 
   const appLocation = useAppLocation();
 
