@@ -14,14 +14,12 @@ import { getConcepts } from "concept/redux/concept.thunks";
 // 0 == not loading
 // >0 == loading
 const initialState: ILoadingState = {
-  conceptsLoaded: false,
   loadingCount: 0,
 };
 
 const loadingMatcherBlacklist = [
   updateHookPosition.pending.type
 ];
-
 function loadingPendingMatcher(action: AnyAction) {
   return !loadingMatcherBlacklist.includes(action.type) && isPendingMatcher(action);
 }
@@ -29,16 +27,9 @@ function loadingPendingMatcher(action: AnyAction) {
 const loadingSlice = createSlice({
   name: "loading",
   initialState,
-  reducers: {
-    setConceptsLoaded: (state, action: PayloadAction<boolean>) => {
-      state.conceptsLoaded = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getConcepts.fulfilled, (state, action) => {
-        state.conceptsLoaded = true;
-      })
       // on all pending actions, start loading
       .addMatcher(loadingPendingMatcher, (state) => {
         state.loadingCount++;

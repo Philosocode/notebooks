@@ -6,7 +6,7 @@ import { IConcept } from "../redux/concept.types";
 import { showModal } from "modal/redux/modal.slice";
 import { selectModalShowing } from "modal/redux/modal.selectors";
 import { selectConceptFilters, selectConceptsWithCurrentTag, selectConceptTags } from "concept/redux/concept.selectors";
-import { selectConceptsLoaded } from "loading/redux/loading.selectors";
+import { selectConceptsLoaded } from "shared/redux/init.selectors";
 import { setConceptFilters, setCurrentConceptTag } from "concept/redux/concept.slice";
 import { useEntityFilterSort } from "../../shared/hooks/use-entity-filter-sort.hook";
 
@@ -16,7 +16,7 @@ import { TagSidebar } from "concept/components/tag-sidebar.component";
 import { SortFilterControls } from "shared/components/button/sort-filter-controls.component";
 
 import { theme } from "shared/styles/theme.style";
-import { SHeadingSubSubtitle, SHeadingSubtitle } from "../../shared/styles/typography.style";
+import { SHeadingSubSubtitle, SHeadingSubtitle } from "shared/styles/typography.style";
 import { getConcepts } from "../redux/concept.thunks";
 
 export const ConceptsPage = () => {

@@ -8,8 +8,3 @@ export const selectIsLoading = createSelector(
   [selectLoading],
   (loading) => loading.loadingCount > 0
 );
-
-export const selectConceptsLoaded = createSelector(
-  [selectLoading],
-  (loading) => loading.conceptsLoaded
-);

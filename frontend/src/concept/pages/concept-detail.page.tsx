@@ -17,7 +17,7 @@ import { Tab } from "shared/components/nav/tab.component";
 import { SDetailPageContent } from "shared/styles/layout.style";
 import { showAndHideAlert } from "../../alert/redux/alert.thunks";
 import { getConcepts } from "../redux/concept.thunks";
-import { selectConceptsLoaded } from "../../loading/redux/loading.selectors";
+import { selectConceptsLoaded } from "shared/redux/init.selectors";
 
 interface IMatchParams {
   conceptId: string;
