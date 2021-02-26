@@ -2,7 +2,10 @@ const express = require("express");
 
 // Middleware
 const protect = require("./middlewares/protect.middleware");
-const { conceptExistsMiddleware } = require("./handlers/concept/concept.common");
+// const { conceptExistsMiddleware } = require("./handlers/concept/concept.common");
+const { entityExistsMiddleware } = require("./middlewares/entity-exists.middleware");
+const conceptExistsMiddleware = entityExistsMiddleware("concept");
+const materialExistsMiddleware = entityExistsMiddleware("material");
 
 // Auth
 const googleLogin = require("./handlers/auth/google-login.handler");
