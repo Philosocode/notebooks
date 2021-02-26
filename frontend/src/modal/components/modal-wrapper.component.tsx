@@ -11,9 +11,16 @@ interface IProps {
   handleClose: (event: MouseEvent) => void;
   handleBack?: () => void;
   styles?: CSSProperties;
+  disableDefaultClose?: boolean;
 }
-
-export const ModalWrapper: FC<IProps> = ({ isShowing, handleBack, handleClose, children, styles }) => {
+export const ModalWrapper: FC<IProps> = ({
+  isShowing,
+  handleBack,
+  handleClose,
+  children,
+  styles,
+  disableDefaultClose,
+}) => {
   const contentStyles: CSSProperties = {
     minHeight: "50vh",
     height: "max-content",
@@ -40,13 +47,15 @@ export const ModalWrapper: FC<IProps> = ({ isShowing, handleBack, handleClose, c
       isOpen={isShowing}
       onRequestClose={handleClose}
       closeTimeoutMS={150}
+      shouldCloseOnEsc={!disableDefaultClose}
+      shouldCloseOnOverlayClick={!disableDefaultClose}
       style={{
         content: contentStyles,
         overlay: overlayStyles,
       }}
     >
-      { handleBack && <SBackIcon onClick={handleBack} icon="arrow-left" /> }
-      <SCloseIcon onClick={handleClose} icon="times" />
+      {handleBack && <SBackIcon onClick={handleBack} icon="arrow-left" />}
+      { !disableDefaultClose && <SCloseIcon onClick={handleClose} icon="times" /> }
       {children}
     </ReactModal>
   );
@@ -58,7 +67,7 @@ const SIcon = styled(FontAwesomeIcon)`
   cursor: pointer;
   font-size: 2.4rem;
   position: absolute;
-    top: 0.5em;
+  top: 0.5em;
 `;
 
 const SBackIcon = styled(SIcon)`
@@ -66,5 +75,5 @@ const SBackIcon = styled(SIcon)`
 `;
 
 const SCloseIcon = styled(SIcon)`
-    right: 0.6em;
+  right: 0.6em;
 `;

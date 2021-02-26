@@ -31,6 +31,7 @@ export function useForm<TFormState>(initialValues: TFormState) {
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     // Change `values` based on input events
     event.persist();
+    console.log(event.target.value);
     setValues(values => ({ ...values, [event.target.name]: event.target.value }));
   };
 

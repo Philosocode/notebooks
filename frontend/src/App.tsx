@@ -19,7 +19,7 @@ import { ModalRoot } from "./modal/components/modal-root.component";
 // styles
 import { theme } from "./shared/styles/theme.style";
 import { SMainContent } from "shared/styles/layout.style";
-import { WelcomeModal } from "./modal/components/welcome-modal.component";
+import { PreStudyModal } from "./modal/components/pre-study-modal.component";
 
 export function App() {
   useScrollToTop();
@@ -72,7 +72,7 @@ export function App() {
         <SMainContent paddingLeft={paddingLeft}>{getRoutes()}</SMainContent>
         <Route component={NotFoundPage} />
       </Switch>
-      <WelcomeModal />
+      <PreStudyModal />
       <GlobalLoader />
       <Alert />
       <ModalRoot />
