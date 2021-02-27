@@ -1,9 +1,6 @@
 const db = require("../db/db");
 const { deleteConceptLinksForConcept } = require("./concept-link.model");
-const {
-  addTagsToConcept,
-} = require("./concept-tag.model");
-const { updateTagsForEntity } = require("./entity-tag.model");
+const { addTagsToEntity, updateTagsForEntity } = require("./entity-tag.model");
 const { deleteHooks } = require("./hook.model");
 
 module.exports = {
@@ -25,7 +22,7 @@ async function createConcept(user_id, name, tagNames) {
     // if no tags included, return the concept as is
     if (tagNames === undefined || tagNames.length == 0) return createdConcept;
 
-    await addTagsToConcept(createdConcept.id, tagNames, trx);
+    await addTagsToEntity("concept", createdConcept.id, tagNames, trx);
 
     return {
       ...createdConcept,

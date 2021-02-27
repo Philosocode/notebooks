@@ -1,7 +1,7 @@
 const AppError = require("../../utils/app-error.util");
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
-const { createTagForConcept, conceptHasTag } = require("../../models/concept-tag.model");
+const { createTagForEntity, entityHasTag } = require("../../models/entity-tag.model");
 
 module.exports = catchAsync(async function (req, res, next) {
   const { conceptId } = req.params;
@@ -14,11 +14,11 @@ module.exports = catchAsync(async function (req, res, next) {
     return next(new AppError("Must include a tag to add.", 422));
   }
 
-  if (await conceptHasTag(conceptId, tagLower)) {
+  if (await entityHasTag("concept", conceptId, tagLower)) {
     return next(new AppError("Concept already has that tag.", 409));
   }
 
-  await createTagForConcept(conceptId, tagLower);
+  await createTagForEntity("concept", conceptId, tagLower);
 
   sendResponse(res, 201, {
     data: { tag: tagLower },
