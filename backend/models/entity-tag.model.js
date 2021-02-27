@@ -92,8 +92,9 @@ async function deleteEntityTag(tableName, tagName, user_id, connection=db) {
   });
 }
 
-async function deleteTagFromEntity(tableName, entityId, tag) {
-  await removeTagsFromEntity(tableName, entityId, [tag]);
+async function deleteTagFromEntity(tableName, entityId, tag, connection=db) {
+  console.log("CALLED")
+  return removeTagsFromEntity(tableName, entityId, [tag], connection);
 }
 
 async function updateEntityTag(tableName, user_id, oldName, newName, connection=db) {
