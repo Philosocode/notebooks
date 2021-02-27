@@ -2,8 +2,8 @@ const db = require("../db/db");
 const { deleteConceptLinksForConcept } = require("./concept-link.model");
 const {
   addTagsToConcept,
-  updateTagsForConcept,
 } = require("./concept-tag.model");
+const { updateTagsForEntity } = require("./entity-tag.model");
 const { deleteHooks } = require("./hook.model");
 
 module.exports = {
@@ -77,16 +77,16 @@ async function getConcepts(user_id, options, connection=db) {
   return query;
 }
 
-async function updateConcept(concept_id, updates) {
+async function updateConcept(concept_id, updates, connection=db) {
   const { name, tags: updatedTags } = updates;
 
-  return await db.transaction(async (trx) => {
+  return await connection.transaction(async (trx) => {
     if (name) {
       await trx("concept").where({ id: concept_id }).update({ name });
     }
 
     if (updatedTags) {
-      await updateTagsForConcept(trx, concept_id, updatedTags);
+      await updateTagsForEntity("concept", concept_id, updatedTags, trx);
     }
   });
 }

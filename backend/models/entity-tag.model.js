@@ -234,9 +234,15 @@ async function deleteUnreferencedConceptTags(connection) {
 }
 
 async function updateTagsForEntity(tableName, entityId, updatedTags, connection=db) {
-  // get tags for material as an array of strings
-
+  // get tags for entity as an array of strings
   const currTagsFlat = await getTagsForEntity(tableName, entityId, connection);
+
+  if (currTagsFlat.length === 0) {
+    // no tags. Just add them
+    await addTagsToEntity(tableName, entityId, updatedTags);
+    return;
+  }
+
   const currTags = mergeEntityWithTags(currTagsFlat)[0].tags;
   const { tagsToCreate, tagsToDelete } = getTagsDiff(currTags, updatedTags);
 
