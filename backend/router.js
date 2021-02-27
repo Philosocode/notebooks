@@ -51,7 +51,7 @@ const updateMaterial = require("./handlers/material/update-material.handler");
 // Material Tags
 const getTagsForMaterial = require("./handlers/material-tag/get-tags-for-material");
 const createTagForMaterial = require("./handlers/material-tag/create-tag-for-material");
-const updateTagForMaterial = require("./handlers/concept-tag/update-tag-for-concept.handler");
+const updateTagForMaterial = require("./handlers/material-tag/update-tag-for-material.handler");
 const deleteTagFromMaterial = require("./handlers/material-tag/delete-tag-from-material.handler");
 
 const getMaterialTags = require("./handlers/material-tag/get-material-tags.handler");
@@ -151,7 +151,7 @@ router.route("/materials/:materialId/tags")
   .post(materialExistsMiddleware, createTagForMaterial)
 
 router.route("/materials/:materialId/tags/:tagName")
-  .patch(conceptExistsMiddleware, updateTagForConcept)
+  .patch(materialExistsMiddleware, updateTagForMaterial)
   .delete(materialExistsMiddleware, deleteTagFromMaterial)
 
 
