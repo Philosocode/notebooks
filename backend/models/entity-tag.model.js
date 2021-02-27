@@ -53,7 +53,7 @@ async function getEntityTags(tableName, user_id, connection=db) {
   return connection(tagTableName)
     .select("tag.name AS tag")
     .join("tag", "tag.id", `${tagTableName}.tag_id`)
-    .join(tableName, `${tableName}.id`, `${tagTableName}.concept_id`)
+    .join(tableName, `${tableName}.id`, `${tagTableName}.${tableName}_id`)
     .where({ [userIdColumn]: user_id });
 }
 

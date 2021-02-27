@@ -48,6 +48,17 @@ const getMaterial = require("./handlers/material/get-material.handler");
 const getMaterials = require("./handlers/material/get-materials.handler");
 const updateMaterial = require("./handlers/material/update-material.handler");
 
+// Material Tags
+const getTagsForMaterial = require("./handlers/concept-tag/get-tags-for-concept");
+const createTagForMaterial = require("./handlers/concept-tag/create-tag-for-concept");
+const updateTagForMaterial = require("./handlers/concept-tag/update-tag-for-concept.handler");
+const deleteTagFromMaterial = require("./handlers/concept-tag/delete-tag-from-concept.handler");
+
+const getMaterialTags = require("./handlers/material-tag/get-material-tags.handler");
+const updateMaterialTag = require("./handlers/concept-tag/update-concept-tag.handler");
+const deleteMaterialTag = require("./handlers/concept-tag/delete-concept-tag.handler");
+
+
 // Tag
 const getTags = require("./handlers/tag/get-tags.handler");
 const createTags = require("./handlers/tag/create-tags.handler");
@@ -70,7 +81,7 @@ router.post("/auth/google", googleLogin);
    ====================== */
 router.use(protect);
 
-// Concept Tags
+// Concept Tags - General
 router.route("/concepts/tags")
   .get(getConceptTags)
 
@@ -78,6 +89,7 @@ router.route("/concepts/tags/:tagName")
   .patch(updateConceptTag)
   .delete(deleteConceptTag)
 
+// Concept Links
 router.route("/concepts/links")
   .get(getConceptLinks)
   .post(createConceptLink)
@@ -100,7 +112,7 @@ router.route("/concepts/:conceptId/links")
   .get(conceptExistsMiddleware, getConceptLinksForConcept)
   .delete(conceptExistsMiddleware, deleteConceptLinksForConcept)
 
-// Concept Tags
+// Concept Tags For Concept
 router.route("/concepts/:conceptId/tags")
   .get(conceptExistsMiddleware, getTagsForConcept)
   .post(conceptExistsMiddleware, createTagForConcept)
@@ -120,6 +132,22 @@ router.route("/concepts/:conceptId/hooks/:hookId")
   .patch(conceptExistsMiddleware, updateHook)
   .delete(conceptExistsMiddleware, deleteHook)
 
+// Material Tags - General
+router.route("/materials/tags")
+  .get(getMaterialTags)
+
+router.route("/concepts/tags/:tagName")
+  .patch(updateConceptTag)
+  .delete(deleteConceptTag)
+
+// Concept Tags
+router.route("/concepts/tags")
+  .get(getConceptTags)
+
+router.route("/concepts/tags/:tagName")
+  .patch(updateConceptTag)
+  .delete(deleteConceptTag)
+
 // Materials
 router.route("/materials")
   .get(getMaterials)
@@ -129,7 +157,6 @@ router.route("/materials/:materialId")
   .get(materialExistsMiddleware, getMaterial)
   .patch(materialExistsMiddleware, updateMaterial)
   .delete(materialExistsMiddleware, deleteMaterial)
-
 
 // Tags
 router.route("/tags")
