@@ -7,7 +7,7 @@ const { getTagsDiff, mergeEntityWithTags } = require("../handlers/tag/tag.common
 
 module.exports = {
   entityHasTag,
-  createTagForConcept,
+  createTagForEntity,
   deleteEntityTag,
   deleteTagFromEntity,
   getEntityTags,
@@ -67,7 +67,7 @@ async function getTagsForEntity(tableName, entityId, connection=db) {
     .where({ [tagTableIdColumn]: entityId });
 }
 
-async function createTagForConcept(tableName, entityId, tag, connection=db) {
+async function createTagForEntity(tableName, entityId, tag, connection=db) {
   await addTagsToEntity(tableName, entityId, [tag], connection);
 }
 
