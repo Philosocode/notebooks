@@ -6,21 +6,21 @@ const db = require("../db/db");
 const { getTagsDiff, mergeEntityWithTags } = require("../handlers/tag/tag.common");
 
 module.exports = {
-  conceptHasTag,
+  entityHasTag,
   createTagForConcept,
-  deleteConceptTag,
-  deleteTagFromConcept,
+  deleteEntityTag,
+  deleteTagFromEntity,
   getEntityTags,
-  getTagsForConcept,
-  updateConceptTag,
-  updateTagForConcept,
+  getTagsForEntity,
+  updateEntityTag,
+  updateTagForEntity,
 
   // Helpers
   addTagsToEntity,
   entityTagExists,
   deleteUnreferencedConceptTags,
-  removeTagsFromConcept,
-  updateTagsForConcept,
+  removeTagsFromEntity,
+  updateTagsForEntity,
 };
 
 async function entityTagExists(tableName, user_id, tagName, connection=db) {
@@ -46,50 +46,57 @@ async function entityTagExists(tableName, user_id, tagName, connection=db) {
   return res.exists;
 }
 
-async function getEntityTags(tableName, user_id) {
+async function getEntityTags(tableName, user_id, connection=db) {
   const tagTableName = `${tableName}_tag`;
   const userIdColumn = `${tableName}.user_id`;
 
-  return db(tagTableName)
+  return connection(tagTableName)
     .select("tag.name AS tag")
     .join("tag", "tag.id", `${tagTableName}.tag_id`)
     .join(tableName, `${tableName}.id`, `${tagTableName}.concept_id`)
     .where({ [userIdColumn]: user_id });
 }
 
-async function getTagsForConcept(concept_id) {
-  return db("concept_tag")
+async function getTagsForEntity(tableName, entityId, connection=db) {
+  const tagTableName = `${tableName}_tag`;
+  const tagTableIdColumn = `${tagTableName}.${tableName}_id`;
+
+  return connection(tagTableName)
     .select("tag.name AS tag")
-    .join("tag", "concept_tag.tag_id", "tag.id")
-    .where({ "concept_tag.concept_id": concept_id });
+    .join("tag", `${tableName}_tag.tag_id`, "tag.id")
+    .where({ [tagTableIdColumn]: entityId });
 }
 
-async function createTagForConcept(concept_id, tag, connection=db) {
-  await addTagsToConcept(concept_id, [tag], connection);
+async function createTagForConcept(tableName, entityId, tag, connection=db) {
+  await addTagsToEntity(tableName, entityId, [tag], connection);
 }
 
-async function deleteConceptTag(user_id, tagName, connection=db) {
+async function deleteEntityTag(tableName, tagName, user_id, connection=db) {
   await connection.transaction(async (trx) => {
     // get tag name and ID
     const tagArr = await trx("tag").select("id").where({ name: tagName });
     const tagIdToDelete = tagArr[0].id;
 
-    await trx("concept_tag")
-      .where({ "concept_tag.tag_id": tagIdToDelete })
-      .whereIn("concept_tag.concept_id", function () {
-        this.select("concept.id")
-          .from("concept")
-          .where({ "concept.user_id": user_id });
+    const tagTableName = `${tableName}_tag`;
+    const tagTableTagIdColumn = `${tagTableName}.tag_id`;
+    const userIdColumn = `${tableName}.user_id`;
+
+    await trx(tagTableName)
+      .where({ [tagTableTagIdColumn]: tagIdToDelete })
+      .whereIn(`${tagTableName}.${tableName}_id`, function () {
+        this.select(`${tableName}.id`)
+          .from(tableName)
+          .where({ [userIdColumn]: user_id });
       })
       .del();
   });
 }
 
-async function deleteTagFromConcept(concept_id, tag) {
-  await removeTagsFromConcept(concept_id, [tag]);
+async function deleteTagFromEntity(tableName, entityId, tag) {
+  await removeTagsFromEntity(tableName, entityId, [tag]);
 }
 
-async function updateConceptTag(user_id, oldName, newName, connection = db) {
+async function updateEntityTag(tableName, user_id, oldName, newName, connection=db) {
   await connection.transaction(async (trx) => {
     // create new tag in case it doesn't exist
     await trx("tag").insert({ name: newName }).onConflict("name").ignore();
@@ -97,30 +104,34 @@ async function updateConceptTag(user_id, oldName, newName, connection = db) {
     // get old tag & new tag
     const [oldTag, newTag] = await trx("tag").whereIn("name", [oldName, newName]);
 
-    // get concepts with old tag
-    const conceptsWithOldTag = await trx("concept_tag")
-      .where({ "concept_tag.tag_id": oldTag.id })
-      .whereIn("concept_tag.concept_id", function () {
-        this.select("concept.id")
-          .from("concept")
-          .where({ "concept.user_id": user_id });
+    // get entities with old tag
+    const tagTableName = `${tableName}_tag`;
+    const tagTableTagIdColumn = `${tagTableName}.tag_id`;
+    const tagTableEntityIdColumn = `${tagTableName}.${tableName}_id`;
+
+    const entitiesWithOldTag = await trx(tagTableName)
+      .where({ [tagTableTagIdColumn]: oldTag.id })
+      .whereIn(tagTableEntityIdColumn, function () {
+        this.select(`${tableName}.id`)
+          .from(tableName)
+          .where({ [`${tableName}.user_id`]: user_id });
       });
-    const conceptIdsWithOldTag = conceptsWithOldTag.map(ct => ct.concept_id);
+    const entityIdsWithOldTag = entitiesWithOldTag.map(ct => ct[`${tableName}_id`]);
 
-    // get concepts with the new tag
-    // don't include these when inserting new concept_tag items
-    const conceptTagsWithNewTag = await trx("concept_tag")
-      .where({ "concept_tag.tag_id": newTag.id })
-      .whereIn("concept_tag.concept_id", conceptIdsWithOldTag);
+    // get entities with the new tag
+    // don't include these when inserting new <entity>_tag items
+    const entityTagsWithNewTag = await trx(tagTableName)
+      .where({ [tagTableTagIdColumn]: newTag.id })
+      .whereIn([tagTableEntityIdColumn], entityIdsWithOldTag);
 
-    const conceptIdsWithNewTag = conceptTagsWithNewTag.map(ct => ct.concept_id);
+    const entityIdsWithNewTag = entityTagsWithNewTag.map(ct => ct[`${tableName}_id`]);
 
-    const conceptIdsWithoutNewTag = conceptIdsWithOldTag.filter(
-      id => !conceptIdsWithNewTag.includes(id)
+    const entityIdsWithoutNewTag = entityIdsWithOldTag.filter(
+      id => !entityIdsWithNewTag.includes(id)
     );
 
-    // create concept tags with the new tag
-    const conceptTagsToInsert = conceptIdsWithoutNewTag.map(concept_id => {
+    // create entity tags with the new tag
+    const entityTagsToInsert = entityIdsWithoutNewTag.map(concept_id => {
       return {
         concept_id,
         tag_id: newTag.id,
@@ -128,37 +139,37 @@ async function updateConceptTag(user_id, oldName, newName, connection = db) {
     });
 
     // insert new concept tags
-    await trx("concept_tag").insert(conceptTagsToInsert);
+    await trx(tagTableName).insert(entityTagsToInsert);
 
     // delete old concept tags with old tag ID
-    await trx("concept_tag")
-      .whereIn("concept_id", conceptIdsWithOldTag)
+    await trx(tagTableName)
+      .whereIn(`${tableName}_id`, entityIdsWithOldTag)
       .where({ tag_id: oldTag.id })
       .del();
   });
 }
 
-async function updateTagForConcept(concept_id, oldName, newName) {
-  return db.transaction(async (trx) => {
+async function updateTagForEntity(tableName, entityId, oldName, newName, connection=db) {
+  return connection.transaction(async (trx) => {
     // remove the old one
-    await removeTagsFromConcept(concept_id, [oldName], trx);
+    await removeTagsFromEntity(tableName, entityId, [oldName], trx);
 
     // add the tag if not there
-    const hasNewTag = await conceptHasTag(concept_id, newName);
+    const hasNewTag = await entityHasTag(tableName, entityId, newName, trx);
     if (!hasNewTag) {
-      await addTagsToConcept(concept_id, [newName], trx);
+      await addTagsToEntity(tableName, entityId, [newName], trx);
     }
   });
 }
 
 /* HELPER FUNCTIONS */
-async function conceptHasTag(concept_id, tag, connection=db) {
+async function entityHasTag(tableName, entityId, tag, connection=db) {
   const res = await connection.first(
     connection.raw(
       "exists ? as exists",
-      connection("concept_tag")
-        .join("tag", "tag.id", "concept_tag.tag_id")
-        .where({ "concept_tag.concept_id": concept_id, "tag.name": tag })
+      connection(`${tableName}_tag`)
+        .join("tag", "tag.id", `${tableName}_tag.tag_id`)
+        .where({ [`${tableName}_tag.${tableName}_id`]: entityId, "tag.name": tag })
     )
   );
 
@@ -181,13 +192,11 @@ async function addTagsToEntity(tableName, entity_id, tagNames, connection=db) {
     tag_id: t.id,
   }));
 
-  console.log(entityTagLinks);
-
   const tagTableName = `${tableName}_tag`;
   await connection(tagTableName).insert(entityTagLinks);
 }
 
-async function removeTagsFromConcept(concept_id, tagNames, connection=db) {
+async function removeTagsFromEntity(tableName, entityId, tagNames, connection=db) {
   // get IDs of tag names to delete
   const tagIdsToDeleteFlat = await connection("tag")
     .select("name", "id")
@@ -196,9 +205,12 @@ async function removeTagsFromConcept(concept_id, tagNames, connection=db) {
   const tagIdsToDelete = tagIdsToDeleteFlat.map((t) => t.id);
 
   // remove these tags from concept_tag
-  await connection("concept_tag")
-    .where({ "concept_tag.concept_id": concept_id })
-    .whereIn("concept_tag.tag_id", tagIdsToDelete)
+  const tagTableName = `${tableName}_tag`;
+  const tagTableIdColumn = `${tableName}_tag.${tableName}_id`;
+
+  await connection(tagTableName)
+    .where({ [tagTableIdColumn]: entityId })
+    .whereIn(`${tagTableName}.tag_id`, tagIdsToDelete)
     .del();
 }
 
@@ -212,14 +224,15 @@ async function deleteUnreferencedConceptTags(connection) {
     .del();
 }
 
-async function updateTagsForConcept(connection, concept_id, updatedTags) {
-  // get tags for concept as an array of strings
-  const currTagsFlat = await getTagsForConcept(concept_id);
+async function updateTagsForEntity(tableName, entityId, updatedTags, connection=db) {
+  // get tags for material as an array of strings
+
+  const currTagsFlat = await getTagsForEntity(tableName, entityId, connection);
   const currTags = mergeEntityWithTags(currTagsFlat)[0].tags;
   const { tagsToCreate, tagsToDelete } = getTagsDiff(currTags, updatedTags);
 
   if (tagsToCreate.length > 0)
-    await addTagsToConcept(concept_id, tagsToCreate);
+    await addTagsToEntity(tableName, entityId, tagsToCreate);
   if (tagsToDelete.length > 0)
-    await removeTagsFromConcept(concept_id, tagsToDelete, connection);
+    await removeTagsFromEntity(tableName, entityId, tagsToDelete, connection);
 }

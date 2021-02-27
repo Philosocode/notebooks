@@ -1,16 +1,12 @@
 const db = require("../db/db");
 
-const { addTagsToEntity } = require("./entity-tag.model");
-const {
-  addTagsToConcept,
-  updateTagsForConcept,
-} = require("./concept-tag.model");
+const { addTagsToEntity, updateTagsForEntity } = require("./entity-tag.model");
 
 module.exports = {
   createMaterial,
   deleteMaterial,
   getMaterials,
-  updateConcept,
+  updateMaterial,
 };
 
 async function createMaterial(user_id, name, tagNames, connection=db) {
@@ -67,16 +63,16 @@ async function getMaterials(user_id, options, connection=db) {
   return query;
 }
 
-async function updateConcept(concept_id, updates, connection=db) {
+async function updateMaterial(material_id, updates, connection=db) {
   const { name, tags: updatedTags } = updates;
 
   return await connection.transaction(async (trx) => {
     if (name) {
-      await trx("concept").where({ id: concept_id }).update({ name });
+      await trx("material").where({ id: material_id }).update({ name });
     }
 
     if (updatedTags) {
-      await updateTagsForConcept(trx, concept_id, updatedTags);
+      await updateTagsForEntity("material", material_id, updatedTags, trx);
     }
   });
 }

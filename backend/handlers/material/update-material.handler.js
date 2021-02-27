@@ -1,10 +1,10 @@
 const AppError = require("../../utils/app-error.util");
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
-const { updateConcept } = require("../../models/concept.model");
+const { updateMaterial } = require("../../models/material.model");
 
 module.exports = catchAsync(async function (req, res, next) {
-  const { conceptId } = req.params;
+  const { materialId } = req.params;
 
   // check if at least 1 update-able property included
   const { name, tags } = req.body;
@@ -28,7 +28,7 @@ module.exports = catchAsync(async function (req, res, next) {
   // ensure tags are lowercase
   const lowercaseTags = tags?.map(tn => tn.trim().toLowerCase());
 
-  await updateConcept(conceptId, { name, tags: lowercaseTags });
+  await updateMaterial(materialId, { name, tags: lowercaseTags });
 
   sendResponse(res, 204);
 });

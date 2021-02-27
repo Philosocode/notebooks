@@ -10,7 +10,6 @@ exports.entityExistsMiddleware = function entityExistsMiddleware(tableName) {
   const tableNameCapitalized = capitalizeFirstLetter(tableName);
 
   return catchAsync(async function (req, _, next) {
-    console.log(tableName);
     const userId = req.user.id;
     const entityId = req.params[tableName + "Id"];
 
