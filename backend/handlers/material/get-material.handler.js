@@ -1,11 +1,11 @@
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
-const { getConcepts } = require("../../models/concept.model");
+const { getMaterials } = require("../../models/material.model");
 const { mergeEntityWithTags } = require("../tag/tag.common");
 
 module.exports = catchAsync(async function (req, res) {
   const userId = req.user.id;
-  const { conceptId } = req.params;
+  const { materialId } = req.params;
 
   // include tags & links if query params passed
   const options = {
@@ -13,14 +13,14 @@ module.exports = catchAsync(async function (req, res) {
       tags: "tags" in req.query,
     },
     filter: {
-      "concept.id": conceptId,
+      "material.id": materialId,
     }
   }
 
-  const conceptFlat = await getConcepts(userId, options);
-  const conceptMerged = mergeEntityWithTags(conceptFlat)[0];
+  const materialFlat = await getMaterials(userId, options);
+  const materialMerged = mergeEntityWithTags(materialFlat)[0];
 
   sendResponse(res, 200, {
-    concept: conceptMerged
+    material: materialMerged
   });
 });

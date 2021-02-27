@@ -11,7 +11,7 @@ const { deleteHooks } = require("./hook.model");
 module.exports = {
   createMaterial,
   deleteConcept,
-  getConcepts,
+  getMaterials,
   updateConcept,
 };
 
@@ -52,28 +52,24 @@ async function deleteConcept(user_id, concept_id) {
   });
 }
 
-async function getConcepts(user_id, options, connection=db) {
-  const conceptIdRef = connection.ref("concept.id");
-  const numberOfHooksSubquery = connection("hook").count("*").where("concept_id", conceptIdRef).as("num_hooks");
-
+async function getMaterials(user_id, options, connection=db) {
   const columnsToSelect = [
-    "concept.id", "concept.name", "concept.created_at", "concept.updated_at",
-    numberOfHooksSubquery,
+    "material.id", "material.name", "material.created_at", "material.updated_at",
   ];
 
   if (options.include?.tags) {
     columnsToSelect.push("tag.name AS tag");
   }
 
-  let query = db("concept")
+  let query = connection("material")
     .select(...columnsToSelect)
     .where({ ...options.filter, user_id })
     .orderBy("updated_at", "desc");
 
   if (options.include?.tags) {
     query = query
-      .leftJoin("concept_tag", "concept.id", "concept_tag.concept_id")
-      .leftJoin("tag", "tag.id", "concept_tag.tag_id");
+      .leftJoin("material_tag", "material.id", "material_tag.material_id")
+      .leftJoin("tag", "tag.id", "material_tag.tag_id");
   }
 
   return query;

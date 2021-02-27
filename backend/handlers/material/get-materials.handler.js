@@ -1,6 +1,6 @@
-const { getConcepts } = require("../../models/concept.model");
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
+const { getMaterials } = require("../../models/material.model");
 const { mergeEntityWithTags } = require("../tag/tag.common");
 
 module.exports = catchAsync(async function (req, res) {
@@ -12,8 +12,8 @@ module.exports = catchAsync(async function (req, res) {
     }
   };
 
-  const conceptsFlat = await getConcepts(userId, options);
-  const conceptsMerged = mergeEntityWithTags(conceptsFlat);
+  const materialsFlat = await getMaterials(userId, options);
+  const materialsMerged = mergeEntityWithTags(materialsFlat);
 
-  sendResponse(res, 200, { concepts: conceptsMerged });
+  sendResponse(res, 200, { materials: materialsMerged });
 });

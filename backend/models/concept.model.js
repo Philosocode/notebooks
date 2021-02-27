@@ -63,7 +63,7 @@ async function getConcepts(user_id, options, connection=db) {
     columnsToSelect.push("tag.name AS tag");
   }
 
-  let query = db("concept")
+  let query = connection("concept")
     .select(...columnsToSelect)
     .where({ ...options.filter, user_id })
     .orderBy("updated_at", "desc");

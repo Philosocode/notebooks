@@ -43,6 +43,8 @@ const getConceptLinksForConcept = require("./handlers/concept-link/get-concept-l
 
 // Materials
 const createMaterial = require("./handlers/material/create-material.handler");
+const getMaterial = require("./handlers/material/get-material.handler");
+const getMaterials = require("./handlers/material/get-materials.handler");
 
 // Tag
 const getTags = require("./handlers/tag/get-tags.handler");
@@ -118,11 +120,11 @@ router.route("/concepts/:conceptId/hooks/:hookId")
 
 // Materials
 router.route("/materials")
-  // .get(getConcepts)
+  .get(getMaterials)
   .post(createMaterial)
 
 router.route("/materials/:materialId")
-  // .get(conceptExistsMiddleware, getConcept)
+  .get(materialExistsMiddleware, getMaterial)
   // .patch(conceptExistsMiddleware, updateConcept)
   // .delete(conceptExistsMiddleware, deleteConcept)
 
