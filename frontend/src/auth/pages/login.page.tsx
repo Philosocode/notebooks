@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
 import GoogleLogin from "react-google-login";
 import styled from "styled-components";
 
@@ -13,6 +13,7 @@ import { theme } from "shared/styles/theme.style";
 export const LoginPage = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: TAppState) => state.auth.user);
+  const location = useLocation<{ from: { pathname: string } }>();
 
   async function handleGoogleSuccess(googleData: any) {
     dispatch(loginGoogle(googleData.tokenId));
@@ -24,7 +25,7 @@ export const LoginPage = () => {
 
   return (
     <SPageContentCenter centerContent>
-      { user && <Redirect to={"/concepts"} /> }
+      { user && <Redirect to={location.state.from?.pathname ?? "/concepts"} /> }
       <SHeadingTitle>Login Page</SHeadingTitle>
       {!user ? (
         <SGoogleLogin
