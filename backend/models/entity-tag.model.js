@@ -96,7 +96,6 @@ async function deleteEntityTag(tableName, tagName, user_id, connection=db) {
 }
 
 async function deleteTagFromEntity(tableName, entityId, tag, connection=db) {
-  console.log("CALLED")
   return removeTagsFromEntity(tableName, entityId, [tag], connection);
 }
 
@@ -106,7 +105,13 @@ async function updateEntityTag(tableName, user_id, oldName, newName, connection=
     await trx("tag").insert({ name: newName }).onConflict("name").ignore();
 
     // get old tag & new tag
-    const [oldTag, newTag] = await trx("tag").whereIn("name", [oldName, newName]);
+    const tags = await trx("tag").whereIn("name", [oldName, newName]);
+    let oldTag, newTag;
+    if (tags[0].name === oldName) {
+      [oldTag, newTag] = tags;
+    } else {
+      [newTag, oldTag] = tags;
+    }
 
     // get entities with old tag
     const tagTableName = `${tableName}_tag`;
@@ -135,9 +140,9 @@ async function updateEntityTag(tableName, user_id, oldName, newName, connection=
     );
 
     // create entity tags with the new tag
-    const entityTagsToInsert = entityIdsWithoutNewTag.map(concept_id => {
+    const entityTagsToInsert = entityIdsWithoutNewTag.map(entityId => {
       return {
-        concept_id,
+        [`${tableName}_id`]: entityId,
         tag_id: newTag.id,
       }
     });
