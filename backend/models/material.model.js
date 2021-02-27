@@ -1,22 +1,20 @@
 const db = require("../db/db");
 
 const { addTagsToEntity } = require("./entity-tag.model");
-const { deleteConceptLinksForConcept } = require("./concept-link.model");
 const {
   addTagsToConcept,
   updateTagsForConcept,
 } = require("./concept-tag.model");
-const { deleteHooks } = require("./hook.model");
 
 module.exports = {
   createMaterial,
-  deleteConcept,
+  deleteMaterial,
   getMaterials,
   updateConcept,
 };
 
-async function createMaterial(user_id, name, tagNames) {
-  return await db.transaction(async (trx) => {
+async function createMaterial(user_id, name, tagNames, connection=db) {
+  return await connection.transaction(async (trx) => {
     const [createdMaterial] = await trx("material").insert({ name, user_id }, [
       "id",
       "name",
@@ -36,19 +34,13 @@ async function createMaterial(user_id, name, tagNames) {
   });
 }
 
-async function deleteConcept(user_id, concept_id) {
-  return await db.transaction(async (trx) => {
-    // delete all tags for concept
-    await trx("concept_tag").where({ concept_id }).del();
+async function deleteMaterial(user_id, material_id, connection=db) {
+  return await connection.transaction(async (trx) => {
+    // delete all tags for material
+    await trx("material_tag").where({ material_id }).del();
 
-    // delete all hooks for concept
-    await deleteHooks(concept_id, trx);
-
-    // delete all concept links for concept
-    await deleteConceptLinksForConcept(concept_id, trx);
-
-    // delete concept itself
-    await trx("concept").where({ user_id, id: concept_id }).first().del();
+    // delete material itself
+    await trx("material").where({ user_id, id: material_id }).first().del();
   });
 }
 
@@ -75,10 +67,10 @@ async function getMaterials(user_id, options, connection=db) {
   return query;
 }
 
-async function updateConcept(concept_id, updates) {
+async function updateConcept(concept_id, updates, connection=db) {
   const { name, tags: updatedTags } = updates;
 
-  return await db.transaction(async (trx) => {
+  return await connection.transaction(async (trx) => {
     if (name) {
       await trx("concept").where({ id: concept_id }).update({ name });
     }

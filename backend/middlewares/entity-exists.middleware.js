@@ -10,6 +10,7 @@ exports.entityExistsMiddleware = function entityExistsMiddleware(tableName) {
   const tableNameCapitalized = capitalizeFirstLetter(tableName);
 
   return catchAsync(async function (req, _, next) {
+    console.log(tableName);
     const userId = req.user.id;
     const entityId = req.params[tableName + "Id"];
 
@@ -21,9 +22,6 @@ exports.entityExistsMiddleware = function entityExistsMiddleware(tableName) {
     if (!exists) {
       return next(new AppError(`${tableNameCapitalized} with that ID not found.`, 404));
     }
-
-    console.log(tableName, entityId, exists);
-
     return next();
   })
 }

@@ -2,8 +2,8 @@ const express = require("express");
 
 // Middleware
 const protect = require("./middlewares/protect.middleware");
-// const { conceptExistsMiddleware } = require("./handlers/concept/concept.common");
 const { entityExistsMiddleware } = require("./middlewares/entity-exists.middleware");
+
 const conceptExistsMiddleware = entityExistsMiddleware("concept");
 const materialExistsMiddleware = entityExistsMiddleware("material");
 
@@ -43,6 +43,7 @@ const getConceptLinksForConcept = require("./handlers/concept-link/get-concept-l
 
 // Materials
 const createMaterial = require("./handlers/material/create-material.handler");
+const deleteMaterial = require("./handlers/material/delete-material.handler");
 const getMaterial = require("./handlers/material/get-material.handler");
 const getMaterials = require("./handlers/material/get-materials.handler");
 
@@ -126,7 +127,7 @@ router.route("/materials")
 router.route("/materials/:materialId")
   .get(materialExistsMiddleware, getMaterial)
   // .patch(conceptExistsMiddleware, updateConcept)
-  // .delete(conceptExistsMiddleware, deleteConcept)
+  .delete(materialExistsMiddleware, deleteMaterial)
 
 
 // Tags
