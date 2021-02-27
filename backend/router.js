@@ -56,7 +56,7 @@ const deleteTagFromMaterial = require("./handlers/material-tag/delete-tag-from-m
 
 const getMaterialTags = require("./handlers/material-tag/get-material-tags.handler");
 const updateMaterialTag = require("./handlers/concept-tag/update-concept-tag.handler");
-const deleteMaterialTag = require("./handlers/concept-tag/delete-concept-tag.handler");
+const deleteMaterialTag = require("./handlers/material-tag/delete-material-tag.handler");
 
 
 // Tag
@@ -138,7 +138,7 @@ router.route("/materials/tags")
 
 router.route("/materials/tags/:tagName")
   .patch(updateConceptTag)
-  .delete(deleteConceptTag)
+  .delete(deleteMaterialTag)
 
 // Materials
 router.route("/materials")

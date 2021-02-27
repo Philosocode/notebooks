@@ -23,12 +23,13 @@ module.exports = {
   updateTagsForEntity,
 };
 
-async function entityTagExists(tableName, user_id, tagName, connection=db) {
+async function entityTagExists(tableName, tagName, user_id, connection=db) {
   const tagArr = await connection("tag").where({ name: tagName });
   const tag = tagArr[0];
 
+  if (!tag) return false;
+
   const tagTableName = `${tableName}_tag`;
-  const tagTableIdColumn = `${tableName}_id"`
 
   const res = await db.first(
     db.raw(
@@ -37,7 +38,7 @@ async function entityTagExists(tableName, user_id, tagName, connection=db) {
         // concept_tag with tagName exists
         .where({ tag_id: tag.id })
         // and it's attached to a concept belonging to the user
-        .whereIn(tagTableIdColumn, function() {
+        .whereIn(`${tableName}_id`, function() {
           this.select("id").from(tableName).where({ user_id });
         })
     )
@@ -76,6 +77,8 @@ async function deleteEntityTag(tableName, tagName, user_id, connection=db) {
     // get tag name and ID
     const tagArr = await trx("tag").select("id").where({ name: tagName });
     const tagIdToDelete = tagArr[0].id;
+
+    console.log(tagIdToDelete)
 
     const tagTableName = `${tableName}_tag`;
     const tagTableTagIdColumn = `${tagTableName}.tag_id`;
