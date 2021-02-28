@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { Dispatch, FC, SetStateAction } from "react";
 import styled from "styled-components";
 
 import { TagSidebarItem } from "./tag-sidebar-item.component";
@@ -6,15 +6,20 @@ import { theme } from "shared/styles/theme.style";
 import { IEntityFilter } from "shared/types.shared";
 
 interface IProps {
-  filters: IEntityFilter;
   tags: string[];
-  
-  setCurrentTag: (tag: string) => void;
-  setUncategorized: () => void;
-}
-export const TagSidebar: FC<IProps> = ({ filters, tags, setCurrentTag, setUncategorized }) => {
-  const { tag: currentTag, isUncategorized } = filters;
+  currentTag: string;
+  isUncategorized: boolean;
 
+  setCurrentTag: (tag: string) => void;
+  setUncategorized: (_: string) => void;
+}
+export const TagSidebar: FC<IProps> = ({
+  currentTag,
+  isUncategorized,
+  tags,
+  setCurrentTag,
+  setUncategorized
+}) => {
   return (
     <STagSidebar>
       <SHeading>Tags</SHeading>

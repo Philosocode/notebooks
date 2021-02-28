@@ -66,7 +66,8 @@ export const ConceptsPage = () => {
   return (
     <SPage>
       <TagSidebar
-        filters={filters}
+        isUncategorized={filters.isUncategorized}
+        currentTag={filters.tag}
         tags={conceptTags}
         setCurrentTag={handleSetTag}
         setUncategorized={handleSetUncategorized}

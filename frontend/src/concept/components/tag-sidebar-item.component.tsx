@@ -54,9 +54,7 @@ export const TagSidebarItem: FC<IProps> = ({
   }
 
   function handleItemClick() {
-    if (tag !== currentTag) {
-      handleClick(tag ?? "");
-    }
+    handleClick(tag ?? "");
   }
 
   return (
