@@ -3,6 +3,8 @@ export type TModalType =
   | "delete-concept"
   | "update-concept"
   | "create-concept-link"
+  | "delete-material"
+  | "update-material"
   | "delete-tag"
   | "update-tag"
   | "confirmation"

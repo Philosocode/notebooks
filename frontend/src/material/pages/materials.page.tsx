@@ -3,23 +3,22 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 // logic
+import { IMaterial } from "../redux/material.types";
 import { useTagFilter } from "shared/hooks/use-tag-filter.hook";
 import { getMaterials } from "../redux/material.thunks";
 import { selectMaterials, selectMaterialTags } from "../redux/material.selectors";
 import { selectMaterialsLoaded } from "../../shared/redux/init.selectors";
+import { useEntityFilterSort } from "../../shared/hooks/use-entity-filter-sort.hook";
 
 // components
 import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
 import { MaterialList } from "../components/material-list.component";
+import { SortFilterControls } from "../../shared/components/button/sort-filter-controls.component";
 import { TagSidebar } from "tag/components/tag-sidebar.component";
 
+// styles
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle, SHeadingSubtitle } from "shared/styles/typography.style";
-import { selectConceptsWithCurrentTag } from "../../concept/redux/concept.selectors";
-import { useEntityFilterSort } from "../../shared/hooks/use-entity-filter-sort.hook";
-import { IConcept } from "../../concept/redux/concept.types";
-import { IMaterial } from "../redux/material.types";
-import { SortFilterControls } from "../../shared/components/button/sort-filter-controls.component";
 
 export const MaterialsPage = () => {
   const dispatch = useDispatch();

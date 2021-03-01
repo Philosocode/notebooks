@@ -23,3 +23,16 @@ export const getMaterials = createAsyncThunk(
     }
   }
 );
+
+export const deleteMaterial = createAsyncThunk(
+  "material/deleteMaterial",
+  async function (id: string, thunkAPI) {
+    try {
+      await api.delete(`/materials/${id}`);
+
+      return id;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);

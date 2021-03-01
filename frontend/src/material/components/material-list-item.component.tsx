@@ -23,12 +23,12 @@ export const MaterialListItem: React.FC<IProps> = ({ material }) => {
     event.preventDefault();
     event.stopPropagation();
 
-    // dispatch(
-    //   showModal({
-    //     modalType: "update-concept",
-    //     modalProps: { concept },
-    //   })
-    // );
+    dispatch(
+      showModal({
+        modalType: "update-material",
+        modalProps: { material },
+      })
+    );
   }
 
   function handleDeleteTag(tag: string) {
