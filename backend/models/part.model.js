@@ -2,7 +2,8 @@ const db = require("../db/db");
 const { shiftPositions } = require("./common.model");
 
 module.exports = {
-  createPart
+  createPart,
+  getParts,
 };
 
 // Referenced: https://medium.com/the-missing-bit/keeping-an-ordered-collection-in-postgresql-9da0348c4bbe
@@ -23,4 +24,11 @@ async function createPart(
   });
 
   return createdPartArray[0];
+}
+
+async function getParts(material_id, filterObject, connection=db) {
+  return connection("part")
+    .select("id", "name", "created_at", "updated_at")
+    .where({ material_id, ...filterObject })
+    .orderBy("position", "desc");
 }

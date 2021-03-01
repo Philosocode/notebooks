@@ -62,6 +62,7 @@ const updateMaterialTag = require("./handlers/material-tag/update-material-tag.h
 const deleteMaterialTag = require("./handlers/material-tag/delete-material-tag.handler");
 
 // Material Parts
+const getParts = require("./handlers/part/get-parts.handler");
 const createPart = require("./handlers/part/create-part.handler");
 
 // Tag
@@ -158,6 +159,7 @@ router.route("/materials/:materialId/tags/:tagName")
 
 // Material Parts
 router.route("/materials/:materialId/parts")
+  .get(materialExistsMiddleware, getParts)
   .post(materialExistsMiddleware, createPart)
 
 router.route("/materials/:materialId")
