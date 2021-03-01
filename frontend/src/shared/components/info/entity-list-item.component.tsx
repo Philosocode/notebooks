@@ -44,7 +44,9 @@ export const EntityListItem: React.FC<IProps> = ({
         {children}
         <TagList tags={entity.tags} handleDeleteTag={handleDeleteTag} />
       </div>
-      <SIcon icon="ellipsis-v" onClick={handleEdit} />
+      <SIconContainer onClick={handleEdit}>
+        <SIcon icon="ellipsis-v" />
+      </SIconContainer>
     </SContainer>
   );
 };
@@ -73,6 +75,18 @@ const SName = styled.h3`
   font-size: ${theme.fontSizes.md};
 `;
 
-const SIcon = styled(FontAwesomeIcon)`
+const SIcon = styled(FontAwesomeIcon)``;
+
+const SIconContainer = styled.div`
+  border-radius: 50%;
+  display: flex;
+    align-items: center;
+    justify-content: center;
   font-size: 2.6rem;
+  height: 1.5em; width: 1.5em;
+  transition: background-color ${theme.animations.transitionAppend};
+
+  &:hover {
+    background-color: rgba(0,0,0,0.1);
+  }
 `;
