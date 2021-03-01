@@ -9,7 +9,6 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 interface IProps {
   children: React.ReactNode;
-  currentTag: string;
   handleClick: (name: string) => void;
   isSelected: boolean;
   icon: IconProp;
@@ -18,7 +17,6 @@ interface IProps {
 }
 export const TagSidebarItem: FC<IProps> = ({
   children,
-  currentTag,
   handleClick,
   isSelected,
   icon,

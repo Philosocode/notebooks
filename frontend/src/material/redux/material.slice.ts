@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IMaterialState } from "./material.types";
 import { createMaterial, deleteMaterial, getMaterials, updateMaterial } from "./material.thunks";
 import { getEntityIndex } from "shared/utils/entity.util";
+import { deleteMaterialTag, updateMaterialTag } from "./material-tag.thunk";
 
 const initialState: IMaterialState = {
   materials: [],
@@ -43,6 +44,36 @@ const materialSlice = createSlice({
         if (materialIndex === -1) return;
 
         state.materials.splice(materialIndex, 1);
+      })
+
+      /* Material Tag */
+      .addCase(updateMaterialTag.fulfilled, (state, action) => {
+        const { newTagName, oldTagName } = action.payload;
+        // loop through all the concepts
+        state.materials.forEach((m) => {
+          const materialTags = m.tags;
+          // find the concepts with the oldTagName
+          if (materialTags.includes(oldTagName)) {
+            // remove the old tag
+            const tagSet = new Set(materialTags);
+            tagSet.delete(oldTagName);
+
+            // add new tag
+            tagSet.add(newTagName);
+
+            m.tags = Array.from(tagSet).sort();
+          }
+        });
+      })
+      .addCase(deleteMaterialTag.fulfilled, (state, action) => {
+        const tagToRemove = action.payload;
+
+        // loop through all concepts
+        state.materials.forEach((m) => {
+          const tagIdx = m.tags.findIndex((t) => t === tagToRemove);
+
+          if (tagIdx !== -1) m.tags.splice(tagIdx, 1);
+        });
       })
   },
 });

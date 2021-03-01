@@ -27,7 +27,7 @@ export const Navbar = () => {
       <>
         <SNavItem>
           <SStudyLink
-            $activeLink={appLocation === "study"}
+            $activeLink={appLocation !== "library"}
             to="/concepts"
           >Study</SStudyLink>
         </SNavItem>

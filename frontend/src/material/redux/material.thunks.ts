@@ -41,7 +41,6 @@ export const getMaterials = createAsyncThunk(
     try {
       const res = await api.get<IGetMaterialsResponse>("/materials?tags");
       const { materials } = res.data.data;
-      console.log(materials);
 
       return materials;
     } catch (err) {

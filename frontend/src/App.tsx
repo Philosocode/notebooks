@@ -56,7 +56,8 @@ export function App() {
     case "library":
       paddingLeft = theme.componentSizes.librarySidebarWidth;
       break;
-    case "study":
+    case "concepts":
+    case "materials":
       paddingLeft = theme.componentSizes.appSidebarWidth;
       break;
     default:

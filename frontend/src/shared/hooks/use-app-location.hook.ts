@@ -1,12 +1,18 @@
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-type TAppLocation = "study" | "library" | "other";
+export type TAppLocation = "concepts" | "materials" | "library" | "other";
 
 export function useAppLocation(): TAppLocation {
+  const [appLocation, setAppLocation] = useState<TAppLocation>("other");
   const { pathname } = useLocation();
 
-  if (pathname.includes("library")) return "library";
-  if (pathname.includes("login")) return "other";
+  useEffect(() => {
+    if (pathname.startsWith("/library"))    setAppLocation("library");
+    if (pathname.startsWith("/login"))      setAppLocation("other");
+    if (pathname.startsWith("/concepts"))   setAppLocation("concepts");
+    if (pathname.startsWith("/materials"))  setAppLocation("materials");
+  }, [pathname]);
 
-  return "study";
+  return appLocation;
 }

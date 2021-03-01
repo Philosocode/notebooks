@@ -12,12 +12,16 @@ import { theme } from "shared/styles/theme.style";
 import { SHeadingSubtitle } from "shared/styles/typography.style";
 import { SButtonGreen } from "shared/styles/button.style";
 import { IModalProps } from "modal/redux/modal.types";
+import { useAppLocation } from "shared/hooks/use-app-location.hook";
+import { updateMaterialTag } from "material/redux/material-tag.thunk";
 
 interface IProps extends IModalProps {
   oldTagName: string;
+  handleUpdate: (newTag: string) => void;
 }
-export const UpdateTagModal: FC<IProps> = ({ oldTagName, handleClose }) => {
+export const UpdateTagModal: FC<IProps> = ({ oldTagName, handleClose, handleUpdate }) => {
   const dispatch = useDispatch();
+  const appLocation = useAppLocation();
   const [tagName, setTagName] = useState(oldTagName);
 
   // derived state
@@ -33,7 +37,11 @@ export const UpdateTagModal: FC<IProps> = ({ oldTagName, handleClose }) => {
   // functions
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    dispatch(updateConceptTag({ oldTagName, newTagName: tagName }));
+
+    appLocation === "concepts"
+      ? dispatch(updateConceptTag({ oldTagName, newTagName: tagName }))
+      : dispatch(updateMaterialTag({ oldTagName, newTagName: tagName }))
+
     handleClose();
   }
 

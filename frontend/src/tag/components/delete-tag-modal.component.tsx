@@ -2,18 +2,25 @@ import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 
 import { IModalProps } from "../../modal/redux/modal.types";
-import { ConfirmationModal } from "modal/components/confirmation-modal.component";
 import { trimString } from "shared/utils/string.util";
 import { deleteConceptTag } from "concept/redux/concept-tag.thunk";
+import { deleteMaterialTag } from "material/redux/material-tag.thunk";
+import { useAppLocation } from "shared/hooks/use-app-location.hook";
+
+import { ConfirmationModal } from "modal/components/confirmation-modal.component";
 
 interface IProps extends IModalProps {
   tagName: string;
 }
 export const DeleteTagModal: FC<IProps> = ({ tagName, handleClose }) => {
   const dispatch = useDispatch();
+  const appLocation = useAppLocation();
   
   const handleDelete = () => {
-    dispatch(deleteConceptTag(tagName));
+    appLocation === "concepts"
+      ? dispatch(deleteConceptTag(tagName))
+      : dispatch(deleteMaterialTag(tagName));
+
     handleClose();
   }
   

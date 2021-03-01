@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import { TagSidebarItem } from "./tag-sidebar-item.component";
 import { theme } from "shared/styles/theme.style";
+import { useAppLocation } from "shared/hooks/use-app-location.hook";
 
 interface IProps {
   tags: string[];
@@ -25,7 +26,6 @@ export const TagSidebar: React.FC<IProps> = ({
       <STagList>
         {tags.map((t) => (
           <TagSidebarItem
-            currentTag={currentTag}
             key={t}
             tag={t}
             icon="tag"
@@ -38,7 +38,6 @@ export const TagSidebar: React.FC<IProps> = ({
         ))}
 
         <TagSidebarItem
-          currentTag={currentTag}
           isSelected={!isUncategorized && currentTag === ""}
           handleClick={setCurrentTag}
           tag=""
@@ -48,7 +47,6 @@ export const TagSidebar: React.FC<IProps> = ({
         </TagSidebarItem>
 
         <TagSidebarItem
-          currentTag={currentTag}
           isSelected={isUncategorized}
           handleClick={setUncategorized}
           icon="question-circle"
