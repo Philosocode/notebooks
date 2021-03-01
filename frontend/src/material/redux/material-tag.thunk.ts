@@ -21,6 +21,24 @@ export const updateMaterialTag = createAsyncThunk(
   }
 );
 
+interface IDeleteTagFromMaterialPayload {
+  materialId: string;
+  tagName: string;
+}
+export const deleteTagFromMaterial = createAsyncThunk(
+  "material/deleteTagFromMaterial",
+  async function (payload: IDeleteTagFromMaterialPayload, thunkAPI) {
+    const { materialId, tagName } = payload;
+    try {
+      await api.delete(`/materials/${materialId}/tags/${tagName}`);
+
+      return payload;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
 export const deleteMaterialTag = createAsyncThunk(
   "material/deleteMaterialTag",
   async function (tagName: string, thunkAPI) {
