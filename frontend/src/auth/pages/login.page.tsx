@@ -25,7 +25,7 @@ export const LoginPage = () => {
 
   return (
     <SPageContentCenter centerContent>
-      { user && <Redirect to={location.state.from?.pathname ?? "/concepts"} /> }
+      { user && <Redirect to={location.state?.from?.pathname ?? "/concepts"} /> }
       <SHeadingTitle>Login Page</SHeadingTitle>
       {!user ? (
         <SGoogleLogin
