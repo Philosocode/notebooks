@@ -50,6 +50,32 @@ export const getMaterials = createAsyncThunk(
   }
 );
 
+interface IUpdateMaterialPayload {
+  id: string;
+  name: string;
+  tags: string[];
+}
+export const updateMaterial = createAsyncThunk(
+  "material/updateMaterial",
+  async function (data: IUpdateMaterialPayload, thunkAPI) {
+    try {
+      await api.patch(`/materials/${data.id}`, {
+        name: data.name,
+        tags: data.tags,
+      });
+      return {
+        id: data.id,
+        updates: {
+          name: data.name,
+          tags: data.tags,
+        }
+      };
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
 export const deleteMaterial = createAsyncThunk(
   "material/deleteMaterial",
   async function (id: string, thunkAPI) {

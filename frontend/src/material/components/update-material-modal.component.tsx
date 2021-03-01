@@ -9,6 +9,7 @@ import { IModalProps } from "modal/redux/modal.types";
 import { selectMaterials, selectMaterialTags } from "../redux/material.selectors";
 import { useForm } from "shared/hooks/use-form.hook";
 import { showModal } from "modal/redux/modal.slice";
+import { updateMaterial } from "material/redux/material.thunks";
 
 // components
 import { FormGroup } from "shared/components/form/form-group.component";
@@ -85,13 +86,13 @@ export const UpdateMaterialModal: React.FC<IProps> = ({
 
     if (!name) return;
 
-    // dispatch(
-    //   updateMaterial({
-    //     id: material.id,
-    //     name,
-    //     tags: tagsToAdd,
-    //   })
-    // );
+    dispatch(
+      updateMaterial({
+        id: material.id,
+        name,
+        tags: tagsToAdd,
+      })
+    );
 
     setSubmitted(true);
     handleClose();
