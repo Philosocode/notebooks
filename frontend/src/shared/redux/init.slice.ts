@@ -1,9 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IInitState } from "./init.types";
 import { getConcepts } from "../../concept/redux/concept.thunks";
+import { getMaterials } from "../../material/redux/material.thunks";
 
 const initialState: IInitState = {
   conceptsLoaded: false,
+  materialsLoaded: false,
   welcomeScreenShown: false,
 };
 
@@ -19,6 +21,9 @@ const initSlice = createSlice({
     builder
       .addCase(getConcepts.fulfilled, (state, action) => {
         state.conceptsLoaded = true;
+      })
+      .addCase(getMaterials.fulfilled, (state, action) => {
+        state.materialsLoaded = true;
       })
   },
 });

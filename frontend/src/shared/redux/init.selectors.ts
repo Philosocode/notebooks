@@ -8,6 +8,12 @@ export const selectConceptsLoaded = createSelector(
   [selectInit],
   (init) => init.conceptsLoaded
 );
+
+export const selectMaterialsLoaded = createSelector(
+  [selectInit],
+  (init) => init.materialsLoaded
+);
+
 export const selectWelcomeScreenShown = createSelector(
   [selectInit],
   (init) => init.welcomeScreenShown

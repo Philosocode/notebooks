@@ -6,8 +6,8 @@ import { LibraryPage } from "library/pages/library.page";
 import { LibraryDetailPage } from "../../library/pages/library-detail.page";
 import { ConceptDetailPage } from "concept/pages/concept-detail.page";
 import { ConceptsPage } from "concept/pages/concepts.page";
-import { MaterialsPage } from "../../pages/materials.page";
-import { MaterialDetailPage } from "../../pages/material-detail.page";
+import { MaterialsPage } from "material/pages/materials.page";
+// import { MaterialDetailPage } from "../../pages/material-detail.page";
 import { PartDetailPage } from "../../pages/part-detail.page";
 import { PracticePage } from "../../pages/practice.page";
 import { SettingsPage } from "../../pages/settings.page";
@@ -52,7 +52,7 @@ const materials: IAppRoute = {
 };
 
 const materialDetail: IAppRoute = {
-  component: MaterialDetailPage,
+  component: MaterialsPage,
   path: "/materials/:materialId",
   isPrivate: true,
 };

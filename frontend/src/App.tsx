@@ -19,7 +19,7 @@ import { ModalRoot } from "./modal/components/modal-root.component";
 // styles
 import { theme } from "./shared/styles/theme.style";
 import { SMainContent } from "shared/styles/layout.style";
-import { PreStudyModal } from "./modal/components/pre-study-modal.component";
+// import { PreStudyModal } from "./modal/components/pre-study-modal.component";
 
 export function App() {
   useScrollToTop();

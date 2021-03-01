@@ -5,6 +5,7 @@ import { authReducer } from "auth/redux/auth.slice";
 import { conceptReducer } from "concept/redux/concept.slice";
 import { initReducer } from "./init.slice";
 import { loadingReducer } from "loading/redux/loading.slice";
+import { materialReducer } from "../../material/redux/material.slice";
 import { modalReducer, showModal, hideModal } from "modal/redux/modal.slice";
 import { userReducer } from "user/redux/user.slice";
 
@@ -14,6 +15,7 @@ const appReducer = combineReducers({
   concept: conceptReducer,
   init: initReducer,
   loading: loadingReducer,
+  material: materialReducer,
   modal: modalReducer,
   user: userReducer,
 });

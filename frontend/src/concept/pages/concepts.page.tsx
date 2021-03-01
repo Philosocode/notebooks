@@ -12,7 +12,7 @@ import { useEntityFilterSort } from "../../shared/hooks/use-entity-filter-sort.h
 
 import { ConceptList } from "concept/components/concept-list.component";
 import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
-import { TagSidebar } from "concept/components/tag-sidebar.component";
+import { TagSidebar } from "tag/components/tag-sidebar.component";
 import { SortFilterControls } from "shared/components/button/sort-filter-controls.component";
 
 import { theme } from "shared/styles/theme.style";

@@ -11,8 +11,8 @@ export function useTagFilter() {
      * - tag to set not equal to current tag
      */
     if (
-      isUncategorized && currentTag === "" ||
-      tag !== currentTag
+      (isUncategorized && currentTag === "") ||
+      (tag !== currentTag)
     ) {
       setIsUncategorized(false);
       setCurrentTag(tag);
