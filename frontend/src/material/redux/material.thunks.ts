@@ -3,6 +3,32 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { IMaterial } from "./material.types";
 import { api } from "services/api.service";
 
+interface ICreateMaterialPayload {
+  name: string;
+  tags: string[];
+}
+interface ICreateMaterialResponse {
+  status: string;
+  data: {
+    material: IMaterial;
+  };
+}
+export const createMaterial = createAsyncThunk(
+  "material/createMaterial",
+  async function (payload: ICreateMaterialPayload, thunkAPI) {
+    try {
+      const res = await api.post<ICreateMaterialResponse>("/materials/", payload);
+      let createdMaterial = res.data.data.material;
+      
+      if (!createdMaterial.tags) createdMaterial.tags = [];
+
+      return createdMaterial;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
 interface IGetMaterialsResponse {
   status: string;
   data: {

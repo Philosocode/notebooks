@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { IMaterialState } from "./material.types";
-import { deleteMaterial, getMaterials } from "./material.thunks";
+import { createMaterial, deleteMaterial, getMaterials } from "./material.thunks";
 import { getEntityIndex } from "shared/utils/entity.util";
 
 const initialState: IMaterialState = {
@@ -19,6 +19,9 @@ const materialSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(createMaterial.fulfilled, (state, action) => {
+        state.materials.push(action.payload);
+      })
       .addCase(getMaterials.fulfilled, (state, action) => {
         state.materials = action.payload;
       })

@@ -9,6 +9,8 @@ import { getMaterials } from "../redux/material.thunks";
 import { selectMaterials, selectMaterialTags } from "../redux/material.selectors";
 import { selectMaterialsLoaded } from "../../shared/redux/init.selectors";
 import { useEntityFilterSort } from "../../shared/hooks/use-entity-filter-sort.hook";
+import { showModal } from "modal/redux/modal.slice";
+import { selectModalShowing } from "modal/redux/modal.selectors";
 
 // components
 import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
@@ -22,6 +24,7 @@ import { SHeadingSubSubtitle, SHeadingSubtitle } from "shared/styles/typography.
 
 export const MaterialsPage = () => {
   const dispatch = useDispatch();
+  const modalShowing = useSelector(selectModalShowing);
   const materialsLoaded = useSelector(selectMaterialsLoaded);
   const materials = useSelector(selectMaterials);
   const materialTags = useSelector(selectMaterialTags);
@@ -51,6 +54,14 @@ export const MaterialsPage = () => {
     }
   }, [materialsLoaded, dispatch]);
 
+  function showCreateMaterialModal() {
+    if (modalShowing) return;
+
+    dispatch(
+      showModal({ modalType: "create-material" })
+    );
+  };
+
   return (
     <SPage>
       <TagSidebar
@@ -77,7 +88,7 @@ export const MaterialsPage = () => {
         <MaterialList materials={filteredMaterials} />
         <FloatingCornerButton
           icon="plus"
-          handleClick={() => {}}
+          handleClick={showCreateMaterialModal}
         />
       </SConceptSection>
     </SPage>
