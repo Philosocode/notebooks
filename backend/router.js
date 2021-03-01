@@ -70,6 +70,7 @@ const getTags = require("./handlers/tag/get-tags.handler");
 const createTags = require("./handlers/tag/create-tags.handler");
 const updateTag = require("./handlers/tag/update-tag.handler");
 const deleteTag = require("./handlers/tag/delete-tag.handler");
+const updatePart = require("./handlers/part/update-part.handler");
 
 const router = express.Router();
 
@@ -162,6 +163,10 @@ router.route("/materials/:materialId/parts")
   .get(materialExistsMiddleware, getParts)
   .post(materialExistsMiddleware, createPart)
 
+router.route("/materials/:materialId/parts/:partId")
+  .patch(materialExistsMiddleware, updatePart)
+
+// Material Detail
 router.route("/materials/:materialId")
   .get(materialExistsMiddleware, getMaterial)
   .patch(materialExistsMiddleware, updateMaterial)
