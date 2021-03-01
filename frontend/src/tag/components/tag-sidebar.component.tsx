@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import { TagSidebarItem } from "./tag-sidebar-item.component";
 import { theme } from "shared/styles/theme.style";
-import { useAppLocation } from "shared/hooks/use-app-location.hook";
 
 interface IProps {
   tags: string[];

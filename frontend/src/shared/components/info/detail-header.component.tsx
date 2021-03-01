@@ -1,13 +1,7 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import format from "date-fns/format";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-// logic
-import { IMaterial } from "material/redux/material.types";
-import { showModal } from "modal/redux/modal.slice";
-import { deleteTagFromConcept } from "concept/redux/concept.thunks";
 
 // components
 import { TagList } from "tag/components/tag-list.component";

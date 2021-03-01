@@ -78,8 +78,6 @@ async function deleteEntityTag(tableName, tagName, user_id, connection=db) {
     const tagArr = await trx("tag").select("id").where({ name: tagName });
     const tagIdToDelete = tagArr[0].id;
 
-    console.log(tagIdToDelete)
-
     const tagTableName = `${tableName}_tag`;
     const tagTableTagIdColumn = `${tagTableName}.tag_id`;
     const userIdColumn = `${tableName}.user_id`;

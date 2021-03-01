@@ -11,6 +11,7 @@ import { showModal } from "modal/redux/modal.slice";
 import { TagList } from "tag/components/tag-list.component";
 
 import { theme } from "shared/styles/theme.style";
+import { deleteTagFromMaterial } from "../redux/material-tag.thunk";
 
 interface IProps {
   material: IMaterial;
@@ -32,7 +33,7 @@ export const MaterialListItem: React.FC<IProps> = ({ material }) => {
   }
 
   function handleDeleteTag(tag: string) {
-    // dispatch(deleteTagFromConcept({ tagName: tag, conceptId: concept.id }));
+    dispatch(deleteTagFromMaterial({ tagName: tag, materialId: material.id }));
   }
 
   return (

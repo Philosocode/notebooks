@@ -58,7 +58,7 @@ export const MaterialDetailPage: React.FC<RouteComponentProps> = () => {
       <TabNames tabNames={tabNames} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       <div>
         <Tab title="Parts" selectedTab={selectedTab}>Parts</Tab>
-        <Tab title="Facts" selectedTab={selectedTab}>Flashcards</Tab>
+        <Tab title="Facts" selectedTab={selectedTab}>Facts</Tab>
         <Tab title="Concept Links" selectedTab={selectedTab}>Concept Links</Tab>
       </div>
     </SDetailPageContent>
