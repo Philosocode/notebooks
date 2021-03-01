@@ -31,6 +31,9 @@ const deleteConceptTag = require("./handlers/concept-tag/delete-concept-tag.hand
 const getHook = require("./handlers/hook/get-hook.handler");
 const getHooks = require("./handlers/hook/get-hooks.handler");
 const createHook = require("./handlers/hook/create-hook.handler");
+const deleteHook = require("./handlers/hook/delete-hook.handler");
+const deleteHooks = require("./handlers/hook/delete-hooks.handler");
+const updateHook = require("./handlers/hook/update-hook.handler");
 
 // Concept Links
 const createConceptLink = require("./handlers/concept-link/create-concept-link.handler");
@@ -58,14 +61,14 @@ const getMaterialTags = require("./handlers/material-tag/get-material-tags.handl
 const updateMaterialTag = require("./handlers/material-tag/update-material-tag.handler");
 const deleteMaterialTag = require("./handlers/material-tag/delete-material-tag.handler");
 
+// Material Parts
+const createPart = require("./handlers/part/create-part.handler");
+
 // Tag
 const getTags = require("./handlers/tag/get-tags.handler");
 const createTags = require("./handlers/tag/create-tags.handler");
 const updateTag = require("./handlers/tag/update-tag.handler");
 const deleteTag = require("./handlers/tag/delete-tag.handler");
-const deleteHook = require("./handlers/hook/delete-hook.handler");
-const deleteHooks = require("./handlers/hook/delete-hooks.handler");
-const updateHook = require("./handlers/hook/update-hook.handler");
 
 const router = express.Router();
 
@@ -153,6 +156,9 @@ router.route("/materials/:materialId/tags/:tagName")
   .patch(materialExistsMiddleware, updateTagForMaterial)
   .delete(materialExistsMiddleware, deleteTagFromMaterial)
 
+// Material Parts
+router.route("/materials/:materialId/parts")
+  .post(materialExistsMiddleware, createPart)
 
 router.route("/materials/:materialId")
   .get(materialExistsMiddleware, getMaterial)
