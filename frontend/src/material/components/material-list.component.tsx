@@ -1,10 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-// logic
 import { IMaterial } from "../redux/material.types";
-
-// components
 import { MaterialListItem } from "./material-list-item.component";
 
 interface IProps {
