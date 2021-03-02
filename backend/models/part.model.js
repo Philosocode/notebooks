@@ -1,5 +1,5 @@
 const db = require("../db/db");
-const { shiftPositions } = require("./common.model");
+const { shiftPositions, getMaxPosition } = require("./common.model");
 
 module.exports = {
   createPart,
@@ -11,16 +11,15 @@ module.exports = {
 async function createPart(
   material_id,
   name,
-  position,
-  connection = db
+  connection=db
 ) {
   const createdPartArray = await connection.transaction(async (trx) => {
     // shift positions of elements after
-    await shiftPositions("part", { material_id }, position, true, trx);
+    const insertPosition = await getMaxPosition("part", { material_id }) + 1;
 
     // create part
     return trx("part").insert(
-      { name, material_id, position }, ["*"]
+      { name, material_id, position: insertPosition }, ["*"]
     );
   });
 

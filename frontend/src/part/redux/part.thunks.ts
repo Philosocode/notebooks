@@ -23,7 +23,36 @@ export const getParts = createAsyncThunk(
       return thunkAPI.rejectWithValue(err);
     }
   }
-)
+);
+
+interface ICreatePartPayload {
+  name: string;
+  materialId: string;
+}
+interface ICreateHookResponse {
+  status: string;
+  data: {
+    part: IPart;
+  };
+}
+export const createPart = createAsyncThunk(
+  "part/createPart",
+  async function (payload: ICreatePartPayload, thunkAPI) {
+    const { materialId, name } = payload;
+
+    try {
+      const res = await api.post<ICreateHookResponse>(`/materials/${materialId}/parts`, {
+        name,
+        materialId,
+      });
+      const createdPart = res.data.data.part;
+
+      return { part: createdPart, materialId };
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
 
 interface IUpdatePartPosition {
   materialId: string;

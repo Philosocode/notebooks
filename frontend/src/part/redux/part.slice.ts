@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getParts } from "./part.thunks";
+import { createPart, getParts } from "./part.thunks";
 
 import { IPart, IPartState } from "./part.types";
 
@@ -23,6 +23,11 @@ const partSlice = createSlice({
           // add to hash
           state.parts[part.id] = part;
         })
+      })
+      .addCase(createPart.fulfilled, (state, action) => {
+        const { part } = action.payload;
+
+        state.parts[part.id] = part;
       })
   }
 });

@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DropResult } from "react-beautiful-dnd";
 import styled from "styled-components";
 
-import { getParts, updatePartPosition } from "part/redux/part.thunks";
+import { createPart, getParts, updatePartPosition } from "part/redux/part.thunks";
 import { selectCurrentMaterial, selectMaterialParts } from "material/redux/material.selectors";
 import { repositionPart } from "material/redux/material.slice";
 
@@ -12,13 +12,15 @@ import { PartListItem } from "./part-list-item.component";
 
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
+import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
+import { CreatePartModal } from "./create-part-modal.component";
 
 interface IProps {
   materialId: string;
 }
 export const PartList: React.FC<IProps> = ({ materialId }) => {
+  const [modalShowing, setModalShowing] = useState(false);
   const dispatch = useDispatch();
-
   const currentMaterial = useSelector(selectCurrentMaterial);
   const materialParts = useSelector(selectMaterialParts);
 
@@ -27,6 +29,10 @@ export const PartList: React.FC<IProps> = ({ materialId }) => {
       dispatch(getParts(materialId));
     }
   }, [currentMaterial, dispatch, materialId]);
+
+  function toggleModal() {
+    setModalShowing(prevVal => !prevVal);
+  }
 
   function handleDragEnd(result: DropResult) {
     const { source, destination } = result;
@@ -52,19 +58,30 @@ export const PartList: React.FC<IProps> = ({ materialId }) => {
     }));
   }
 
+  function handleCreate(name: string) {
+    dispatch(createPart({
+      materialId,
+      name,
+    }));
+  }
+
   if (materialParts === undefined) return null;
   return (
     <DragAndDropWrapper droppableId="part-list-droppable" handleDragEnd={handleDragEnd}>
       <SList>
         {materialParts.length === 0 && (
-          <SHeadingSubSubtitle weight={500}>
-            No parts found...
-          </SHeadingSubSubtitle>
+          <SHeadingSubSubtitle weight={500}>No parts found...</SHeadingSubSubtitle>
         )}
         {materialParts.map((part, index) => (
           <PartListItem part={part} key={part.id} index={index} />
         ))}
       </SList>
+      <FloatingCornerButton icon="plus" handleClick={toggleModal} />
+      <CreatePartModal
+        createEntity={handleCreate}
+        handleClose={toggleModal}
+        modalShowing={modalShowing}
+      />
     </DragAndDropWrapper>
   );
 };
