@@ -5,7 +5,10 @@ export interface IPart {
   updated_at: string;
 }
 
+// SEE: https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape
 export interface IPartState {
-  parts: IPart[];
+  parts: {
+    [key: string]: IPart;
+  };
   currentPart?: IPart;
 }

@@ -1,6 +1,8 @@
 import { createSelector } from "@reduxjs/toolkit";
 
 import { TAppState } from "shared/redux/store";
+import { IPart } from "part/redux/part.types";
+import { selectPartHash } from "part/redux/part.selectors";
 
 const selectMaterialState = (state: TAppState) => state.material;
 
@@ -34,3 +36,16 @@ export const selectMaterialTags = createSelector(
     return Array.from(tags).sort();
   }
 );
+
+export const selectMaterialParts = createSelector(
+  [selectCurrentMaterial, selectPartHash],
+  (material, partHash) => {
+    const partsForMaterial = material?.partIds?.reduce<IPart[]>((acc, partId) => {
+      acc.push(partHash[partId]);
+
+      return acc;
+    }, []);
+
+    return partsForMaterial;
+  }
+)

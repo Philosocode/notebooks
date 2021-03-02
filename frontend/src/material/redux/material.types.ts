@@ -1,3 +1,5 @@
+import { IPart } from "part/redux/part.types";
+
 export interface IMaterial {
   id: string;
   name: string;
@@ -5,10 +7,10 @@ export interface IMaterial {
   updated_at: string;
   user_id: string;
   tags: string[];
+  partIds?: string[];
 }
 
 export interface IMaterialState {
   materials: IMaterial[];
   currentMaterialId?: string;
-  partIds: string[];
 }

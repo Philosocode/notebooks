@@ -4,7 +4,7 @@ import { getParts } from "./part.thunks";
 import { IPart, IPartState } from "./part.types";
 
 const initialState: IPartState  = {
-  parts: [],
+  parts: {},
   currentPart: undefined,
 };
 
@@ -19,7 +19,10 @@ const partSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getParts.fulfilled, (state, action) => {
-        state.parts.push(...action.payload);
+        action.payload.parts.forEach(part => {
+          // add to hash
+          state.parts[part.id] = part;
+        })
       })
   }
 });

@@ -15,7 +15,10 @@ export const getParts = createAsyncThunk(
     try {
       const response = await api.get<IGetPartsResponse>(`/materials/${materialId}/parts`);
 
-      return response.data.data.parts;
+      return {
+        materialId,
+        parts: response.data.data.parts,
+      }
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }

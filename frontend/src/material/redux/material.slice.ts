@@ -4,10 +4,10 @@ import { IMaterialState } from "./material.types";
 import { createMaterial, deleteMaterial, getMaterials, updateMaterial } from "./material.thunks";
 import { getEntityIndex } from "shared/utils/entity.util";
 import { deleteMaterialTag, deleteTagFromMaterial, updateMaterialTag } from "./material-tag.thunk";
+import { getParts } from "part/redux/part.thunks";
 
 const initialState: IMaterialState = {
   materials: [],
-  partIds: [],
   currentMaterialId: undefined,
 };
 
@@ -21,6 +21,7 @@ const materialSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      /* Material */
       .addCase(createMaterial.fulfilled, (state, action) => {
         state.materials.push(action.payload);
       })
@@ -86,6 +87,19 @@ const materialSlice = createSlice({
 
           if (tagIdx !== -1) m.tags.splice(tagIdx, 1);
         });
+      })
+      /* Parts */
+      .addCase(getParts.fulfilled, (state, action) => {
+        const { materialId, parts } = action.payload;
+
+        const materialIndex = getEntityIndex(state.materials, materialId);
+        if (materialIndex === -1) return;
+
+        const materialToUpdate = state.materials[materialIndex];
+        const partIds = parts.map(part => part.id);
+
+        if (!materialToUpdate.partIds) materialToUpdate.partIds = [];
+        materialToUpdate.partIds.push(...partIds);
       })
   },
 });

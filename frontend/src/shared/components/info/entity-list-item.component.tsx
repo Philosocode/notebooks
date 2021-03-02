@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import { theme } from "shared/styles/theme.style";
 import { TagList } from "tag/components/tag-list.component";
+import { OptionIcon } from "../button/option-icon.component";
 
 interface IEntity {
   id: string;
@@ -44,9 +45,7 @@ export const EntityListItem: React.FC<IProps> = ({
         {children}
         <TagList tags={entity.tags} handleDeleteTag={handleDeleteTag} />
       </div>
-      <SIconContainer onClick={handleEdit}>
-        <SIcon icon="ellipsis-v" />
-      </SIconContainer>
+      <OptionIcon handleClick={handleEdit} />
     </SContainer>
   );
 };
@@ -75,8 +74,6 @@ const SName = styled.h3`
   font-size: ${theme.fontSizes.md};
 `;
 
-const SIcon = styled(FontAwesomeIcon)``;
-
 const SIconContainer = styled.div`
   border-radius: 50%;
   display: flex;
@@ -90,3 +87,5 @@ const SIconContainer = styled.div`
     background-color: rgba(0,0,0,0.1);
   }
 `;
+
+const SIcon = styled(FontAwesomeIcon)``;
