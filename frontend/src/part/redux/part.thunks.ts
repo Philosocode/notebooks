@@ -24,3 +24,21 @@ export const getParts = createAsyncThunk(
     }
   }
 )
+
+interface IUpdatePartPosition {
+  materialId: string;
+  partId: string;
+  newPosition: number;
+}
+export const updatePartPosition = createAsyncThunk(
+  "part/updatePartPosition",
+  async function (payload: IUpdatePartPosition, thunkAPI) {
+    const { materialId, partId, newPosition } = payload;
+
+    try {
+      await api.patch(`/materials/${materialId}/parts/${partId}`, { position: newPosition });
+    } catch(err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+)

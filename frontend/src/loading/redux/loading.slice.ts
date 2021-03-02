@@ -8,6 +8,7 @@ import {
 
 import { ILoadingState } from "./loading.types";
 import { updateHookPosition } from "hook/redux/hook.thunks";
+import { updatePartPosition } from "part/redux/part.thunks";
 
 // https://www.reddit.com/r/reactjs/comments/8iek94/react_redux_handling_the_loading_of_multiple/
 // 0 == not loading
@@ -17,7 +18,8 @@ const initialState: ILoadingState = {
 };
 
 const loadingMatcherBlacklist = [
-  updateHookPosition.pending.type
+  updateHookPosition.pending.type,
+  updatePartPosition.pending.type,
 ];
 function loadingPendingMatcher(action: AnyAction) {
   return !loadingMatcherBlacklist.includes(action.type) && isPendingMatcher(action);

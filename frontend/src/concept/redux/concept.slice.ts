@@ -257,5 +257,4 @@ function removeLinkFromConcept(concepts: IConcept[], conceptId: string, linkId: 
   if (linkIndex === -1) return;
 
   conceptLinks.splice(linkIndex, 1);
-
 }
