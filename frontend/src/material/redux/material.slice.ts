@@ -7,6 +7,7 @@ import { deleteMaterialTag, deleteTagFromMaterial, updateMaterialTag } from "./m
 
 const initialState: IMaterialState = {
   materials: [],
+  partIds: [],
   currentMaterialId: undefined,
 };
 

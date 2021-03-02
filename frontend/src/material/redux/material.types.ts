@@ -10,4 +10,5 @@ export interface IMaterial {
 export interface IMaterialState {
   materials: IMaterial[];
   currentMaterialId?: string;
+  partIds: string[];
 }
