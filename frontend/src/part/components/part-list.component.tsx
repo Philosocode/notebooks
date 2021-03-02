@@ -3,17 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { DropResult } from "react-beautiful-dnd";
 import styled from "styled-components";
 
+// logic
 import { createPart, getParts, updatePartPosition } from "part/redux/part.thunks";
 import { selectCurrentMaterial, selectMaterialParts } from "material/redux/material.selectors";
 import { repositionPart } from "material/redux/material.slice";
 
+// components
 import { DragAndDropWrapper } from "shared/components/drag-and-drop/drag-and-drop-wrapper.component";
 import { PartListItem } from "./part-list-item.component";
+import { CreateNamedEntityModal } from "../../shared/components/modal/create-named-entity-modal.component";
+import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
 
+// styles
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
-import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
-import { CreatePartModal } from "./create-part-modal.component";
 
 interface IProps {
   materialId: string;
@@ -77,7 +80,8 @@ export const PartList: React.FC<IProps> = ({ materialId }) => {
         ))}
       </SList>
       <FloatingCornerButton icon="plus" handleClick={toggleModal} />
-      <CreatePartModal
+      <CreateNamedEntityModal
+        entityName="Part"
         createEntity={handleCreate}
         handleClose={toggleModal}
         modalShowing={modalShowing}

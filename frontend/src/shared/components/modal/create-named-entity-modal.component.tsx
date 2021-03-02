@@ -14,44 +14,46 @@ import { SButtonGreen } from "shared/styles/button.style";
 import { SHeadingSubtitle } from "shared/styles/typography.style";
 
 interface IProps {
+  children?: React.ReactNode;
   createEntity: (name: string) => void;
+  entityName: string;
   handleClose: () => void;
   modalShowing: boolean;
 }
-export const CreatePartModal: React.FC<IProps> = ({
+export const CreateNamedEntityModal: React.FC<IProps> = ({
+  children,
   createEntity,
+  entityName,
   handleClose,
-  modalShowing
+  modalShowing,
 }) => {
   const { values, handleChange } = useForm({ name: "" });
   const { name } = values;
 
-  // derived state
   const buttonIsDisabled = name.trim() === "";
 
   // functions
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-
     if (buttonIsDisabled) return;
 
     createEntity(name);
-
     handleClose();
   }
 
   return (
     <ModalWrapper handleClose={handleClose} isShowing={modalShowing}>
       <div>
-        <SHeadingSubtitle>Create Part</SHeadingSubtitle>
+        <SHeadingSubtitle>Create {entityName}</SHeadingSubtitle>
         <SForm autoComplete="off" onSubmit={handleSubmit}>
           <FormGroup
             name="name"
             onChange={handleChange}
             type="text"
-            placeholder="Part Name"
+            placeholder={`${entityName} Name`}
             value={name}
           />
+          {children}
           <SButton disabled={buttonIsDisabled}>Create</SButton>
         </SForm>
       </div>

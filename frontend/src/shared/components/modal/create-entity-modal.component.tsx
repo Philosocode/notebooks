@@ -21,7 +21,7 @@ interface IProps extends IModalProps {
   entities: IHasName[];
   entityName: string;
   createEntity: (name: string, tags: string[]) => void;
-  entityTags?: string[];
+  entityTags: string[];
 }
 export const CreateEntityModal: React.FC<IProps> = ({
   entities,
@@ -88,15 +88,11 @@ export const CreateEntityModal: React.FC<IProps> = ({
           value={name}
         />
         <SError>{getError()}</SError>
-        {
-          entityTags && (
-            <TagAutocompleteInput
-              availableTags={entityTags}
-              tagsToAdd={tagsToAdd}
-              setTagsToAdd={setTagsToAdd}
-            />
-          )
-        }
+        <TagAutocompleteInput
+          availableTags={entityTags}
+          tagsToAdd={tagsToAdd}
+          setTagsToAdd={setTagsToAdd}
+        />
         <SButton disabled={buttonIsDisabled()}>Create</SButton>
       </SForm>
     </SContent>
