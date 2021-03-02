@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Draggable } from "react-beautiful-dnd";
 
 import { IPart } from "part/redux/part.types";
 import { OptionIcon } from "shared/components/button/option-icon.component";
@@ -7,17 +8,26 @@ import { OptionIcon } from "shared/components/button/option-icon.component";
 import { theme } from "shared/styles/theme.style";
 
 interface IProps {
+  index: number;
   part: IPart;
 }
-export const PartListItem: React.FC<IProps> = ({ part }) => {
+export const PartListItem: React.FC<IProps> = ({ index, part }) => {
   return (
-    <SContainer>
-      <div>
-        <SHeadingId>{part.id}</SHeadingId>
-        <SName>{part.name}</SName>
-      </div>
-      <OptionIcon handleClick={() => {}} />
-    </SContainer>
+    <Draggable draggableId={part.id} index={index}>
+      {provided => (
+        <SContainer
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          <div>
+            <SHeadingId>{part.id}</SHeadingId>
+            <SName>{part.name}</SName>
+          </div>
+          <OptionIcon handleClick={() => {}} />
+        </SContainer>
+      )}
+    </Draggable>
   )
 };
 

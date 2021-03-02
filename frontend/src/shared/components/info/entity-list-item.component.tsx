@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
 import { theme } from "shared/styles/theme.style";
@@ -73,19 +72,3 @@ const SHeadingId = styled.h4`
 const SName = styled.h3`
   font-size: ${theme.fontSizes.md};
 `;
-
-const SIconContainer = styled.div`
-  border-radius: 50%;
-  display: flex;
-    align-items: center;
-    justify-content: center;
-  font-size: 2.6rem;
-  height: 1.5em; width: 1.5em;
-  transition: background-color ${theme.animations.transitionAppend};
-
-  &:hover {
-    background-color: rgba(0,0,0,0.1);
-  }
-`;
-
-const SIcon = styled(FontAwesomeIcon)``;

@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
+import { DropResult } from "react-beautiful-dnd";
 
 // logic
 import { IHook } from "../redux/hook.types";
@@ -19,6 +19,7 @@ import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 import { faCompress, faExpand } from "@fortawesome/free-solid-svg-icons";
 import { FloatingCornerButton } from "../../shared/components/button/floating-corner-button.component";
 import { SortFilterControls } from "../../shared/components/button/sort-filter-controls.component";
+import { DragAndDropWrapper } from "shared/components/drag-and-drop/drag-and-drop-wrapper.component";
 
 interface IProps {
   conceptId: string;
@@ -83,30 +84,20 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
       />
 
       {filteredHooks.length === 0 && <SNoHooksHeading>No hooks found...</SNoHooksHeading>}
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="hook-list-droppable">
-          {((provided) => (
-            <SDroppableContainer
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              <SHookList>
-                {filteredHooks.map((hook, index) => (
-                  <HookListItem
-                    dragDisabled={dragDisabled}
-                    key={hook.id}
-                    hook={hook}
-                    index={index}
-                    isExpanded={expandedHash[hook.id]}
-                    toggleIsExpanded={toggleEntityExpansion}
-                  />
-                ))}
-              </SHookList>
-              {provided.placeholder}
-            </SDroppableContainer>
+      <DragAndDropWrapper droppableId="hook-list-droppable" handleDragEnd={handleDragEnd}>
+        <SHookList>
+          {filteredHooks.map((hook, index) => (
+            <HookListItem
+              dragDisabled={dragDisabled}
+              key={hook.id}
+              hook={hook}
+              index={index}
+              isExpanded={expandedHash[hook.id]}
+              toggleIsExpanded={toggleEntityExpansion}
+            />
           ))}
-        </Droppable>
-      </DragDropContext>
+        </SHookList>
+      </DragAndDropWrapper>
 
       <FloatingCornerButton
         handleClick={toggleAllExpansions}
@@ -121,19 +112,13 @@ const SContainer = styled.div`
   flex-direction: column;
   align-items: center;
 
-  // add bottom padding so page doesn't jump when expanding/contracting hooks
+  /* add bottom padding so page doesn't jump when expanding/contracting hooks */
   padding-bottom: 20rem;
-\`  ;
 `;
 
 const SNoHooksHeading = styled(SHeadingSubSubtitle)`
   font-weight: 500;
   margin-top: ${theme.spacing.md};
-`;
-
-const SDroppableContainer = styled.div`
-  list-style-type: none;
-  width: 100%;
 `;
 
 const SHookList = styled.ul`
