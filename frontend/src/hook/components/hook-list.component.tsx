@@ -67,7 +67,12 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
   }
 
   const hasExpandedHook = hasExpandedEntity();
-  const dragDisabled = filterText.trim() === "" && sortMode !== "custom";
+
+  // disable drag-and-drop if sort mode
+  const dragEnabled = sortMode === "custom" && filterText.trim() === "";
+  const hooksToShow = dragEnabled
+    ? hooks
+    : filteredHooks;
 
   return (
     <SContainer>
@@ -86,9 +91,9 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
       {filteredHooks.length === 0 && <SNoHooksHeading>No hooks found...</SNoHooksHeading>}
       <DragAndDropWrapper droppableId="hook-list-droppable" handleDragEnd={handleDragEnd}>
         <SHookList>
-          {filteredHooks.map((hook, index) => (
+          {hooksToShow.map((hook, index) => (
             <HookListItem
-              dragDisabled={dragDisabled}
+              dragDisabled={!dragEnabled}
               key={hook.id}
               hook={hook}
               index={index}
