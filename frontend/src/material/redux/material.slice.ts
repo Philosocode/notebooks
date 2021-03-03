@@ -4,7 +4,7 @@ import { IMaterialState } from "./material.types";
 import { createMaterial, deleteMaterial, getMaterials, updateMaterial } from "./material.thunks";
 import { getEntityIndex } from "shared/utils/entity.util";
 import { deleteMaterialTag, deleteTagFromMaterial, updateMaterialTag } from "./material-tag.thunk";
-import { createPart, getParts } from "part/redux/part.thunks";
+import { createPart, deletePart, getParts } from "part/redux/part.thunks";
 import { IRepositionEntityPayload } from "shared/types.shared";
 
 const initialState: IMaterialState = {
@@ -104,6 +104,7 @@ const materialSlice = createSlice({
           if (tagIdx !== -1) m.tags.splice(tagIdx, 1);
         });
       })
+
       /* Parts */
       .addCase(getParts.fulfilled, (state, action) => {
         const { materialId, parts } = action.payload;
@@ -128,7 +129,22 @@ const materialSlice = createSlice({
         if (!materialToUpdate.partIds) materialToUpdate.partIds = [];
         materialToUpdate.partIds.push(part.id);
       })
-      
+      .addCase(deletePart.fulfilled, (state, action) => {
+        const { materialId, partId } = action.payload;
+
+        const materialIndex = getEntityIndex(state.materials, materialId);
+        if (materialIndex === -1) return;
+
+        const materialToUpdate = state.materials[materialIndex];
+
+        if (!materialToUpdate.partIds) return;
+
+        // remove the part ID from the array
+        const partIdIndex = materialToUpdate.partIds.findIndex(id => id === partId);
+        if (partIdIndex === -1) return;
+
+        materialToUpdate.partIds.splice(partIdIndex, 1);
+      })
   },
 });
 

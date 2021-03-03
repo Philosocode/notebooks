@@ -64,6 +64,7 @@ const deleteMaterialTag = require("./handlers/material-tag/delete-material-tag.h
 // Material Parts
 const getParts = require("./handlers/part/get-parts.handler");
 const createPart = require("./handlers/part/create-part.handler");
+const deletePart = require("./handlers/part/delete-part.handler");
 
 // Tag
 const getTags = require("./handlers/tag/get-tags.handler");
@@ -165,6 +166,7 @@ router.route("/materials/:materialId/parts")
 
 router.route("/materials/:materialId/parts/:partId")
   .patch(materialExistsMiddleware, updatePart)
+  .delete(materialExistsMiddleware, deletePart);
 
 // Material Detail
 router.route("/materials/:materialId")
