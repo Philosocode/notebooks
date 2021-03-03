@@ -3,11 +3,18 @@ export type TModalType =
   | "delete-concept"
   | "update-concept"
   | "create-concept-link"
+
   | "create-material"
   | "delete-material"
   | "update-material"
+
+  | "update-part"
+  | "delete-part"
+
   | "delete-tag"
   | "update-tag"
+  | "create-named-entity"
+  | "update-named-entity"
   | "confirmation"
 
 export interface IModalState {

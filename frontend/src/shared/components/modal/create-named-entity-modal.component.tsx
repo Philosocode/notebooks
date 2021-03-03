@@ -3,29 +3,27 @@ import styled from "styled-components";
 
 // logic
 import { useForm } from "shared/hooks/use-form.hook";
+import { IModalProps } from "modal/redux/modal.types";
 
 // components
-import { ModalWrapper } from "modal/components/modal-wrapper.component";
 import { FormGroup } from "shared/components/form/form-group.component";
 
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SButtonGreen } from "shared/styles/button.style";
 import { SHeadingSubtitle } from "shared/styles/typography.style";
+import { ModalWrapper } from "../../../modal/components/modal-wrapper.component";
 
-interface IProps {
-  children?: React.ReactNode;
+interface IProps extends IModalProps {
   createEntity: (name: string) => void;
   entityName: string;
-  handleClose: () => void;
-  modalShowing: boolean;
+  isShowing: boolean;
 }
 export const CreateNamedEntityModal: React.FC<IProps> = ({
-  children,
   createEntity,
   entityName,
   handleClose,
-  modalShowing,
+  isShowing,
 }) => {
   const { values, handleChange } = useForm({ name: "" });
   const { name } = values;
@@ -42,7 +40,7 @@ export const CreateNamedEntityModal: React.FC<IProps> = ({
   }
 
   return (
-    <ModalWrapper handleClose={handleClose} isShowing={modalShowing}>
+    <ModalWrapper isShowing={isShowing} handleClose={handleClose}>
       <div>
         <SHeadingSubtitle>Create {entityName}</SHeadingSubtitle>
         <SForm autoComplete="off" onSubmit={handleSubmit}>
@@ -53,7 +51,6 @@ export const CreateNamedEntityModal: React.FC<IProps> = ({
             placeholder={`${entityName} Name`}
             value={name}
           />
-          {children}
           <SButton disabled={buttonIsDisabled}>Create</SButton>
         </SForm>
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DropResult } from "react-beautiful-dnd";
 import styled from "styled-components";
@@ -11,21 +11,24 @@ import { repositionPart } from "material/redux/material.slice";
 // components
 import { DragAndDropWrapper } from "shared/components/drag-and-drop/drag-and-drop-wrapper.component";
 import { PartListItem } from "./part-list-item.component";
-import { CreateNamedEntityModal } from "../../shared/components/modal/create-named-entity-modal.component";
 import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
 
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
+import { useToggle } from "../../shared/hooks/use-toggle.hook";
+import { CreateNamedEntityModal } from "../../shared/components/modal/create-named-entity-modal.component";
 
 interface IProps {
   materialId: string;
 }
 export const PartList: React.FC<IProps> = ({ materialId }) => {
-  const [modalShowing, setModalShowing] = useState(false);
   const dispatch = useDispatch();
   const currentMaterial = useSelector(selectCurrentMaterial);
   const materialParts = useSelector(selectMaterialParts);
+
+  // modal states
+  const [createModalShowing, toggleCreateModalShowing] = useToggle(false);
 
   useEffect(() => {
     if (currentMaterial && !currentMaterial.partIds) {
@@ -33,8 +36,8 @@ export const PartList: React.FC<IProps> = ({ materialId }) => {
     }
   }, [currentMaterial, dispatch, materialId]);
 
-  function toggleModal() {
-    setModalShowing(prevVal => !prevVal);
+  function handleCreate(name: string) {
+    dispatch(createPart({ name, materialId }));
   }
 
   function handleDragEnd(result: DropResult) {
@@ -61,13 +64,6 @@ export const PartList: React.FC<IProps> = ({ materialId }) => {
     }));
   }
 
-  function handleCreate(name: string) {
-    dispatch(createPart({
-      materialId,
-      name,
-    }));
-  }
-
   if (materialParts === undefined) return null;
   return (
     <DragAndDropWrapper droppableId="part-list-droppable" handleDragEnd={handleDragEnd}>
@@ -76,15 +72,21 @@ export const PartList: React.FC<IProps> = ({ materialId }) => {
           <SHeadingSubSubtitle weight={500}>No parts found...</SHeadingSubSubtitle>
         )}
         {materialParts.map((part, index) => (
-          <PartListItem part={part} key={part.id} index={index} />
+          <PartListItem
+            part={part}
+            key={part.id}
+            index={index}
+            materialId={materialId}
+          />
+
         ))}
       </SList>
-      <FloatingCornerButton icon="plus" handleClick={toggleModal} />
+      <FloatingCornerButton icon="plus" handleClick={toggleCreateModalShowing} />
       <CreateNamedEntityModal
-        entityName="Part"
         createEntity={handleCreate}
-        handleClose={toggleModal}
-        modalShowing={modalShowing}
+        entityName="Part"
+        handleClose={toggleCreateModalShowing}
+        isShowing={createModalShowing}
       />
     </DragAndDropWrapper>
   );

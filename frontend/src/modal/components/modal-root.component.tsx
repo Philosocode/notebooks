@@ -19,22 +19,39 @@ import { ConfirmationModal } from "./confirmation-modal.component";
 import { DeleteTagModal } from "tag/components/delete-tag-modal.component";
 import { UpdateTagModal } from "tag/components/update-tag-modal.component";
 import { CreateConceptLinkModal } from "concept/components/create-concept-link-modal.component";
+import { CreateNamedEntityModal } from "shared/components/modal/create-named-entity-modal.component";
+import { UpdateNamedEntityModal } from "shared/components/modal/update-named-entity.modal";
+import { UpdatePartModal } from "../../part/components/update-part-modal.component";
+import { DeletePartModal } from "../../part/components/delete-part-modal.component";
 
 type TModalComponents = {
   [key in TModalType]: React.FC<any>;
 };
 
 const MODAL_COMPONENTS: TModalComponents = {
+  // Concept
   "create-concept": CreateConceptModal,
   "update-concept": UpdateConceptModal,
   "delete-concept": DeleteConceptModal,
+  "create-concept-link": CreateConceptLinkModal,
+
+  // Material
   "create-material": CreateMaterialModal,
   "update-material": UpdateMaterialModal,
   "delete-material": DeleteMaterialModal,
+
+  // Part
+  "update-part": UpdatePartModal,
+  "delete-part": DeletePartModal,
+
+  // Tag
   "delete-tag": DeleteTagModal,
   "update-tag": UpdateTagModal,
+
+  // Other
+  "create-named-entity": CreateNamedEntityModal,
+  "update-named-entity": UpdateNamedEntityModal,
   "confirmation": ConfirmationModal,
-  "create-concept-link": CreateConceptLinkModal,
 };
 
 export const ModalRoot = () => {

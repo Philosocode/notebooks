@@ -54,6 +54,26 @@ export const createPart = createAsyncThunk(
   }
 );
 
+interface IUpdatePartPayload {
+  materialId: string;
+  partId: string;
+  name: string;
+}
+export const updatePart = createAsyncThunk(
+  "part/updatePart",
+  async function (payload: IUpdatePartPayload, thunkAPI) {
+    const { materialId, partId, name } = payload;
+
+    try {
+      await api.patch(`/materials/${materialId}/parts/${partId}`, { name });
+
+      return payload;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
 interface IUpdatePartPosition {
   materialId: string;
   partId: string;
@@ -70,4 +90,23 @@ export const updatePartPosition = createAsyncThunk(
       return thunkAPI.rejectWithValue(err);
     }
   }
-)
+);
+
+interface IDeletePartPayload {
+  materialId: string;
+  partId: string;
+}
+export const deletePart = createAsyncThunk(
+  "part/deletePart",
+  async function (payload: IDeletePartPayload, thunkAPI) {
+    const { materialId, partId } = payload;
+
+    try {
+      await api.delete(`/naterials/${materialId}/parts/${partId}`);
+
+      return payload;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);

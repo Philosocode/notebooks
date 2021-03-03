@@ -1,17 +1,48 @@
 import React from "react";
-import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import { Draggable } from "react-beautiful-dnd";
+import styled from "styled-components";
 
 import { IPart } from "part/redux/part.types";
-import { OptionIcon } from "shared/components/button/option-icon.component";
+
+import { Menu, IMenuAction } from "shared/components/menu/menu.component";
 
 import { theme } from "shared/styles/theme.style";
+import { showModal } from "modal/redux/modal.slice";
 
 interface IProps {
   index: number;
+  materialId: string;
   part: IPart;
 }
-export const PartListItem: React.FC<IProps> = ({ index, part }) => {
+export const PartListItem: React.FC<IProps> = ({ index, materialId, part }) => {
+  const dispatch = useDispatch();
+
+  const menuActions: IMenuAction[] = [
+    { name: "Edit", icon: "pencil-alt", action: handleUpdate },
+    { name: "Delete", icon: "trash", action: handleDelete }
+  ];
+
+  function handleUpdate() {
+    dispatch(showModal({
+      modalType: "update-part",
+      modalProps: {
+        materialId,
+        part,
+      }
+    }))
+  }
+
+  function handleDelete() {
+    dispatch(showModal({
+      modalType: "delete-part",
+      modalProps: {
+        materialId,
+        part,
+      }
+    }))
+  }
+
   return (
     <Draggable draggableId={part.id} index={index}>
       {provided => (
@@ -24,7 +55,7 @@ export const PartListItem: React.FC<IProps> = ({ index, part }) => {
             <SHeadingId>{part.id}</SHeadingId>
             <SName>{part.name}</SName>
           </div>
-          <OptionIcon handleClick={() => {}} />
+          <Menu actions={menuActions} />
         </SContainer>
       )}
     </Draggable>

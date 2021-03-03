@@ -4,17 +4,16 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import styled from "styled-components";
 
 import { theme } from "shared/styles/theme.style";
+import { OptionIcon } from "../button/option-icon.component";
 
 export interface IMenuAction {
   action: any;
   name: string;
   icon: IconProp;
 }
-
 interface IProps {
   actions: IMenuAction[];
 }
-
 // Referenced: https://letsbuildui.dev/articles/building-a-dropdown-menu-component-with-react-hooks
 export const Menu: FC<IProps> = ({ actions }) => {
   const [menuShowing, setMenuShowing] = useState(false);
@@ -49,7 +48,7 @@ export const Menu: FC<IProps> = ({ actions }) => {
 
   return (
     <SContainer>
-      <SIcon icon="ellipsis-v" onClick={showMenu} />
+      <OptionIcon handleClick={showMenu} />
       {menuShowing ? (
         <div ref={menuRef}>
          <SActionList>
@@ -73,11 +72,6 @@ const SContainer = styled.div`
     align-items: center;
   position: relative;
   width: max-content;
-`;
-
-const SIcon = styled(FontAwesomeIcon)`
-  cursor: pointer;
-  font-size: 2.5rem;
 `;
 
 const SActionList = styled.div`
