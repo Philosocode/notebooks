@@ -102,7 +102,7 @@ export const deletePart = createAsyncThunk(
     const { materialId, partId } = payload;
 
     try {
-      await api.delete(`/naterials/${materialId}/parts/${partId}`);
+      await api.delete(`/materials/${materialId}/parts/${partId}`);
 
       return payload;
     } catch (err) {
