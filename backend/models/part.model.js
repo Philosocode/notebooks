@@ -5,6 +5,8 @@ module.exports = {
   createPart,
   getParts,
   updatePart,
+  deletePart,
+  deleteParts,
 };
 
 // Referenced: https://medium.com/the-missing-bit/keeping-an-ordered-collection-in-postgresql-9da0348c4bbe
@@ -53,4 +55,22 @@ async function updatePart(material_id, part_id, updates, connection=db) {
 
     return trx("part").where({ id: part_id }).update(updates);
   });
+}
+
+async function deletePart(material_id, part_id, connection=db) {
+  return connection.transaction(async (trx) => {
+    const partToDelete = await trx("part")
+      .select("position")
+      .where({ material_id, id: part_id });
+
+    const partPosition = partToDelete[0].position;
+
+    await trx("part").where({ id: part_id }).del();
+
+    await shiftPositions("part", {}, partPosition, false, trx);
+  });
+}
+
+async function deleteParts(material_id, connection=db) {
+  return connection("part").where({ material_id }).del();
 }
