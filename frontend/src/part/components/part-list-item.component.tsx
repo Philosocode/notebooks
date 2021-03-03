@@ -70,6 +70,7 @@ const SContainer = styled.li`
     justify-content: space-between;
   margin-top: ${theme.spacing.base};
   padding: ${theme.spacing.base};
+  max-width: 80rem;
 `;
 
 const SHeadingId = styled.h4`

@@ -78,7 +78,6 @@ export const PartList: React.FC<IProps> = ({ materialId }) => {
             index={index}
             materialId={materialId}
           />
-
         ))}
       </SList>
       <FloatingCornerButton icon="plus" handleClick={toggleCreateModalShowing} />
