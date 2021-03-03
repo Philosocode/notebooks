@@ -1,16 +1,16 @@
 import { FC } from "react";
 import { RouteComponentProps } from "react-router-dom";
 
-import { LoginPage } from "../../auth/pages/login.page";
+import { LoginPage } from "auth/pages/login.page";
 import { LibraryPage } from "library/pages/library.page";
-import { LibraryDetailPage } from "../../library/pages/library-detail.page";
+import { LibraryDetailPage } from "library/pages/library-detail.page";
 import { ConceptDetailPage } from "concept/pages/concept-detail.page";
 import { ConceptsPage } from "concept/pages/concepts.page";
 import { MaterialsPage } from "material/pages/materials.page";
 import { MaterialDetailPage } from "material/pages/material-detail.page";
-import { PartDetailPage } from "../../pages/part-detail.page";
-import { PracticePage } from "../../pages/practice.page";
-import { SettingsPage } from "../../pages/settings.page";
+import { PartDetailPage } from "part/pages/part-detail.page";
+import { PracticePage } from "pages/practice.page";
+import { SettingsPage } from "pages/settings.page";
 
 interface IAppRoute<T = {}> {
   component: FC<T>;
@@ -59,7 +59,7 @@ const materialDetail: IAppRoute<RouteComponentProps> = {
 
 const partDetail: IAppRoute = {
   component: PartDetailPage,
-  path: "/part/:partId",
+  path: "/parts/:partId",
   isPrivate: true,
 };
 

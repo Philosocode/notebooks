@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
@@ -48,6 +49,7 @@ export const PartListItem: React.FC<IProps> = ({ index, materialId, part }) => {
       {provided => (
         <SContainer
           ref={provided.innerRef}
+          to={`/parts/${part.id}`}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
@@ -62,7 +64,7 @@ export const PartListItem: React.FC<IProps> = ({ index, materialId, part }) => {
   )
 };
 
-const SContainer = styled.li`
+const SContainer = styled(Link)`
   background: ${theme.colors.offWhite};
   box-shadow: ${theme.boxShadows.light};
   display: flex;
