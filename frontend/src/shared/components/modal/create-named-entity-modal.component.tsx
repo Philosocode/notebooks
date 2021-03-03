@@ -25,7 +25,7 @@ export const CreateNamedEntityModal: React.FC<IProps> = ({
   handleClose,
   isShowing,
 }) => {
-  const { values, handleChange } = useForm({ name: "" });
+  const { values, handleChange, setValues } = useForm({ name: "" });
   const { name } = values;
 
   const buttonIsDisabled = name.trim() === "";
@@ -37,6 +37,8 @@ export const CreateNamedEntityModal: React.FC<IProps> = ({
 
     createEntity(name);
     handleClose();
+
+    setValues({ name: "" });
   }
 
   return (
