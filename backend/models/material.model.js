@@ -1,6 +1,7 @@
 const db = require("../db/db");
 
 const { addTagsToEntity, updateTagsForEntity } = require("./entity-tag.model");
+const { deleteParts } = require("./part.model");
 
 module.exports = {
   createMaterial,
@@ -34,6 +35,9 @@ async function deleteMaterial(user_id, material_id, connection=db) {
   return await connection.transaction(async (trx) => {
     // delete all tags for material
     await trx("material_tag").where({ material_id }).del();
+
+    // delete all parts for material
+    await deleteParts(material_id);
 
     // delete material itself
     await trx("material").where({ user_id, id: material_id }).first().del();

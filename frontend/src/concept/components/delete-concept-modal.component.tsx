@@ -6,16 +6,20 @@ import { IModalProps } from "../../modal/redux/modal.types";
 import { deleteConcept } from "concept/redux/concept.thunks";
 import { ConfirmationModal } from "modal/components/confirmation-modal.component";
 import { trimString } from "shared/utils/string.util";
+import { useHistory } from "react-router-dom";
 
 interface IProps extends IModalProps {
   concept: IConcept;
 }
 export const DeleteConceptModal: FC<IProps> = ({ concept, handleClose }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   
   function handleDelete() {
     dispatch(deleteConcept(concept.id));
     handleClose();
+
+    history.replace("/concepts");
   }
   
   const trimmedName = trimString(concept.name, 50);

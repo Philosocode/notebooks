@@ -7,16 +7,20 @@ import { deleteMaterial } from "material/redux/material.thunks";
 import { trimString } from "shared/utils/string.util";
 
 import { ConfirmationModal } from "modal/components/confirmation-modal.component";
+import { useHistory } from "react-router-dom";
 
 interface IProps extends IModalProps {
   material: IMaterial;
 }
 export const DeleteMaterialModal: FC<IProps> = ({ material, handleClose }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   function handleDelete() {
     dispatch(deleteMaterial(material.id));
     handleClose();
+
+    history.replace("/materials");
   }
 
   const trimmedName = trimString(material.name, 50);
