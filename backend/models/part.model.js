@@ -4,6 +4,7 @@ const { defaultPartChecklist } = require("../handlers/part/part.common");
 
 module.exports = {
   createPart,
+  getPart,
   getParts,
   updatePart,
   deletePart,
@@ -38,6 +39,22 @@ async function getParts(material_id, filterObject, connection=db) {
     .select("*")
     .where({ material_id, ...filterObject })
     .orderBy("position");
+}
+
+async function getPart(part_id, user_id, connection=db) {
+  const part = await connection("part")
+    .select("*")
+    .where({ id: part_id }).first();
+
+  if (!part) return;
+
+  // check if user owns this part
+  const materialForPart = await connection("material")
+    .where({ id: part.material_id }).first();
+
+  if (materialForPart.user_id === user_id) {
+    return part;
+  };
 }
 
 async function updatePart(material_id, part_id, updates, connection=db) {

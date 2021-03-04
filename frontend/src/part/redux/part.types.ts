@@ -5,6 +5,7 @@ export interface IPart {
   updated_at: string;
   checklist: IPartChecklist;
   sections?: string[];
+  material_id: string;
 }
 
 // SEE: https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape

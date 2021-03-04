@@ -6,6 +6,7 @@ const { entityExistsMiddleware } = require("./middlewares/entity-exists.middlewa
 
 const conceptExistsMiddleware = entityExistsMiddleware("concept");
 const materialExistsMiddleware = entityExistsMiddleware("material");
+const partExistsMiddleware = entityExistsMiddleware("part");
 
 // Auth
 const googleLogin = require("./handlers/auth/google-login.handler");
@@ -167,16 +168,17 @@ router.route("/materials/:materialId/parts")
   .post(materialExistsMiddleware, createPart)
   .delete(materialExistsMiddleware, deleteParts)
 
-router.route("/materials/:materialId/parts/:partId")
-  .get(materialExistsMiddleware, getPart)
-  .patch(materialExistsMiddleware, updatePart)
-  .delete(materialExistsMiddleware, deletePart);
-
 // Material Detail
 router.route("/materials/:materialId")
   .get(materialExistsMiddleware, getMaterial)
   .patch(materialExistsMiddleware, updateMaterial)
   .delete(materialExistsMiddleware, deleteMaterial)
+
+// Parts
+router.route("/parts/:partId")
+  .get(getPart)
+  .patch(updatePart)
+  .delete(deletePart);
 
 // Tags
 router.route("/tags")
