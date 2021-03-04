@@ -26,10 +26,6 @@ export const getParts = createAsyncThunk(
 );
 
 
-interface IGetPartPayload {
-  materialId: string;
-  partId: string;
-}
 interface IGetPartResponse {
   status: string;
   data: {
@@ -38,14 +34,11 @@ interface IGetPartResponse {
 }
 export const getPart = createAsyncThunk(
   "part/getPart",
-  async function (payload: IGetPartPayload, thunkAPI) {
-    const { materialId, partId } = payload;
-
+  async function (partId: string, thunkAPI) {
     try {
-      const response = await api.get<IGetPartResponse>(`/materials/${materialId}/parts/${partId}`);
+      const response = await api.get<IGetPartResponse>(`/parts/${partId}`);
 
       return {
-        materialId,
         part: response.data.data.part,
       }
     } catch (err) {

@@ -11,6 +11,7 @@ import { PartDetailHeader } from "../components/part-detail-header.component";
 import { TabNames } from "../../shared/components/nav/tab-names.component";
 import { Tab } from "../../shared/components/nav/tab.component";
 import { PartChecklist } from "../components/part-checklist.component";
+import { getPart } from "../redux/part.thunks";
 
 interface IMatchParams {
   partId: string;
@@ -33,10 +34,8 @@ export const PartDetailPage: React.FC = () => {
       dispatch(setCurrentPartId(partId));
       setSelectedTab("Sections");
     } else {
-      dispatch(showAndHideAlert({
-        message: "Part with that ID not found.",
-        type: "warning",
-      }));
+      dispatch(getPart(partId));
+      dispatch(setCurrentPartId(partId));
     }
   }, [currentPart, partId, dispatch]);
 

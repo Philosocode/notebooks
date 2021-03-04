@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createPart, deletePart, getParts, updatePart } from "./part.thunks";
+import { createPart, deletePart, getPart, getParts, updatePart } from "./part.thunks";
 import omit from "lodash/omit";
 
 import { IPartState } from "./part.types";
@@ -24,6 +24,10 @@ const partSlice = createSlice({
           // add to hash
           state.parts[part.id] = part;
         })
+      })
+      .addCase(getPart.fulfilled, (state, action) => {
+        const fetchedPart = action.payload.part;
+        state.parts[fetchedPart.id] = fetchedPart;
       })
       .addCase(createPart.fulfilled, (state, action) => {
         const { part } = action.payload;
