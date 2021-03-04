@@ -1,5 +1,6 @@
 const db = require("../db/db");
 const { shiftPositions, getMaxPosition } = require("./common.model");
+const { defaultPartChecklist } = require("../handlers/part/part.common");
 
 module.exports = {
   createPart,
@@ -21,7 +22,11 @@ async function createPart(
 
     // create part
     return trx("part").insert(
-      { name, material_id, position: insertPosition }, ["*"]
+      {
+        name, material_id,
+        position: insertPosition,
+        checklist: JSON.stringify(defaultPartChecklist),
+      }, ["*"]
     );
   });
 
