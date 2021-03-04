@@ -96,6 +96,20 @@ export const updatePart = createAsyncThunk(
   }
 );
 
+interface IUpdatePartChecklist {
+  partId: string;
+  key: string;
+  value: boolean;
+}
+export const updatePartChecklist = createAsyncThunk(
+  "part/updatePartChecklist",
+  async function (payload: IUpdatePartChecklist, thunkAPI) {
+    // const { partId, key, value } = payload;
+
+    return payload;
+  }
+)
+
 interface IUpdatePartPosition {
   materialId: string;
   partId: string;

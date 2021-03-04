@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createPart, deletePart, getPart, getParts, updatePart } from "./part.thunks";
+import { createPart, deletePart, getPart, getParts, updatePart, updatePartChecklist } from "./part.thunks";
 import omit from "lodash/omit";
 
 import { IPartState } from "./part.types";
@@ -38,6 +38,11 @@ const partSlice = createSlice({
         const { partId, name } = action.payload;
 
         state.parts[partId].name = name;
+      })
+      .addCase(updatePartChecklist.fulfilled, (state, action) => {
+        const { partId, key, value } = action.payload;
+
+        state.parts[partId].checklist[key] = value;
       })
       .addCase(deletePart.fulfilled, (state, action) => {
         const { partId } = action.payload;

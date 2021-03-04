@@ -1,31 +1,43 @@
 import React from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 
-import { IPartChecklist } from "../redux/part.types";
+import { IPart } from "../redux/part.types";
+import { updatePartChecklist } from "../redux/part.thunks";
 
 import { theme } from "../../shared/styles/theme.style";
 import { SCheckboxLabel } from "../../shared/styles/form.style";
 import { SHeadingSubSubtitle } from "../../shared/styles/typography.style";
 
 interface IProps {
-  checklist: IPartChecklist;
+  part: IPart;
 }
 export const PartChecklist: React.FC<IProps> = ({
-  checklist
+  part
 }) => {
+  const dispatch = useDispatch();
+
+  function updateChecklist(event: React.ChangeEvent<HTMLInputElement>, key: string) {
+    dispatch(updatePartChecklist({
+      partId: part.id,
+      key,
+      value: event.target.checked,
+    }));
+  }
+
   return (
     <SForm>
       <SHeadingSubSubtitle>Part Checklist</SHeadingSubSubtitle>
       {
-        Object.keys(checklist).map(key => (
-          <SCheckboxLabel>
+        Object.keys(part.checklist).map(key => (
+          <SCheckboxLabel key={key}>
             {key}
             <input
               type="checkbox"
               id={key}
               name={key}
-              onChange={() => { checklist[key] = !checklist[key] }}
-              checked={checklist[key]}
+              onChange={(event) => updateChecklist(event, key)}
+              checked={part.checklist[key]}
             />
             <span />
           </SCheckboxLabel>

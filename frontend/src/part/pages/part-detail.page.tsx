@@ -43,7 +43,7 @@ export const PartDetailPage: React.FC = () => {
   return (
     <SDetailPageContent>
       <PartDetailHeader part={currentPart} />
-      <PartChecklist checklist={currentPart.checklist} />
+      <PartChecklist part={currentPart} />
       <TabNames tabNames={tabNames} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       <div>
         <Tab title="Sections" selectedTab={selectedTab}>
