@@ -58,6 +58,7 @@ export function App() {
       break;
     case "concepts":
     case "materials":
+    case "parts":
       paddingLeft = theme.componentSizes.appSidebarWidth;
       break;
     default:

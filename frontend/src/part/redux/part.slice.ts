@@ -2,19 +2,19 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createPart, deletePart, getParts, updatePart } from "./part.thunks";
 import omit from "lodash/omit";
 
-import { IPart, IPartState } from "./part.types";
+import { IPartState } from "./part.types";
 
 const initialState: IPartState  = {
   parts: {},
-  currentPart: undefined,
+  currentPartId: undefined,
 };
 
 const partSlice = createSlice({
   name: "part",
   initialState,
   reducers: {
-    setCurrentPart: (state, action: PayloadAction<IPart>) => {
-      state.currentPart = action.payload;
+    setCurrentPartId: (state, action: PayloadAction<string>) => {
+      state.currentPartId = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -45,5 +45,5 @@ const partSlice = createSlice({
 
 export const partReducer = partSlice.reducer;
 export const {
-  setCurrentPart,
+  setCurrentPartId,
 } = partSlice.actions;

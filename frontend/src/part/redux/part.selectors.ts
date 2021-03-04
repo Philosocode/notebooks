@@ -8,3 +8,17 @@ export const selectPartHash = createSelector(
   [selectPartState],
   (state) => state.parts,
 );
+
+export const selectCurrentPartId = createSelector(
+  [selectPartState],
+  (state) => state.currentPartId
+);
+
+export const selectCurrentPart = createSelector(
+  [selectPartHash, selectCurrentPartId],
+  (partHash, partId) => {
+    if (!partId) return;
+
+    return partHash[partId];
+  }
+);

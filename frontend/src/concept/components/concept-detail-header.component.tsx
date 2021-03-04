@@ -7,7 +7,7 @@ import { showModal } from "modal/redux/modal.slice";
 import { deleteTagFromConcept } from "concept/redux/concept.thunks";
 
 // styles
-import { DetailHeader } from "shared/components/info/detail-header.component";
+import { DetailHeaderWithTags } from "../../shared/components/info/detail-header-with-tags.component";
 
 interface IProps {
   concept: IConcept
@@ -29,7 +29,7 @@ export const ConceptDetailHeader: React.FC<IProps> = ({ concept }) => {
   }
 
   return (
-    <DetailHeader
+    <DetailHeaderWithTags
       name={concept.name}
       updatedAt={concept.updated_at}
       tags={concept.tags}

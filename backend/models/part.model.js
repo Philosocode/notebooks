@@ -35,7 +35,7 @@ async function createPart(
 
 async function getParts(material_id, filterObject, connection=db) {
   return connection("part")
-    .select("id", "name", "position", "created_at", "updated_at")
+    .select("*")
     .where({ material_id, ...filterObject })
     .orderBy("position");
 }

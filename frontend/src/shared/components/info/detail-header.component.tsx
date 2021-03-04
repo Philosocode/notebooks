@@ -3,35 +3,33 @@ import styled from "styled-components";
 import format from "date-fns/format";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-// components
-import { TagList } from "tag/components/tag-list.component";
-
 // styles
 import { SHeadingSubtitle } from "shared/styles/typography.style";
 import { theme } from "shared/styles/theme.style";
 
 interface IProps {
+  bottomSlot?: React.ReactNode;
+  topSlot?: React.ReactNode;
   name: string;
   updatedAt: string;
-  tags: string[];
-  handleDeleteTag: (tag: string) => void;
   showUpdateModal: () => void;
 }
 export const DetailHeader: React.FC<IProps> = ({
+  bottomSlot,
+  topSlot,
   name,
   updatedAt,
-  tags,
-  handleDeleteTag,
   showUpdateModal,
 }) => {
   const formattedUpdateDate = format(new Date(updatedAt), "PPP");
 
   return (
     <SContainer>
+      {topSlot}
       <SSettingsIcon icon="cog" onClick={showUpdateModal} />
       <SHeadingSubtitle>{name}</SHeadingSubtitle>
       <p>Last Updated: {formattedUpdateDate}</p>
-      <TagList tags={tags} handleDeleteTag={handleDeleteTag} />
+      {bottomSlot}
     </SContainer>
   );
 };

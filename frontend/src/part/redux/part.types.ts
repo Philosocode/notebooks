@@ -3,6 +3,8 @@ export interface IPart {
   name: string;
   created_at: string;
   updated_at: string;
+  checklist: IPartChecklist;
+  sections?: string[];
 }
 
 // SEE: https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape
@@ -10,5 +12,9 @@ export interface IPartState {
   parts: {
     [key: string]: IPart;
   };
-  currentPart?: IPart;
+  currentPartId?: string;
+}
+
+export interface IPartChecklist {
+  [key: string]: boolean;
 }
