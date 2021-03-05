@@ -24,17 +24,19 @@ export const DetailHeader: React.FC<IProps> = ({
   const formattedUpdateDate = format(new Date(updatedAt), "PPP");
 
   return (
-    <SContainer>
+    <div>
       {topSlot}
-      <SSettingsIcon icon="cog" onClick={showUpdateModal} />
-      <SHeadingSubtitle>{name}</SHeadingSubtitle>
+      <STitleContainer>
+        <SSettingsIcon icon="cog" onClick={showUpdateModal} />
+        <SHeadingSubtitle>{name}</SHeadingSubtitle>
+      </STitleContainer>
       <p>Last Updated: {formattedUpdateDate}</p>
       {bottomSlot}
-    </SContainer>
+    </div>
   );
 };
 
-const SContainer = styled.div`
+const STitleContainer = styled.div`
   position: relative;
 `;
 
