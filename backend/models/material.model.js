@@ -45,7 +45,9 @@ async function deleteMaterial(user_id, material_id, connection=db) {
 }
 
 async function getMaterials(user_id, options, connection=db) {
-  const columnsToSelect = ["*"];
+  const columnsToSelect = [
+    "material.id", "material.name", "created_at", "updated_at", "user_id"
+  ];
 
   if (options.include?.tags) {
     columnsToSelect.push("tag.name AS tag");

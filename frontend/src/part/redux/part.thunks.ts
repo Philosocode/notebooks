@@ -104,9 +104,19 @@ interface IUpdatePartChecklist {
 export const updatePartChecklist = createAsyncThunk(
   "part/updatePartChecklist",
   async function (payload: IUpdatePartChecklist, thunkAPI) {
-    // const { partId, key, value } = payload;
+    const { partId, key, value } = payload;
 
-    return payload;
+    const updates = {
+      [key]: value
+    };
+
+    try {
+      await api.patch(`/parts/${partId}`, { checklist: updates });
+
+      return payload;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
   }
 )
 
