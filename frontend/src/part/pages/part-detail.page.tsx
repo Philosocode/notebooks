@@ -12,6 +12,9 @@ import { TabNames } from "../../shared/components/nav/tab-names.component";
 import { Tab } from "../../shared/components/nav/tab.component";
 import { PartChecklist } from "../components/part-checklist.component";
 import { getPart } from "../redux/part.thunks";
+import { useToggle } from "../../shared/hooks/use-toggle.hook";
+import { UpdateNamedEntityModal } from "../../shared/components/modal/update-named-entity.modal";
+import { ModalWrapper } from "../../modal/components/modal-wrapper.component";
 
 interface IMatchParams {
   partId: string;

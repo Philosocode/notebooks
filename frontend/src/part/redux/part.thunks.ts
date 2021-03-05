@@ -84,10 +84,10 @@ interface IUpdatePartPayload {
 export const updatePart = createAsyncThunk(
   "part/updatePart",
   async function (payload: IUpdatePartPayload, thunkAPI) {
-    const { materialId, partId, name } = payload;
+    const { partId, name } = payload;
 
     try {
-      await api.patch(`/materials/${materialId}/parts/${partId}`, { name });
+      await api.patch(`/parts/${partId}`, { name });
 
       return payload;
     } catch (err) {
