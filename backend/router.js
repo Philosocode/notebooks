@@ -3,10 +3,10 @@ const express = require("express");
 // Middleware
 const protect = require("./middlewares/protect.middleware");
 const { entityExistsMiddleware } = require("./middlewares/entity-exists.middleware");
+const { userOwnsPartMiddleware } = require("./handlers/part/part.common");
 
 const conceptExistsMiddleware = entityExistsMiddleware("concept");
 const materialExistsMiddleware = entityExistsMiddleware("material");
-const partExistsMiddleware = entityExistsMiddleware("part");
 
 // Auth
 const googleLogin = require("./handlers/auth/google-login.handler");

@@ -9,6 +9,7 @@ module.exports = {
   updatePart,
   deletePart,
   deleteParts,
+  userOwnsPart,
 };
 
 // Referenced: https://medium.com/the-missing-bit/keeping-an-ordered-collection-in-postgresql-9da0348c4bbe
@@ -41,26 +42,19 @@ async function getParts(material_id, filterObject, connection=db) {
     .orderBy("position");
 }
 
-async function getPart(part_id, user_id, connection=db) {
-  const part = await connection("part")
+async function getPart(part_id, connection=db) {
+  return connection("part")
     .select("*")
-    .where({ id: part_id }).first();
-
-  if (!part) return;
-
-  // check if user owns this part
-  const materialForPart = await connection("material")
-    .where({ id: part.material_id }).first();
-
-  if (materialForPart.user_id === user_id) {
-    return part;
-  };
+    .where({ id: part_id })
+    .first();
 }
 
 async function updatePart(material_id, part_id, updates, connection=db) {
   // updates: title, content, position
   return connection.transaction(async trx => {
     const newPosition = updates.position;
+    const { checklist, ...updatesWithoutChecklist } = updates;
+
 
     if (newPosition !== undefined) {
       const oldPositionResult = await trx("part").select("position").where({ id: part_id });
@@ -75,7 +69,18 @@ async function updatePart(material_id, part_id, updates, connection=db) {
       }
     }
 
-    return trx("part").where({ id: part_id }).update(updates);
+    if (checklist) {
+      // patch checklist properties rather than completely replacing it
+      await trx.raw(
+        `UPDATE part SET checklist = checklist || ? WHERE id = ?`,
+        [JSON.stringify(checklist), part_id]
+      );
+    }
+
+    // checklist updated handled above; only update if name or position was provided
+    if (updates.name || newPosition) {
+      return trx("part").where({ id: part_id }).update(updatesWithoutChecklist);
+    }
   });
 }
 
@@ -95,4 +100,15 @@ async function deletePart(material_id, part_id, connection=db) {
 
 async function deleteParts(material_id, connection=db) {
   return connection("part").where({ material_id }).del();
+}
+
+/* HELPERS */
+async function userOwnsPart(part_id, user_id, connection=db) {
+  const userIdForPart = await connection("part")
+    .select("user_id")
+    .where({ "part.id": part_id })
+    .join("material", "material.id", "part.material_id")
+    .first();
+
+  return userIdForPart === user_id;
 }
