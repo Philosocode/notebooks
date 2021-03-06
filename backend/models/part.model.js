@@ -1,6 +1,7 @@
 const db = require("../db/db");
 const { shiftPositions, getMaxPosition } = require("./common.model");
 const { defaultPartChecklist } = require("../handlers/part/part.common");
+const { deleteSections, deleteSectionsForMaterial } = require("./section.model");
 
 module.exports = {
   createPart,
@@ -92,6 +93,9 @@ async function deletePart(material_id, part_id, connection=db) {
 
     const partPosition = partToDelete[0].position;
 
+    // delete sections for part
+    await deleteSections(part_id, trx);
+
     await trx("part").where({ id: part_id }).del();
 
     await shiftPositions("part", {}, partPosition, false, trx);
@@ -99,7 +103,13 @@ async function deletePart(material_id, part_id, connection=db) {
 }
 
 async function deleteParts(material_id, connection=db) {
-  return connection("part").where({ material_id }).del();
+  return connection.transaction(async (trx) => {
+    // delete sections for material ID
+    await deleteSectionsForMaterial(material_id, trx);
+
+    // delete all parts for material ID
+    await trx("part").where({ material_id }).del();
+  })
 }
 
 /* HELPERS */

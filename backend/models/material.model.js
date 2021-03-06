@@ -37,7 +37,7 @@ async function deleteMaterial(user_id, material_id, connection=db) {
     await trx("material_tag").where({ material_id }).del();
 
     // delete all parts for material
-    await deleteParts(material_id);
+    await deleteParts(material_id, trx);
 
     // delete material itself
     await trx("material").where({ user_id, id: material_id }).first().del();

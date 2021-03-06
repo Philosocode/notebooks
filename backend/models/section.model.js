@@ -7,6 +7,7 @@ module.exports = {
   getSections,
   deleteSection,
   deleteSections,
+  deleteSectionsForMaterial,
 }
 
 // Referenced: https://medium.com/the-missing-bit/keeping-an-ordered-collection-in-postgresql-9da0348c4bbe
@@ -68,4 +69,15 @@ async function deleteSection(part_id, section_id, connection=db) {
 
 async function deleteSections(part_id, connection=db) {
   return connection("section").where({ part_id }).del();
+}
+
+/* HELPERS */
+async function deleteSectionsForMaterial(material_id, connection=db) {
+  // delete where section.part_id is in...
+  const result = await connection("section").whereIn("part_id", function() {
+    // select parts with the material ID
+    this.select("id")
+      .from("part")
+      .where({ "part.material_id": material_id });
+  }).del();
 }
