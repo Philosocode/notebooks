@@ -16,6 +16,7 @@ import { useToggle } from "../../shared/hooks/use-toggle.hook";
 import { UpdateNamedEntityModal } from "../../shared/components/modal/update-named-entity.modal";
 import { ModalWrapper } from "../../modal/components/modal-wrapper.component";
 import { SectionList } from "../../section/components/section-list.component";
+import { getSections } from "../../section/redux/section.thunks";
 
 interface IMatchParams {
   partId: string;
@@ -43,7 +44,15 @@ export const PartDetailPage: React.FC = () => {
     }
   }, [currentPart, partId, dispatch]);
 
-  if (!currentPart) return null;
+  useEffect(() => {
+    if (!currentPart) return;
+
+    if (!currentPart.sectionIds) {
+      dispatch(getSections(partId));
+    }
+  }, [currentPart]);
+
+  if (!currentPart?.sectionIds) return null;
   return (
     <SDetailPageContent>
       <PartDetailHeader part={currentPart} />
