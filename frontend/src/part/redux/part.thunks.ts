@@ -51,7 +51,7 @@ interface ICreatePartPayload {
   name: string;
   materialId: string;
 }
-interface ICreateHookResponse {
+interface ICreatePartResponse {
   status: string;
   data: {
     part: IPart;
@@ -63,7 +63,7 @@ export const createPart = createAsyncThunk(
     const { materialId, name } = payload;
 
     try {
-      const res = await api.post<ICreateHookResponse>(`/materials/${materialId}/parts`, {
+      const res = await api.post<ICreatePartResponse>(`/materials/${materialId}/parts`, {
         name,
         materialId,
       });

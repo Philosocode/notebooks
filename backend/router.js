@@ -76,6 +76,7 @@ const getSections = require("./handlers/section/get-sections.handler");
 const getSection = require("./handlers/section/get-section.handler");
 const deleteSections = require("./handlers/section/delete-sections.handler");
 const deleteSection = require("./handlers/section/delete-section.handler");
+const updateSection = require("./handlers/section/update-section.handler");
 
 // Tag
 const getTags = require("./handlers/tag/get-tags.handler");
@@ -189,6 +190,7 @@ router.route("/parts/:partId/sections")
 
 router.route("/parts/:partId/sections/:sectionId")
   .get(userOwnsPartMiddleware, getSection)
+  .patch(userOwnsPartMiddleware, updateSection)
   .delete(userOwnsPartMiddleware, deleteSection)
 
 // Parts

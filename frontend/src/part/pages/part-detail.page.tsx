@@ -2,21 +2,26 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { SDetailPageContent } from "shared/styles/layout.style";
+// logic
 import { getMaterials } from "material/redux/material.thunks";
 import { showAndHideAlert } from "alert/redux/alert.thunks";
 import { selectCurrentPart, selectPartHash } from "../redux/part.selectors";
 import { setCurrentPartId } from "../redux/part.slice";
+import { getPart } from "../redux/part.thunks";
+import { useToggle } from "../../shared/hooks/use-toggle.hook";
+import { getSections } from "../../section/redux/section.thunks";
+
+// components
 import { PartDetailHeader } from "../components/part-detail-header.component";
 import { TabNames } from "../../shared/components/nav/tab-names.component";
 import { Tab } from "../../shared/components/nav/tab.component";
 import { PartChecklist } from "../components/part-checklist.component";
-import { getPart } from "../redux/part.thunks";
-import { useToggle } from "../../shared/hooks/use-toggle.hook";
 import { UpdateNamedEntityModal } from "../../shared/components/modal/update-named-entity.modal";
 import { ModalWrapper } from "../../modal/components/modal-wrapper.component";
 import { SectionList } from "../../section/components/section-list.component";
-import { getSections } from "../../section/redux/section.thunks";
+
+// styles
+import { SDetailPageContent } from "shared/styles/layout.style";
 
 interface IMatchParams {
   partId: string;

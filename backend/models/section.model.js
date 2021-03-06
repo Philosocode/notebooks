@@ -7,6 +7,9 @@ module.exports = {
   getSections,
   deleteSection,
   deleteSections,
+  updateSection,
+
+  // Helpers
   deleteSectionsForMaterial,
 }
 
@@ -50,6 +53,30 @@ async function getSection(section_id, connection=db) {
     .first();
 }
 
+async function updateSection(part_id, section_id, updates, connection = db) {
+  // updates: title, content, position
+  return connection.transaction(async trx => {
+    const newPosition = updates.position;
+
+    if (newPosition !== undefined) {
+      const oldPositionResult = await trx("section")
+        .select("position")
+        .where({ id: section_id });
+      const oldPosition = oldPositionResult[0].position;
+
+      if (oldPosition !== newPosition) {
+        // decrement positions after old position
+        await shiftPositions("section", { part_id }, oldPosition, false, trx);
+
+        // increment positions after the new position
+        await shiftPositions("section", { part_id }, newPosition, true, trx);
+      }
+    }
+
+    return trx("section").where({ id: section_id }).update(updates);
+  });
+}
+
 async function deleteSection(part_id, section_id, connection=db) {
   return connection.transaction(async (trx) => {
     const sectionToDelete = await trx("section")
@@ -74,7 +101,7 @@ async function deleteSections(part_id, connection=db) {
 /* HELPERS */
 async function deleteSectionsForMaterial(material_id, connection=db) {
   // delete where section.part_id is in...
-  const result = await connection("section").whereIn("part_id", function() {
+  return connection("section").whereIn("part_id", function() {
     // select parts with the material ID
     this.select("id")
       .from("part")

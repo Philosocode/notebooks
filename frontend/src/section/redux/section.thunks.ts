@@ -3,6 +3,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ISection } from "./section.types";
 import { api } from "../../services/api.service";
 
+
+
 interface IGetSectionsResponse {
   status: string;
   data: {

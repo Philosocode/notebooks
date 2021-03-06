@@ -117,12 +117,9 @@ async function deleteParts(material_id, connection=db) {
 /* HELPERS */
 async function userOwnsPart(part_id, user_id, connection=db) {
   const userIdResult = await connection("part")
-    .select("user_id")
     .where({ "part.id": part_id })
     .join("material", "material.id", "part.material_id")
     .first();
 
-  const userIdForPart = userIdResult.user_id;
-
-  return userIdForPart === user_id;
+  return userIdResult?.user_id === user_id;
 }

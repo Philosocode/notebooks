@@ -21,6 +21,7 @@ import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 interface IProps {
   partId: string;
 }
+
 export const SectionList: React.FC<IProps> = ({ partId }) => {
   const dispatch = useDispatch();
   const sections = useSelector(selectSectionsForPart);
@@ -38,45 +39,52 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
   }
 
   function handleDelete(sectionId: string) {
-    dispatch(deleteSection({ sectionId, partId }))
+    dispatch(deleteSection({ sectionId, partId }));
   }
 
   if (!sections) return null;
   return (
-    <>
-    <SHeadingSubSubtitle># Sections: {sections.length}</SHeadingSubSubtitle>
+    <SContainer>
+      <SHeadingSubSubtitle># Sections: {sections.length}</SHeadingSubSubtitle>
 
-    {sections.length === 0 && <SNoItemsHeading>No hooks found...</SNoItemsHeading>}
-    <DragAndDropWrapper droppableId="hook-list-droppable" handleDragEnd={handleDragEnd}>
-      <SList>
-        {sections.map((section, index) => (
-          <DraggableContentBox
-            key={section.id}
-            dragDisabled={false}
-            entityId={section.id}
-            handleDelete={handleDelete}
-            handleUpdate={() => {}}
-            index={index}
-            initialContent={section.content}
-            initialName={section.name}
-            isExpanded={expandedHash[section.id]}
-            toggleIsExpanded={toggleEntityExpansion}
-          />
-        ))}
-      </SList>
-    </DragAndDropWrapper>
+      {sections.length === 0 && <SNoItemsHeading>No sections found...</SNoItemsHeading>}
+      <DragAndDropWrapper droppableId="hook-list-droppable" handleDragEnd={handleDragEnd}>
+        <SList>
+          {sections.map((section, index) => (
+            <DraggableContentBox
+              key={section.id}
+              dragDisabled={false}
+              entityId={section.id}
+              handleDelete={handleDelete}
+              handleUpdate={() => {
+              }}
+              index={index}
+              initialContent={section.content}
+              initialName={section.name}
+              isExpanded={expandedHash[section.id]}
+              toggleIsExpanded={toggleEntityExpansion}
+            />
+          ))}
+        </SList>
+      </DragAndDropWrapper>
 
-    <FloatingCornerButton
-      handleClick={toggleAllExpansions}
-      icon={hasExpandedEntity() ? faCompress : faExpand}
-    />
-  </>
-  )
-}
+      <FloatingCornerButton
+        handleClick={toggleAllExpansions}
+        icon={hasExpandedEntity() ? faCompress : faExpand}
+      />
+    </SContainer>
+  );
+};
+
+const SContainer = styled.div`
+  margin-top: ${theme.spacing.md};
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
 
 const SNoItemsHeading = styled(SHeadingSubSubtitle)`
   font-weight: 500;
-  margin-top: ${theme.spacing.md};
 `;
 
 const SList = styled.ul`
