@@ -9,12 +9,12 @@ module.exports = catchAsync(async function (req, res, next) {
   const { name, content } = req.body;
 
   // Validations: name not empty, concept with that name doesn't already exist
-  if (typeof(name) !== "string" || !name?.trim()) {
-    return next(new AppError("Must include a name when creating a section.", 422));
+  if (typeof(name) !== "string") {
+    return next(new AppError("Name must be a string.", 422));
   }
 
-  if (!content?.trim()) {
-    return next(new AppError("Must include content when creating a section.", 422));
+  if (typeof(content) !== "string") {
+    return next(new AppError("Content must be a string.", 422));
   }
 
   // name has a max length of 100 chars

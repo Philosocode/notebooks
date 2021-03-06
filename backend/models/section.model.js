@@ -20,7 +20,7 @@ async function createSection(
   content,
   connection=db
 ) {
-  return connection.transaction(async (trx) => {
+  const result = await connection.transaction(async (trx) => {
     let position = await getMaxPosition("section", { part_id }, trx);
 
     if (position === -1) {
@@ -37,6 +37,8 @@ async function createSection(
       part_id,
     }, ["*"]);
   });
+
+  return result[0];
 }
 
 async function getSections(part_id, filterObject, connection=db) {

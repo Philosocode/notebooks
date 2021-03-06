@@ -3,6 +3,29 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ISection } from "./section.types";
 import { api } from "../../services/api.service";
 
+interface ICreateSectionResponse {
+  status: string;
+  data: {
+    section: ISection;
+  }
+}
+export const createSection = createAsyncThunk(
+  "section/createSection",
+  async function (partId: string, thunkAPI) {
+    try {
+      const response = await api.post<ICreateSectionResponse>(`/parts/${partId}/sections`, {
+        name: "", content: ""
+      });
+
+      const { section } = response.data.data;
+
+      return { section, partId };
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
 interface IGetSectionsResponse {
   status: string;
   data: {

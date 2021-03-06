@@ -87,11 +87,11 @@ async function updatePart(material_id, part_id, updates, connection=db) {
   });
 }
 
-async function deletePart(material_id, part_id, connection=db) {
+async function deletePart(part_id, connection=db) {
   return connection.transaction(async (trx) => {
     const partToDelete = await trx("part")
       .select("position")
-      .where({ material_id, id: part_id });
+      .where({ id: part_id });
 
     const partPosition = partToDelete[0].position;
 

@@ -1,9 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import omit from "lodash/omit";
 
 import { ISectionState } from "./section.types";
-import { deleteSection, getSections, updateSection } from "./section.thunks";
-import omit from "lodash/omit";
-import { IRepositionEntityPayload } from "../../shared/types.shared";
+import { createSection, deleteSection, getSections, updateSection } from "./section.thunks";
 
 const initialState: ISectionState  = {
   sections: {}
@@ -15,6 +14,13 @@ const sectionSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(createSection.fulfilled, (state, action) => {
+        const newSection = action.payload.section;
+
+        console.log(action.payload);
+
+        state.sections[newSection.id] = newSection;
+      })
       .addCase(getSections.fulfilled, (state, action) => {
         action.payload.sections.forEach(section => {
           // add to hash

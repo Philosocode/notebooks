@@ -145,10 +145,10 @@ interface IDeletePartPayload {
 export const deletePart = createAsyncThunk(
   "part/deletePart",
   async function (payload: IDeletePartPayload, thunkAPI) {
-    const { materialId, partId } = payload;
+    const { partId } = payload;
 
     try {
-      await api.delete(`/materials/${materialId}/parts/${partId}`);
+      await api.delete(`/parts/${partId}`);
 
       return payload;
     } catch (err) {

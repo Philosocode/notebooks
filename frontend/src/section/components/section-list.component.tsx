@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { faCompress, faExpand } from "@fortawesome/free-solid-svg-icons";
 import { DropResult } from "react-beautiful-dnd";
 import styled from "styled-components";
 
 // logic
 import { selectSectionsForPart } from "../redux/section.selectors";
-import { deleteSection, updateSection, updateSectionPosition } from "../redux/section.thunks";
+import { createSection, deleteSection, updateSection, updateSectionPosition } from "../redux/section.thunks";
 import { repositionSection } from "part/redux/part.slice";
 import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
 
@@ -32,9 +31,8 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
   const {
     expandedHash,
     toggleEntityExpansion,
-    hasExpandedEntity,
     toggleAllExpansions
-  } = useExpandHash(sections ?? []);
+  } = useExpandHash(sections ?? [], true);
 
   function handleDragEnd(result: DropResult) {
     if (!sections) return;
@@ -58,6 +56,10 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
       // positions in DB start at 1, not 0
       newPosition: newIndex + 1,
     }));
+  }
+
+  function handleCreate() {
+    dispatch(createSection(partId));
   }
 
   function handleUpdate(sectionId: string, name?: string, content?: string) {
@@ -99,8 +101,8 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
       </DragAndDropWrapper>
 
       <FloatingCornerButton
-        handleClick={toggleAllExpansions}
-        icon={hasExpandedEntity() ? faCompress : faExpand}
+        handleClick={handleCreate}
+        icon="plus"
       />
     </SContainer>
   );
@@ -118,8 +120,6 @@ const SNoItemsHeading = styled(SHeadingSubSubtitle)`
 `;
 
 const SList = styled.ul`
-  margin-top: ${theme.spacing.md};
+  margin-top: ${theme.spacing.base};
   max-width: 80rem;
-  margin-left: auto;
-  margin-right: auto;
 `;

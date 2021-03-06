@@ -4,7 +4,7 @@ import omit from "lodash/omit";
 
 import { IPartState } from "./part.types";
 import { getEntityIndex } from "../../shared/utils/entity.util";
-import { deleteSection, getSections } from "../../section/redux/section.thunks";
+import { createSection, deleteSection, getSections } from "../../section/redux/section.thunks";
 import { IRepositionEntityPayload } from "../../shared/types.shared";
 import { log } from "util";
 
@@ -64,6 +64,15 @@ const partSlice = createSlice({
         state.parts = omit(state.parts, [partId]);
       })
       // Sections
+      .addCase(createSection.fulfilled, (state, action) => {
+        const { partId, section } = action.payload;
+
+        const part = state.parts[partId];
+        if (!part) return;
+        if (!part.sectionIds) part.sectionIds = [];
+
+        part.sectionIds.push(section.id);
+      })
       .addCase(getSections.fulfilled, (state, action) => {
         const { partId, sections } = action.payload;
 

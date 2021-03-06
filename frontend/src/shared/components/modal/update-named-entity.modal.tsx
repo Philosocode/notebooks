@@ -10,17 +10,19 @@ import { FormGroup } from "shared/components/form/form-group.component";
 
 // styles
 import { theme } from "shared/styles/theme.style";
-import { SButtonGreen } from "shared/styles/button.style";
+import { SButtonGreen, SButtonRed } from "shared/styles/button.style";
 import { SHeadingSubtitle } from "shared/styles/typography.style";
 
 interface IProps extends IModalProps {
   currentName: string;
   entityName: string;
   updateEntity: (name: string) => void;
+  deleteEntity?: () => void;
 }
 export const UpdateNamedEntityModal: React.FC<IProps> = ({
   currentName,
   entityName,
+  deleteEntity,
   updateEntity,
   handleClose,
 }) => {
@@ -41,6 +43,16 @@ export const UpdateNamedEntityModal: React.FC<IProps> = ({
     handleClose();
   }
 
+  function handleDelete(event: React.MouseEvent) {
+    event.preventDefault();
+
+    if (deleteEntity) {
+      deleteEntity();
+    }
+
+    handleClose();
+  }
+
   return (
     <div>
       <SHeadingSubtitle>Update {entityName}</SHeadingSubtitle>
@@ -52,7 +64,12 @@ export const UpdateNamedEntityModal: React.FC<IProps> = ({
           placeholder={`${entityName} Name`}
           value={name}
         />
-        <SButton disabled={buttonIsDisabled()}>Update</SButton>
+        <SButtons>
+          <SButtonGreen disabled={buttonIsDisabled()}>Update</SButtonGreen>
+          {deleteEntity &&
+            <SButtonRed onClick={handleDelete}>Delete</SButtonRed>
+          }
+        </SButtons>
       </SForm>
     </div>
   );
@@ -62,6 +79,11 @@ const SForm = styled.form`
   margin-top: ${theme.spacing.base};
 `;
 
-const SButton = styled(SButtonGreen)`
+const SButtons = styled.div`
   margin-top: ${theme.spacing.md};
+  
+  ${SButtonRed} {
+    margin-left: ${theme.spacing.base};
+  }
+}
 `;

@@ -3,9 +3,9 @@ import { useDispatch } from "react-redux";
 
 import { IPart } from "part/redux/part.types";
 import { IModalProps } from "modal/redux/modal.types";
+import { updatePart } from "part/redux/part.thunks";
 
 import { UpdateNamedEntityModal } from "shared/components/modal/update-named-entity.modal";
-import { updatePart } from "part/redux/part.thunks";
 
 interface IProps extends IModalProps {
   materialId: string;

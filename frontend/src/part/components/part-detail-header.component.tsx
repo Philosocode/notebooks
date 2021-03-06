@@ -1,13 +1,13 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import { IPart } from "../redux/part.types";
 
 import { DetailHeader } from "shared/components/info/detail-header.component";
 import { ModalWrapper } from "modal/components/modal-wrapper.component";
 import { UpdateNamedEntityModal } from "shared/components/modal/update-named-entity.modal";
-import { updatePart } from "../redux/part.thunks";
+import { deletePart, updatePart } from "../redux/part.thunks";
 import { useToggle } from "../../shared/hooks/use-toggle.hook";
 import styled from "styled-components";
 import { theme } from "../../shared/styles/theme.style";
@@ -17,6 +17,7 @@ interface IProps {
 }
 export const PartDetailHeader: React.FC<IProps> = ({ part }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [modalShowing, toggleModalShowing] = useToggle(false);
 
   function handleUpdate(newName: string) {
@@ -25,6 +26,17 @@ export const PartDetailHeader: React.FC<IProps> = ({ part }) => {
       materialId: part.material_id,
       name: newName
     }));
+  }
+
+  function handleDelete() {
+    dispatch(
+      deletePart({
+        materialId: part.material_id,
+        partId: part.id
+      })
+    );
+
+    history.push("/materials/" + part.material_id);
   }
 
   return (
@@ -40,6 +52,7 @@ export const PartDetailHeader: React.FC<IProps> = ({ part }) => {
           currentName={part.name}
           entityName="Part"
           updateEntity={handleUpdate}
+          deleteEntity={handleDelete}
           handleClose={toggleModalShowing}
         />
       </ModalWrapper>

@@ -27,17 +27,11 @@ module.exports = catchAsync(async function (req, res, next) {
     if (typeof(name) !== "string") {
       return next(new AppError("Name must be a string.", 422));
     }
-    if (name.trim() === "") {
-      return next(new AppError("Name must not be empty.", 422));
-    }
   }
 
   if (content) {
     if (typeof(content) !== "string") {
       return next(new AppError("Content must be a string.", 422));
-    }
-    if (content.trim() === "") {
-      return next(new AppError("Content must not be empty.", 422));
     }
   }
 
