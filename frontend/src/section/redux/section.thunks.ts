@@ -46,6 +46,24 @@ export const updateSection = createAsyncThunk(
   }
 );
 
+interface IUpdateSectionPosition {
+  partId: string;
+  sectionId: string;
+  newPosition: number;
+}
+export const updateSectionPosition = createAsyncThunk(
+  "section/updateSectionPosition",
+  async function (payload: IUpdateSectionPosition, thunkAPI) {
+    const {partId, sectionId, newPosition } = payload;
+
+    try {
+      await api.patch(`/parts/${partId}/sections/${sectionId}`, { position: newPosition });
+    } catch(err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
 interface IDeleteSectionPayload {
   partId: string;
   sectionId: string;

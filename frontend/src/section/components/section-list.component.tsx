@@ -6,7 +6,8 @@ import styled from "styled-components";
 
 // logic
 import { selectSectionsForPart } from "../redux/section.selectors";
-import { deleteSection, IUpdateSectionPayload, updateSection } from "../redux/section.thunks";
+import { deleteSection, updateSection, updateSectionPosition } from "../redux/section.thunks";
+import { repositionSection } from "part/redux/part.slice";
 import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
 
 // components
@@ -17,6 +18,8 @@ import { FloatingCornerButton } from "shared/components/button/floating-corner-b
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
+import { repositionPart } from "../../material/redux/material.slice";
+import { updatePartPosition } from "../../part/redux/part.thunks";
 
 interface IProps {
   partId: string;
@@ -34,8 +37,27 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
   } = useExpandHash(sections ?? []);
 
   function handleDragEnd(result: DropResult) {
+    if (!sections) return;
+
     const { source, destination } = result;
     if (!destination || destination.index === source.index) return;
+
+    const oldIndex = source.index;
+    const newIndex = destination.index;
+
+    dispatch(repositionSection({
+      ownerEntityId: partId,
+      oldIndex,
+      newIndex
+    }));
+
+    // async call to update position on backend
+    dispatch(updateSectionPosition({
+      partId,
+      sectionId: sections[oldIndex].id,
+      // positions in DB start at 1, not 0
+      newPosition: newIndex + 1,
+    }));
   }
 
   function handleUpdate(sectionId: string, name?: string, content?: string) {

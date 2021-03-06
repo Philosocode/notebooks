@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ISectionState } from "./section.types";
 import { deleteSection, getSections, updateSection } from "./section.thunks";
 import omit from "lodash/omit";
+import { IRepositionEntityPayload } from "../../shared/types.shared";
 
 const initialState: ISectionState  = {
   sections: {}
@@ -11,10 +12,7 @@ const initialState: ISectionState  = {
 const sectionSlice = createSlice({
   name: "section",
   initialState,
-  reducers: {
-    setCurrentPartId: (state, action: PayloadAction<string>) => {
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getSections.fulfilled, (state, action) => {

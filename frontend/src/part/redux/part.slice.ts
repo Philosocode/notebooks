@@ -5,6 +5,8 @@ import omit from "lodash/omit";
 import { IPartState } from "./part.types";
 import { getEntityIndex } from "../../shared/utils/entity.util";
 import { deleteSection, getSections } from "../../section/redux/section.thunks";
+import { IRepositionEntityPayload } from "../../shared/types.shared";
+import { log } from "util";
 
 const initialState: IPartState  = {
   parts: {},
@@ -18,6 +20,15 @@ const partSlice = createSlice({
     setCurrentPartId: (state, action: PayloadAction<string>) => {
       state.currentPartId = action.payload;
     },
+    repositionSection: (state, action: PayloadAction<IRepositionEntityPayload>) => {
+      const { ownerEntityId: partId, oldIndex, newIndex } = action.payload;
+
+      const part = state.parts[partId];
+      if (!part.sectionIds) return;
+
+      const [sectionIdToMove] = part.sectionIds.splice(oldIndex, 1);
+      part.sectionIds.splice(newIndex, 0, sectionIdToMove);
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -76,4 +87,5 @@ const partSlice = createSlice({
 export const partReducer = partSlice.reducer;
 export const {
   setCurrentPartId,
+  repositionSection,
 } = partSlice.actions;
