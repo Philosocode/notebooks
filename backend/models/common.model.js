@@ -29,6 +29,7 @@ async function getValidInsertPosition(
 
   // ensure user can't insert beyond the max position
   const maxPosition = await getMaxPosition(tableName, filterObj, connection);
+  if (maxPosition === -1) return 1;
   
   // +1 so insert after last item is possible
   if (canAppendToEnd && position > maxPosition) return maxPosition + 1;
@@ -45,8 +46,8 @@ async function getMaxPosition(tableName, filterObj, connection=db) {
 
   const maxPosition = maxResultArray[0].max;
 
-  // if max is undefined or null, no hooks present
-  if (!maxPosition) return 1;
+  // if max is undefined or null, no entities
+  if (!maxPosition) return -1;
 
   return maxPosition;
 }

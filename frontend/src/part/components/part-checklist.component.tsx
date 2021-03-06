@@ -52,6 +52,5 @@ const SForm = styled.form`
   box-shadow: ${theme.boxShadows.light};
   max-width: 50rem;
   margin-top: ${theme.spacing.base};
-  margin-bottom: -${theme.spacing.sm};
   padding: ${theme.spacing.md};
 `;
