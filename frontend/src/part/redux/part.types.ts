@@ -4,7 +4,7 @@ export interface IPart {
   created_at: string;
   updated_at: string;
   checklist: IPartChecklist;
-  sections?: string[];
+  sectionIds?: string[];
   material_id: string;
 }
 

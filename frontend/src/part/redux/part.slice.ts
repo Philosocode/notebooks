@@ -27,6 +27,7 @@ const partSlice = createSlice({
       })
       .addCase(getPart.fulfilled, (state, action) => {
         const fetchedPart = action.payload.part;
+
         state.parts[fetchedPart.id] = fetchedPart;
       })
       .addCase(createPart.fulfilled, (state, action) => {

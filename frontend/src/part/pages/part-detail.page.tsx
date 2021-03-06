@@ -15,6 +15,7 @@ import { getPart } from "../redux/part.thunks";
 import { useToggle } from "../../shared/hooks/use-toggle.hook";
 import { UpdateNamedEntityModal } from "../../shared/components/modal/update-named-entity.modal";
 import { ModalWrapper } from "../../modal/components/modal-wrapper.component";
+import { SectionList } from "../../section/components/section-list.component";
 
 interface IMatchParams {
   partId: string;
@@ -51,9 +52,7 @@ export const PartDetailPage: React.FC = () => {
       <div>
         <Tab title="Sections" selectedTab={selectedTab}>
           <PartChecklist part={currentPart} />
-          <div>
-            Sections
-          </div>
+          <SectionList />
         </Tab>
         <Tab title="Facts" selectedTab={selectedTab}>Facts</Tab>
         <Tab title="Concept Links" selectedTab={selectedTab}>Concept Links</Tab>

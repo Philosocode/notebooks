@@ -21,7 +21,9 @@ async function createPart(
 ) {
   const createdPartArray = await connection.transaction(async (trx) => {
     // shift positions of elements after
-    const insertPosition = await getMaxPosition("part", { material_id }) + 1;
+    let insertPosition = await getMaxPosition("part", { material_id });
+    if (insertPosition === -1) insertPosition = 1;
+    else insertPosition++;
 
     // create part
     return trx("part").insert(
