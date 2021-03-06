@@ -61,7 +61,7 @@ export const PartDetailPage: React.FC = () => {
       <div>
         <Tab title="Sections" selectedTab={selectedTab}>
           <PartChecklist part={currentPart} />
-          <SectionList />
+          <SectionList partId={currentPart.id} />
         </Tab>
         <Tab title="Facts" selectedTab={selectedTab}>Facts</Tab>
         <Tab title="Concept Links" selectedTab={selectedTab}>Concept Links</Tab>

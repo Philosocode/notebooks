@@ -22,3 +22,22 @@ export const getSections = createAsyncThunk(
     }
   }
 );
+
+interface IDeleteSectionPayload {
+  partId: string;
+  sectionId: string;
+}
+export const deleteSection = createAsyncThunk(
+  "section/deleteSection",
+  async function (payload: IDeleteSectionPayload, thunkAPI) {
+    const { partId, sectionId } = payload;
+
+    try {
+      await api.delete(`/parts/${partId}/sections/${sectionId}`);
+
+      return payload;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);

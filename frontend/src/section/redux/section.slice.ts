@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { ISectionState } from "./section.types";
-import { getSections } from "./section.thunks";
+import { deleteSection, getSections } from "./section.thunks";
+import omit from "lodash/omit";
 
 const initialState: ISectionState  = {
   sections: {}
@@ -19,6 +20,12 @@ const sectionSlice = createSlice({
           state.sections[section.id] = section;
         })
       })
+      .addCase(deleteSection.fulfilled, (state, action) => {
+        const { sectionId } = action.payload;
+
+        state.sections = omit(state.sections, [sectionId]);
+      })
+
   }
 });
 

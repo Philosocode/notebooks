@@ -6,19 +6,22 @@ import styled from "styled-components";
 
 // logic
 import { selectSectionsForPart } from "../redux/section.selectors";
+import { deleteSection } from "../redux/section.thunks";
+import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
 
 // components
 import { DragAndDropWrapper } from "shared/components/drag-and-drop/drag-and-drop-wrapper.component";
+import { DraggableContentBox } from "../../shared/components/info/draggable-content-box.component";
 import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
 
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
-import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
-import { ISection } from "../redux/section.types";
-import { DraggableContentBox } from "../../shared/components/info/draggable-content-box.component";
 
-export const SectionList: React.FC = () => {
+interface IProps {
+  partId: string;
+}
+export const SectionList: React.FC<IProps> = ({ partId }) => {
   const dispatch = useDispatch();
   const sections = useSelector(selectSectionsForPart);
 
@@ -34,6 +37,10 @@ export const SectionList: React.FC = () => {
     if (!destination || destination.index === source.index) return;
   }
 
+  function handleDelete(sectionId: string) {
+    dispatch(deleteSection({ sectionId, partId }))
+  }
+
   if (!sections) return null;
   return (
     <>
@@ -47,7 +54,7 @@ export const SectionList: React.FC = () => {
             key={section.id}
             dragDisabled={false}
             entityId={section.id}
-            handleDelete={() => {}}
+            handleDelete={handleDelete}
             handleUpdate={() => {}}
             index={index}
             initialContent={section.content}

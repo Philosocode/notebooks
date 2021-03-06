@@ -19,7 +19,7 @@ interface IProps {
   initialContent: string;
   initialName: string;
   isExpanded: boolean;
-  handleDelete: () => void;
+  handleDelete: (entityId: string) => void;
   handleUpdate: (name: string, content: string) => void;
   toggleIsExpanded: (entityId: string) => void;
 }
@@ -50,12 +50,7 @@ export const DraggableContentBox: React.FC<IProps> = ({
   }
 
   function handleDeleteClick() {
-    // if (!currentConcept) return;
-    //
-    // dispatch(deleteHook({
-    //   hookId: hook.id,
-    //   conceptId: currentConcept.id,
-    // }));
+    handleDelete(entityId);
   }
 
   function handleUpdateClick() {
@@ -111,7 +106,7 @@ export const DraggableContentBox: React.FC<IProps> = ({
                     disabled={buttonDisabled()}
                     onClick={() => {}}
                   >Update</SButtonGreen>
-                  <SButtonRed onClick={() => {}}>Delete</SButtonRed>
+                  <SButtonRed onClick={handleDeleteClick}>Delete</SButtonRed>
                 </SButtons>
               </>
             )

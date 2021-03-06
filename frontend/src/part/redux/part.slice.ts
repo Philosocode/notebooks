@@ -4,7 +4,7 @@ import omit from "lodash/omit";
 
 import { IPartState } from "./part.types";
 import { getEntityIndex } from "../../shared/utils/entity.util";
-import { getSections } from "../../section/redux/section.thunks";
+import { deleteSection, getSections } from "../../section/redux/section.thunks";
 
 const initialState: IPartState  = {
   parts: {},
@@ -59,6 +59,16 @@ const partSlice = createSlice({
         const sectionIds = sections.map(s => s.id);
 
         state.parts[partId].sectionIds = sectionIds;
+      })
+      .addCase(deleteSection.fulfilled, (state, action) => {
+        const { partId, sectionId } = action.payload;
+
+        const part = state.parts[partId];
+        if (part === undefined) return;
+
+        if (!part.sectionIds) return;
+
+        part.sectionIds = part.sectionIds.filter(id => id !== sectionId);
       })
   }
 });
