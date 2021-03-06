@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 // logic
 import { selectSectionsForPart } from "../redux/section.selectors";
-import { deleteSection } from "../redux/section.thunks";
+import { deleteSection, IUpdateSectionPayload, updateSection } from "../redux/section.thunks";
 import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
 
 // components
@@ -38,6 +38,15 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
     if (!destination || destination.index === source.index) return;
   }
 
+  function handleUpdate(sectionId: string, name?: string, content?: string) {
+    const updates = { name, content };
+    dispatch(updateSection({
+      partId,
+      sectionId,
+      updates,
+    }));
+  }
+
   function handleDelete(sectionId: string) {
     dispatch(deleteSection({ sectionId, partId }));
   }
@@ -48,7 +57,7 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
       <SHeadingSubSubtitle># Sections: {sections.length}</SHeadingSubSubtitle>
 
       {sections.length === 0 && <SNoItemsHeading>No sections found...</SNoItemsHeading>}
-      <DragAndDropWrapper droppableId="hook-list-droppable" handleDragEnd={handleDragEnd}>
+      <DragAndDropWrapper droppableId="section-list-droppable" handleDragEnd={handleDragEnd}>
         <SList>
           {sections.map((section, index) => (
             <DraggableContentBox
@@ -56,8 +65,7 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
               dragDisabled={false}
               entityId={section.id}
               handleDelete={handleDelete}
-              handleUpdate={() => {
-              }}
+              handleUpdate={handleUpdate}
               index={index}
               initialContent={section.content}
               initialName={section.name}

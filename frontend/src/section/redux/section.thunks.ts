@@ -3,8 +3,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ISection } from "./section.types";
 import { api } from "../../services/api.service";
 
-
-
 interface IGetSectionsResponse {
   status: string;
   data: {
@@ -19,6 +17,29 @@ export const getSections = createAsyncThunk(
       const { sections } = response.data.data;
 
       return { sections, partId };
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+export interface IUpdateSectionPayload {
+  partId: string;
+  sectionId: string;
+  updates: {
+    name?: string;
+    content?: string;
+  }
+}
+export const updateSection = createAsyncThunk(
+  "section/updateSection",
+  async function (payload: IUpdateSectionPayload, thunkAPI) {
+    const { partId, sectionId, updates } = payload;
+
+    try {
+      await api.patch(`/parts/${partId}/sections/${sectionId}`, { ...updates });
+
+      return payload;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }

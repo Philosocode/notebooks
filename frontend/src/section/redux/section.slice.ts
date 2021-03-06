@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { ISectionState } from "./section.types";
-import { deleteSection, getSections } from "./section.thunks";
+import { deleteSection, getSections, updateSection } from "./section.thunks";
 import omit from "lodash/omit";
 
 const initialState: ISectionState  = {
@@ -11,7 +11,10 @@ const initialState: ISectionState  = {
 const sectionSlice = createSlice({
   name: "section",
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentPartId: (state, action: PayloadAction<string>) => {
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getSections.fulfilled, (state, action) => {
@@ -19,6 +22,16 @@ const sectionSlice = createSlice({
           // add to hash
           state.sections[section.id] = section;
         })
+      })
+      .addCase(updateSection.fulfilled, (state, action) => {
+        const { sectionId, updates } = action.payload;
+
+        const oldSection = state.sections[sectionId];
+
+        state.sections[sectionId] = {
+          ...oldSection,
+          ...updates,
+        }
       })
       .addCase(deleteSection.fulfilled, (state, action) => {
         const { sectionId } = action.payload;

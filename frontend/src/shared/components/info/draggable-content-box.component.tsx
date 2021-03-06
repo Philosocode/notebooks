@@ -20,7 +20,7 @@ interface IProps {
   initialName: string;
   isExpanded: boolean;
   handleDelete: (entityId: string) => void;
-  handleUpdate: (name: string, content: string) => void;
+  handleUpdate: (entityId: string, name: string, content: string) => void;
   toggleIsExpanded: (entityId: string) => void;
 }
 
@@ -35,8 +35,6 @@ export const DraggableContentBox: React.FC<IProps> = ({
   handleUpdate,
   toggleIsExpanded,
 }) => {
-  const dispatch = useDispatch();
-
   const { handleChange, values, itemsChanged } = useForm({
     title: initialName,
     content: initialContent,
@@ -54,19 +52,9 @@ export const DraggableContentBox: React.FC<IProps> = ({
   }
 
   function handleUpdateClick() {
-    //   if (!currentConcept) return;
-    //   if (buttonDisabled()) return;
-    //
-    //   const updates = {
-    //     ...(titleChanged() && { title }),
-    //     ...(contentChanged() && { content }),
-    //   };
-    //
-    //   dispatch(updateHook({
-    //     conceptId: currentConcept.id,
-    //     hookId: hook.id,
-    //     updates,
-    //   }));
+      if (buttonDisabled()) return;
+
+      handleUpdate(entityId, title, content);
   }
 
   // functions
@@ -102,10 +90,9 @@ export const DraggableContentBox: React.FC<IProps> = ({
                   {content}
                 </SContentTextarea>
                 <SButtons>
-                  <SButtonGreen
-                    disabled={buttonDisabled()}
-                    onClick={() => {}}
-                  >Update</SButtonGreen>
+                  <SButtonGreen disabled={buttonDisabled()} onClick={handleUpdateClick}>
+                    Update
+                  </SButtonGreen>
                   <SButtonRed onClick={handleDeleteClick}>Delete</SButtonRed>
                 </SButtons>
               </>

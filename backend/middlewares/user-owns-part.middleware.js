@@ -9,8 +9,6 @@ module.exports = catchAsync(async function(req, res, next) {
     return next(new AppError("Part ID is required.", 422));
   }
 
-  console.log("PART ID", partId);
-
   const userId = req.user.id;
   const owns = await userOwnsPart(partId, userId);
 
