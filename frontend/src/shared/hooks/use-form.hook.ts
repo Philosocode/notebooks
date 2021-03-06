@@ -1,10 +1,11 @@
 import {useState, ChangeEvent, useEffect} from 'react';
+import isEqual from "lodash/isEqual";
 
 interface ITouchedState {
   [key: string]: boolean
 }
 
-export function useForm<TFormState>(initialValues: TFormState) {
+export function useForm<TFormState extends object>(initialValues: TFormState) {
   /**
    * Hook for storing and managing form data
    *
@@ -28,11 +29,27 @@ export function useForm<TFormState>(initialValues: TFormState) {
     // eslint-disable-next-line
   }, []);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  function itemsChanged() {
+    // if initial values !== current values, something has changed
+    const keys = Object.keys(initialValues);
+
+    for (let key of keys) {
+      // @ts-ignore
+      const initial = initialValues[key].trim().toLowerCase();
+      // @ts-ignore
+      const current = values[key].trim().toLowerCase();
+
+      if (initial !== current) return false;
+    }
+
+    return true;
+  }
+
+  function handleChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     // Change `values` based on input events
     event.persist();
     setValues(values => ({ ...values, [event.target.name]: event.target.value }));
-  };
+  }
 
   return { 
     handleChange,
@@ -40,5 +57,6 @@ export function useForm<TFormState>(initialValues: TFormState) {
     setTouched,
     values,
     setValues,
+    itemsChanged,
   }
-};
+}
