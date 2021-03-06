@@ -3,6 +3,8 @@ const { shiftPositions, getValidInsertPosition, getMaxPosition } = require("./co
 
 module.exports = {
   createSection,
+  getSection,
+  getSections,
 }
 
 // Referenced: https://medium.com/the-missing-bit/keeping-an-ordered-collection-in-postgresql-9da0348c4bbe
@@ -29,4 +31,18 @@ async function createSection(
       part_id,
     }, ["*"]);
   });
+}
+
+async function getSections(part_id, filterObject, connection=db) {
+  return connection("section")
+    .select("*")
+    .where({ ...filterObject, part_id })
+    .orderBy("position");
+}
+
+async function getSection(section_id, connection=db) {
+  return connection("section")
+    .select("*")
+    .where({ id: section_id })
+    .first();
 }

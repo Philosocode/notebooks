@@ -3,6 +3,7 @@ const express = require("express");
 // Middleware
 const protect = require("./middlewares/protect.middleware");
 const { entityExistsMiddleware } = require("./middlewares/entity-exists.middleware");
+const userOwnsPartMiddleware = require("./middlewares/user-owns-part.middleware");
 
 const conceptExistsMiddleware = entityExistsMiddleware("concept");
 const materialExistsMiddleware = entityExistsMiddleware("material");
@@ -70,6 +71,7 @@ const deleteParts = require("./handlers/part/delete-parts.handler");
 
 // Section
 const createSection = require("./handlers/section/create-section.handler");
+const getSections = require("./handlers/section/get-sections.handler");
 
 // Tag
 const getTags = require("./handlers/tag/get-tags.handler");
@@ -178,13 +180,14 @@ router.route("/materials/:materialId")
 
 // Sections
 router.route("/parts/:partId/sections")
-  .post(createSection)
+  .get(userOwnsPartMiddleware, getSections)
+  .post(userOwnsPartMiddleware, createSection)
 
 // Parts
 router.route("/parts/:partId")
-  .get(getPart)
-  .patch(updatePart)
-  .delete(deletePart);
+  .get(userOwnsPartMiddleware, getPart)
+  .patch(userOwnsPartMiddleware, updatePart)
+  .delete(userOwnsPartMiddleware, deletePart);
 
 // Tags
 router.route("/tags")
