@@ -66,20 +66,22 @@ const deleteMaterialTag = require("./handlers/material-tag/delete-material-tag.h
 const getParts = require("./handlers/part/get-parts.handler");
 const getPart = require("./handlers/part/get-part.handler");
 const createPart = require("./handlers/part/create-part.handler");
+const updatePart = require("./handlers/part/update-part.handler");
 const deletePart = require("./handlers/part/delete-part.handler");
 const deleteParts = require("./handlers/part/delete-parts.handler");
 
 // Section
 const createSection = require("./handlers/section/create-section.handler");
 const getSections = require("./handlers/section/get-sections.handler");
+const getSection = require("./handlers/section/get-section.handler");
+const deleteSections = require("./handlers/section/delete-sections.handler");
+const deleteSection = require("./handlers/section/delete-section.handler");
 
 // Tag
 const getTags = require("./handlers/tag/get-tags.handler");
 const createTags = require("./handlers/tag/create-tags.handler");
 const updateTag = require("./handlers/tag/update-tag.handler");
 const deleteTag = require("./handlers/tag/delete-tag.handler");
-const updatePart = require("./handlers/part/update-part.handler");
-const getSectionHandler = require("./handlers/section/get-section.handler");
 
 const router = express.Router();
 
@@ -183,9 +185,11 @@ router.route("/materials/:materialId")
 router.route("/parts/:partId/sections")
   .get(userOwnsPartMiddleware, getSections)
   .post(userOwnsPartMiddleware, createSection)
+  .delete(userOwnsPartMiddleware, deleteSections)
 
 router.route("/parts/:partId/sections/:sectionId")
-  .get(userOwnsPartMiddleware, getSectionHandler)
+  .get(userOwnsPartMiddleware, getSection)
+  .delete(userOwnsPartMiddleware, deleteSection)
 
 // Parts
 router.route("/parts/:partId")
