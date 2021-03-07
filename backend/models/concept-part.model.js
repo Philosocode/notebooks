@@ -7,7 +7,7 @@ module.exports = {
   getConceptLinks,
 
   deleteConceptLinksForConcept,
-  getConceptLinksForConcept,
+  getConceptPartsForPart,
 };
 
 async function conceptPartExists(concept_id, part_id, connection=db) {
@@ -42,10 +42,9 @@ async function deleteConceptLinksForConcept(concept_id, connection = db) {
     .del();
 }
 
-async function getConceptLinksForConcept(concept_id, connection = db) {
-  return connection("concept_link")
-    .where({ concept1_id: concept_id })
-    .orWhere({ concept2_id: concept_id });
+async function getConceptPartsForPart(part_id, connection=db) {
+  return connection("concept_part")
+    .where({ part_id });
 }
 
 async function getConceptLinks(user_id, filterObj, connection = db) {
