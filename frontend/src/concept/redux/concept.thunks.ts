@@ -151,7 +151,6 @@ export const getConceptLinks = createAsyncThunk(
   }
 )
 
-
 interface ICreateConceptLinkPayload {
   currentConceptId: string;
   otherConceptId: string;

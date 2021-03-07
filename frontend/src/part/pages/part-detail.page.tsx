@@ -69,7 +69,9 @@ export const PartDetailPage: React.FC = () => {
           <SectionList partId={currentPart.id} />
         </Tab>
         <Tab title="Facts" selectedTab={selectedTab}>Facts</Tab>
-        <Tab title="Concept Links" selectedTab={selectedTab}>Concept Links</Tab>
+        <Tab title="Concept Links" selectedTab={selectedTab}>
+          
+        </Tab>
       </div>
     </SDetailPageContent>
   );
