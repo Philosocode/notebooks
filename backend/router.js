@@ -70,6 +70,9 @@ const updatePart = require("./handlers/part/update-part.handler");
 const deletePart = require("./handlers/part/delete-part.handler");
 const deleteParts = require("./handlers/part/delete-parts.handler");
 
+// Concept Parts
+const createConceptPart = require("./handlers/concept-part/create-concept-part.handler");
+
 // Section
 const createSection = require("./handlers/section/create-section.handler");
 const getSections = require("./handlers/section/get-sections.handler");
@@ -181,6 +184,10 @@ router.route("/materials/:materialId")
   .get(materialExistsMiddleware, getMaterial)
   .patch(materialExistsMiddleware, updateMaterial)
   .delete(materialExistsMiddleware, deleteMaterial)
+
+// Part Concept Links
+router.route("/parts/:partId/links")
+  .post(userOwnsPartMiddleware, createConceptPart)
 
 // Sections
 router.route("/parts/:partId/sections")
