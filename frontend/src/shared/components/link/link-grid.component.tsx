@@ -4,14 +4,14 @@ import styled from "styled-components";
 import { ILinkGridItem, LinkGridItem } from "./link-grid-item.component";
 
 interface IProps {
-  handleDelete: (currentId: string, otherId: string) => void;
+  handleDelete: (otherId: string) => void;
   links: ILinkGridItem[];
 }
 export const LinkGrid: React.FC<IProps> = ({ handleDelete, links }) => {
   return (
     <SGrid>
-      { links.map(link =>
-        <LinkGridItem key={link.currentId} handleDelete={handleDelete} link={link} />
+      {links.map(link =>
+        <LinkGridItem key={link.otherId} handleDelete={handleDelete} link={link} />
       )}
     </SGrid>
   );

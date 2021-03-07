@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from "react";
 
 import { IPart } from "../redux/part.types";
 import { useDispatch, useSelector } from "react-redux";
-import { getConceptParts } from "../../concept-link/redux/concept-link.thunks";
+import { createConceptPart, deleteConceptPart, getConceptParts } from "../../concept-link/redux/concept-link.thunks";
 import { selectConcepts } from "../../concept/redux/concept.selectors";
 import { selectConceptsLoaded } from "../../shared/redux/init.selectors";
 import { getConcepts } from "../../concept/redux/concept.thunks";
@@ -10,6 +10,9 @@ import { SHeadingSubSubtitle } from "../../shared/styles/typography.style";
 import { ILinkGridItem } from "../../shared/components/link/link-grid-item.component";
 import { LinkGrid } from "shared/components/link/link-grid.component";
 import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
+import { useToggle } from "shared/hooks/use-toggle.hook";
+import { CreateConceptLinkModal } from "concept-link/components/create-concept-link-modal.component";
+import { sortEntitiesByKey } from "../../shared/utils/entity.util";
 
 interface IProps {
   part: IPart;
@@ -19,17 +22,33 @@ export const ConceptParts: React.FC<IProps> = ({ part }) => {
   const conceptsLoaded = useSelector(selectConceptsLoaded);
   const concepts = useSelector(selectConcepts);
 
+  const [createModalShowing, toggleCreateModalShowing] = useToggle(false);
+
   useEffect(() => {
     if (!conceptsLoaded) {
       dispatch(getConcepts());
     }
-  }, []);
+  }, [conceptsLoaded, dispatch]);
 
   useEffect(() => {
     if (!part.conceptIds) {
       dispatch(getConceptParts(part.id));
     }
   }, [part, dispatch]);
+
+  function handleCreate(conceptId: string) {
+    dispatch(createConceptPart({
+      conceptId,
+      partId: part.id,
+    }));
+  }
+
+  function handleDelete(conceptId: string) {
+    dispatch(deleteConceptPart({
+      conceptId,
+      partId: part.id
+    }));
+  }
 
   const linkGridItems = useMemo(() => {
     if (!part.conceptIds) return [];
@@ -54,11 +73,15 @@ export const ConceptParts: React.FC<IProps> = ({ part }) => {
     }
 
     // sort in alphabetical order
-    return items.sort((a,b) => (a.name < b.name) ? -1 : 1);
+    return sortEntitiesByKey(items, "name");
   }, [part.conceptIds, part.id, concepts]);
 
-  if (!part.conceptIds) return null;
+  const unlinkedConcepts = sortEntitiesByKey(
+    concepts.filter(c => !part.conceptIds?.includes(c.id)),
+    "name"
+  );
 
+  if (!part.conceptIds) return null;
   return (
     <div>
       {
@@ -66,8 +89,14 @@ export const ConceptParts: React.FC<IProps> = ({ part }) => {
           <SHeadingSubSubtitle weight={500}>No links found.</SHeadingSubSubtitle>
         )
       }
-      <LinkGrid links={linkGridItems} handleDelete={() => {}} />
-      <FloatingCornerButton handleClick={() => {}} icon="plus" />
+      <LinkGrid links={linkGridItems} handleDelete={handleDelete} />
+      <FloatingCornerButton handleClick={toggleCreateModalShowing} icon="plus" />
+      <CreateConceptLinkModal
+        handleClose={toggleCreateModalShowing}
+        handleCreate={handleCreate}
+        unlinkedEntities={unlinkedConcepts}
+        modalShowing={createModalShowing}
+      />
     </div>
   );
 }

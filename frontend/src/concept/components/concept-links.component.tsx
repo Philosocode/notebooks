@@ -1,17 +1,18 @@
 import React, { useEffect } from "react";
-
-import { IConcept } from "../redux/concept.types";
 import { useDispatch, useSelector } from "react-redux";
 
 // logic
+import { IConcept } from "../redux/concept.types";
 import { selectConceptLinks } from "../redux/concept.selectors";
 import { deleteConceptLink, getConceptLinks } from "../redux/concept.thunks";
 import { showModal } from "modal/redux/modal.slice";
 
+// components
+import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
+import { LinkGrid } from "shared/components/link/link-grid.component";
+
 // styles
-import { LinkGrid } from "../../shared/components/link/link-grid.component";
-import { SHeadingSubSubtitle } from "../../shared/styles/typography.style";
-import { FloatingCornerButton } from "../../shared/components/button/floating-corner-button.component";
+import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 
 interface IProps {
   concept: IConcept;
@@ -62,7 +63,7 @@ export const ConceptLinks: React.FC<IProps> = ({ concept }) => {
           <SHeadingSubSubtitle weight={500}>No links found.</SHeadingSubSubtitle>
         )
       }
-      <LinkGrid links={linkGridItems} handleDelete={handleLinkDelete} />
+      <LinkGrid links={linkGridItems} handleDelete={() => {}} />
       <FloatingCornerButton handleClick={showCreateConceptLinkModal} icon="plus" />
     </>
   );
