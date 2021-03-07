@@ -22,6 +22,7 @@ import { SectionList } from "../../section/components/section-list.component";
 
 // styles
 import { SDetailPageContent } from "shared/styles/layout.style";
+import { ConceptParts } from "../components/concept-parts.component";
 
 interface IMatchParams {
   partId: string;
@@ -70,7 +71,7 @@ export const PartDetailPage: React.FC = () => {
         </Tab>
         <Tab title="Facts" selectedTab={selectedTab}>Facts</Tab>
         <Tab title="Concept Links" selectedTab={selectedTab}>
-          
+          <ConceptParts part={currentPart} />
         </Tab>
       </div>
     </SDetailPageContent>

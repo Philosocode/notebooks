@@ -7,7 +7,7 @@ import { getEntityIndex } from "../../shared/utils/entity.util";
 import { createSection, deleteSection, getSections } from "../../section/redux/section.thunks";
 import { IRepositionEntityPayload } from "../../shared/types.shared";
 import { log } from "util";
-import { createConceptPart, deleteConceptPart, getConceptParts } from "../../concept-link/redux/concept-part.thunks";
+import { createConceptPart, deleteConceptPart, getConceptParts } from "../../concept-link/redux/concept-link.thunks";
 import { createConceptLink, deleteConceptLink, getConceptLinks } from "../../concept/redux/concept.thunks";
 
 const initialState: IPartState  = {
