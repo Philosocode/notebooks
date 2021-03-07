@@ -3,10 +3,8 @@ const db = require("../db/db");
 module.exports = {
   conceptPartExists,
   createConceptPart,
-  deleteConceptLink,
-  getConceptLinks,
-
-  deleteConceptLinksForConcept,
+  deleteConceptPart,
+  deleteConceptPartsForPart,
   getConceptPartsForPart,
 };
 
@@ -29,31 +27,19 @@ async function createConceptPart(concept_id, part_id, connection=db) {
     .returning("*");
 }
 
-async function deleteConceptLink(link_id, connection = db) {
-  return connection("concept_link")
-    .where({ id: link_id })
+async function deleteConceptPart(concept_id, part_id, connection = db) {
+  return connection("concept_part")
+    .where({ concept_id, part_id })
     .del();
 }
 
-async function deleteConceptLinksForConcept(concept_id, connection = db) {
-  return connection("concept_link")
-    .where({ concept1_id: concept_id })
-    .orWhere({ concept2_id: concept_id })
+async function deleteConceptPartsForPart(part_id, connection=db) {
+  return connection("concept_part")
+    .where({ part_id })
     .del();
 }
 
 async function getConceptPartsForPart(part_id, connection=db) {
   return connection("concept_part")
     .where({ part_id });
-}
-
-async function getConceptLinks(user_id, filterObj, connection = db) {
-  return connection("concept_link")
-    .where({ ...filterObj })
-    .whereIn("concept1_id", function() {
-      this.select("id").from("concept").where({ user_id });
-    })
-    .whereIn("concept2_id", function() {
-      this.select("id").from("concept").where({ user_id });
-    });
 }
