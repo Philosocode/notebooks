@@ -7,6 +7,8 @@ import { getEntityIndex } from "../../shared/utils/entity.util";
 import { createSection, deleteSection, getSections } from "../../section/redux/section.thunks";
 import { IRepositionEntityPayload } from "../../shared/types.shared";
 import { log } from "util";
+import { createConceptPart, deleteConceptPart, getConceptParts } from "../../concept-link/redux/concept-part.thunks";
+import { createConceptLink, deleteConceptLink, getConceptLinks } from "../../concept/redux/concept.thunks";
 
 const initialState: IPartState  = {
   parts: {},
@@ -89,6 +91,33 @@ const partSlice = createSlice({
         if (!part.sectionIds) return;
 
         part.sectionIds = part.sectionIds.filter(id => id !== sectionId);
+      })
+      // Concept Parts
+      .addCase(getConceptParts.fulfilled, (state, action) => {
+        const { partId, conceptParts } = action.payload;
+
+        const part = state.parts[partId];
+        if (!part) return;
+
+        part.conceptIds = conceptParts.map(conceptPart => conceptPart.concept_id);
+      })
+      .addCase(createConceptPart.fulfilled, (state, action) => {
+        const { partId, conceptId } = action.payload;
+
+        const part = state.parts[partId];
+        if (!part) return;
+
+        if (!part.conceptIds) part.conceptIds = [];
+
+        part.conceptIds.push(conceptId);
+      })
+      .addCase(deleteConceptPart.fulfilled, (state, action) => {
+        const { partId, conceptId } = action.payload;
+
+        const part = state.parts[partId];
+        if (!part?.conceptIds) return;
+
+        part.conceptIds = part.conceptIds.filter(id => id !== conceptId);
       })
   }
 });

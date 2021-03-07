@@ -15,7 +15,10 @@ export const getConceptParts = createAsyncThunk(
     try {
       const response = await api.get<IGetConceptPartsResponse>(`/parts/${partId}/links`);
 
-      return response.data.data.conceptParts;
+      return {
+        partId,
+        conceptParts: response.data.data.conceptParts,
+      };
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
