@@ -5,6 +5,7 @@ module.exports = {
   createConceptPart,
   deleteConceptPart,
   deleteConceptPartsForPart,
+  deleteConceptPartsForMaterial,
   getConceptPartsForPart,
 };
 
@@ -42,4 +43,14 @@ async function deleteConceptPartsForPart(part_id, connection=db) {
 async function getConceptPartsForPart(part_id, connection=db) {
   return connection("concept_part")
     .where({ part_id });
+}
+
+async function deleteConceptPartsForMaterial(material_id, connection=db) {
+  // delete where concept_part.part_id is in...
+  return connection("concept_part").whereIn("part_id", function() {
+    // select parts with the material ID
+    this.select("id")
+      .from("part")
+      .where({ "part.material_id": material_id });
+  }).del();
 }
