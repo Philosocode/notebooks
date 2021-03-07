@@ -6,6 +6,7 @@ module.exports = {
   deleteConceptPart,
   deleteConceptPartsForPart,
   deleteConceptPartsForMaterial,
+  deleteConceptPartsForConcept,
   getConceptPartsForPart,
 };
 
@@ -40,9 +41,10 @@ async function deleteConceptPartsForPart(part_id, connection=db) {
     .del();
 }
 
-async function getConceptPartsForPart(part_id, connection=db) {
+async function deleteConceptPartsForConcept(concept_id, connection=db) {
   return connection("concept_part")
-    .where({ part_id });
+    .where({ concept_id })
+    .del();
 }
 
 async function deleteConceptPartsForMaterial(material_id, connection=db) {
@@ -53,4 +55,9 @@ async function deleteConceptPartsForMaterial(material_id, connection=db) {
       .from("part")
       .where({ "part.material_id": material_id });
   }).del();
+}
+
+async function getConceptPartsForPart(part_id, connection=db) {
+  return connection("concept_part")
+    .where({ part_id });
 }

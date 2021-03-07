@@ -2,6 +2,7 @@ const db = require("../db/db");
 const { deleteConceptLinksForConcept } = require("./concept-link.model");
 const { addTagsToEntity, updateTagsForEntity } = require("./entity-tag.model");
 const { deleteHooks } = require("./hook.model");
+const { deleteConceptPartsForConcept } = require("./concept-part.model");
 
 module.exports = {
   createConcept,
@@ -41,6 +42,9 @@ async function deleteConcept(user_id, concept_id) {
 
     // delete all concept links for concept
     await deleteConceptLinksForConcept(concept_id, trx);
+
+    // delete all concept parts for concept
+    await deleteConceptPartsForConcept(concept_id, trx);
 
     // delete concept itself
     await trx("concept").where({ user_id, id: concept_id }).first().del();
