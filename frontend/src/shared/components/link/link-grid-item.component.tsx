@@ -6,21 +6,21 @@ import styled from "styled-components";
 import { theme } from "../../styles/theme.style";
 
 export interface ILinkGridItem {
-  link_id: string;
-  ownerEntityId: string;
+  currentId: string;
+  otherId: string;
   name: string;
   url: string;
-  handleDelete: (linkId: string, ownerEntityId: string) => void;
 }
 interface IProps {
   link: ILinkGridItem;
+  handleDelete: (currentId: string, otherId: string) => void;
 }
-export const LinkGridItem: React.FC<IProps> = ({ link }) => {
+export const LinkGridItem: React.FC<IProps> = ({ handleDelete, link }) => {
   function handleDeleteClick(event: React.MouseEvent) {
     event.preventDefault();
     event.stopPropagation();
 
-    link.handleDelete(link.link_id, link.ownerEntityId);
+    handleDelete(link.currentId, link.otherId);
   }
 
   return (

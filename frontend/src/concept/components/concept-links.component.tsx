@@ -45,11 +45,10 @@ export const ConceptLinks: React.FC<IProps> = ({ concept }) => {
 
   const linkGridItems = conceptLinks?.map(conceptLink => {
     return {
-      link_id: conceptLink.id,
-      ownerEntityId: concept.id,
+      currentId: conceptLink.id,
+      otherId: concept.id,
       name: conceptLink.concept_name,
       url: `/concepts/${conceptLink.concept_id}`,
-      handleDelete: handleLinkDelete,
     };
   }).sort((a,b) => {
     if (a.name > b.name) return 1;
@@ -63,7 +62,7 @@ export const ConceptLinks: React.FC<IProps> = ({ concept }) => {
           <SHeadingSubSubtitle weight={500}>No links found.</SHeadingSubSubtitle>
         )
       }
-      <LinkGrid links={linkGridItems} />
+      <LinkGrid links={linkGridItems} handleDelete={handleLinkDelete} />
       <FloatingCornerButton handleClick={showCreateConceptLinkModal} icon="plus" />
     </>
   );
