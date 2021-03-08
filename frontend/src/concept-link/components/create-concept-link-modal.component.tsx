@@ -1,18 +1,16 @@
 import React, { useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 // logic
-import { IConcept } from "concept/redux/concept.types";
 import { IModalProps } from "modal/redux/modal.types";
-import { selectConcepts } from "concept/redux/concept.selectors";
+
+// components
+import { ModalWrapper } from "../../modal/components/modal-wrapper.component";
 
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle, SHeadingSubtitle } from "shared/styles/typography.style";
 import { SInputBorderless } from "shared/styles/form.style";
-import { createConceptLink } from "concept/redux/concept.thunks";
-import { ModalWrapper } from "../../modal/components/modal-wrapper.component";
 
 interface IEntity {
   id: string;

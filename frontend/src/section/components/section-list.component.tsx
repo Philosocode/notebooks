@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DropResult } from "react-beautiful-dnd";
 import styled from "styled-components";
@@ -17,8 +17,6 @@ import { FloatingCornerButton } from "shared/components/button/floating-corner-b
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
-import { repositionPart } from "../../material/redux/material.slice";
-import { updatePartPosition } from "../../part/redux/part.thunks";
 
 interface IProps {
   partId: string;
@@ -28,11 +26,7 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
   const dispatch = useDispatch();
   const sections = useSelector(selectSectionsForPart);
 
-  const {
-    expandedHash,
-    toggleEntityExpansion,
-    toggleAllExpansions
-  } = useExpandHash(sections ?? [], true);
+  const { expandedHash, toggleEntityExpansion } = useExpandHash(sections ?? [], true);
 
   function handleDragEnd(result: DropResult) {
     if (!sections) return;

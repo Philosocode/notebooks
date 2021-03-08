@@ -1,5 +1,4 @@
 import {useState, ChangeEvent, useEffect} from 'react';
-import isEqual from "lodash/isEqual";
 
 interface ITouchedState {
   [key: string]: boolean

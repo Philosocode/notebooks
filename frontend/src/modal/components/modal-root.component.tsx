@@ -18,7 +18,6 @@ import { ConfirmationModal } from "./confirmation-modal.component";
 
 import { DeleteTagModal } from "tag/components/delete-tag-modal.component";
 import { UpdateTagModal } from "tag/components/update-tag-modal.component";
-import { CreateConceptLinkModal } from "concept/components/create-concept-link-modal.component";
 import { CreateNamedEntityModal } from "shared/components/modal/create-named-entity-modal.component";
 import { UpdateNamedEntityModal } from "shared/components/modal/update-named-entity.modal";
 import { UpdatePartModal } from "../../part/components/update-part-modal.component";
@@ -33,7 +32,6 @@ const MODAL_COMPONENTS: TModalComponents = {
   "create-concept": CreateConceptModal,
   "update-concept": UpdateConceptModal,
   "delete-concept": DeleteConceptModal,
-  "create-concept-link": CreateConceptLinkModal,
 
   // Material
   "create-material": CreateMaterialModal,
