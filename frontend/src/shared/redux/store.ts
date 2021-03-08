@@ -9,6 +9,7 @@ import { materialReducer } from "../../material/redux/material.slice";
 import { modalReducer, showModal, hideModal } from "modal/redux/modal.slice";
 import { partReducer } from "part/redux/part.slice";
 import { sectionReducer } from "../../section/redux/section.slice";
+import { timerReducer } from "timer/redux/timer.slice";
 import { userReducer } from "user/redux/user.slice";
 
 const appReducer = combineReducers({
@@ -21,6 +22,7 @@ const appReducer = combineReducers({
   modal: modalReducer,
   part: partReducer,
   section: sectionReducer,
+  timer: timerReducer,
   user: userReducer,
 });
 
