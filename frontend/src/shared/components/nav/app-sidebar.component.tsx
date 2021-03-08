@@ -1,31 +1,32 @@
-import React, { FC } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { theme } from "shared/styles/theme.style";
 import { SidebarWrapper } from "shared/components/nav/sidebar-wrapper.component";
 import { faLightbulb, faStar } from "@fortawesome/free-regular-svg-icons";
 import { faBook, faStopwatch } from "@fortawesome/free-solid-svg-icons";
 
-const sidebarLinks = [
-  { name: "Concepts", icon: faLightbulb },
-  { name: "Materials", icon: faBook },
-  { name: "Timer", icon: faStopwatch },
-  { name: "Practice", icon: faStar },
-]
-
-export const AppSidebar: FC = () => (
+export const AppSidebar: React.FC = () => (
   <SidebarWrapper width={theme.componentSizes.appSidebarWidth}>
     <SContent>
-      {
-        sidebarLinks.map(sl => (
-          <SSidebarLink key={sl.name} to={`/${sl.name.toLowerCase()}`}>
-            <SIcon icon={sl.icon} />
-            <SName>{sl.name}</SName>
-          </SSidebarLink>
-        ))
-      }
+      <SSidebarLink to={`/concepts`}>
+        <SIcon icon={faLightbulb} />
+        <SName>Concepts</SName>
+      </SSidebarLink>
+      <SSidebarLink to={`/materials`}>
+        <SIcon icon={faBook} />
+        <SName>Materials</SName>
+      </SSidebarLink>
+      <SSidebarItem>
+        <SIcon icon={faStopwatch} />
+        <SName>Timer</SName>
+      </SSidebarItem>
+      <SSidebarItem>
+        <SIcon icon={faStar} />
+        <SName>Practice</SName>
+      </SSidebarItem>
     </SContent>
   </SidebarWrapper>
 );
@@ -51,11 +52,10 @@ const SName = styled.h3`
   transition: color ${transitionAppend};
 `;
 
-const SSidebarLink = styled(NavLink).attrs({
-  activeClassName: "active",
-})`
+const SidebarItemCss = css`
   background: transparent;
   color: ${theme.colors.gray["400"]};
+  cursor: pointer;
   padding: ${theme.spacing.base} 0;
   text-align: center;
   transition: background ${transitionAppend};
@@ -69,5 +69,14 @@ const SSidebarLink = styled(NavLink).attrs({
       color: ${theme.colors.green[300]};
     }
   }
-}
+`;
+
+const SSidebarItem = styled.div`
+  ${SidebarItemCss}
+`;
+
+const SSidebarLink = styled(NavLink).attrs({
+  activeClassName: "active",
+})`
+  ${SidebarItemCss}
 `;

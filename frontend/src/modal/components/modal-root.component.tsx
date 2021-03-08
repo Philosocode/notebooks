@@ -18,6 +18,9 @@ import { ConfirmationModal } from "./confirmation-modal.component";
 
 import { DeleteTagModal } from "tag/components/delete-tag-modal.component";
 import { UpdateTagModal } from "tag/components/update-tag-modal.component";
+
+import { TimerModal } from "timer/components/timer-modal.component";
+
 import { CreateNamedEntityModal } from "shared/components/modal/create-named-entity-modal.component";
 import { UpdateNamedEntityModal } from "shared/components/modal/update-named-entity.modal";
 import { UpdatePartModal } from "../../part/components/update-part-modal.component";
@@ -45,6 +48,8 @@ const MODAL_COMPONENTS: TModalComponents = {
   // Tag
   "delete-tag": DeleteTagModal,
   "update-tag": UpdateTagModal,
+
+  "timer": TimerModal,
 
   // Other
   "create-named-entity": CreateNamedEntityModal,
