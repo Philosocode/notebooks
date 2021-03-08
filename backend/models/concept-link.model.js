@@ -8,6 +8,7 @@ module.exports = {
 
   deleteConceptLinksForConcept,
   getConceptLinksForConcept,
+  getMaterialLinksForConcept,
 };
 
 async function conceptLinkExists(concept_ids, connection = db) {
@@ -58,4 +59,12 @@ async function getConceptLinks(user_id, filterObj, connection = db) {
     .whereIn("concept2_id", function() {
       this.select("id").from("concept").where({ user_id });
     });
+}
+
+async function getMaterialLinksForConcept(concept_id, connection=db) {
+  return connection("concept_part")
+    .select("material.id")
+    .join("part", "part.id", "concept_part.part_id")
+    .join("material", "material.id", "part.material_id")
+    .where({ "concept_part.concept_id": concept_id });
 }

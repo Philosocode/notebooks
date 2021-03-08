@@ -11,6 +11,7 @@ export interface IConcept {
   num_hooks: number;
   hooks?: IHook[];
   links?: IConceptLink[];
+  materialLinks?: string[];
 }
 
 export interface IConceptFiltersState extends IEntityFilter {}
