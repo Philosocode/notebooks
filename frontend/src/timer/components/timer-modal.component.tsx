@@ -10,6 +10,7 @@ import {
   defaultBreakTime,
   defaultStudyTime,
   pauseTimer,
+  resetTimer,
   startTimer,
   timerFinished,
   unpauseTimer,
@@ -29,14 +30,23 @@ export const TimerModal: React.FC<IProps> = ({
   const timerState = useSelector(selectTimerState);
   const { endTime, runningState, mode, pauseTime } = timerState;
 
-  const [timerStarted, setTimerStarted] = useState(false);
   const [timeText, setTimeText] = useState(getTimeText());
   const timerTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (runningState === "stopped") {
+      setTimeText(
+        mode === "study"
+          ? msToMMSS(defaultStudyTime)
+          : msToMMSS(defaultBreakTime)
+      );
+    }
+  }, [runningState, mode]);
 
   // update timer display
   useInterval(() => {
     setTimeText(getTimeText());
-  }, runningState === "running" ? 750 : null);
+  }, runningState === "running" ? 500 : null);
 
   // start timer
   function handleClick() {
@@ -57,21 +67,14 @@ export const TimerModal: React.FC<IProps> = ({
     if (runningState === "running") return;
 
     dispatch(startTimer());
-    setTimerStarted(true);
     
     const intervalTime = mode === "study"
       ? defaultStudyTime
       : defaultBreakTime;
 
-    // when switching modes, set text to default of other one
-    const newTimeText = mode === "study"
-      ? msToMMSS(defaultBreakTime)
-      : msToMMSS(defaultStudyTime);
-
     timerTimeout.current = setTimeout(() => {
       dispatch(timerFinished());
       dispatch(showModal({ modalType: "timer" }));
-      setTimeText(newTimeText);
     }, intervalTime);
   }
 
@@ -94,6 +97,16 @@ export const TimerModal: React.FC<IProps> = ({
     }, intervalTime);
   }
 
+  function handleStop() {
+    dispatch(resetTimer());
+
+    setTimeText(msToMMSS(defaultStudyTime));
+
+    if (timerTimeout.current) {
+      clearTimeout(timerTimeout.current);
+    }
+  }
+
   function getTimeText() {
     if (runningState === "stopped") {
       return mode === "study"
@@ -114,6 +127,14 @@ export const TimerModal: React.FC<IProps> = ({
         <SButtonGreen onClick={handleClick}>
           { runningState === "running" ? "Pause" : "Start" }
         </SButtonGreen>
+        {
+          mode === "study" && (
+            <SButtonRed
+              disabled={runningState === "stopped"}
+              onClick={handleStop}
+            >Stop</SButtonRed>
+          )
+        }
       </SButtons>
     </SContainer>
   )
