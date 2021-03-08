@@ -64,7 +64,7 @@ export const ConceptMaterials: React.FC<IProps> = ({ concept }) => {
             <SHeadingSubSubtitle weight={500}>No links found.</SHeadingSubSubtitle>
           )
         }
-        <LinkGrid links={materialLinks} handleDelete={() => {}} />
+        <LinkGrid links={materialLinks} />
       </div>
 
     </div>
