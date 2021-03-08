@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { IPart } from "./part.types";
 import { api } from "services/api.service";
+import { createSection } from "../../section/redux/section.thunks";
 
 interface IGetPartsResponse {
   status: string;
@@ -68,6 +69,14 @@ export const createPart = createAsyncThunk(
         materialId,
       });
       const createdPart = res.data.data.part;
+
+      thunkAPI.dispatch(createSection({
+        partId: createdPart.id,
+        initialValues: {
+          name: "Summary",
+          content: "Insert summary of part here...",
+        }
+      }));
 
       return { part: createdPart, materialId };
     } catch (err) {

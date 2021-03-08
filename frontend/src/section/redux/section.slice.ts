@@ -17,8 +17,6 @@ const sectionSlice = createSlice({
       .addCase(createSection.fulfilled, (state, action) => {
         const newSection = action.payload.section;
 
-        console.log(action.payload);
-
         state.sections[newSection.id] = newSection;
       })
       .addCase(getSections.fulfilled, (state, action) => {

@@ -53,7 +53,7 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
   }
 
   function handleCreate() {
-    dispatch(createSection(partId));
+    dispatch(createSection({ partId }));
   }
 
   function handleUpdate(sectionId: string, name?: string, content?: string) {

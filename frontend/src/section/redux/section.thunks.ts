@@ -3,6 +3,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ISection } from "./section.types";
 import { api } from "../../services/api.service";
 
+interface ICreateSectionPayload {
+  partId: string;
+  initialValues?: {
+    name: string;
+    content: string;
+  }
+}
 interface ICreateSectionResponse {
   status: string;
   data: {
@@ -11,11 +18,13 @@ interface ICreateSectionResponse {
 }
 export const createSection = createAsyncThunk(
   "section/createSection",
-  async function (partId: string, thunkAPI) {
+  async function (payload: ICreateSectionPayload, thunkAPI) {
+    const { initialValues, partId } = payload;
     try {
-      const response = await api.post<ICreateSectionResponse>(`/parts/${partId}/sections`, {
-        name: "", content: ""
-      });
+      const response = await api.post<ICreateSectionResponse>(
+        `/parts/${partId}/sections`,
+        initialValues ?? { name: "", content: "" }
+      );
 
       const { section } = response.data.data;
 
