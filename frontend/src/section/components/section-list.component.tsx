@@ -112,9 +112,8 @@ const SContainer = styled.div`
   margin-top: ${theme.spacing.md};
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 `;
-
 const SNoItemsHeading = styled(SHeadingSubSubtitle)`
   font-weight: 500;
 `;
@@ -122,4 +121,6 @@ const SNoItemsHeading = styled(SHeadingSubSubtitle)`
 const SList = styled.ul`
   margin-top: ${theme.spacing.base};
   max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
 `;
