@@ -3,6 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { IConceptPart } from "./concept-link.types";
 import { api } from "services/api.service";
 
+/* Concept Part */
 interface IGetConceptPartsResponse {
   status: string;
   data: {
@@ -23,7 +24,7 @@ export const getConceptParts = createAsyncThunk(
       return thunkAPI.rejectWithValue(err);
     }
   }
-)
+);
 
 interface ICreateConceptPartPayload {
   conceptId: string;
@@ -71,3 +72,27 @@ export const deleteConceptPart = createAsyncThunk(
     }
   }
 );
+
+/* Concept Material */
+interface IGetMaterialLinksResponse {
+  status: string;
+  data: {
+    materialLinks: string[];
+  };
+}
+export const getMaterialLinksForConcept = createAsyncThunk(
+  "concept-link/getMaterialLinksForConcept",
+  async function (conceptId: string, thunkAPI) {
+    try {
+      const response = await api.get<IGetMaterialLinksResponse>(`/concepts/${conceptId}/materials`);
+      console.log(response);
+
+      return {
+        conceptId,
+        materialLinks: response.data.data.materialLinks,
+      }
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+)

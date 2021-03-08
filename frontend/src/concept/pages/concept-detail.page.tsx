@@ -18,6 +18,7 @@ import { SDetailPageContent } from "shared/styles/layout.style";
 import { showAndHideAlert } from "../../alert/redux/alert.thunks";
 import { getConcepts } from "../redux/concept.thunks";
 import { selectConceptsLoaded } from "shared/redux/init.selectors";
+import { ConceptMaterials } from "../components/concept-materials.component";
 
 interface IMatchParams {
   conceptId: string;
@@ -67,7 +68,9 @@ export const ConceptDetailPage: FC<RouteComponentProps> = () => {
         <Tab title="Hooks" selectedTab={selectedTab}>
           <ConceptHooks concept={currentConcept} />
         </Tab>
-        <Tab title="Materials" selectedTab={selectedTab}>Materials</Tab>
+        <Tab title="Materials" selectedTab={selectedTab}>
+          <ConceptMaterials concept={currentConcept} />
+        </Tab>
         <Tab title="Concept Links" selectedTab={selectedTab}>
           <ConceptLinks concept={currentConcept} />
         </Tab>
