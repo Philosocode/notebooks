@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // logic
 import { IConcept } from "../redux/concept.types";
 import { ILinkGridItem } from "../../shared/components/link/link-grid-item.component";
+import { api } from "services/api.service";
 import { getMaterials } from "../../material/redux/material.thunks";
 import { selectMaterials } from "../../material/redux/material.selectors";
 import { selectMaterialsLoaded } from "../../shared/redux/init.selectors";
-import { getMaterialLinksForConcept } from "../../concept-link/redux/concept-link.thunks";
 
 // components
 import { LinkGrid } from "../../shared/components/link/link-grid.component";
@@ -15,6 +15,12 @@ import { LinkGrid } from "../../shared/components/link/link-grid.component";
 // styles
 import { SHeadingSubSubtitle } from "../../shared/styles/typography.style";
 
+interface IGetMaterialLinksResponse {
+  status: string;
+  data: {
+    materialLinks: string[];
+  };
+}
 interface IProps {
   concept: IConcept;
 }
@@ -22,21 +28,22 @@ export const ConceptMaterials: React.FC<IProps> = ({ concept }) => {
   const dispatch = useDispatch();
   const materials = useSelector(selectMaterials);
   const materialsLoaded = useSelector(selectMaterialsLoaded);
-  const { materialIds } = concept;
+
+  const [materialIds, setMaterialIds] = useState<string[]>();
 
   useEffect(() => {
     if (!materialsLoaded) {
       dispatch(getMaterials());
     }
-  }, [materialsLoaded, dispatch]);
-
-  useEffect(() => {
-    if (!materialsLoaded) return;
 
     if (!materialIds) {
-      dispatch(getMaterialLinksForConcept(concept.id));
+      api.get<IGetMaterialLinksResponse>(`/concepts/${concept.id}/materials`)
+        .then(response => {
+          setMaterialIds(response.data.data.materialLinks)
+        });
     }
-  }, [materialIds, concept.id, materialsLoaded, dispatch]);
+
+  }, [materialsLoaded, materialIds, concept, dispatch]);
 
   const materialLinks = useMemo(() => {
     const uniqueMaterialIds = Array.from(new Set(materialIds ?? []));
