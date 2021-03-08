@@ -15,7 +15,7 @@ import { IConcept, IConceptFiltersState, IConceptState } from "./concept.types";
 import { IHook } from "hook/redux/hook.types";
 import { createHook, deleteHook, getHooks, updateHook } from "hook/redux/hook.thunks";
 import { IRepositionEntityPayload } from "../../shared/types.shared";
-import { getMaterialLinksForConcept } from "../../concept-link/redux/concept-link.thunks";
+import { createConceptPart, getMaterialLinksForConcept } from "../../concept-link/redux/concept-link.thunks";
 
 // tag === "" means "All"
 const initialState: IConceptState = {
@@ -226,6 +226,21 @@ const conceptSlice = createSlice({
 
         const currentConcept = state.concepts[conceptIndex];
         currentConcept.materialIds = materialLinks;
+      })
+      .addCase(createConceptPart.fulfilled, (state, action) => {
+        const { conceptId, part } = action.payload;
+
+        const conceptIndex = getConceptIndex(state.concepts, conceptId);
+        if (conceptIndex === -1) return;
+
+        const concept = state.concepts[conceptIndex];
+
+        // if materialIds not loaded, no need to continue
+        // they'll be fetched when navigating to concept detail -> material links
+        if (!concept.materialIds) return;
+
+        // otherwise if material ids already loaded, add material id of newly created part
+        concept.materialIds.push(part.material_id);
       })
 
   }

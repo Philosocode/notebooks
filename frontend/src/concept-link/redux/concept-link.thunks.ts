@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { IConceptPart } from "./concept-link.types";
 import { api } from "services/api.service";
+import { IPart } from "../../part/redux/part.types";
 
 /* Concept Part */
 interface IGetConceptPartsResponse {
@@ -28,7 +29,7 @@ export const getConceptParts = createAsyncThunk(
 
 interface ICreateConceptPartPayload {
   conceptId: string;
-  partId: string;
+  part: IPart;
 }
 interface ICreateConceptPartResponse {
   status: string;
@@ -42,10 +43,10 @@ interface ICreateConceptPartResponse {
 export const createConceptPart = createAsyncThunk(
   "concept-part/createConceptPart",
   async function (payload: ICreateConceptPartPayload, thunkAPI) {
-    const { conceptId, partId } = payload;
+    const { conceptId, part } = payload;
 
     try {
-      await api.post<ICreateConceptPartResponse>(`/parts/${partId}/links`, { conceptId });
+      await api.post<ICreateConceptPartResponse>(`/parts/${part.id}/links`, { conceptId });
 
       return payload;
     } catch (err) {

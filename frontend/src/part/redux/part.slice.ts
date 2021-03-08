@@ -99,14 +99,12 @@ const partSlice = createSlice({
         part.conceptIds = conceptParts.map(conceptPart => conceptPart.concept_id);
       })
       .addCase(createConceptPart.fulfilled, (state, action) => {
-        const { partId, conceptId } = action.payload;
+        const { part, conceptId } = action.payload;
 
-        const part = state.parts[partId];
-        if (!part) return;
+        const partToUpdate = state.parts[part.id];
+        if (!partToUpdate.conceptIds) partToUpdate.conceptIds = [];
 
-        if (!part.conceptIds) part.conceptIds = [];
-
-        part.conceptIds.push(conceptId);
+        partToUpdate.conceptIds.push(conceptId);
       })
       .addCase(deleteConceptPart.fulfilled, (state, action) => {
         const { partId, conceptId } = action.payload;

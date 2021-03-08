@@ -36,7 +36,7 @@ export const ConceptMaterials: React.FC<IProps> = ({ concept }) => {
     if (!materialIds) {
       dispatch(getMaterialLinksForConcept(concept.id));
     }
-  }, [materialIds, materialsLoaded, dispatch]);
+  }, [materialIds, concept.id, materialsLoaded, dispatch]);
 
   const materialLinks = useMemo(() => {
     const uniqueMaterialIds = Array.from(new Set(materialIds ?? []));
@@ -53,7 +53,7 @@ export const ConceptMaterials: React.FC<IProps> = ({ concept }) => {
     });
 
     return links;
-  }, [materialIds]);
+  }, [materialIds, concept.id, materials]);
 
   if (!materialIds) return null;
   return (

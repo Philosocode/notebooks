@@ -39,7 +39,7 @@ export const ConceptParts: React.FC<IProps> = ({ part }) => {
   function handleCreate(conceptId: string) {
     dispatch(createConceptPart({
       conceptId,
-      partId: part.id,
+      part,
     }));
   }
 
