@@ -1,8 +1,9 @@
 export type TTimerMode = "study" | "break";
+export type TTimerState = "running" | "paused" | "stopped";
 
 export interface ITimerState {
   endTime: number;
-  remainingTime: number; // used for pause / unpause
+  pauseTime: number; // used for pause / unpause
   mode: TTimerMode;
-  isRunning: boolean;
+  runningState: TTimerState;
 }

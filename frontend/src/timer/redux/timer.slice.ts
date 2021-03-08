@@ -5,13 +5,13 @@ import { ITimerState, TTimerMode } from "./timer.types";
 
 const initialState: ITimerState = {
   endTime: 0,
-  remainingTime: 0,
+  pauseTime: 0,
   mode: "study",
-  isRunning: false,
+  runningState: "stopped",
 };
 
-const defaultStudyTime = milliseconds({ minutes: 30 });
-const defaultBreakTime = milliseconds({ minutes: 5 });
+export const defaultStudyTime = milliseconds({ seconds: 10 });
+export const defaultBreakTime = milliseconds({ seconds: 5 });
 
 const timerSlice = createSlice({
   name: "timer",
@@ -19,10 +19,10 @@ const timerSlice = createSlice({
   reducers: {
     startTimer: (state) => {
       state.endTime = Date.now() + getTimeIncrement(state.mode);
-      state.isRunning = true;
+      state.runningState = "running";
     },
     timerFinished: (state) => {
-      state.isRunning = false;
+      state.runningState = "stopped";
 
       // toggle the mode
       state.mode === "study"
@@ -31,15 +31,15 @@ const timerSlice = createSlice({
     },
     resetTimer: (state) => {
       state.endTime = Date.now() + getTimeIncrement(state.mode);
-      state.isRunning = false;
+      state.runningState = "stopped";
     },
     pauseTimer: (state) => {
-      state.remainingTime = state.endTime - Date.now();
-      state.isRunning = false;
+      state.pauseTime = state.endTime - Date.now();
+      state.runningState = "paused";
     },
     unpauseTimer: (state) => {
-      state.endTime = Date.now() + state.remainingTime;
-      state.isRunning = true;
+      state.endTime = Date.now() + state.pauseTime;
+      state.runningState = "running";
     },
   },
 });
