@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { IConceptPart } from "./concept-link.types";
 import { api } from "services/api.service";
-import { IPart } from "../../part/redux/part.types";
+import { IPart } from "part/redux/part.types";
 
 /* Concept Part */
 interface IGetConceptPartsResponse {
@@ -57,15 +57,15 @@ export const createConceptPart = createAsyncThunk(
 
 export interface IDeleteConceptPartPayload {
   conceptId: string;
-  partId: string;
+  part: IPart;
 }
 export const deleteConceptPart = createAsyncThunk(
   "concept-part/deleteConceptPart",
   async function (payload: IDeleteConceptPartPayload, thunkAPI) {
-    const { conceptId, partId } = payload;
+    const { conceptId, part } = payload;
 
     try {
-      await api.delete(`/parts/${partId}/links/${conceptId}`);
+      await api.delete(`/parts/${part.id}/links/${conceptId}`);
 
       return payload;
     } catch (err) {

@@ -15,7 +15,12 @@ import { IConcept, IConceptFiltersState, IConceptState } from "./concept.types";
 import { IHook } from "hook/redux/hook.types";
 import { createHook, deleteHook, getHooks, updateHook } from "hook/redux/hook.thunks";
 import { IRepositionEntityPayload } from "../../shared/types.shared";
-import { createConceptPart, getMaterialLinksForConcept } from "../../concept-link/redux/concept-link.thunks";
+import {
+  createConceptPart,
+  deleteConceptPart,
+  getMaterialLinksForConcept
+} from "../../concept-link/redux/concept-link.thunks";
+import { deletePart } from "../../part/redux/part.thunks";
 
 // tag === "" means "All"
 const initialState: IConceptState = {
@@ -61,7 +66,7 @@ const conceptSlice = createSlice({
 
       const [hookToReposition] = hooks.splice(oldIndex, 1);
       hooks.splice(newIndex, 0, hookToReposition);
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -242,7 +247,41 @@ const conceptSlice = createSlice({
         // otherwise if material ids already loaded, add material id of newly created part
         concept.materialIds.push(part.material_id);
       })
+      .addCase(deleteConceptPart.fulfilled, (state, action) => {
+        const { conceptId, part } = action.payload;
 
+        const conceptIndex = getConceptIndex(state.concepts, conceptId);
+        if (conceptIndex === -1) return;
+
+        const concept = state.concepts[conceptIndex];
+        if (!concept?.materialIds) return;
+
+        const materialIdToRemove = part.material_id;
+        const materialIdIndex = concept.materialIds.findIndex(materialId => materialId === materialIdToRemove);
+        if (materialIdIndex === -1) return;
+
+        concept.materialIds.splice(materialIdIndex, 1);
+      })
+      .addCase(deletePart.fulfilled, (state, action) => {
+        const { part } = action.payload;
+        const { conceptIds, material_id } = part;
+
+        if (!conceptIds) return;
+
+        conceptIds.forEach(conceptId => {
+          const conceptIndex = state.concepts.findIndex(c => c.id === conceptId);
+          if (conceptIndex === -1) return;
+
+          const conceptToUpdate = state.concepts[conceptIndex];
+          if (!conceptToUpdate.materialIds) return;
+
+          const materialIdIndex = conceptToUpdate.materialIds.findIndex(mId => mId === material_id);
+          if (materialIdIndex === -1) return;
+
+          conceptToUpdate.materialIds.splice(materialIdIndex, 1);
+        })
+
+      })
   }
 });
 

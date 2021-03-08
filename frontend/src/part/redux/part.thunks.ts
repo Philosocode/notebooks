@@ -140,15 +140,15 @@ export const updatePartPosition = createAsyncThunk(
 
 interface IDeletePartPayload {
   materialId: string;
-  partId: string;
+  part: IPart;
 }
 export const deletePart = createAsyncThunk(
   "part/deletePart",
   async function (payload: IDeletePartPayload, thunkAPI) {
-    const { partId } = payload;
+    const { part } = payload;
 
     try {
-      await api.delete(`/parts/${partId}`);
+      await api.delete(`/parts/${part.id}`);
 
       return payload;
     } catch (err) {

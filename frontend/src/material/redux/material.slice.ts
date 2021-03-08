@@ -140,7 +140,7 @@ const materialSlice = createSlice({
         materialToUpdate.partIds.push(part.id);
       })
       .addCase(deletePart.fulfilled, (state, action) => {
-        const { materialId, partId } = action.payload;
+        const { materialId, part } = action.payload;
 
         const materialIndex = getEntityIndex(state.materials, materialId);
         if (materialIndex === -1) return;
@@ -150,7 +150,7 @@ const materialSlice = createSlice({
         if (!materialToUpdate.partIds) return;
 
         // remove the part ID from the array
-        const partIdIndex = materialToUpdate.partIds.findIndex(id => id === partId);
+        const partIdIndex = materialToUpdate.partIds.findIndex(id => id === part.id);
         if (partIdIndex === -1) return;
 
         materialToUpdate.partIds.splice(partIdIndex, 1);

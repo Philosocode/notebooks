@@ -46,7 +46,7 @@ export const ConceptParts: React.FC<IProps> = ({ part }) => {
   function handleDelete(partId: string, conceptId: string) {
     dispatch(deleteConceptPart({
       conceptId,
-      partId,
+      part,
     }));
   }
 

@@ -58,9 +58,9 @@ const partSlice = createSlice({
         state.parts[partId].checklist[key] = value;
       })
       .addCase(deletePart.fulfilled, (state, action) => {
-        const { partId } = action.payload;
+        const { part } = action.payload;
 
-        state.parts = omit(state.parts, [partId]);
+        state.parts = omit(state.parts, [part.id]);
       })
       // Sections
       .addCase(createSection.fulfilled, (state, action) => {
@@ -107,12 +107,12 @@ const partSlice = createSlice({
         partToUpdate.conceptIds.push(conceptId);
       })
       .addCase(deleteConceptPart.fulfilled, (state, action) => {
-        const { partId, conceptId } = action.payload;
+        const { conceptId, part } = action.payload;
 
-        const part = state.parts[partId];
-        if (!part?.conceptIds) return;
+        const partToUpdate = state.parts[part.id];
+        if (!partToUpdate.conceptIds) return;
 
-        part.conceptIds = part.conceptIds.filter(id => id !== conceptId);
+        partToUpdate.conceptIds = partToUpdate.conceptIds.filter(id => id !== conceptId);
       })
   }
 });

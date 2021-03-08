@@ -32,7 +32,7 @@ export const PartDetailHeader: React.FC<IProps> = ({ part }) => {
     dispatch(
       deletePart({
         materialId: part.material_id,
-        partId: part.id
+        part
       })
     );
 

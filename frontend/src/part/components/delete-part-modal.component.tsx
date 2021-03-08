@@ -14,9 +14,9 @@ interface IProps extends IModalProps {
 }
 export const DeletePartModal: FC<IProps> = ({ materialId, part, handleClose }) => {
   const dispatch = useDispatch();
-  
+
   function handleDelete() {
-    dispatch(deletePart({ materialId, partId: part.id }));
+    dispatch(deletePart({ materialId, part }));
 
     handleClose();
   }
