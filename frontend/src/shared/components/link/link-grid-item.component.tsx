@@ -13,14 +13,14 @@ export interface ILinkGridItem {
 }
 interface IProps {
   link: ILinkGridItem;
-  handleDelete: (otherId: string) => void;
+  handleDelete: (currentId: string, otherId: string) => void;
 }
 export const LinkGridItem: React.FC<IProps> = ({ handleDelete, link }) => {
   function handleDeleteClick(event: React.MouseEvent) {
     event.preventDefault();
     event.stopPropagation();
 
-    handleDelete(link.otherId);
+    handleDelete(link.currentId, link.otherId);
   }
 
   return (

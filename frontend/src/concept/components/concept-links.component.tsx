@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 // logic
 import { IConcept } from "../redux/concept.types";
-import { selectConceptLinks } from "../redux/concept.selectors";
-import { deleteConceptLink, getConceptLinks } from "../redux/concept.thunks";
-import { showModal } from "modal/redux/modal.slice";
+import { selectConceptLinks, selectConcepts } from "../redux/concept.selectors";
+import { createConceptLink, deleteConceptLink, getConceptLinks } from "../redux/concept.thunks";
+import { sortEntitiesByKey } from "../../shared/utils/entity.util";
+import { useToggle } from "../../shared/hooks/use-toggle.hook";
 
 // components
+import { CreateConceptLinkModal } from "../../concept-link/components/create-concept-link-modal.component";
 import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
 import { LinkGrid } from "shared/components/link/link-grid.component";
 
@@ -18,8 +20,10 @@ interface IProps {
   concept: IConcept;
 }
 export const ConceptLinks: React.FC<IProps> = ({ concept }) => {
+  const concepts = useSelector(selectConcepts);
   const conceptLinks = useSelector(selectConceptLinks);
   const dispatch = useDispatch();
+  const [createModalShowing, toggleCreateModalShowing] = useToggle(false);
 
   useEffect(() => {
     if (conceptLinks === undefined) {
@@ -27,20 +31,18 @@ export const ConceptLinks: React.FC<IProps> = ({ concept }) => {
     }
   }, [concept.id, conceptLinks, dispatch]);
 
+  function handleLinkCreate(otherId: string) {
+    dispatch(createConceptLink({
+      currentConceptId: concept.id,
+      otherConceptId: otherId,
+    }));
+  }
+
   function handleLinkDelete(linkId: string, conceptId: string) {
     dispatch(deleteConceptLink({
       currentConceptId: concept.id,
       otherConceptId: conceptId,
       linkId,
-    }));
-  }
-
-  function showCreateConceptLinkModal() {
-    dispatch(showModal({
-      modalType: "create-concept-link",
-      modalProps: {
-        currentConcept: concept,
-      }
     }));
   }
 
@@ -56,6 +58,16 @@ export const ConceptLinks: React.FC<IProps> = ({ concept }) => {
     return -1;
   }) ?? [];
 
+  const unlinkedConcepts = sortEntitiesByKey(
+    concepts.filter(c => {
+      // can't link concept with itself
+      if (c.id === concept.id) return false;
+
+      return !conceptLinks?.some(link => link.concept_id === c.id)
+    }),
+    "name"
+  );
+
   return (
     <>
       {
@@ -63,8 +75,14 @@ export const ConceptLinks: React.FC<IProps> = ({ concept }) => {
           <SHeadingSubSubtitle weight={500}>No links found.</SHeadingSubSubtitle>
         )
       }
-      <LinkGrid links={linkGridItems} handleDelete={() => {}} />
-      <FloatingCornerButton handleClick={showCreateConceptLinkModal} icon="plus" />
+      <LinkGrid links={linkGridItems} handleDelete={handleLinkDelete} />
+      <FloatingCornerButton handleClick={toggleCreateModalShowing} icon="plus" />
+      <CreateConceptLinkModal
+        handleClose={toggleCreateModalShowing}
+        handleCreate={handleLinkCreate}
+        unlinkedEntities={unlinkedConcepts}
+        modalShowing={createModalShowing}
+      />
     </>
   );
 };
