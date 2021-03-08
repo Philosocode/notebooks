@@ -7,29 +7,39 @@ import { theme } from "shared/styles/theme.style";
 import { SidebarWrapper } from "shared/components/nav/sidebar-wrapper.component";
 import { faLightbulb, faStar } from "@fortawesome/free-regular-svg-icons";
 import { faBook, faStopwatch } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
+import { showModal } from "modal/redux/modal.slice";
 
-export const AppSidebar: React.FC = () => (
-  <SidebarWrapper width={theme.componentSizes.appSidebarWidth}>
-    <SContent>
-      <SSidebarLink to={`/concepts`}>
-        <SIcon icon={faLightbulb} />
-        <SName>Concepts</SName>
-      </SSidebarLink>
-      <SSidebarLink to={`/materials`}>
-        <SIcon icon={faBook} />
-        <SName>Materials</SName>
-      </SSidebarLink>
-      <SSidebarItem>
-        <SIcon icon={faStopwatch} />
-        <SName>Timer</SName>
-      </SSidebarItem>
-      <SSidebarItem>
-        <SIcon icon={faStar} />
-        <SName>Practice</SName>
-      </SSidebarItem>
-    </SContent>
-  </SidebarWrapper>
-);
+export const AppSidebar: React.FC = () => { 
+  const dispatch = useDispatch();
+
+  function showTimer() {
+    dispatch(showModal({ modalType: "timer" }))
+  }
+
+  return (
+    <SidebarWrapper width={theme.componentSizes.appSidebarWidth}>
+      <SContent>
+        <SSidebarLink to={`/concepts`}>
+          <SIcon icon={faLightbulb} />
+          <SName>Concepts</SName>
+        </SSidebarLink>
+        <SSidebarLink to={`/materials`}>
+          <SIcon icon={faBook} />
+          <SName>Materials</SName>
+        </SSidebarLink>
+        <SSidebarItem onClick={showTimer}>
+          <SIcon icon={faStopwatch} />
+          <SName>Timer</SName>
+        </SSidebarItem>
+        <SSidebarItem>
+          <SIcon icon={faStar} />
+          <SName>Practice</SName>
+        </SSidebarItem>
+      </SContent>
+    </SidebarWrapper>
+  )
+ };
 
 const { transitionAppend } = theme.animations;
 
@@ -54,6 +64,7 @@ const SName = styled.h3`
 
 const SidebarItemCss = css`
   background: transparent;
+  border: none;
   color: ${theme.colors.gray["400"]};
   cursor: pointer;
   padding: ${theme.spacing.base} 0;
@@ -71,8 +82,12 @@ const SidebarItemCss = css`
   }
 `;
 
-const SSidebarItem = styled.div`
+const SSidebarItem = styled.button`
   ${SidebarItemCss}
+
+  &:active, &:focus {
+    outline: none;
+  }
 `;
 
 const SSidebarLink = styled(NavLink).attrs({
