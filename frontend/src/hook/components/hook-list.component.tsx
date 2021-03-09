@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { faCompress, faExpand } from "@fortawesome/free-solid-svg-icons";
 import { DropResult } from "react-beautiful-dnd";
 
 // logic
@@ -12,14 +13,13 @@ import { useEntityFilterSort } from "shared/hooks/use-entity-filter-sort.hook";
 
 // components
 import { HookListItem } from "./hook-list-item.component";
+import { FloatingCornerButton } from "../../shared/components/button/floating-corner-button.component";
+import { DragAndDropWrapper } from "shared/components/drag-and-drop/drag-and-drop-wrapper.component";
+import { SortFilterControls } from "../../shared/components/button/sort-filter-controls.component";
 
 // styles
 import { theme } from "../../shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
-import { faCompress, faExpand } from "@fortawesome/free-solid-svg-icons";
-import { FloatingCornerButton } from "../../shared/components/button/floating-corner-button.component";
-import { SortFilterControls } from "../../shared/components/button/sort-filter-controls.component";
-import { DragAndDropWrapper } from "shared/components/drag-and-drop/drag-and-drop-wrapper.component";
 
 interface IProps {
   conceptId: string;

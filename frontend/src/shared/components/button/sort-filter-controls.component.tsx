@@ -91,7 +91,6 @@ const SInput = styled(SInputBorderless)`
 `;
 
 const SSortIcon = styled(FontAwesomeIcon)`
-  font-size: 1.8rem;
   margin-left: ${theme.spacing.xs};
 `;
 
