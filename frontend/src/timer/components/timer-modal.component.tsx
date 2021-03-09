@@ -43,7 +43,6 @@ const checkboxHash = checkboxItems.reduce<ICheckboxItems>(
     return acc;
   }, {});
 
-
 export const TimerModal: React.FC = () => {
   const dispatch = useDispatch();
   const timerState = useSelector(selectTimerState);
@@ -53,6 +52,8 @@ export const TimerModal: React.FC = () => {
   const timerTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [values, setValues] = useState(checkboxHash);
+
+  const audio = new Audio("/alarm-beep.mp3");
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setValues(prevState => {
@@ -70,6 +71,9 @@ export const TimerModal: React.FC = () => {
           ? msToMMSS(defaultStudyTime)
           : msToMMSS(defaultBreakTime)
       );
+
+      // reset checkboxes when switching modes
+      setValues(checkboxHash);
     }
   }, [runningState, mode]);
 
@@ -104,6 +108,9 @@ export const TimerModal: React.FC = () => {
     const intervalTime = mode === "study" ? defaultStudyTime : defaultBreakTime;
 
     timerTimeout.current = setTimeout(() => {
+      if (mode === "study") {
+        audio.play();
+      }
       dispatch(timerFinished());
       dispatch(showModal());
     }, intervalTime);
@@ -128,7 +135,7 @@ export const TimerModal: React.FC = () => {
     }, intervalTime);
   }
 
-  function handleStop() {
+  function handleReset() {
     dispatch(resetTimer());
 
     setTimeText(msToMMSS(defaultStudyTime));
@@ -158,7 +165,8 @@ export const TimerModal: React.FC = () => {
     if (mode !== "break") return false;
     if (runningState === "running") return true;
 
-    if (values["step1"] !== true) return true;
+    // check that the first 2 items are checked
+    if (!values["step1"] || !values["step2"]) return true;
 
     return false;
   }
@@ -180,12 +188,7 @@ export const TimerModal: React.FC = () => {
             {runningState === "running" ? "Pause" : "Start"}
           </SButtonGreen>
           {mode === "study" && (
-            <SButtonRed
-              disabled={runningState === "stopped"}
-              onClick={handleStop}
-            >
-              Reset
-            </SButtonRed>
+            <SButtonRed disabled={runningState === "stopped"} onClick={handleReset}>Reset</SButtonRed>
           )}
         </SButtons>
         {mode === "break" && (
