@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 // logic
 import { IConcept } from "../redux/concept.types";
-import { selectConceptLinks, selectConcepts } from "../redux/concept.selectors";
+import { selectConceptLinks, selectConceptList } from "../redux/concept.selectors";
 import { createConceptLink, deleteConceptLink, getConceptLinks } from "../redux/concept.thunks";
 import { sortEntitiesByKey } from "../../shared/utils/entity.util";
 import { useToggle } from "../../shared/hooks/use-toggle.hook";
@@ -20,7 +20,7 @@ interface IProps {
   concept: IConcept;
 }
 export const ConceptLinks: React.FC<IProps> = ({ concept }) => {
-  const concepts = useSelector(selectConcepts);
+  const concepts = useSelector(selectConceptList);
   const conceptLinks = useSelector(selectConceptLinks);
   const dispatch = useDispatch();
   const [createModalShowing, toggleCreateModalShowing] = useToggle(false);
@@ -59,7 +59,7 @@ export const ConceptLinks: React.FC<IProps> = ({ concept }) => {
   }) ?? [];
 
   const unlinkedConcepts = sortEntitiesByKey(
-    concepts.filter(c => {
+    Object.values(concepts).filter(c => {
       // can't link concept with itself
       if (c.id === concept.id) return false;
 

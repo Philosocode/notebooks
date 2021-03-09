@@ -3,7 +3,7 @@ import React, { useEffect, useMemo } from "react";
 import { IPart } from "../redux/part.types";
 import { useDispatch, useSelector } from "react-redux";
 import { createConceptPart, deleteConceptPart, getConceptParts } from "../../concept-link/redux/concept-link.thunks";
-import { selectConcepts } from "../../concept/redux/concept.selectors";
+import { selectConceptList } from "../../concept/redux/concept.selectors";
 import { selectConceptsLoaded } from "../../shared/redux/init.selectors";
 import { getConcepts } from "../../concept/redux/concept.thunks";
 import { SHeadingSubSubtitle } from "../../shared/styles/typography.style";
@@ -20,7 +20,7 @@ interface IProps {
 export const ConceptParts: React.FC<IProps> = ({ part }) => {
   const dispatch = useDispatch();
   const conceptsLoaded = useSelector(selectConceptsLoaded);
-  const concepts = useSelector(selectConcepts);
+  const concepts = useSelector(selectConceptList);
 
   const [createModalShowing, toggleCreateModalShowing] = useToggle(false);
 
@@ -43,7 +43,7 @@ export const ConceptParts: React.FC<IProps> = ({ part }) => {
     }));
   }
 
-  function handleDelete(partId: string, conceptId: string) {
+  function handleDelete(_: string, conceptId: string) {
     dispatch(deleteConceptPart({
       conceptId,
       part,

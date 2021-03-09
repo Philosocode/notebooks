@@ -15,18 +15,24 @@ export const selectCurrentConceptTag = createSelector(
   (filters) => filters.tag
 );
 
-export const selectConcepts = createSelector(
+export const selectConceptHash = createSelector(
   [selectConcept],
-  (concept) => concept.concepts ?? []
+  (concept) => concept.concepts
 );
 
+export const selectConceptList = createSelector(
+  [selectConcept],
+  (concept) => Object.values(concept.concepts)
+)
+
 export const selectConceptsWithCurrentTag = createSelector(
-  selectConcepts,
+  selectConceptList,
   selectConceptFilters,
-  (concepts, filters) => {
-    if (filters.isUncategorized) return concepts.filter(c => c.tags.length === 0);
-    if (!filters.tag) return concepts;
-    return concepts.filter(c => c.tags.includes(filters.tag));
+  (conceptList, filters) => {
+    if (filters.isUncategorized) return conceptList.filter(c => c.tags.length === 0);
+    if (!filters.tag) return conceptList;
+
+    return conceptList.filter(c => c.tags.includes(filters.tag));
   }
 );
 
@@ -36,17 +42,18 @@ export const selectCurrentConceptId = createSelector(
 );
 
 export const selectCurrentConcept = createSelector(
-  [selectConcepts, selectCurrentConceptId],
-  (concepts, currentConceptId) =>
-    concepts.find(c => c.id === currentConceptId)
+  [selectConceptHash, selectCurrentConceptId],
+  (conceptHash, currentConceptId) => {
+    if (currentConceptId) return conceptHash[currentConceptId];
+  }
 );
 
 export const selectConceptTags = createSelector(
-  [selectConcepts],
-  (concepts) => {
+  [selectConceptList],
+  (conceptList) => {
     const tags = new Set<string>();
 
-    concepts.forEach(c => {
+    conceptList.forEach(c => {
       c.tags.forEach(t => {
         tags.add(t);
       });
@@ -62,8 +69,8 @@ export const selectConceptHooks = createSelector(
 );
 
 export const selectConceptLinks = createSelector(
-  [selectConcepts, selectCurrentConcept],
-  (concepts, currentConcept) => {
+  [selectConceptHash, selectCurrentConcept],
+  (conceptHash, currentConcept) => {
     const links = currentConcept?.links;
     if (!links) return;
 
@@ -71,9 +78,8 @@ export const selectConceptLinks = createSelector(
     const conceptsForLinks: IConceptLinkWithName[] = [];
 
     links.forEach(link => {
-      const concept = concepts.find(c => c.id === link.concept_id);
-      if (!concept) return;
-
+      const concept = conceptHash[link.concept_id];
+      
       conceptsForLinks.push({
         ...link,
         concept_name: concept.name,

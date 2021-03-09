@@ -6,7 +6,7 @@ import { IConcept } from "../redux/concept.types";
 import { IModalProps } from "modal/redux/modal.types";
 import { showModal } from "modal/redux/modal.slice";
 import { updateConcept } from "../redux/concept.thunks";
-import { selectConcepts, selectConceptTags } from "../redux/concept.selectors";
+import { selectConceptList, selectConceptTags } from "../redux/concept.selectors";
 
 import { UpdateEntityModal } from "../../shared/components/modal/update-entity-modal.component";
 
@@ -15,7 +15,7 @@ interface IProps extends IModalProps {
 }
 export const UpdateConceptModal: React.FC<IProps> = ({ concept, handleClose }) => {
   const dispatch = useDispatch();
-  const concepts = useSelector(selectConcepts);
+  const concepts = useSelector(selectConceptList);
   const conceptTags = useSelector(selectConceptTags);
 
   function handleUpdate(name: string, tags: string[]) {

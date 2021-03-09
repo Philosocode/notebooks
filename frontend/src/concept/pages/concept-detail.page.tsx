@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps, useParams } from "react-router-dom";
 
 // logic
-import { selectConcepts, selectCurrentConcept } from "concept/redux/concept.selectors";
+import { selectConceptHash, selectCurrentConcept } from "concept/redux/concept.selectors";
 import { setCurrentConceptId } from "concept/redux/concept.slice";
 
 // components
@@ -24,7 +24,7 @@ interface IMatchParams {
   conceptId: string;
 }
 export const ConceptDetailPage: FC<RouteComponentProps> = () => {
-  const concepts = useSelector(selectConcepts);
+  const concepts = useSelector(selectConceptHash);
   const currentConcept = useSelector(selectCurrentConcept);
   const dispatch = useDispatch();
   const params = useParams<IMatchParams>();
@@ -44,8 +44,7 @@ export const ConceptDetailPage: FC<RouteComponentProps> = () => {
 
     if (currentConcept?.id === conceptId) return;
 
-    const conceptExists = concepts.some((c) => c.id === conceptId);
-
+    const conceptExists = concepts.hasOwnProperty(conceptId);
     if (conceptExists) {
       dispatch(setCurrentConceptId(conceptId));
       setSelectedTab("Hooks");

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import omit from "lodash/omit";
 
 import {
   createConcept, createConceptLink,
@@ -18,7 +19,7 @@ import { IRepositionEntityPayload } from "../../shared/types.shared";
 
 // tag === "" means "All"
 const initialState: IConceptState = {
-  concepts: [],
+  concepts: {},
   currentConceptId: undefined,
   filters: {
     isUncategorized: false,
@@ -52,10 +53,7 @@ const conceptSlice = createSlice({
     ) => {
       const { ownerEntityId: conceptId, oldIndex, newIndex } = action.payload;
 
-      const conceptIndex = getConceptIndex(state.concepts, conceptId);
-      if (conceptIndex === -1) return;
-
-      const hooks = state.concepts[conceptIndex].hooks;
+      const hooks = state.concepts[conceptId].hooks;
       if (!hooks) return;
 
       const [hookToReposition] = hooks.splice(oldIndex, 1);
@@ -65,40 +63,38 @@ const conceptSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createConcept.fulfilled, (state, action) => {
-        state.concepts.push(action.payload);
+        const newConcept = action.payload;
+
+        state.concepts[newConcept.id] = newConcept;
       })
       .addCase(deleteConcept.fulfilled, (state, action) => {
-        const foundIdx = state.concepts.findIndex(
-          (c) => c.id === action.payload
-        );
-
-        if (foundIdx !== -1) {
-          state.concepts.splice(foundIdx, 1);
-        }
+        state.concepts = omit(state.concepts, [action.payload]);
       })
       .addCase(getConcept.fulfilled, (state, action) => {
         state.currentConceptId = action.payload.id;
       })
       .addCase(getConcepts.fulfilled, (state, action) => {
-        state.concepts = action.payload;
+        state.concepts = action.payload.reduce<{[key: string]: IConcept}>((hash, concept) => {
+          hash[concept.id] = concept;
+
+          return hash;
+        }, {});
       })
       .addCase(updateConcept.fulfilled, (state, action) => {
         const { id, updates } = action.payload;
 
-        const conceptIndex = getConceptIndex(state.concepts, id);
-        if (conceptIndex === -1) return;
+        const conceptToUpdate = state.concepts[id];
+        if (!conceptToUpdate) return;
 
-        state.concepts[conceptIndex] = {
-          ...state.concepts[conceptIndex],
+        state.concepts[id] = {
+          ...state.concepts[id],
           ...updates,
           updated_at: new Date().toUTCString()
-        };
+        }
       })
       .addCase(deleteTagFromConcept.fulfilled, (state, action) => {
         const { conceptId, tagName } = action.payload;
-
-        const conceptIndex = getConceptIndex(state.concepts, conceptId);
-        const conceptTags = state.concepts[conceptIndex].tags;
+        const conceptTags = state.concepts[conceptId].tags;
 
         const tagIdx = conceptTags.findIndex((t) => t === tagName);
         if (tagIdx === -1) return;
@@ -109,9 +105,11 @@ const conceptSlice = createSlice({
       /* Concept Tag */
       .addCase(updateConceptTag.fulfilled, (state, action) => {
         const { newTagName, oldTagName } = action.payload;
+
         // loop through all the concepts
-        state.concepts.forEach((c) => {
+        Object.values(state.concepts).forEach((c) => {
           const conceptTags = c.tags;
+
           // find the concepts with the oldTagName
           if (conceptTags.includes(oldTagName)) {
             // remove the old tag
@@ -129,7 +127,7 @@ const conceptSlice = createSlice({
         const tagToRemove = action.payload;
 
         // loop through all concepts
-        state.concepts.forEach((concept) => {
+        Object.values(state.concepts).forEach((concept) => {
           const tagIdx = concept.tags.findIndex((t) => t === tagToRemove);
           if (tagIdx !== -1) concept.tags.splice(tagIdx, 1);
         });
@@ -141,19 +139,12 @@ const conceptSlice = createSlice({
       .addCase(getHooks.fulfilled, (state, action) => {
         const { conceptId, hooks } = action.payload;
 
-        // loop through all concepts
-        const conceptIndex = getConceptIndex(state.concepts, conceptId);
-        if (conceptIndex === -1) return;
-
-        state.concepts[conceptIndex].hooks = hooks;
+        state.concepts[conceptId].hooks = hooks;
       })
       .addCase(createHook.fulfilled, (state, action) => {
         const { conceptId, hook } = action.payload;
 
-        const conceptIndex = getConceptIndex(state.concepts, conceptId);
-        if (conceptIndex === -1) return;
-
-        const conceptToUpdate = state.concepts[conceptIndex];
+        const conceptToUpdate = state.concepts[conceptId];
         if (!conceptToUpdate.hooks) conceptToUpdate.hooks = [];
 
         conceptToUpdate.hooks.push(hook);
@@ -161,10 +152,7 @@ const conceptSlice = createSlice({
       .addCase(updateHook.fulfilled, (state, action) => {
         const { conceptId, hookId, updates } = action.payload;
 
-        const conceptIndex = getConceptIndex(state.concepts, conceptId);
-        if (conceptIndex === -1) return;
-
-        const hooks = state.concepts[conceptIndex].hooks;
+        const hooks = state.concepts[conceptId].hooks;
         if (!hooks) return;
 
         // remove hook
@@ -180,11 +168,7 @@ const conceptSlice = createSlice({
       .addCase(deleteHook.fulfilled, (state, action) => {
         const { conceptId, hookId } = action.payload;
 
-        // find concept to update
-        const conceptToUpdateIndex = getConceptIndex(state.concepts, conceptId);
-        if (conceptToUpdateIndex === -1) return;
-
-        const hooks = state.concepts[conceptToUpdateIndex].hooks;
+        const hooks = state.concepts[conceptId].hooks;
         if (!hooks) return;
 
         // remove hook
@@ -197,24 +181,25 @@ const conceptSlice = createSlice({
       .addCase(createConceptLink.fulfilled, (state, action) => {
         const { currentConceptId, otherConceptId, id } = action.payload;
 
-        addLinkToConcept(state.concepts, currentConceptId, otherConceptId, id);
-        addLinkToConcept(state.concepts, otherConceptId, currentConceptId, id);
+        const currentConcept = state.concepts[currentConceptId];
+        currentConcept.links?.push({ id, concept_id: otherConceptId });
+
+        const otherConcept = state.concepts[otherConceptId];
+        otherConcept.links?.push({ id, concept_id: currentConceptId });
       })
       .addCase(getConceptLinks.fulfilled, (state, action) => {
-        const {currentConceptId} = state;
+        const { currentConceptId } = state;
+
         if (!currentConceptId) return;
 
-        const currentConceptIndex = getConceptIndex(state.concepts, currentConceptId);
-        if (currentConceptIndex === -1) return;
-
-        const currentConcept = state.concepts[currentConceptIndex];
+        const currentConcept = state.concepts[currentConceptId];
         currentConcept.links = action.payload;
       })
       .addCase(deleteConceptLink.fulfilled, (state, action) => {
         const { currentConceptId, otherConceptId, linkId } = action.payload;
 
-        removeLinkFromConcept(state.concepts, currentConceptId, linkId);
-        removeLinkFromConcept(state.concepts, otherConceptId, linkId);
+        removeLinkFromConcept(state.concepts[currentConceptId], linkId);
+        removeLinkFromConcept(state.concepts[otherConceptId], linkId);
       })
   }
 });
@@ -228,29 +213,12 @@ export const {
 } = conceptSlice.actions;
 
 /* HELPERS */
-function getConceptIndex(concepts: IConcept[], conceptId: string) {
-  return concepts.findIndex((c) => c.id === conceptId);
-}
-
 function getHookIndex(hooks: IHook[], hookId: string) {
   return hooks.findIndex(hook => hook.id === hookId);
 }
 
-function addLinkToConcept(concepts: IConcept[], conceptId: string, otherConceptId: string, linkId: string) {
-  const conceptIndex = getConceptIndex(concepts, conceptId);
-  if (conceptIndex === -1) return;
-
-  const conceptLinks = concepts[conceptIndex].links;
-  if (!conceptLinks) return;
-
-  conceptLinks.push({ id: linkId, concept_id: otherConceptId });
-}
-
-function removeLinkFromConcept(concepts: IConcept[], conceptId: string, linkId: string) {
-  const conceptIndex = getConceptIndex(concepts, conceptId);
-  if (conceptIndex === -1) return;
-
-  const conceptLinks = concepts[conceptIndex].links;
+function removeLinkFromConcept(concept: IConcept, linkId: string) {
+  const conceptLinks = concept.links;
   if (!conceptLinks) return;
 
   const linkIndex = conceptLinks.findIndex(link => link.id === linkId);
