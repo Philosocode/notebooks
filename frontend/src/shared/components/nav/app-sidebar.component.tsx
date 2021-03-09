@@ -1,20 +1,21 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components";
-
-import { theme } from "shared/styles/theme.style";
-import { SidebarWrapper } from "shared/components/nav/sidebar-wrapper.component";
 import { faLightbulb, faStar } from "@fortawesome/free-regular-svg-icons";
 import { faBook, faStopwatch } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch } from "react-redux";
-import { showModal } from "modal/redux/modal.slice";
+
+import { showModal } from "timer/redux/timer.slice";
+import { SidebarWrapper } from "shared/components/nav/sidebar-wrapper.component";
+
+import { theme } from "shared/styles/theme.style";
 
 export const AppSidebar: React.FC = () => { 
   const dispatch = useDispatch();
 
   function showTimer() {
-    dispatch(showModal({ modalType: "timer" }))
+    dispatch(showModal())
   }
 
   return (

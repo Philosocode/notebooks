@@ -13,8 +13,6 @@ export type TModalType =
   | "delete-tag"
   | "update-tag"
 
-  | "timer"
-
   | "create-named-entity"
   | "update-named-entity"
   | "confirmation"

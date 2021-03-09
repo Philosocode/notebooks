@@ -7,10 +7,11 @@ const initialState: ITimerState = {
   endTime: 0,
   pauseTime: 0,
   mode: "study",
+  modalShowing: false,
   runningState: "stopped",
 };
 
-export const defaultStudyTime = milliseconds({ seconds: 10 });
+export const defaultStudyTime = milliseconds({ seconds: 5 });
 export const defaultBreakTime = milliseconds({ seconds: 5 });
 
 const timerSlice = createSlice({
@@ -40,7 +41,14 @@ const timerSlice = createSlice({
     unpauseTimer: (state) => {
       state.endTime = Date.now() + state.pauseTime;
       state.runningState = "running";
+      state.pauseTime = 0;
     },
+    showModal: (state) => {
+      state.modalShowing = true;
+    },
+    hideModal: (state) => {
+      state.modalShowing = false;
+    }
   },
 });
 
@@ -51,6 +59,8 @@ export const {
   resetTimer,
   pauseTimer,
   unpauseTimer,
+  showModal,
+  hideModal,
 } = timerSlice.actions;
 
 /* HELPERS */

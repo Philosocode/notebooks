@@ -49,8 +49,6 @@ const MODAL_COMPONENTS: TModalComponents = {
   "delete-tag": DeleteTagModal,
   "update-tag": UpdateTagModal,
 
-  "timer": TimerModal,
-
   // Other
   "create-named-entity": CreateNamedEntityModal,
   "update-named-entity": UpdateNamedEntityModal,

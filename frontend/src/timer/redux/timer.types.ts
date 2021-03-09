@@ -3,7 +3,8 @@ export type TTimerState = "running" | "paused" | "stopped";
 
 export interface ITimerState {
   endTime: number;
-  pauseTime: number; // used for pause / unpause
   mode: TTimerMode;
+  modalShowing: boolean;
   runningState: TTimerState;
+  pauseTime: number; // used for pause / unpause
 }

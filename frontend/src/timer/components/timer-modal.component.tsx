@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
 // logic
-import { IModalProps } from "modal/redux/modal.types";
 import { selectTimerState } from "timer/redux/timer.selectors";
 import { msToMMSS } from "shared/utils/time.util";
 import {
@@ -20,15 +19,13 @@ import {
 import { theme } from "shared/styles/theme.style";
 import { SButtonGreen, SButtonRed } from "shared/styles/button.style";
 import { useInterval } from "shared/hooks/use-interval.hook";
-import { showModal } from "modal/redux/modal.slice";
+import { showModal, hideModal } from "../redux/timer.slice";
+import { ModalWrapper } from "modal/components/modal-wrapper.component";
 
-interface IProps extends IModalProps {}
-export const TimerModal: React.FC<IProps> = ({
-  handleClose
-}) => {
+export const TimerModal: React.FC = () => {
   const dispatch = useDispatch();
   const timerState = useSelector(selectTimerState);
-  const { endTime, runningState, mode, pauseTime } = timerState;
+  const { endTime, runningState, mode, modalShowing, pauseTime } = timerState;
 
   const [timeText, setTimeText] = useState(getTimeText());
   const timerTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -74,7 +71,7 @@ export const TimerModal: React.FC<IProps> = ({
 
     timerTimeout.current = setTimeout(() => {
       dispatch(timerFinished());
-      dispatch(showModal({ modalType: "timer" }));
+      dispatch(showModal());
     }, intervalTime);
   }
 
@@ -89,11 +86,11 @@ export const TimerModal: React.FC<IProps> = ({
   function handleUnpause() {
     dispatch(unpauseTimer());
 
-    const intervalTime = Date.now() + pauseTime;
+    const intervalTime = endTime - Date.now();
 
     timerTimeout.current = setTimeout(() => {
       dispatch(timerFinished());
-      dispatch(showModal({ modalType: "timer" }));
+      dispatch(showModal());
     }, intervalTime);
   }
 
@@ -119,24 +116,41 @@ export const TimerModal: React.FC<IProps> = ({
     return msToMMSS(remainingTime);
   }
 
+  function handleCloseModal() {
+    dispatch(hideModal());
+  }
+
   return (
-    <SContainer>
-      <SMode>{ mode === "study" ? "Study" : "Break"}</SMode>
-      <STimeRemaining>{timeText}</STimeRemaining>
-      <SButtons>
-        <SButtonGreen onClick={handleClick}>
-          { runningState === "running" ? "Pause" : "Start" }
-        </SButtonGreen>
+    <ModalWrapper isShowing={modalShowing} handleClose={handleCloseModal} disableDefaultClose={mode === "break"}>
+      <SContainer>
+        <SMode>{ mode === "study" ? "Study" : "Break"}</SMode>
+        <STimeRemaining>{timeText}</STimeRemaining>
+        <SButtons>
+          <SButtonGreen onClick={handleClick} disabled={mode === "break" && runningState === "running"}>
+            { runningState === "running" ? "Pause" : "Start" }
+          </SButtonGreen>
+          {
+            mode === "study" && (
+              <SButtonRed
+                disabled={runningState === "stopped"}
+                onClick={handleStop}
+              >Reset</SButtonRed>
+            )
+          }
+        </SButtons>
         {
-          mode === "study" && (
-            <SButtonRed
-              disabled={runningState === "stopped"}
-              onClick={handleStop}
-            >Stop</SButtonRed>
+          mode === "break" && (
+            <SBreakList>
+              <li>Summarize what you learned during this study session</li>
+              <li>After, relax. Don't think about what you just studied</li>
+              <li>Let your subconscious mind process what you just learned</li>
+              <li>Get some water or food</li>
+              <li>Go for a walk. Do some exercise. Take a shower</li>
+            </SBreakList>
           )
         }
-      </SButtons>
-    </SContainer>
+      </SContainer>
+    </ModalWrapper>
   )
 }
 
@@ -163,4 +177,11 @@ const SButtons = styled.div`
   & > button {
     margin: ${theme.spacing.base} ${theme.spacing.sm};
   }
+`;
+
+const SBreakList = styled.ul`
+  font-size: ${theme.fontSizes.basePlus};
+  list-style-type: disc;
+  padding: ${theme.spacing.base};
+  padding-top: 0;
 `;

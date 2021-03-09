@@ -15,11 +15,12 @@ import { Navbar } from "shared/components/nav/navbar.component";
 import { Sidebar } from "./shared/components/nav/sidebar.component";
 import { NotFoundPage } from "shared/pages/not-found.page";
 import { ModalRoot } from "./modal/components/modal-root.component";
+import { TimerModal } from "timer/components/timer-modal.component";
+// import { PreStudyModal } from "./modal/components/pre-study-modal.component";
 
 // styles
 import { theme } from "./shared/styles/theme.style";
 import { SMainContent } from "shared/styles/layout.style";
-// import { PreStudyModal } from "./modal/components/pre-study-modal.component";
 
 export function App() {
   useScrollToTop();
@@ -75,6 +76,7 @@ export function App() {
         <Route component={NotFoundPage} />
       </Switch>
       {/*<PreStudyModal />*/}
+      <TimerModal />
       <GlobalLoader />
       <Alert />
       <ModalRoot />
