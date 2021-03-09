@@ -1,37 +1,29 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, InputHTMLAttributes } from "react";
 import styled from "styled-components";
 
 import { theme } from "../../styles/theme.style";
+  // extends InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
 
-interface IProps {
-  htmlFor: string;
+interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   text: string;
-  id: string;
-  name: string;
-  onChange: (event: ChangeEvent) => void;
-  checked: boolean;
+  htmlFor: string;
 }
 export const LabelCheckbox: React.FC<IProps> = ({
+  children,
   htmlFor,
   text,
-  id,
-  name,
-  onChange,
-  checked,
+  ...props
 }) => {
   return (
     <SLabel htmlFor={htmlFor}>{text}
       <input
         type="checkbox"
-        id={id}
-        name={name}
-        onChange={onChange}
-        checked={checked}
+        {...props}
       />
       <span />
     </SLabel>
   )
-}
+};
 
 // FROM: https://www.w3schools.com/howto/howto_css_custom_checkbox.asp
 const SLabel = styled.label`

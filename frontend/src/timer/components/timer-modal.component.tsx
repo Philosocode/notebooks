@@ -21,6 +21,28 @@ import { SButtonGreen, SButtonRed } from "shared/styles/button.style";
 import { useInterval } from "shared/hooks/use-interval.hook";
 import { showModal, hideModal } from "../redux/timer.slice";
 import { ModalWrapper } from "modal/components/modal-wrapper.component";
+import { LabelCheckbox } from "../../shared/components/form/label-checkbox.component";
+
+const checkboxItems = [
+  "Summarize what you learned during this study session",
+  "Relax. Don't think about what you just studied",
+  "Let your subconscious mind process what you just learned",
+  "Get up and move around. Get some water or food",
+  "Go for a walk. Do some exercise. Take a shower",
+];
+
+interface ICheckboxItems {
+  [key: string]: boolean;
+}
+
+const checkboxHash = checkboxItems.reduce<ICheckboxItems>(
+  (acc, _, index) => {
+    const stepNumber = "step" + (index + 1);
+    acc[stepNumber] = false;
+
+    return acc;
+  }, {});
+
 
 export const TimerModal: React.FC = () => {
   const dispatch = useDispatch();
@@ -29,6 +51,17 @@ export const TimerModal: React.FC = () => {
 
   const [timeText, setTimeText] = useState(getTimeText());
   const timerTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const [values, setValues] = useState(checkboxHash);
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setValues(prevState => {
+      return {
+        ...prevState,
+        [event.target.name]: event.target.checked
+      };
+    });
+  }
 
   useEffect(() => {
     if (runningState === "stopped") {
@@ -121,6 +154,15 @@ export const TimerModal: React.FC = () => {
     dispatch(hideModal());
   }
 
+  function breakButtonDisabled() {
+    if (mode !== "break") return false;
+    if (runningState === "running") return true;
+
+    if (values["step1"] !== true) return true;
+
+    return false;
+  }
+
   return (
     <ModalWrapper
       isShowing={modalShowing}
@@ -133,7 +175,7 @@ export const TimerModal: React.FC = () => {
         <SButtons>
           <SButtonGreen
             onClick={handleClick}
-            disabled={mode === "break" && runningState === "running"}
+            disabled={breakButtonDisabled()}
           >
             {runningState === "running" ? "Pause" : "Start"}
           </SButtonGreen>
@@ -148,11 +190,23 @@ export const TimerModal: React.FC = () => {
         </SButtons>
         {mode === "break" && (
           <SBreakList>
-            <li>Summarize what you learned during this study session</li>
-            <li>After, relax. Don't think about what you just studied</li>
-            <li>Let your subconscious mind process what you just learned</li>
-            <li>Get up and move around. Get some water or food</li>
-            <li>Go for a walk. Do some exercise. Take a shower</li>
+            {
+              checkboxItems.map((item, index) => {
+                const stepName = "step" + (index + 1);
+
+                return (
+                  <LabelCheckbox
+                    key={stepName}
+                    htmlFor={stepName}
+                    text={checkboxItems[index]}
+                    id={stepName}
+                    name={stepName}
+                    onChange={handleChange}
+                    checked={values[stepName]}
+                  />
+                );
+              })
+            }
           </SBreakList>
         )}
       </SContainer>
