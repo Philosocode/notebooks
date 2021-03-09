@@ -25,7 +25,7 @@ import { ModalWrapper } from "modal/components/modal-wrapper.component";
 export const TimerModal: React.FC = () => {
   const dispatch = useDispatch();
   const timerState = useSelector(selectTimerState);
-  const { endTime, runningState, mode, modalShowing, pauseTime } = timerState;
+  const { endTime, runningState, mode, modalShowing } = timerState;
 
   const [timeText, setTimeText] = useState(getTimeText());
   const timerTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -41,9 +41,12 @@ export const TimerModal: React.FC = () => {
   }, [runningState, mode]);
 
   // update timer display
-  useInterval(() => {
-    setTimeText(getTimeText());
-  }, runningState === "running" ? 500 : null);
+  useInterval(
+    () => {
+      setTimeText(getTimeText());
+    },
+    runningState === "running" ? 500 : null
+  );
 
   // start timer
   function handleClick() {
@@ -64,10 +67,8 @@ export const TimerModal: React.FC = () => {
     if (runningState === "running") return;
 
     dispatch(startTimer());
-    
-    const intervalTime = mode === "study"
-      ? defaultStudyTime
-      : defaultBreakTime;
+
+    const intervalTime = mode === "study" ? defaultStudyTime : defaultBreakTime;
 
     timerTimeout.current = setTimeout(() => {
       dispatch(timerFinished());
@@ -121,44 +122,49 @@ export const TimerModal: React.FC = () => {
   }
 
   return (
-    <ModalWrapper isShowing={modalShowing} handleClose={handleCloseModal} disableDefaultClose={mode === "break"}>
+    <ModalWrapper
+      isShowing={modalShowing}
+      handleClose={handleCloseModal}
+      disableDefaultClose={mode === "break"}
+    >
       <SContainer>
-        <SMode>{ mode === "study" ? "Study" : "Break"}</SMode>
+        <SMode>{mode === "study" ? "Study" : "Break"}</SMode>
         <STimeRemaining>{timeText}</STimeRemaining>
         <SButtons>
-          <SButtonGreen onClick={handleClick} disabled={mode === "break" && runningState === "running"}>
-            { runningState === "running" ? "Pause" : "Start" }
+          <SButtonGreen
+            onClick={handleClick}
+            disabled={mode === "break" && runningState === "running"}
+          >
+            {runningState === "running" ? "Pause" : "Start"}
           </SButtonGreen>
-          {
-            mode === "study" && (
-              <SButtonRed
-                disabled={runningState === "stopped"}
-                onClick={handleStop}
-              >Reset</SButtonRed>
-            )
-          }
+          {mode === "study" && (
+            <SButtonRed
+              disabled={runningState === "stopped"}
+              onClick={handleStop}
+            >
+              Reset
+            </SButtonRed>
+          )}
         </SButtons>
-        {
-          mode === "break" && (
-            <SBreakList>
-              <li>Summarize what you learned during this study session</li>
-              <li>After, relax. Don't think about what you just studied</li>
-              <li>Let your subconscious mind process what you just learned</li>
-              <li>Get some water or food</li>
-              <li>Go for a walk. Do some exercise. Take a shower</li>
-            </SBreakList>
-          )
-        }
+        {mode === "break" && (
+          <SBreakList>
+            <li>Summarize what you learned during this study session</li>
+            <li>After, relax. Don't think about what you just studied</li>
+            <li>Let your subconscious mind process what you just learned</li>
+            <li>Get up and move around. Get some water or food</li>
+            <li>Go for a walk. Do some exercise. Take a shower</li>
+          </SBreakList>
+        )}
       </SContainer>
     </ModalWrapper>
-  )
-}
+  );
+};
 
 const SContainer = styled.div`
   display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: 100%;
 `;
 

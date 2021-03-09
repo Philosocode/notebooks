@@ -9,6 +9,7 @@ import { SHeadingSubtitle } from "shared/styles/typography.style";
 import styled from "styled-components";
 import { theme } from "../../shared/styles/theme.style";
 import { SButtonGreen } from "../../shared/styles/button.style";
+import { LabelCheckbox } from "../../shared/components/form/label-checkbox.component";
 
 const formItems = [
   "Find a quiet, distraction-free place to study",
@@ -27,7 +28,7 @@ const initialFormState = formItems.reduce<IFormState>(
 
     return acc;
   },
-  {});
+{});
 
 export const PreStudyModal: React.FC = () => {
   const welcomeScreenShown = useSelector(selectWelcomeScreenShown);
@@ -69,16 +70,15 @@ export const PreStudyModal: React.FC = () => {
             const stepName = "step" + (index + 1);
 
             return (
-              <SLabel key={stepName} htmlFor={stepName}>{formItems[index]}
-                <input
-                  type="checkbox"
-                  id={stepName}
-                  name={stepName}
-                  onChange={handleChange}
-                  checked={values[stepName]}
-                />
-                <span />
-              </SLabel>
+              <LabelCheckbox
+                key={stepName}
+                htmlFor={stepName}
+                text={formItems[index]}
+                id={stepName}
+                name={stepName}
+                onChange={handleChange}
+                checked={values[stepName]}
+              />
             );
           })
         }
@@ -87,54 +87,6 @@ export const PreStudyModal: React.FC = () => {
     </ModalWrapper>
   );
 };
-
-// FROM: https://www.w3schools.com/howto/howto_css_custom_checkbox.asp
-const SLabel = styled.label`
-  cursor: pointer;
-  display: block;
-  font-size: ${theme.fontSizes.basePlus};
-  margin-top: ${theme.spacing.sm};
-  padding-left: calc(${theme.spacing.base} + ${theme.spacing.sm});
-  position: relative;
-  width: max-content;
-
-  // hide the checkbox input
-  & > input {
-    display: none;
-  }
-
-  // custom checkbox
-  & > span {
-    border: 1px solid ${theme.colors.gray[500]};
-    border-radius: 3px;
-    height: 2.5rem;
-    width: 2.5rem;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
-  // add background when checked
-  & > input:checked ~ span {
-    background: ${theme.colors.green[400]};
-    border: 1px solid ${theme.colors.green[400]};
-  }
-
-  // create checkmark (hidden when unchecked)
-  & > span:after {
-    color: ${theme.colors.offWhite};
-    content: "✓";
-    display: none;
-    font-weight: 500;
-    text-align: center;
-    transform: translateY(-2px);
-  }
-  
-  // show checkmark when checked
-  & > input:checked ~ span:after {
-    display: block;
-  }
-`;
 
 const SButton = styled(SButtonGreen)`
   margin-top: ${theme.spacing.base};
