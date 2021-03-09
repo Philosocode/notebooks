@@ -10,7 +10,11 @@ export interface IMaterial {
   partIds?: string[];
 }
 
+export interface IMaterialHash {
+  [key: string]: IMaterial;
+}
+
 export interface IMaterialState {
-  materials: IMaterial[];
+  materials: IMaterialHash;
   currentMaterialId?: string;
 }

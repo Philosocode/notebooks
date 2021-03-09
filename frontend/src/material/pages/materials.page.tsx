@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { IMaterial } from "../redux/material.types";
 import { useTagFilter } from "shared/hooks/use-tag-filter.hook";
 import { getMaterials } from "../redux/material.thunks";
-import { selectMaterials, selectMaterialTags } from "../redux/material.selectors";
+import { selectMaterialList, selectMaterialTags } from "../redux/material.selectors";
 import { selectMaterialsLoaded } from "../../shared/redux/init.selectors";
 import { useEntityFilterSort } from "../../shared/hooks/use-entity-filter-sort.hook";
 import { showModal } from "modal/redux/modal.slice";
@@ -22,17 +22,17 @@ import { TagSidebar } from "tag/components/tag-sidebar.component";
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle, SHeadingSubtitle } from "shared/styles/typography.style";
 
-export const MaterialsPage = () => {
+export const MaterialsPage: React.FC = () => {
   const dispatch = useDispatch();
   const modalShowing = useSelector(selectModalShowing);
   const materialsLoaded = useSelector(selectMaterialsLoaded);
-  const materials = useSelector(selectMaterials);
+  const materials = useSelector(selectMaterialList);
   const materialTags = useSelector(selectMaterialTags);
 
   const { setIsUncategorized, isUncategorized, currentTag, setCurrentTag } = useTagFilter();
 
   function getMaterialsWithTag() {
-    if (isUncategorized) return materials.filter(c => c.tags.length === 0);
+    if (isUncategorized) return materials.filter(material => material.tags.length === 0);
     if (!currentTag) return materials;
     return materials.filter(m => m.tags.includes(currentTag));
   }

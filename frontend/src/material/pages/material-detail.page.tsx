@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps, useParams } from "react-router-dom";
 
 // logic
-import { selectCurrentMaterial, selectMaterials } from "material/redux/material.selectors";
+import { selectCurrentMaterial, selectMaterialHash } from "material/redux/material.selectors";
 import { selectMaterialsLoaded } from "shared/redux/init.selectors";
 import { getMaterials } from "material/redux/material.thunks";
 import { setCurrentMaterialId } from "material/redux/material.slice";
@@ -23,7 +23,7 @@ interface IMatchParams {
 }
 export const MaterialDetailPage: React.FC<RouteComponentProps> = () => {
   const dispatch = useDispatch();
-  const materials = useSelector(selectMaterials);
+  const materialHash = useSelector(selectMaterialHash);
   const currentMaterial = useSelector(selectCurrentMaterial);
   const materialsLoaded = useSelector(selectMaterialsLoaded);
   const { materialId } = useParams<IMatchParams>();
@@ -39,7 +39,7 @@ export const MaterialDetailPage: React.FC<RouteComponentProps> = () => {
       return
     }
 
-    const materialExists = materials.some((m) => m.id === materialId);
+    const materialExists = materialHash.hasOwnProperty(materialId);
     if (materialExists) {
       dispatch(setCurrentMaterialId(materialId));
       setSelectedTab("Parts");

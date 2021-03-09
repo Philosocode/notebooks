@@ -3,7 +3,7 @@ import React, { useEffect, useMemo } from "react";
 import { IPart } from "../redux/part.types";
 import { useDispatch, useSelector } from "react-redux";
 import { createConceptPart, deleteConceptPart, getConceptParts } from "../../concept-link/redux/concept-link.thunks";
-import { selectConceptList } from "../../concept/redux/concept.selectors";
+import { selectConceptHash } from "../../concept/redux/concept.selectors";
 import { selectConceptsLoaded } from "../../shared/redux/init.selectors";
 import { getConcepts } from "../../concept/redux/concept.thunks";
 import { SHeadingSubSubtitle } from "../../shared/styles/typography.style";
@@ -20,7 +20,8 @@ interface IProps {
 export const ConceptParts: React.FC<IProps> = ({ part }) => {
   const dispatch = useDispatch();
   const conceptsLoaded = useSelector(selectConceptsLoaded);
-  const concepts = useSelector(selectConceptList);
+  const conceptHash = useSelector(selectConceptHash);
+  const conceptList = Object.values(conceptHash);
 
   const [createModalShowing, toggleCreateModalShowing] = useToggle(false);
 
@@ -58,26 +59,21 @@ export const ConceptParts: React.FC<IProps> = ({ part }) => {
     for (let i = 0 ; i < part.conceptIds.length; i++) {
       const conceptId = part.conceptIds[i];
 
-      const concept = concepts.find(c => {
-        return c.id === conceptId
+      const concept = conceptHash[conceptId]
+      items.push({
+        currentId: part.id,
+        otherId: concept.id,
+        name: concept.name,
+        url: `/concepts/${concept.id}`
       });
-
-      if (concept) {
-        items.push({
-          currentId: part.id,
-          otherId: concept.id,
-          name: concept.name,
-          url: `/concepts/${concept.id}`
-        })
-      }
     }
 
     // sort in alphabetical order
     return sortEntitiesByKey(items, "name");
-  }, [part.conceptIds, part.id, concepts]);
+  }, [part.conceptIds, part.id, conceptHash]);
 
   const unlinkedConcepts = sortEntitiesByKey(
-    concepts.filter(c => !part.conceptIds?.includes(c.id)),
+    conceptList.filter(c => !part.conceptIds?.includes(c.id)),
     "name"
   );
 

@@ -62,9 +62,6 @@ const conceptSlice = createSlice({
       .addCase(updateConcept.fulfilled, (state, action) => {
         const { id, updates } = action.payload;
 
-        const conceptToUpdate = state.concepts[id];
-        if (!conceptToUpdate) return;
-
         state.concepts[id] = {
           ...state.concepts[id],
           ...updates,

@@ -6,9 +6,14 @@ import { selectPartHash } from "part/redux/part.selectors";
 
 const selectMaterialState = (state: TAppState) => state.material;
 
-export const selectMaterials = createSelector(
+export const selectMaterialHash = createSelector(
   [selectMaterialState],
-  (state) => state.materials ?? []
+  (state) => state.materials
+);
+
+export const selectMaterialList = createSelector(
+  [selectMaterialHash],
+  (hash) => Object.values(hash)
 );
 
 export const selectCurrentMaterialId = createSelector(
@@ -17,13 +22,14 @@ export const selectCurrentMaterialId = createSelector(
 );
 
 export const selectCurrentMaterial = createSelector(
-  [selectMaterials, selectCurrentMaterialId],
-  (materials, currentMaterialId) =>
-    materials.find(m => m.id === currentMaterialId)
+  [selectMaterialHash, selectCurrentMaterialId],
+  (materials, currentMaterialId) => {
+    if (currentMaterialId) return materials[currentMaterialId];
+  }
 );
 
 export const selectMaterialTags = createSelector(
-  [selectMaterials],
+  [selectMaterialList],
   (materials) => {
     const tags = new Set<string>();
 

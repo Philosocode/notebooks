@@ -63,7 +63,7 @@ export const updateMaterial = createAsyncThunk(
         tags: data.tags,
       });
       return {
-        id: data.id,
+        materialId: data.id,
         updates: {
           name: data.name,
           tags: data.tags,

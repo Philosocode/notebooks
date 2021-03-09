@@ -6,7 +6,7 @@ import { IMaterial } from "../redux/material.types";
 import { IModalProps } from "modal/redux/modal.types";
 import { showModal } from "modal/redux/modal.slice";
 import { updateMaterial } from "../redux/material.thunks";
-import { selectMaterials, selectMaterialTags } from "../redux/material.selectors";
+import { selectMaterialList, selectMaterialTags } from "../redux/material.selectors";
 
 import { UpdateEntityModal } from "../../shared/components/modal/update-entity-modal.component";
 
@@ -15,7 +15,7 @@ interface IProps extends IModalProps {
 }
 export const UpdateMaterialModal: React.FC<IProps> = ({ material, handleClose }) => {
   const dispatch = useDispatch();
-  const materials = useSelector(selectMaterials);
+  const materials = useSelector(selectMaterialList);
   const materialTags = useSelector(selectMaterialTags);
 
   function handleUpdate(name: string, tags: string[]) {

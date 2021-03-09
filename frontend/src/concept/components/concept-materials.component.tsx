@@ -6,7 +6,7 @@ import { IConcept } from "../redux/concept.types";
 import { ILinkGridItem } from "../../shared/components/link/link-grid-item.component";
 import { api } from "services/api.service";
 import { getMaterials } from "../../material/redux/material.thunks";
-import { selectMaterials } from "../../material/redux/material.selectors";
+import { selectMaterialHash } from "../../material/redux/material.selectors";
 import { selectMaterialsLoaded } from "../../shared/redux/init.selectors";
 
 // components
@@ -26,9 +26,8 @@ interface IProps {
 }
 export const ConceptMaterials: React.FC<IProps> = ({ concept }) => {
   const dispatch = useDispatch();
-  const materials = useSelector(selectMaterials);
+  const materialHash = useSelector(selectMaterialHash);
   const materialsLoaded = useSelector(selectMaterialsLoaded);
-
   const [materialIds, setMaterialIds] = useState<string[]>();
 
   useEffect(() => {
@@ -42,7 +41,6 @@ export const ConceptMaterials: React.FC<IProps> = ({ concept }) => {
           setMaterialIds(response.data.data.materialLinks)
         });
     }
-
   }, [materialsLoaded, materialIds, concept, dispatch]);
 
   const materialLinks = useMemo(() => {
@@ -50,8 +48,9 @@ export const ConceptMaterials: React.FC<IProps> = ({ concept }) => {
     const links: ILinkGridItem[] = [];
 
     uniqueMaterialIds.forEach(id => {
-      const material = materials.find(material => material.id === id);
-      if (material) links.push({
+      const material = materialHash[id];
+      
+      links.push({
         currentId: concept.id,
         otherId: material.id,
         name: material.name,
@@ -60,14 +59,14 @@ export const ConceptMaterials: React.FC<IProps> = ({ concept }) => {
     });
 
     return links;
-  }, [materialIds, concept.id, materials]);
+  }, [materialHash, concept.id, materialIds]);
 
-  if (!materialIds) return null;
+  if (!materialLinks) return null;
   return (
     <div>
       <div>
         {
-          materialIds.length === 0 && (
+          materialLinks.length === 0 && (
             <SHeadingSubSubtitle weight={500}>No links found.</SHeadingSubSubtitle>
           )
         }
