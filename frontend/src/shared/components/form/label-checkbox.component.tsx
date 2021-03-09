@@ -1,8 +1,7 @@
-import React, { ChangeEvent, InputHTMLAttributes } from "react";
+import React, { InputHTMLAttributes } from "react";
 import styled from "styled-components";
 
 import { theme } from "../../styles/theme.style";
-  // extends InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   text: string;

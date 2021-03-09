@@ -11,8 +11,8 @@ const initialState: ITimerState = {
   runningState: "stopped",
 };
 
-export const defaultStudyTime = milliseconds({ seconds: 5 });
-export const defaultBreakTime = milliseconds({ seconds: 5 });
+export const defaultStudyTime = milliseconds({ minutes: 30 });
+export const defaultBreakTime = milliseconds({ minutes: 5 });
 
 const timerSlice = createSlice({
   name: "timer",
