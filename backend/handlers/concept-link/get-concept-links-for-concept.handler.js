@@ -12,7 +12,6 @@ module.exports = catchAsync(async function (req, res) {
     const conceptLinksFlat = await getConceptLinksForConcept(conceptId);
     const conceptLinks = processConceptLinks(conceptId, conceptLinksFlat);
 
-    console.log(conceptLinks);
     linksToReturn.conceptLinks = conceptLinks;
   }
 
