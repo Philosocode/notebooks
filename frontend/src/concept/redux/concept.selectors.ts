@@ -5,16 +5,6 @@ import { IConceptLinkWithName } from "./concept.types";
 
 const selectConcept = (state: TAppState) => state.concept;
 
-export const selectConceptFilters = createSelector(
-  [selectConcept],
-  (concept) => concept.filters
-);
-
-export const selectCurrentConceptTag = createSelector(
-  [selectConceptFilters],
-  (filters) => filters.tag
-);
-
 export const selectConceptHash = createSelector(
   [selectConcept],
   (concept) => concept.concepts
@@ -24,17 +14,6 @@ export const selectConceptList = createSelector(
   [selectConcept],
   (concept) => Object.values(concept.concepts)
 )
-
-export const selectConceptsWithCurrentTag = createSelector(
-  selectConceptList,
-  selectConceptFilters,
-  (conceptList, filters) => {
-    if (filters.isUncategorized) return conceptList.filter(c => c.tags.length === 0);
-    if (!filters.tag) return conceptList;
-
-    return conceptList.filter(c => c.tags.includes(filters.tag));
-  }
-);
 
 export const selectCurrentConceptId = createSelector(
   [selectConcept],

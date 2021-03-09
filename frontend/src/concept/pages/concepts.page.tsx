@@ -1,32 +1,43 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
+// logic
 import { IConcept } from "../redux/concept.types";
 import { showModal } from "modal/redux/modal.slice";
 import { selectModalShowing } from "modal/redux/modal.selectors";
-import { selectConceptFilters, selectConceptsWithCurrentTag, selectConceptTags } from "concept/redux/concept.selectors";
+import { selectConceptList, selectConceptTags } from "concept/redux/concept.selectors";
 import { selectConceptsLoaded } from "shared/redux/init.selectors";
-import { setConceptFilters, setCurrentConceptTag } from "concept/redux/concept.slice";
 import { useEntityFilterSort } from "../../shared/hooks/use-entity-filter-sort.hook";
+import { useTagFilter } from "shared/hooks/use-tag-filter.hook";
+import { getConcepts } from "../redux/concept.thunks";
 
+// components
 import { ConceptList } from "concept/components/concept-list.component";
 import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
 import { TagSidebar } from "tag/components/tag-sidebar.component";
 import { SortFilterControls } from "shared/components/button/sort-filter-controls.component";
 
+// styles
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle, SHeadingSubtitle } from "shared/styles/typography.style";
-import { getConcepts } from "../redux/concept.thunks";
 
-export const ConceptsPage = () => {
+export const ConceptsPage: React.FC = () => {
   const dispatch = useDispatch();
   const modalShowing = useSelector(selectModalShowing);
-  const conceptTags = useSelector(selectConceptTags);
-  const filters = useSelector(selectConceptFilters);
   const conceptsLoaded = useSelector(selectConceptsLoaded);
+  const concepts = useSelector(selectConceptList);
+  const conceptTags = useSelector(selectConceptTags);
 
-  const conceptsWithTag = useSelector(selectConceptsWithCurrentTag);
+  const { setIsUncategorized, isUncategorized, currentTag, setCurrentTag } = useTagFilter();
+
+  const conceptsWithTag = useMemo(() => {
+    if (isUncategorized) return concepts.filter(c => c.tags.length === 0);
+    if (!currentTag) return concepts;
+
+    return concepts.filter(c => c.tags.includes(currentTag));
+  }, [concepts, isUncategorized, currentTag]);
+
   const {
     handleFilterTextChange,
     handleSortClick,
@@ -42,11 +53,7 @@ export const ConceptsPage = () => {
     }
   }, [conceptsLoaded, dispatch]);
 
-  function handleSetTag(tag: string) {
-    dispatch(setCurrentConceptTag(tag));
-  }
-
-  function showAddConceptModal() {
+  function showCreateConceptModal() {
     if (modalShowing) return;
 
     dispatch(
@@ -59,18 +66,14 @@ export const ConceptsPage = () => {
     );
   };
 
-  function handleSetUncategorized() {
-    dispatch(setConceptFilters({ isUncategorized: true, tag: undefined }))
-  }
-
   return (
     <SPage>
       <TagSidebar
-        isUncategorized={filters.isUncategorized}
-        currentTag={filters.tag}
+        isUncategorized={isUncategorized}
+        currentTag={currentTag}
         tags={conceptTags}
-        setCurrentTag={handleSetTag}
-        setUncategorized={handleSetUncategorized}
+        setCurrentTag={setCurrentTag}
+        setUncategorized={setIsUncategorized}
       />
       <SConceptSection>
         <SPaddedContainer>
@@ -89,7 +92,7 @@ export const ConceptsPage = () => {
         <ConceptList concepts={filteredConcepts} />
         <FloatingCornerButton
           icon="plus"
-          handleClick={showAddConceptModal}
+          handleClick={showCreateConceptModal}
         />
       </SConceptSection>
     </SPage>

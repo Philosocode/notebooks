@@ -12,7 +12,7 @@ import {
   updateConcept,
 } from "./concept.thunks";
 import { deleteConceptTag, updateConceptTag } from "./concept-tag.thunk";
-import { IConcept, IConceptFiltersState, IConceptState } from "./concept.types";
+import { IConcept, IConceptState } from "./concept.types";
 import { IHook } from "hook/redux/hook.types";
 import { createHook, deleteHook, getHooks, updateHook } from "hook/redux/hook.thunks";
 import { IRepositionEntityPayload } from "../../shared/types.shared";
@@ -21,10 +21,6 @@ import { IRepositionEntityPayload } from "../../shared/types.shared";
 const initialState: IConceptState = {
   concepts: {},
   currentConceptId: undefined,
-  filters: {
-    isUncategorized: false,
-    tag: "",
-  },
 };
 
 const conceptSlice = createSlice({
@@ -33,19 +29,6 @@ const conceptSlice = createSlice({
   reducers: {
     setCurrentConceptId: (state, action: PayloadAction<string>) => {
       state.currentConceptId = action.payload;
-    },
-    setCurrentConceptTag: (state, action: PayloadAction<string>) => {
-      state.filters.tag = action.payload;
-      state.filters.isUncategorized = false;
-    },
-    setConceptFilters: (
-      state,
-      action: PayloadAction<Partial<IConceptFiltersState>>
-    ) => {
-      state.filters = {
-        ...state.filters,
-        ...action.payload,
-      };
     },
     repositionHook: (
       state,
@@ -131,8 +114,6 @@ const conceptSlice = createSlice({
           const tagIdx = concept.tags.findIndex((t) => t === tagToRemove);
           if (tagIdx !== -1) concept.tags.splice(tagIdx, 1);
         });
-
-        if (state.filters.tag === tagToRemove) state.filters.tag = "";
       })
 
       /* Hooks */
@@ -207,8 +188,6 @@ const conceptSlice = createSlice({
 export const conceptReducer = conceptSlice.reducer;
 export const {
   setCurrentConceptId,
-  setCurrentConceptTag,
-  setConceptFilters,
   repositionHook,
 } = conceptSlice.actions;
 
