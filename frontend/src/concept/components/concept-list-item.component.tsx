@@ -36,7 +36,7 @@ export const ConceptListItem: React.FC<IProps> = ({ concept }) => {
       updateEntity={handleEdit}
       deleteTag={handleDeleteTag}
     >
-      <SNumHooks># Hooks: {concept.hooks?.length ?? concept.num_hooks}</SNumHooks>
+      <SNumHooks># Hooks: {concept.hookIds?.length ?? concept.num_hooks}</SNumHooks>
     </EntityListItem>
   );
 };

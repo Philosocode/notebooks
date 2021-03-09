@@ -7,3 +7,9 @@ export interface IHook {
   id: string;
   title: string;
 }
+
+export interface IHookState {
+  hooks: {
+    [key: string]: IHook;
+  }
+}

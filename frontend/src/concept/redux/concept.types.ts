@@ -1,5 +1,3 @@
-import { IHook } from "hook/redux/hook.types";
-
 export interface IConcept {
   id: string;
   name: string;
@@ -8,7 +6,7 @@ export interface IConcept {
   user_id: string;
   tags: string[];
   num_hooks: number;
-  hooks?: IHook[];
+  hookIds?: string[];
   links?: IConceptLink[];
 }
 

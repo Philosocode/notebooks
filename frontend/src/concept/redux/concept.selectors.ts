@@ -1,5 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit";
 
+import { selectHookHash } from "hook/redux/hook.selectors";
+import { IHook } from "hook/redux/hook.types";
 import { TAppState } from "shared/redux/store";
 import { IConceptLinkWithName } from "./concept.types";
 
@@ -42,10 +44,23 @@ export const selectConceptTags = createSelector(
   }
 );
 
-export const selectConceptHooks = createSelector(
+export const selectConceptHookIds = createSelector(
   [selectCurrentConcept],
-  (currentConcept) => currentConcept?.hooks
+  (currentConcept) => currentConcept?.hookIds
 );
+
+export const selectConceptHooks = createSelector(
+  [selectCurrentConcept, selectHookHash],
+  (concept, hookHash) => {
+    const hooksForConcept = concept?.hookIds?.reduce<IHook[]>((acc, hookId) => {
+      acc.push(hookHash[hookId]);
+
+      return acc;
+    }, []);
+
+    return hooksForConcept;
+  }
+)
 
 export const selectConceptLinks = createSelector(
   [selectConceptHash, selectCurrentConcept],

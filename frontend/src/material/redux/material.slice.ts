@@ -19,20 +19,17 @@ const materialSlice = createSlice({
     setCurrentMaterialId: (state, action: PayloadAction<string>) => {
       state.currentMaterialId = action.payload;
     },
-    repositionPart: (
-      state,
-      action: PayloadAction<IRepositionEntityPayload>
-    ) => {
+    repositionPart: (state, action: PayloadAction<IRepositionEntityPayload>) => {
       const { ownerEntityId: materialId, oldIndex, newIndex } = action.payload;
 
       const materialIndex = getEntityIndex(state.materials, materialId);
       if (materialIndex === -1) return;
 
-      const parts = state.materials[materialIndex].partIds;
-      if (!parts) return;
+      const partIds = state.materials[materialIndex].partIds;
+      if (!partIds) return;
 
-      const [hookToReposition] = parts.splice(oldIndex, 1);
-      parts.splice(newIndex, 0, hookToReposition);
+      const [partToReposition] = partIds.splice(oldIndex, 1);
+      partIds.splice(newIndex, 0, partToReposition);
     }
   },
   extraReducers: (builder) => {
@@ -104,6 +101,7 @@ const materialSlice = createSlice({
           if (tagIdx !== -1) m.tags.splice(tagIdx, 1);
         });
       })
+
       /* Parts */
       .addCase(getParts.fulfilled, (state, action) => {
         const { materialId, parts } = action.payload;
