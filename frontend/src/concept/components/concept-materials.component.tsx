@@ -37,7 +37,7 @@ export const ConceptMaterials: React.FC<IProps> = ({ concept }) => {
     }
 
     if (!materialIds) {
-      api.get<IGetMaterialLinksResponse>(`/concepts/${concept.id}/materials`)
+      api.get<IGetMaterialLinksResponse>(`/concepts/${concept.id}/links?materials`)
         .then(response => {
           setMaterialIds(response.data.data.materialLinks)
         });

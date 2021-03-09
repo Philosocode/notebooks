@@ -1,13 +1,27 @@
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
-const { getConceptLinksForConcept } = require("../../models/concept-link.model");
+const { getConceptLinksForConcept, getMaterialLinksForConcept } = require("../../models/concept-link.model");
 const { processConceptLinks } = require("./concept-link.common");
 
 module.exports = catchAsync(async function (req, res) {
   const { conceptId } = req.params;
 
-  const conceptLinksFlat = await getConceptLinksForConcept(conceptId);
-  const conceptLinks = processConceptLinks(conceptId, conceptLinksFlat);
+  const linksToReturn = {};
 
-  sendResponse(res, 200, { conceptLinks });
+  if ("concepts" in req.query) {
+    const conceptLinksFlat = await getConceptLinksForConcept(conceptId);
+    const conceptLinks = processConceptLinks(conceptId, conceptLinksFlat);
+
+    console.log(conceptLinks);
+    linksToReturn.conceptLinks = conceptLinks;
+  }
+
+  if ("materials" in req.query) {
+    const materialLinksRaw = await getMaterialLinksForConcept(conceptId);
+    const materialLinks = materialLinksRaw.map(materialLink => materialLink.id);
+
+    linksToReturn.materialLinks = materialLinks;
+  }
+
+  sendResponse(res, 200, linksToReturn);
 });

@@ -85,7 +85,7 @@ export const getMaterialLinksForConcept = createAsyncThunk(
   "concept-link/getMaterialLinksForConcept",
   async function (conceptId: string, thunkAPI) {
     try {
-      const response = await api.get<IGetMaterialLinksResponse>(`/concepts/${conceptId}/materials`);
+      const response = await api.get<IGetMaterialLinksResponse>(`/concepts/${conceptId}/links?materials`);
 
       return {
         conceptId,

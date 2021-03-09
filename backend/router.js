@@ -45,8 +45,6 @@ const getConceptLinks = require("./handlers/concept-link/get-concept-links.handl
 const deleteConceptLinksForConcept = require("./handlers/concept-link/delete-concept-links-for-concept.handler");
 const getConceptLinksForConcept = require("./handlers/concept-link/get-concept-links-for-concept.handler");
 
-const getMaterialLinksForConcept = require("./handlers/concept-link/get-material-links-for-concept.handler");
-
 // Materials
 const createMaterial = require("./handlers/material/create-material.handler");
 const deleteMaterial = require("./handlers/material/delete-material.handler");
@@ -134,9 +132,6 @@ router.route("/concepts/:conceptId")
 router.route("/concepts/:conceptId/links")
   .get(conceptExistsMiddleware, getConceptLinksForConcept)
   .delete(conceptExistsMiddleware, deleteConceptLinksForConcept)
-
-router.route("/concepts/:conceptId/materials")
-  .get(conceptExistsMiddleware, getMaterialLinksForConcept);
 
 // Concept Tags For Concept
 router.route("/concepts/:conceptId/tags")

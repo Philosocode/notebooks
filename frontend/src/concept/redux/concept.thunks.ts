@@ -143,7 +143,7 @@ export const getConceptLinks = createAsyncThunk(
   "concept/getConceptLinks",
   async function (conceptId: string, thunkAPI) {
     try {
-      const response = await api.get<IGetConceptLinksResponse>(`/concepts/${conceptId}/links`);
+      const response = await api.get<IGetConceptLinksResponse>(`/concepts/${conceptId}/links?concepts`);
       return response.data.data.conceptLinks;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
