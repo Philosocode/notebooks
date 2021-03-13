@@ -10,6 +10,7 @@ import styled from "styled-components";
 import { theme } from "../../shared/styles/theme.style";
 import { SButtonGreen } from "../../shared/styles/button.style";
 import { LabelCheckbox } from "../../shared/components/form/label-checkbox.component";
+import { selectUser } from "../../auth/redux/auth.selectors";
 
 const formItems = [
   "Find a quiet, distraction-free place to study",
@@ -32,6 +33,7 @@ const initialFormState = formItems.reduce<IFormState>(
 
 export const PreStudyModal: React.FC = () => {
   const welcomeScreenShown = useSelector(selectWelcomeScreenShown);
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
   const [values, setValues] = useState(initialFormState);
