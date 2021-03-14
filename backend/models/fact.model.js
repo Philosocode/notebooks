@@ -5,7 +5,7 @@ module.exports = {
   createFact,
   deleteHook,
   deleteHooks,
-  getHooks,
+  getFacts,
   updateHook,
 };
 
@@ -52,10 +52,9 @@ async function deleteHooks(concept_id, connection = db) {
   return connection("hook").where({ concept_id }).del();
 }
 
-async function getHooks(concept_id, filterObj, connection = db) {
-  return connection("hook")
-    .select("id", "title", "content", "created_at", "updated_at")
-    .where({ concept_id, ...filterObj })
+async function getFacts(part_id, filterObj, connection=db) {
+  return connection("fact")
+    .where({ part_id, ...filterObj })
     .orderBy("position");
 }
 

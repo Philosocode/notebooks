@@ -91,6 +91,7 @@ const getTags = require("./handlers/tag/get-tags.handler");
 const createTags = require("./handlers/tag/create-tags.handler");
 const updateTag = require("./handlers/tag/update-tag.handler");
 const deleteTag = require("./handlers/tag/delete-tag.handler");
+const getFacts = require("./handlers/fact/get-facts.handler");
 
 const router = express.Router();
 
@@ -200,6 +201,7 @@ router.route("/parts/:partId/links/:conceptId")
 
 // Part Facts
 router.route("/parts/:partId/facts")
+  .get(userOwnsPartMiddleware, getFacts)
   .post(userOwnsPartMiddleware, createFact);
 
 // Sections
