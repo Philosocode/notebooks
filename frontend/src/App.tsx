@@ -75,7 +75,7 @@ export function App() {
         <SMainContent paddingLeft={paddingLeft}>{getRoutes()}</SMainContent>
         <Route component={NotFoundPage} />
       </Switch>
-      <PreStudyModal />
+      {/*<PreStudyModal />*/}
       <TimerModal />
       <GlobalLoader />
       <Alert />
