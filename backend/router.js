@@ -77,6 +77,8 @@ const deleteConceptPart = require("./handlers/concept-part/delete-concept-part.h
 
 // Facts
 const createFact = require("./handlers/fact/create-fact.handler");
+const getFacts = require("./handlers/fact/get-facts.handler");
+const deleteFact = require("./handlers/fact/delete-fact.handler");
 
 // Section
 const createSection = require("./handlers/section/create-section.handler");
@@ -91,7 +93,6 @@ const getTags = require("./handlers/tag/get-tags.handler");
 const createTags = require("./handlers/tag/create-tags.handler");
 const updateTag = require("./handlers/tag/update-tag.handler");
 const deleteTag = require("./handlers/tag/delete-tag.handler");
-const getFacts = require("./handlers/fact/get-facts.handler");
 
 const router = express.Router();
 
@@ -203,6 +204,9 @@ router.route("/parts/:partId/links/:conceptId")
 router.route("/parts/:partId/facts")
   .get(userOwnsPartMiddleware, getFacts)
   .post(userOwnsPartMiddleware, createFact);
+
+router.route("/parts/:partId/facts/:factId")
+  .delete(deleteFact)
 
 // Sections
 router.route("/parts/:partId/sections")

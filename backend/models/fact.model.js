@@ -3,7 +3,7 @@ const { shiftPositions, getMaxPosition } = require("./common.model");
 
 module.exports = {
   createFact,
-  deleteHook,
+  deleteFact,
   deleteHooks,
   getFacts,
   updateHook,
@@ -34,17 +34,17 @@ async function createFact(
   return createdFactResult[0];
 }
 
-async function deleteHook(concept_id, hook_id, connection = db) {
+async function deleteFact(fact_id, connection=db) {
   return connection.transaction(async (trx) => {
-    const hookToDelete = await trx("hook")
+    const factToDelete = await trx("fact")
       .select("position")
-      .where({ concept_id, id: hook_id });
+      .where({ id: fact_id });
 
-    const hookPosition = hookToDelete[0].position;
+    const factPosition = factToDelete[0].position;
 
-    await trx("hook").where({ id: hook_id }).del();
+    await trx("fact").where({ id: fact_id }).del();
 
-    await shiftPositions("hook", {}, hookPosition, false, trx);
+    await shiftPositions("fact", {}, factPosition, false, trx);
   });
 }
 
