@@ -10,6 +10,7 @@ import { useForm } from "shared/hooks/use-form.hook";
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SButtonGreen, SButtonRed } from "shared/styles/button.style";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 interface IProps {
   dragDisabled: boolean;
@@ -21,6 +22,7 @@ interface IProps {
   handleDelete: (entityId: string) => void;
   handleUpdate: (entityId: string, name: string, content: string) => void;
   toggleIsExpanded: (entityId: string) => void;
+  headerSlot?: React.ReactNode;
 }
 
 export const DraggableContentBox: React.FC<IProps> = ({
@@ -33,6 +35,7 @@ export const DraggableContentBox: React.FC<IProps> = ({
   handleDelete,
   handleUpdate,
   toggleIsExpanded,
+  headerSlot,
 }) => {
   const { handleChange, values, itemsChanged } = useForm({
     title: initialName,
@@ -56,6 +59,11 @@ export const DraggableContentBox: React.FC<IProps> = ({
       handleUpdate(entityId, title, content);
   }
 
+  function handleStarClick(event: React.MouseEvent) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
   // functions
   function buttonDisabled() {
     if (title.trim() === "" || content.trim() === "") return true;
@@ -75,6 +83,7 @@ export const DraggableContentBox: React.FC<IProps> = ({
           <SHeader isExpanded={isExpanded} onClick={handleToggleClick}>
             <SHeaderColumn>
               <SPosition>{index + 1}</SPosition>
+              { headerSlot }
               {!isExpanded && <STitle>{title}</STitle>}
             </SHeaderColumn>
             <SCaret icon={isExpanded ? "caret-up" : "caret-down"} />

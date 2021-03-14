@@ -16,7 +16,7 @@ module.exports = catchAsync(async function (req, res, next) {
 
   // check if at least 1 update-able property included
   const { question, answer, mastered, position } = req.body;
-  if (!question && !answer && !mastered && typeof position !== "number") {
+  if (!question && !answer && mastered === undefined && typeof position !== "number") {
     return next(
       new AppError("Allowed properties for update: question, answer, mastered, position.", 422)
     );
@@ -34,7 +34,7 @@ module.exports = catchAsync(async function (req, res, next) {
     }
   }
 
-  if (mastered) {
+  if (mastered !== undefined) {
     if (typeof(mastered) !== "boolean") {
       return next(new AppError("Mastered must be a boolean.", 422));
     }
@@ -43,9 +43,9 @@ module.exports = catchAsync(async function (req, res, next) {
   // clean user input
   const updates = {};
 
-  if (question) updates.question = question;
-  if (answer)   updates.answer = answer;
-  if (mastered) updates.mastered = mastered;
+  if (question)               updates.question = question;
+  if (answer)                 updates.answer = answer;
+  if (mastered !== undefined) updates.mastered = mastered;
 
   if (typeof position === "number") {
     updates.position = await getValidInsertPosition(
