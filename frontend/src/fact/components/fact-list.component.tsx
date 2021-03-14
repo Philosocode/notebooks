@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DropResult } from "react-beautiful-dnd";
 import styled from "styled-components";
 
 // logic
 import { selectFactsForPart } from "../redux/fact.selectors";
-import { createFact, deleteFact, updateFact, updateFactPosition } from "../redux/fact.thunks";
+import { createFact, deleteFact, getFacts, updateFact, updateFactPosition } from "../redux/fact.thunks";
 import { repositionFact } from "part/redux/part.slice";
 import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
 
@@ -22,11 +22,19 @@ interface IProps {
   partId: string;
 }
 
-export const SectionList: React.FC<IProps> = ({ partId }) => {
+export const FactList: React.FC<IProps> = ({ partId }) => {
   const dispatch = useDispatch();
   const facts = useSelector(selectFactsForPart);
 
   const { expandedHash, toggleEntityExpansion } = useExpandHash(facts ?? [], true);
+
+  useEffect(() => {
+    console.log("FACTS", facts);
+    
+    if (!facts) {
+      dispatch(getFacts(partId))
+    }
+  }, [dispatch, partId, facts]);
 
   function handleDragEnd(result: DropResult) {
     if (!facts) return;

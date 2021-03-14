@@ -72,6 +72,7 @@ const partSlice = createSlice({
 
         state.parts = omit(state.parts, [part.id]);
       })
+      
       /* Sections */
       .addCase(createSection.fulfilled, (state, action) => {
         const { partId, section } = action.payload;
@@ -99,6 +100,7 @@ const partSlice = createSlice({
 
         part.sectionIds = part.sectionIds.filter(id => id !== sectionId);
       })
+
       /* Facts */
       .addCase(createFact.fulfilled, (state, action) => {
         const { partId, fact } = action.payload;
@@ -126,7 +128,8 @@ const partSlice = createSlice({
 
         part.factIds = part.factIds.filter(id => id !== factId);
       })
-      // Concept Parts
+      
+      /* Concept Parts */
       .addCase(getConceptParts.fulfilled, (state, action) => {
         const { partId, conceptParts } = action.payload;
 
