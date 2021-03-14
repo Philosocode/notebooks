@@ -40,7 +40,6 @@ const sectionSlice = createSlice({
 
         state.sections = omit(state.sections, [sectionId]);
       })
-
   }
 });
 

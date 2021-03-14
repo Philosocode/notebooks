@@ -3,6 +3,7 @@ import { AnyAction, combineReducers, configureStore, getDefaultMiddleware, Reduc
 import { alertReducer } from "alert/redux/alert.slice";
 import { authReducer } from "auth/redux/auth.slice";
 import { conceptReducer } from "concept/redux/concept.slice";
+import { factReducer } from "fact/redux/fact.slice";
 import { hookReducer } from "hook/redux/hook.slice";
 import { initReducer } from "./init.slice";
 import { loadingReducer } from "loading/redux/loading.slice";
@@ -17,6 +18,7 @@ const appReducer = combineReducers({
   alert: alertReducer,
   auth: authReducer,
   concept: conceptReducer,
+  fact: factReducer,
   hook: hookReducer,
   init: initReducer,
   loading: loadingReducer,

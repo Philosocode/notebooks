@@ -5,6 +5,7 @@ export interface IPart {
   updated_at: string;
   checklist: IPartChecklist;
   sectionIds?: string[];
+  factIds?: string[];
   conceptIds?: string[];
   material_id: string;
 }

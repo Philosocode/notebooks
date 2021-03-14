@@ -6,6 +6,7 @@ import { IPartState } from "./part.types";
 import { createSection, deleteSection, getSections } from "../../section/redux/section.thunks";
 import { IRepositionEntityPayload } from "../../shared/types.shared";
 import { createConceptPart, deleteConceptPart, getConceptParts } from "../../concept-link/redux/concept-link.thunks";
+import { createFact, deleteFact, getFacts } from "fact/redux/fact.thunks";
 
 const initialState: IPartState  = {
   parts: {},
@@ -27,6 +28,15 @@ const partSlice = createSlice({
 
       const [sectionIdToMove] = part.sectionIds.splice(oldIndex, 1);
       part.sectionIds.splice(newIndex, 0, sectionIdToMove);
+    },
+    repositionFact: (state, action: PayloadAction<IRepositionEntityPayload>) => {
+      const { ownerEntityId: partId, oldIndex, newIndex } = action.payload;
+
+      const part = state.parts[partId];
+      if (!part.factIds) return;
+
+      const [factIdToMove] = part.factIds.splice(oldIndex, 1);
+      part.factIds.splice(newIndex, 0, factIdToMove);
     }
   },
   extraReducers: (builder) => {
@@ -62,7 +72,7 @@ const partSlice = createSlice({
 
         state.parts = omit(state.parts, [part.id]);
       })
-      // Sections
+      /* Sections */
       .addCase(createSection.fulfilled, (state, action) => {
         const { partId, section } = action.payload;
 
@@ -88,6 +98,33 @@ const partSlice = createSlice({
         if (!part.sectionIds) return;
 
         part.sectionIds = part.sectionIds.filter(id => id !== sectionId);
+      })
+      /* Facts */
+      .addCase(createFact.fulfilled, (state, action) => {
+        const { partId, fact } = action.payload;
+
+        const part = state.parts[partId];
+        if (!part) return;
+        if (!part.factIds) part.factIds = [];
+
+        part.factIds.push(fact.id);
+      })
+      .addCase(getFacts.fulfilled, (state, action) => {
+        const { partId, facts } = action.payload;
+
+        const factIds = facts.map(fact => fact.id);
+
+        state.parts[partId].factIds = factIds;
+      })
+      .addCase(deleteFact.fulfilled, (state, action) => {
+        const { partId, factId } = action.payload;
+
+        const part = state.parts[partId];
+        if (part === undefined) return;
+
+        if (!part.factIds) return;
+
+        part.factIds = part.factIds.filter(id => id !== factId);
       })
       // Concept Parts
       .addCase(getConceptParts.fulfilled, (state, action) => {
@@ -120,5 +157,6 @@ const partSlice = createSlice({
 export const partReducer = partSlice.reducer;
 export const {
   setCurrentPartId,
+  repositionFact,
   repositionSection,
 } = partSlice.actions;
