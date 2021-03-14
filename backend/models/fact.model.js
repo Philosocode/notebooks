@@ -4,7 +4,7 @@ const { shiftPositions, getMaxPosition } = require("./common.model");
 module.exports = {
   createFact,
   deleteFact,
-  deleteHooks,
+  deleteFacts,
   getFacts,
   updateHook,
 };
@@ -48,8 +48,8 @@ async function deleteFact(fact_id, connection=db) {
   });
 }
 
-async function deleteHooks(concept_id, connection = db) {
-  return connection("hook").where({ concept_id }).del();
+async function deleteFacts(part_id, connection=db) {
+  return connection("fact").where({ part_id }).del();
 }
 
 async function getFacts(part_id, filterObj, connection=db) {
