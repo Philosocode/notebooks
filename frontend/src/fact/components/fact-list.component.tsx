@@ -29,8 +29,6 @@ export const FactList: React.FC<IProps> = ({ partId }) => {
   const { expandedHash, toggleEntityExpansion } = useExpandHash(facts ?? [], true);
 
   useEffect(() => {
-    console.log("FACTS", facts);
-    
     if (!facts) {
       dispatch(getFacts(partId))
     }
@@ -61,21 +59,17 @@ export const FactList: React.FC<IProps> = ({ partId }) => {
   }
 
   function handleCreate() {
-    // dispatch(createFact({ partId }));
+    dispatch(createFact({ partId, initialValues: { question: "Question", answer: "Answer" } }));
   }
 
-  function handleUpdate(sectionId: string, name?: string, content?: string) {
-    // const updates = { name, content };
+  function handleUpdate(factId: string, question?: string, answer?: string) {
+    const updates = { question, answer };
 
-    // dispatch(updateSection({
-    //   partId,
-    //   sectionId,
-    //   updates,
-    // }));
+    dispatch(updateFact({ partId, factId, updates }));
   }
 
   function handleDelete(factId: string) {
-    // dispatch(deleteFact({ factId, partId }));
+    dispatch(deleteFact({ factId, partId }));
   }
 
   if (!facts) return null;
