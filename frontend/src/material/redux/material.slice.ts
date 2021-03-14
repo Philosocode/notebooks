@@ -110,6 +110,8 @@ const materialSlice = createSlice({
         const { part } = action.payload;
 
         const materialToUpdate = state.materials[part.material_id];
+        if (!materialToUpdate) return;
+
         if (!materialToUpdate.partIds) materialToUpdate.partIds = [];
 
         materialToUpdate.partIds.push(part.id);
