@@ -6,7 +6,7 @@ module.exports = {
   deleteFact,
   deleteFacts,
   getFacts,
-  updateHook,
+  updateFact,
 };
 
 // Referenced: https://medium.com/the-missing-bit/keeping-an-ordered-collection-in-postgresql-9da0348c4bbe
@@ -58,26 +58,26 @@ async function getFacts(part_id, filterObj, connection=db) {
     .orderBy("position");
 }
 
-async function updateHook(concept_id, hook_id, updates, connection = db) {
+async function updateFact(part_id, fact_id, updates, connection=db) {
   // updates: title, content, position
   return connection.transaction(async trx => {
     const newPosition = updates.position;
 
     if (newPosition !== undefined) {
-      const oldPositionResult = await trx("hook")
+      const oldPositionResult = await trx("fact")
         .select("position")
-        .where({ id: hook_id });
+        .where({ id: fact_id });
       const oldPosition = oldPositionResult[0].position;
 
       if (oldPosition !== newPosition) {
         // decrement positions after old position
-        await shiftPositions("hook", { concept_id }, oldPosition, false, trx);
+        await shiftPositions("fact", { part_id }, oldPosition, false, trx);
 
         // increment positions after the new position
-        await shiftPositions("hook", { concept_id }, newPosition, true, trx);
+        await shiftPositions("fact", { part_id }, newPosition, true, trx);
       }
     }
 
-    return trx("hook").where({ id: hook_id }).update(updates);
+    return trx("fact").where({ id: fact_id }).update(updates);
   });
 }

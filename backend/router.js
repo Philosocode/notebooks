@@ -78,6 +78,7 @@ const deleteConceptPart = require("./handlers/concept-part/delete-concept-part.h
 // Facts
 const createFact = require("./handlers/fact/create-fact.handler");
 const getFacts = require("./handlers/fact/get-facts.handler");
+const updateFact = require("./handlers/fact/update-fact.handler");
 const deleteFact = require("./handlers/fact/delete-fact.handler");
 const deleteFacts = require("./handlers/fact/delete-facts.handler");
 
@@ -208,6 +209,7 @@ router.route("/parts/:partId/facts")
   .delete(userOwnsPartMiddleware, deleteFacts)
 
 router.route("/parts/:partId/facts/:factId")
+  .patch(updateFact)
   .delete(deleteFact)
 
 // Sections
