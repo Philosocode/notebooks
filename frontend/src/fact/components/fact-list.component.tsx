@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DropResult } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 // logic
 import { selectFactsForPart } from "../redux/fact.selectors";
@@ -18,7 +19,6 @@ import { FloatingCornerButton } from "shared/components/button/floating-corner-b
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { IFact } from "fact/redux/fact.types";
 
 interface IProps {
@@ -112,7 +112,7 @@ export const FactList: React.FC<IProps> = ({ partId }) => {
                   mastered={fact.mastered}
                   onClick={(event) => toggleFactMastered(event, fact)}
                 >
-                  <SIcon icon={faStar} />
+                  <SIcon icon={faCheck} />
                 </SStarContainer>
               }
             />
