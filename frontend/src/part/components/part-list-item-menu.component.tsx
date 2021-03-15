@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import { theme } from "shared/styles/theme.style";
 import { OptionIcon } from "shared/components/button/option-icon.component";
+import { useToggle } from "../../shared/hooks/use-toggle.hook";
 
 export interface IMenuAction {
   action: any;
@@ -15,61 +16,13 @@ interface IProps {
 }
 // Referenced: https://letsbuildui.dev/articles/building-a-dropdown-menu-component-with-react-hooks
 export const PartListItemMenu: FC<IProps> = () => {
-  // const menuActions: IMenuAction[] = [
-  //   { name: "Edit", icon: "pencil-alt", action: handleUpdate },
-  //   { name: "Delete", icon: "trash", action: handleDelete }
-  // ];
-  // const [menuShowing, setMenuShowing] = useState(false);
-  // const menuRef = useRef() as MutableRefObject<HTMLDivElement>;
-  //
-  // // hide menu when clicking elsewhere on the page
-  // useEffect(() => {
-  //   if (menuShowing) window.addEventListener("mousedown", hideMenu);
-  //   return () => { window.removeEventListener("mousedown", hideMenu); }
-  // }, [menuShowing]);
-  //
-  // function showMenu(event: React.MouseEvent) {
-  //   event.stopPropagation();
-  //   event.preventDefault();
-  //
-  //   setMenuShowing(true);
-  // }
-  //
-  // function hideMenu(event: React.MouseEvent | MouseEvent) {
-  //   if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-  //     setMenuShowing(false);
-  //   }
-  // }
-  //
-  // function handleActionClick(event: React.MouseEvent, action: () => void) {
-  //   event.stopPropagation();
-  //   event.preventDefault();
-  //
-  //   action();
-  //   setMenuShowing(false);
-  // }
-  //
-  // return (
-  //   <SContainer>
-  //     <OptionIcon handleClick={showMenu} />
-  //     {menuShowing ? (
-  //       <div ref={menuRef}>
-  //         <SActionList>
-  //           {
-  //             actions.map(action => (
-  //               <SAction onClick={(event) => handleActionClick(event, action.action)} key={action.name}>
-  //                 <SActionIcon icon={action.icon} />
-  //                 {action.name}
-  //               </SAction>
-  //             ))
-  //           }
-  //         </SActionList>
-  //       </div>
-  //     ) : null}
-  //   </SContainer>
-  // );
 
-  return <div></div>;
+
+  return (
+    <div>
+
+    </div>
+  );
 };
 
 const SContainer = styled.div`

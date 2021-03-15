@@ -14,8 +14,15 @@ export const IconCircle: React.FC<IProps> = ({
   handleClick,
   icon
 }) => {
+  function onClick(event: React.MouseEvent) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    handleClick?.();
+  }
+
   return (
-    <SIconContainer onClick={handleClick} >
+    <SIconContainer onClick={onClick} >
       { children }
       { icon && <SIcon icon={icon} /> }
     </SIconContainer>

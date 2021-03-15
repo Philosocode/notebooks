@@ -5,10 +5,12 @@ import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
 import { IPart } from "part/redux/part.types";
-
-import { theme } from "shared/styles/theme.style";
+import { useToggle } from "../../shared/hooks/use-toggle.hook";
 import { showModal } from "modal/redux/modal.slice";
-import { PartListItemMenu } from "./part-list-item-menu.component";
+import { IMenuAction, PartListItemMenu } from "./part-list-item-menu.component";
+import { theme } from "shared/styles/theme.style";
+import { Menu } from "../../shared/components/menu/menu.component";
+import { IconCircle } from "../../shared/components/button/circle-icon.component";
 
 interface IProps {
   index: number;
@@ -17,6 +19,7 @@ interface IProps {
 }
 export const PartListItem: React.FC<IProps> = ({ index, materialId, part }) => {
   const dispatch = useDispatch();
+  const [menuShowing, toggleMenuShowing] = useToggle(false);
 
   function handleUpdate() {
     dispatch(showModal({
@@ -38,6 +41,15 @@ export const PartListItem: React.FC<IProps> = ({ index, materialId, part }) => {
     }))
   }
 
+  function handleIconClick(event: React.MouseEvent) {
+    event.stopPropagation();
+  }
+
+  const menuActions: IMenuAction[] = [
+    { name: "Edit", icon: "pencil-alt", action: handleUpdate },
+    { name: "Delete", icon: "trash", action: handleDelete }
+  ];
+
   return (
     <Draggable draggableId={part.id} index={index}>
       {provided => (
@@ -51,7 +63,12 @@ export const PartListItem: React.FC<IProps> = ({ index, materialId, part }) => {
             <SHeadingId>{part.id}</SHeadingId>
             <SName>{part.name}</SName>
           </div>
-          <PartListItemMenu />
+          <div>
+            <IconCircle handleClick={toggleMenuShowing} icon="ellipsis-v" />
+            <SMenuContainer>
+              <Menu actions={menuActions} menuShowing={menuShowing} toggleMenu={toggleMenuShowing} />
+            </SMenuContainer>
+          </div>
         </SContainer>
       )}
     </Draggable>
@@ -77,4 +94,8 @@ const SHeadingId = styled.h4`
 
 const SName = styled.h3`
   font-size: ${theme.fontSizes.md};
+`;
+
+const SMenuContainer = styled.div`
+  transform: translate(-8rem, -0.5rem);
 `;
