@@ -1,20 +1,22 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { faUserCircle } from "@fortawesome/free-regular-svg-icons";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
-import { IUser } from "auth/redux/auth.types";
 import { IMenuAction, Menu } from "../menu/menu.component";
 import { useToggle } from "shared/hooks/use-toggle.hook";
 import { logout } from "auth/redux/auth.slice";
 import { theme } from "../../styles/theme.style";
+import { SettingsModal } from "../../../user/components/settings-modal.component";
+import { IUser } from "../../../user/redux/user.types";
 
 interface IProps {
-  user?: IUser;
+  user: IUser;
 }
-export const NavProfileMenu: React.FC<IProps> = ({ user }) => {
+export const NavbarProfileMenu: React.FC<IProps> = ({ user }) => {
   const [menuShowing, toggleMenuShowing] = useToggle(false);
+  const [settingsModalShowing, toggleSettingsModal] = useToggle(false);
+
   const dispatch = useDispatch();
 
   function handleLogout() {
@@ -22,18 +24,21 @@ export const NavProfileMenu: React.FC<IProps> = ({ user }) => {
   }
 
   const menuActions: IMenuAction[] = [
-    { name: "Profile", icon: faUserCircle, action: handleLogout },
+    { name: "Settings", icon: "cog", action: toggleSettingsModal },
     { name: "Logout", icon: faSignOutAlt, action: handleLogout },
   ];
 
   if (!user) return null;
   return (
-    <SProfilePictureContainer>
-      <SProfilePicture src={user?.photo_url} alt={user?.name} onClick={toggleMenuShowing} />
-      <SMenuContainer>
-        <Menu actions={menuActions} toggleMenu={toggleMenuShowing} menuShowing={menuShowing} />
-      </SMenuContainer>
-    </SProfilePictureContainer>
+    <>
+      <SProfilePictureContainer>
+        <SProfilePicture src={user.photo_url} alt={user.name} onClick={toggleMenuShowing} />
+        <SMenuContainer>
+          <Menu actions={menuActions} toggleMenu={toggleMenuShowing} menuShowing={menuShowing} />
+        </SMenuContainer>
+      </SProfilePictureContainer>
+      <SettingsModal modalShowing={settingsModalShowing} toggleModal={toggleSettingsModal} />
+    </>
   );
 };
 

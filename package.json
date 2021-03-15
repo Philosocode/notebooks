@@ -10,8 +10,8 @@
     "build": "docker-compose build",
     "stop": "docker-compose down",
     "db:connect": "docker-compose exec db bash -c 'psql -U postgres yggdrasil'",
-    "db:migrate": "docker-compose exec backend knex migrate:latest",
-    "db:rollback": "docker-compose exec backend knex migrate:rollback",
+    "db:migrate": "docker-compose exec backend npx knex migrate:latest",
+    "db:rollback": "docker-compose exec backend npx knex migrate:rollback",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
