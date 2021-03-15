@@ -7,11 +7,16 @@ import { theme } from "shared/styles/theme.style";
 import { selectUser } from "auth/redux/auth.selectors";
 import { useAppLocation } from "../../hooks/use-app-location.hook";
 import { logout } from "auth/redux/auth.slice";
+import { SButtonGreen } from "shared/styles/button.style";
+import { useToggle } from "../../hooks/use-toggle.hook";
+import { HelpModal } from "../../../modal/components/help-modal.component";
 
 export const Navbar = () => {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const appLocation = useAppLocation();
+
+  const [helpModalShowing, toggleHelpModalShowing] = useToggle(false);
 
   const LibraryLink = <SNavItem>
     <SNavLink to="/library">Library</SNavLink>
@@ -52,11 +57,13 @@ export const Navbar = () => {
 
   return (
     <SNav>
+      <SStuckButton onClick={toggleHelpModalShowing}>I'm Stuck</SStuckButton>
       <SNavList>
         {
           user ? getLoggedInLinks() : getLoggedOutLinks()
         }
       </SNavList>
+      <HelpModal handleClose={toggleHelpModalShowing} isShowing={helpModalShowing} />
     </SNav>
   );
 };
@@ -73,6 +80,16 @@ const SNav = styled.nav`
   left: 0;
   width: 100vw;
   z-index: ${theme.zIndices.nav};
+`;
+
+const SStuckButton = styled(SButtonGreen)`
+  box-shadow: none;
+  margin-right: ${theme.spacing.base};
+  font-size: ${theme.fontSizes.sm};
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0.5em;
 `;
 
 const SNavList = styled.ul`

@@ -10,7 +10,6 @@ import { useForm } from "shared/hooks/use-form.hook";
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SButtonGreen, SButtonRed } from "shared/styles/button.style";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 interface IProps {
   dragDisabled: boolean;
@@ -44,7 +43,6 @@ export const DraggableContentBox: React.FC<IProps> = ({
 
   const { content, title } = values;
 
-  // event handlers
   function handleToggleClick() {
     toggleIsExpanded(entityId);
   }
@@ -59,12 +57,6 @@ export const DraggableContentBox: React.FC<IProps> = ({
       handleUpdate(entityId, title, content);
   }
 
-  function handleStarClick(event: React.MouseEvent) {
-    event.stopPropagation();
-    event.preventDefault();
-  }
-
-  // functions
   function buttonDisabled() {
     if (title.trim() === "" || content.trim() === "") return true;
 

@@ -16,7 +16,7 @@ import { Sidebar } from "./shared/components/nav/sidebar.component";
 import { NotFoundPage } from "shared/pages/not-found.page";
 import { ModalRoot } from "./modal/components/modal-root.component";
 import { TimerModal } from "timer/components/timer-modal.component";
-import { PreStudyModal } from "./modal/components/pre-study-modal.component";
+// import { PreStudyModal } from "./modal/components/pre-study-modal.component";
 
 // styles
 import { theme } from "./shared/styles/theme.style";
