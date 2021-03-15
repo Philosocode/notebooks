@@ -22,3 +22,8 @@ export const SHeadingSubSubtitle = styled.h3`
   ${SHeadingBase};
   font-size: ${theme.fontSizes.md};
 `;
+
+export const SAnchorTag = styled.a`
+  color: ${theme.colors.green[300]};
+  text-decoration: underline;
+`;

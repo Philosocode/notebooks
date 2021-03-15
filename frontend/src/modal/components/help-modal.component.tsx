@@ -1,54 +1,107 @@
 import React from "react";
 import styled from "styled-components";
 
+import { useRandom } from "../../shared/hooks/use-random.hook";
+
 import { ModalWrapper } from "./modal-wrapper.component";
 
 import { theme } from "../../shared/styles/theme.style";
-import { SHeadingSubtitle } from "shared/styles/typography.style";
-import { SButtonGreen } from "../../shared/styles/button.style";
+import { SAnchorTag, SHeadingSubtitle } from "shared/styles/typography.style";
+import { IconCircle } from "../../shared/components/button/circle-icon.component";
 
-const rubberDuckingUrl = "https://medium.com/@katiebrouwers/why-rubber-ducking-is-one-of-your-greatest-resources-as-a-developer-99ac0ee5b70a";
+const duckUrl = `https://en.wikipedia.org/wiki/Rubber_duck_debugging`;
+const meditationUrl = `https://www.candoideas.com/blog/why-productive-meditation-should-be-on-your-to-do-list`;
+
+const items = [
+  <ul>
+    <li>Relax. Take a break</li>
+    <li>Stop thinking about the material. Your subconscious mind will process
+      the material in the background</li>
+    <li>Get some food / water</li>
+    <li>Go for a walk</li>
+  </ul>,
+
+  <p>Switch to a completely different type of problem</p>,
+
+  <>
+    <SAnchorTag href={duckUrl}>Rubber Duck Debugging:</SAnchorTag>
+    <ol>
+      <li>Find an inanimate object or person</li>
+      <li>Explain the problem in detail</li>
+      <li>What's the goal?</li>
+      <li>What have you tried doing?</li>
+      <li>What's not working?</li>
+    </ol>
+  </>,
+  <>
+    <SAnchorTag href={meditationUrl}>Productive Meditation:</SAnchorTag>
+    <ol>
+      <li>Pick a problem you're working on or a concept you're struggling with</li>
+      <li>Go for a long walk, bike ride, exercise, drive, or other (physical) activity</li>
+      <li>While doing so, focus on the problem and think of how to solve it</li>
+    </ol>
+  </>,
+  <>
+    <p>Resource Exploration:</p>
+    <ul>
+      <li>Watch various videos from different people</li>
+      <li>Check sites like Google, Reddit, StackExchange, etc</li>
+      <li>Do a search with "ELI5" included (explain like I'm 5)</li>
+    </ul>
+  </>,
+  <>
+    <p>Sleep On It:</p>
+    <ol>
+      <li>Think of / work on the problem before you go to sleep</li>
+      <li>Get a good night's sleep</li>
+      <li>Review the problem when you wake up</li>
+    </ol>
+  </>
+];
 
 interface IProps {
   handleClose: () => void;
   isShowing: boolean;
 }
-
 export const HelpModal: React.FC<IProps> = ({ handleClose, isShowing }) => {
+  const [item, getRandomItem] = useRandom(items, items[0]);
+
+  function handleClick() {
+    getRandomItem();
+  }
+
   return (
     <ModalWrapper
       handleClose={handleClose}
       isShowing={isShowing}
     >
-      <SHeadingSubtitle>Stuck?</SHeadingSubtitle>
-      <SList>
-        <li>Stop thinking about the material. Take a break. Get some food / water, go for a walk</li>
-        <li>Switch to a completely different type of problem</li>
-        <li><SLink href={rubberDuckingUrl}>Rubber Duck Debugging:</SLink> find an inanimate object or person. Explain
-          the problem is detail. What's the goal? What have you tried doing? What's not working?
-        </li>
-        <li>Productive Meditation: pick a specific problem you're working on, or a concept you're struggling to understand.
-          Go for a long walk / bike ride / exercise and think of how to solve the problem</li>
-        <li>Resource Exploration: watch various videos on the topic.
-          Check sites like Google, Reddit, and StackExchange.
-          Do a search with "ELI5" included (explain like I'm five)</li>
-      </SList>
+      <SHeadingSubtitle>
+        Get Un-stuck
+      </SHeadingSubtitle>
+      <SIconContainer>
+        <IconCircle handleClick={handleClick} icon="redo" />
+      </SIconContainer>
+      <STextContainer>
+        {item}
+      </STextContainer>
     </ModalWrapper>
   );
 };
 
-const SButton = styled(SButtonGreen)`
-  margin-top: ${theme.spacing.base};
+const SIconContainer = styled.div`
+  display: inline-block;
+  transform: translateX(-0.5em);
 `;
 
-const SLink = styled.a`
-  color: ${theme.colors.green[400]};
-  text-decoration: underline;
-`;
-
-const SList = styled.ul`
+const STextContainer = styled.div`
+  background: ${theme.colors.gray[100]};
   font-size: ${theme.fontSizes.basePlus};
-  list-style-type: disc;
-  margin-top: ${theme.spacing.xs};
-  padding-left: ${theme.spacing.base};
+  padding: ${theme.spacing.sm};
+  margin-top: ${theme.spacing.sm};
+  
+  & > ol,
+  & > ul {
+    list-style-type: disc;
+    padding-left: ${theme.spacing.base};
+  }
 `;
