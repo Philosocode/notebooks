@@ -3,13 +3,19 @@ import { Link, NavLink } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
-import { theme } from "shared/styles/theme.style";
+// logic
 import { selectUser } from "auth/redux/auth.selectors";
-import { useAppLocation } from "../../hooks/use-app-location.hook";
+import { useAppLocation } from "shared/hooks/use-app-location.hook";
 import { logout } from "auth/redux/auth.slice";
+import { useToggle } from "shared/hooks/use-toggle.hook";
+
+// components
+import { HelpModal } from "modal/components/help-modal.component";
+
+// styles
+import { theme } from "shared/styles/theme.style";
 import { SButtonGreen } from "shared/styles/button.style";
-import { useToggle } from "../../hooks/use-toggle.hook";
-import { HelpModal } from "../../../modal/components/help-modal.component";
+import { NavProfileMenu } from "./nav-profile-menu.component";
 
 export const Navbar = () => {
   const user = useSelector(selectUser);
@@ -22,11 +28,6 @@ export const Navbar = () => {
     <SNavLink to="/library">Library</SNavLink>
   </SNavItem>;
 
-  const handleLogout = useCallback((e) => {
-    e.preventDefault();
-    dispatch(logout());
-  }, [dispatch]);
-
   function getLoggedInLinks() {
     return (
       <>
@@ -37,12 +38,9 @@ export const Navbar = () => {
           >Study</SStudyLink>
         </SNavItem>
         {LibraryLink}
-        <SProfilePictureContainer onClick={handleLogout}>
-          <SProfilePicture src={user?.photo_url} alt={user?.name} />
-        </SProfilePictureContainer>
       </>
     );
-  };
+  }
 
   function getLoggedOutLinks() {
     return (
@@ -53,16 +51,15 @@ export const Navbar = () => {
         {LibraryLink}
       </>
     );
-  };
+  }
 
   return (
     <SNav>
-      <SStuckButton onClick={toggleHelpModalShowing}>I'm Stuck</SStuckButton>
+      { user && <SStuckButton onClick={toggleHelpModalShowing}>I'm Stuck</SStuckButton> }
       <SNavList>
-        {
-          user ? getLoggedInLinks() : getLoggedOutLinks()
-        }
+        { user ? getLoggedInLinks() : getLoggedOutLinks() }
       </SNavList>
+      <NavProfileMenu user={user} />
       <HelpModal handleClose={toggleHelpModalShowing} isShowing={helpModalShowing} />
     </SNav>
   );
@@ -102,19 +99,6 @@ const SNavItem = styled.li`
   &:not(:last-child) {
     margin-right: 2rem;
   }
-`;
-
-const SProfilePictureContainer = styled(SNavItem)`
-  cursor: pointer;
-  display: flex;
-    justify-content: center;
-    align-items: center;
-`;
-
-const SProfilePicture = styled.img`
-  border-radius: 50%;
-  height: 3rem;
-  width: 3rem;
 `;
 
 const SLinkStyles = css`

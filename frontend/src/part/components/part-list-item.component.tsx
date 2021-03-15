@@ -6,10 +6,9 @@ import styled from "styled-components";
 
 import { IPart } from "part/redux/part.types";
 
-import { Menu, IMenuAction } from "shared/components/menu/menu.component";
-
 import { theme } from "shared/styles/theme.style";
 import { showModal } from "modal/redux/modal.slice";
+import { PartListItemMenu } from "./part-list-item-menu.component";
 
 interface IProps {
   index: number;
@@ -18,11 +17,6 @@ interface IProps {
 }
 export const PartListItem: React.FC<IProps> = ({ index, materialId, part }) => {
   const dispatch = useDispatch();
-
-  const menuActions: IMenuAction[] = [
-    { name: "Edit", icon: "pencil-alt", action: handleUpdate },
-    { name: "Delete", icon: "trash", action: handleDelete }
-  ];
 
   function handleUpdate() {
     dispatch(showModal({
@@ -57,7 +51,7 @@ export const PartListItem: React.FC<IProps> = ({ index, materialId, part }) => {
             <SHeadingId>{part.id}</SHeadingId>
             <SName>{part.name}</SName>
           </div>
-          <Menu actions={menuActions} />
+          <PartListItemMenu />
         </SContainer>
       )}
     </Draggable>

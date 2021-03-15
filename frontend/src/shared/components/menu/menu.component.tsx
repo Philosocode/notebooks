@@ -1,10 +1,9 @@
-import React, { FC, MutableRefObject, useEffect, useRef, useState } from "react";
+import React, { FC, MutableRefObject, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import styled from "styled-components";
 
 import { theme } from "shared/styles/theme.style";
-import { OptionIcon } from "../button/option-icon.component";
 
 export interface IMenuAction {
   action: any;
@@ -13,10 +12,15 @@ export interface IMenuAction {
 }
 interface IProps {
   actions: IMenuAction[];
+  menuShowing: boolean;
+  toggleMenu: () => void;
 }
 // Referenced: https://letsbuildui.dev/articles/building-a-dropdown-menu-component-with-react-hooks
-export const Menu: FC<IProps> = ({ actions }) => {
-  const [menuShowing, setMenuShowing] = useState(false);
+export const Menu: FC<IProps> = ({
+  actions,
+  menuShowing,
+  toggleMenu
+}) => {
   const menuRef = useRef() as MutableRefObject<HTMLDivElement>;
 
   // hide menu when clicking elsewhere on the page
@@ -25,16 +29,9 @@ export const Menu: FC<IProps> = ({ actions }) => {
     return () => { window.removeEventListener("mousedown", hideMenu); }
   }, [menuShowing]);
 
-  function showMenu(event: React.MouseEvent) {
-    event.stopPropagation();
-    event.preventDefault();
-
-    setMenuShowing(true);
-  }
-
   function hideMenu(event: React.MouseEvent | MouseEvent) {
     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-      setMenuShowing(false);
+      toggleMenu();
     }
   }
 
@@ -43,53 +40,55 @@ export const Menu: FC<IProps> = ({ actions }) => {
     event.preventDefault();
 
     action();
-    setMenuShowing(false);
+    toggleMenu();
   }
 
   return (
-    <SContainer>
-      <OptionIcon handleClick={showMenu} />
+    <>
       {menuShowing ? (
-        <div ref={menuRef}>
-         <SActionList>
+        <SMenu ref={menuRef}>
+          <SActionList>
             {
               actions.map(action => (
-                <SAction onClick={(event) => handleActionClick(event, action.action)} key={action.name}>
+                <SAction
+                  key={action.name}
+                  onClick={(event) => handleActionClick(event, action.action)}
+                >
                   <SActionIcon icon={action.icon} />
                   {action.name}
                 </SAction>
               ))
             }
           </SActionList>
-        </div>
+        </SMenu>
       ) : null}
-    </SContainer>
+    </>
   );
 };
 
-const SContainer = styled.div`
-  display: flex;
-    align-items: center;
-  position: relative;
+const SMenu = styled.div`
+  position: absolute;
   width: max-content;
 `;
 
 const SActionList = styled.div`
-  border: 1px solid ${theme.colors.gray[100]};
-  border-top: none;
+  background: ${theme.colors.gray[100]};
+  border: 1px solid ${theme.colors.gray[200]};
+  border-radius: 1rem;
   display: flex;
   flex-direction: column;
-  position: absolute;
-    right: 1.5rem;
-    top: 1rem;
-  width: max-content;
+  padding: ${theme.spacing.xs};
+  overflow: hidden;
 `;
 
 const SAction = styled.button`
-  border: 1px solid ${theme.colors.gray[200]};
+  background: transparent;
+  border: none;
+  border-radius: 1rem;
   cursor: pointer;
-  text-align: left;
+  font-weight: 500;
   padding: ${theme.spacing.sm};
+  text-align: left;
 
   &:hover {
     background: ${theme.colors.gray[200]};
