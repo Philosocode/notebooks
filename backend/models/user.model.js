@@ -9,7 +9,7 @@ module.exports = {
 };
 
 async function getUser(user_id) {
-  return db("user").where({ id: user_id })
+  return db("user").where({ id: user_id }).first();
 }
 
 async function getUsers() {
@@ -20,7 +20,7 @@ async function getGoogleUser(google_id) {
   return db("user").where("google_id", google_id).first();
 }
 
-async function upsertUser(email, google_id, name, photo_url, settings, connection=db) {
+async function upsertUser(email, google_id, name, photo_url, connection=db) {
   return connection("user")
     .insert({
       email,

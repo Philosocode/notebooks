@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+
+import { IUserSettings } from "../redux/user.types";
+import { useForm } from "../../shared/hooks/use-form.hook";
 
 // components
 import { ModalWrapper } from "modal/components/modal-wrapper.component";
+import { LabelCheckbox } from "../../shared/components/form/label-checkbox.component";
 
 // styles
 import { SHeadingSubtitle } from "../../shared/styles/typography.style";
-import { LabelCheckbox } from "../../shared/components/form/label-checkbox.component";
-import { useForm } from "../../shared/hooks/use-form.hook";
-import { IUserSettings } from "../redux/user.types";
 
 interface IProps {
   currentSettings: IUserSettings;
@@ -17,9 +18,10 @@ interface IProps {
 export const SettingsModal: React.FC<IProps> = ({
   currentSettings,
   modalShowing,
-  toggleModal
+  toggleModal,
 }) => {
   const { values, handleChange, itemsChanged } = useForm<IUserSettings>(currentSettings);
+
   return (
     <ModalWrapper handleClose={toggleModal} isShowing={modalShowing}>
       <SHeadingSubtitle>Settings</SHeadingSubtitle>

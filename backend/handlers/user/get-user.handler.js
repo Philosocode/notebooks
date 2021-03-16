@@ -6,5 +6,5 @@ module.exports = async function (req, res) {
 
   const user = await getUser(userId);
 
-  sendResponse(res, 200, user);
+  sendResponse(res, 200, { user });
 };

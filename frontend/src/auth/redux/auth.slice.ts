@@ -3,6 +3,7 @@ import { LOCAL_STORAGE_TOKEN_KEY } from "shared/constants.shared";
 import { IAuthState, ILoginPayload } from "./auth.types";
 
 import { loginGoogle } from "./auth.thunks";
+import { getUserSettings } from "../../user/redux/user.thunks";
 
 const initialState: IAuthState = {
   user: undefined,
@@ -27,9 +28,15 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loginGoogle.fulfilled, (_, action) => {
-      localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, action.payload);
-    })
+    builder
+      .addCase(loginGoogle.fulfilled, (_, action) => {
+        localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, action.payload);
+      })
+      .addCase(getUserSettings.fulfilled, (state, action) => {
+        if (!state.user) return;
+
+        state.user.settings = action.payload;
+      });
   },
 });
 

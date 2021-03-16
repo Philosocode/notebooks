@@ -2,19 +2,19 @@ import { createSelector } from "@reduxjs/toolkit";
 
 import { TAppState } from "shared/redux/store";
 
-export const selectInit = (state: TAppState) => state.init;
+export const selectInitState = (state: TAppState) => state.init;
 
 export const selectConceptsLoaded = createSelector(
-  [selectInit],
-  (init) => init.conceptsLoaded
+  [selectInitState],
+  (state) => state.conceptsLoaded
 );
 
 export const selectMaterialsLoaded = createSelector(
-  [selectInit],
-  (init) => init.materialsLoaded
+  [selectInitState],
+  (state) => state.materialsLoaded
 );
 
 export const selectWelcomeScreenShown = createSelector(
-  [selectInit],
-  (init) => init.welcomeScreenShown
+  [selectInitState],
+  (state) => state.welcomeScreenShown
 );

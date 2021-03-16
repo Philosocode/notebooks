@@ -1,9 +1,10 @@
 export interface IUser {
+  id: string;
   email: string;
   google_id: string;
   name: string;
   photo_url: string;
-  settings: IUserSettings;
+  settings?: IUserSettings;
 }
 
 export interface IUserSettings {
