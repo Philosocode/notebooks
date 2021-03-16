@@ -27,6 +27,7 @@ export const Menu: FC<IProps> = ({
   useEffect(() => {
     if (menuShowing) window.addEventListener("mousedown", hideMenu);
     return () => { window.removeEventListener("mousedown", hideMenu); }
+    // eslint-disable-next-line
   }, [menuShowing]);
 
   function hideMenu(event: React.MouseEvent | MouseEvent) {

@@ -1,12 +1,11 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import styled, { css } from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 // logic
 import { selectUser } from "auth/redux/auth.selectors";
 import { useAppLocation } from "shared/hooks/use-app-location.hook";
-import { logout } from "auth/redux/auth.slice";
 import { useToggle } from "shared/hooks/use-toggle.hook";
 
 // components
@@ -15,11 +14,10 @@ import { HelpModal } from "modal/components/help-modal.component";
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SButtonGreen } from "shared/styles/button.style";
-import { NavProfileMenu } from "./nav-profile-menu.component";
+import { NavbarProfileMenu } from "./navbar-profile-menu.component";
 
 export const Navbar = () => {
   const user = useSelector(selectUser);
-  const dispatch = useDispatch();
   const appLocation = useAppLocation();
 
   const [helpModalShowing, toggleHelpModalShowing] = useToggle(false);
@@ -59,7 +57,7 @@ export const Navbar = () => {
       <SNavList>
         { user ? getLoggedInLinks() : getLoggedOutLinks() }
       </SNavList>
-      <NavProfileMenu user={user} />
+      { user && <NavbarProfileMenu user={user} /> }
       <HelpModal handleClose={toggleHelpModalShowing} isShowing={helpModalShowing} />
     </SNav>
   );

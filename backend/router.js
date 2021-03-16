@@ -96,6 +96,10 @@ const createTags = require("./handlers/tag/create-tags.handler");
 const updateTag = require("./handlers/tag/update-tag.handler");
 const deleteTag = require("./handlers/tag/delete-tag.handler");
 
+// User
+const getUser = require("./handlers/user/get-user.handler");
+const updateUser = require("./handlers/user/update-user.handler");
+
 const router = express.Router();
 
 /* ======================
@@ -108,6 +112,11 @@ router.post("/auth/google", googleLogin);
    PROTECTED ROUTES
    ====================== */
 router.use(protect);
+
+// User
+router.route("/users/:userId")
+  .get(getUser)
+  .patch(updateUser)
 
 // Concept Tags - General
 router.route("/concepts/tags")

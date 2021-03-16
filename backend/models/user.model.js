@@ -2,9 +2,15 @@ const db = require("../db/db");
 
 module.exports = {
   getGoogleUser,
+  getUser,
   getUsers,
   upsertUser,
+  updateUserSettings,
 };
+
+async function getUser(user_id) {
+  return db("user").where({ id: user_id })
+}
 
 async function getUsers() {
   return db("user");
@@ -14,8 +20,8 @@ async function getGoogleUser(google_id) {
   return db("user").where("google_id", google_id).first();
 }
 
-async function upsertUser(email, google_id, name, photo_url) {
-  return db("user")
+async function upsertUser(email, google_id, name, photo_url, settings, connection=db) {
+  return connection("user")
     .insert({
       email,
       google_id,
@@ -24,4 +30,12 @@ async function upsertUser(email, google_id, name, photo_url) {
     })
     .onConflict("google_id")
     .merge();
+}
+
+async function updateUserSettings(id, settings, connection=db) {
+  // patch settings properties rather than completely replacing it
+  return connection.raw(
+    `UPDATE "user" SET settings = settings || ? WHERE id = ?`,
+    [JSON.stringify(settings), id]
+  );
 }

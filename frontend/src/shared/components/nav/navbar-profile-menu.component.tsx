@@ -16,7 +16,6 @@ interface IProps {
 export const NavbarProfileMenu: React.FC<IProps> = ({ user }) => {
   const [menuShowing, toggleMenuShowing] = useToggle(false);
   const [settingsModalShowing, toggleSettingsModal] = useToggle(false);
-
   const dispatch = useDispatch();
 
   function handleLogout() {
@@ -37,7 +36,11 @@ export const NavbarProfileMenu: React.FC<IProps> = ({ user }) => {
           <Menu actions={menuActions} toggleMenu={toggleMenuShowing} menuShowing={menuShowing} />
         </SMenuContainer>
       </SProfilePictureContainer>
-      <SettingsModal modalShowing={settingsModalShowing} toggleModal={toggleSettingsModal} />
+      <SettingsModal
+        modalShowing={settingsModalShowing}
+        toggleModal={toggleSettingsModal}
+        currentSettings={user.settings ?? {}}
+      />
     </>
   );
 };

@@ -59,7 +59,6 @@ async function updatePart(material_id, part_id, updates, connection=db) {
     const newPosition = updates.position;
     const { checklist, ...updatesWithoutChecklist } = updates;
 
-
     if (newPosition !== undefined) {
       const oldPositionResult = await trx("part").select("position").where({ id: part_id });
       const oldPosition = oldPositionResult[0].position;

@@ -5,12 +5,13 @@ import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
 import { IPart } from "part/redux/part.types";
+import { IMenuAction, Menu } from "../../shared/components/menu/menu.component";
 import { useToggle } from "../../shared/hooks/use-toggle.hook";
 import { showModal } from "modal/redux/modal.slice";
-import { IMenuAction, PartListItemMenu } from "./part-list-item-menu.component";
-import { theme } from "shared/styles/theme.style";
-import { Menu } from "../../shared/components/menu/menu.component";
+
 import { IconCircle } from "../../shared/components/button/circle-icon.component";
+
+import { theme } from "shared/styles/theme.style";
 
 interface IProps {
   index: number;
@@ -39,10 +40,6 @@ export const PartListItem: React.FC<IProps> = ({ index, materialId, part }) => {
         part,
       }
     }))
-  }
-
-  function handleIconClick(event: React.MouseEvent) {
-    event.stopPropagation();
   }
 
   const menuActions: IMenuAction[] = [
