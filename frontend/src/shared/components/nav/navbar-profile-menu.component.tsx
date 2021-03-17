@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
@@ -8,7 +8,8 @@ import { IUser } from "user/redux/user.types";
 import { getUserSettings } from "user/redux/user.thunks";
 import { IMenuAction, Menu } from "../menu/menu.component";
 import { useToggle } from "shared/hooks/use-toggle.hook";
-import { logout } from "auth/redux/auth.slice";
+import { logout } from "user/redux/user.slice";
+import { selectSettings } from "user/redux/user.selectors";
 
 // components
 import { SettingsModal } from "user/components/settings-modal.component";
@@ -23,12 +24,13 @@ export const NavbarProfileMenu: React.FC<IProps> = ({ user }) => {
   const [menuShowing, toggleMenuShowing] = useToggle(false);
   const [settingsModalShowing, toggleSettingsModal] = useToggle(false);
   const dispatch = useDispatch();
+  const settings = useSelector(selectSettings);
 
   useEffect(() => {
-    if (!user.settings) {
+    if (!settings) {
       dispatch(getUserSettings(user.id));
     }
-  }, [dispatch, user.id, user.settings]);
+  }, [dispatch, user.id, settings]);
 
   function handleLogout() {
     dispatch(logout());
@@ -49,11 +51,11 @@ export const NavbarProfileMenu: React.FC<IProps> = ({ user }) => {
         </SMenuContainer>
       </SProfilePictureContainer>
       {
-        user.settings && (
+        settings && (
           <SettingsModal
             modalShowing={settingsModalShowing}
             toggleModal={toggleSettingsModal}
-            currentSettings={user.settings}
+            currentSettings={settings}
           />
         )
       }

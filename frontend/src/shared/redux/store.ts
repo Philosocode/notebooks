@@ -1,7 +1,6 @@
 import { AnyAction, combineReducers, configureStore, getDefaultMiddleware, Reducer } from "@reduxjs/toolkit";
 
 import { alertReducer } from "alert/redux/alert.slice";
-import { authReducer } from "auth/redux/auth.slice";
 import { conceptReducer } from "concept/redux/concept.slice";
 import { factReducer } from "fact/redux/fact.slice";
 import { hookReducer } from "hook/redux/hook.slice";
@@ -16,7 +15,6 @@ import { userReducer } from "user/redux/user.slice";
 
 const appReducer = combineReducers({
   alert: alertReducer,
-  auth: authReducer,
   concept: conceptReducer,
   fact: factReducer,
   hook: hookReducer,

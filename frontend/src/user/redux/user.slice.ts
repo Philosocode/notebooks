@@ -1,24 +1,61 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { fetchUsers } from "./user.thunks";
-
-interface IUserState {
-  users?: any[];
-}
+import { IUserState } from "./user.types";
+import { ILoginPayload } from "./user.types";
+import { LOCAL_STORAGE_TOKEN_KEY } from "../../shared/constants.shared";
+import { getUserSettings, updateUserSettings } from "./user.thunks";
+import { loginGoogle } from "./user.thunks";
 
 const initialState: IUserState = {
-  users: undefined,
+  user: undefined,
+  settings: undefined,
+  token: undefined,
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
-  extraReducers: {
-    [fetchUsers.fulfilled.type]: (state, action: any) => {
-      state.users = action.payload;
+  reducers: {
+    login: (state, action: PayloadAction<ILoginPayload>) => {
+      const { user, token } = action.payload;
+
+      state.user = user;
+      state.token = token;
     },
+    logout: (state) => {
+      state.user = undefined;
+      state.token = undefined;
+
+      localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginGoogle.fulfilled, (state, action) => {
+        const { token, user } = action.payload;
+
+        localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
+
+        state.user = user;
+        state.token = token;
+      })
+      .addCase(getUserSettings.fulfilled, (state, action) => {
+        state.settings = action.payload;
+      })
+      .addCase(updateUserSettings.fulfilled, (state, action) => {
+        if (!state.settings) return;
+        if (!action.payload?.updates) return;
+
+        state.settings = {
+          ...state.settings,
+          ...action.payload.updates,
+        };
+      })
   }
 });
 
+export const {
+  login,
+  logout,
+} = userSlice.actions;
 export const userReducer = userSlice.reducer;

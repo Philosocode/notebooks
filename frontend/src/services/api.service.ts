@@ -1,6 +1,6 @@
-import { logout } from "auth/redux/auth.slice";
 import axios from "axios";
 import { store } from "shared/redux/store";
+import { logout } from "user/redux/user.slice";
 
 import { LOCAL_STORAGE_TOKEN_KEY } from "shared/constants.shared";
 

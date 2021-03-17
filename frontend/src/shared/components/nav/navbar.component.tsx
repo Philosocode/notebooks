@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 import { useSelector } from "react-redux";
 
 // logic
-import { selectUser } from "auth/redux/auth.selectors";
+import { selectUser } from "user/redux/user.selectors";
 import { useAppLocation } from "shared/hooks/use-app-location.hook";
 import { useToggle } from "shared/hooks/use-toggle.hook";
 

@@ -1,16 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { api } from "services/api.service";
-import { IUser, IUserSettings } from "./user.types";
+import { ILoginPayload, IUser, IUserSettings } from "./user.types";
+import { TResStatus } from "../../shared/types.shared";
 
-export const fetchUsers = createAsyncThunk(
-  "user/getUsers",
-  async function (_, thunkAPI) {
+interface ILoginResponse {
+  data: ILoginPayload;
+  status: TResStatus;
+}
+export const loginGoogle = createAsyncThunk(
+  "auth/loginGoogle",
+  async function (token: string, thunkAPI) {
     try {
-      const res = await api.get("/");
+      const res = await api.post<ILoginResponse>("/auth/google", { token });
       return res.data.data;
     } catch (err) {
-      thunkAPI.rejectWithValue(err);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -18,7 +23,9 @@ export const fetchUsers = createAsyncThunk(
 interface IGetUserSettingsResponse {
   status: string;
   data: {
-    user: IUser;
+    user: {
+      settings: IUserSettings;
+    };
   };
 }
 export const getUserSettings = createAsyncThunk(
@@ -26,6 +33,7 @@ export const getUserSettings = createAsyncThunk(
   async function(userId: string, thunkAPI) {
     try {
       const res = await api.get<IGetUserSettingsResponse>(`/users/${userId}`);
+
       return res.data.data.user.settings;
     } catch (err) {
       thunkAPI.rejectWithValue(err);

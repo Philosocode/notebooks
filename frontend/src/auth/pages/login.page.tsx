@@ -4,15 +4,16 @@ import { Redirect, useLocation } from "react-router-dom";
 import GoogleLogin from "react-google-login";
 import styled from "styled-components";
 
-import { TAppState } from "shared/redux/store";
-import { loginGoogle } from "auth/redux/auth.thunks";
-import { SPageContentCenter } from "shared/styles/layout.style";
-import { SHeadingTitle } from "shared/styles/typography.style";
+import { loginGoogle } from "user/redux/user.thunks";
+import { selectIsLoggedIn } from "user/redux/user.selectors";
+
 import { theme } from "shared/styles/theme.style";
+import { SHeadingTitle } from "shared/styles/typography.style";
+import { SPageContentCenter } from "shared/styles/layout.style";
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state: TAppState) => state.auth.user);
+  const loggedIn = useSelector(selectIsLoggedIn);
   const location = useLocation<{ from: { pathname: string } }>();
 
   async function handleGoogleSuccess(googleData: any) {
@@ -25,9 +26,9 @@ export const LoginPage = () => {
 
   return (
     <SPageContentCenter centerContent>
-      { user && <Redirect to={location.state?.from?.pathname ?? "/concepts"} /> }
+      { loggedIn && <Redirect to={location.state?.from?.pathname ?? "/concepts"} /> }
       <SHeadingTitle>Login Page</SHeadingTitle>
-      {!user ? (
+      {!loggedIn ? (
         <SGoogleLogin
           clientId={`${process.env.REACT_APP_OAUTH_CLIENT_ID}`}
           buttonText="Login With Google"

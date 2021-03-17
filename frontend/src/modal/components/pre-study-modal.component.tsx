@@ -10,7 +10,7 @@ import styled from "styled-components";
 import { theme } from "../../shared/styles/theme.style";
 import { SButtonGreen } from "../../shared/styles/button.style";
 import { LabelCheckbox } from "../../shared/components/form/label-checkbox.component";
-import { selectUser } from "../../auth/redux/auth.selectors";
+import { selectUser } from "user/redux/user.selectors";
 
 const formItems = [
   "Find a quiet, distraction-free place to study",
