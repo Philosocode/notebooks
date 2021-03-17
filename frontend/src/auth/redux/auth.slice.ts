@@ -29,8 +29,13 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loginGoogle.fulfilled, (_, action) => {
-        localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, action.payload);
+      .addCase(loginGoogle.fulfilled, (state, action) => {
+        const { token, user } = action.payload;
+
+        localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
+
+        state.user = user;
+        state.token = token;
       })
       .addCase(getUserSettings.fulfilled, (state, action) => {
         if (!state.user) return;
