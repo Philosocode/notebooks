@@ -35,9 +35,6 @@ const userSlice = createSlice({
         const { token, user } = action.payload;
 
         localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
-
-        state.user = user;
-        state.token = token;
       })
       .addCase(getUserSettings.fulfilled, (state, action) => {
         state.settings = action.payload;

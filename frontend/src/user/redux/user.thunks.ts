@@ -1,7 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { api } from "services/api.service";
-import { ILoginPayload, IUser, IUserSettings } from "./user.types";
+import { ILoginPayload, IUserSettings } from "./user.types";
+import { login } from "./user.slice";
 import { TResStatus } from "../../shared/types.shared";
 
 interface ILoginResponse {
@@ -13,6 +14,9 @@ export const loginGoogle = createAsyncThunk(
   async function (token: string, thunkAPI) {
     try {
       const res = await api.post<ILoginResponse>("/auth/google", { token });
+
+      thunkAPI.dispatch(login(res.data.data));
+
       return res.data.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);

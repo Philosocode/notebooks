@@ -10,7 +10,7 @@ export const api = axios.create({
 
 // automatically attach token to requests
 api.interceptors.request.use((req) => {
-  const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
+  const token = store.getState().user.token;
 
   if (token) req.headers.Authorization = `Bearer ${token}`;
 
