@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
@@ -15,7 +15,6 @@ import { SettingsModal } from "user/components/settings-modal.component";
 
 // styles
 import { theme } from "../../styles/theme.style";
-import { selectAuthLoaded } from "../../redux/init.selectors";
 
 interface IProps {
   user: IUser;
@@ -29,7 +28,7 @@ export const NavbarProfileMenu: React.FC<IProps> = ({ user }) => {
     if (!user.settings) {
       dispatch(getUserSettings(user.id));
     }
-  }, [dispatch, user.id]);
+  }, [dispatch, user.id, user.settings]);
 
   function handleLogout() {
     dispatch(logout());
