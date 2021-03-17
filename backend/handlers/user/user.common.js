@@ -2,8 +2,8 @@ const defaultSettings = {
   autoStartTimer: false,
   showWelcomeModal: true,
   forcedBreaks: true,
-  defaultBreakTime: 30,
-  defaultStudyTime: 5,
+  defaultBreakTime: 5,
+  defaultStudyTime: 30,
 };
 
 const settingsKeys = Object.keys(defaultSettings);

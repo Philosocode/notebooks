@@ -6,7 +6,7 @@ import { SInputBorderless } from "shared/styles/form.style";
 interface IProps
   extends InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
   name: string;
-  type: "email" | "password" | "text" | "textarea";
+  type: "email" | "password" | "text" | "textarea" | "number";
 }
 export const FormGroup: FC<IProps> = ({ name, type, ...rest }) => {
   function renderInput() {

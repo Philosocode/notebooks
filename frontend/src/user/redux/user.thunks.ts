@@ -32,3 +32,22 @@ export const getUserSettings = createAsyncThunk(
     }
   }
 )
+
+interface IUpdateUserSettingsPayload {
+  userId: string;
+  updates: Partial<IUserSettings>;
+}
+export const updateUserSettings = createAsyncThunk(
+  "user/updateUserSettings",
+  async function(payload: IUpdateUserSettingsPayload, thunkAPI) {
+    const { updates, userId } = payload;
+
+    try {
+      await api.patch(`/users/${userId}`, { settings: updates });
+
+      return payload;
+    } catch (err) {
+      thunkAPI.rejectWithValue(err);
+    }
+  }
+)

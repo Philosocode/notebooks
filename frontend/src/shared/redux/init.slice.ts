@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IInitState } from "./init.types";
 import { getConcepts } from "../../concept/redux/concept.thunks";
 import { getMaterials } from "../../material/redux/material.thunks";
-import { loginGoogle } from "../../auth/redux/auth.thunks";
 
 const initialState: IInitState = {
   conceptsLoaded: false,

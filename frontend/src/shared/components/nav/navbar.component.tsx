@@ -81,7 +81,7 @@ const SStuckButton = styled(SButtonGreen)`
   box-shadow: none;
   margin-right: ${theme.spacing.base};
   font-size: ${theme.fontSizes.sm};
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   padding: 0.5em;

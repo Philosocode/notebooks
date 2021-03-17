@@ -23,7 +23,7 @@ export const NavbarProfileMenu: React.FC<IProps> = ({ user }) => {
     if (!user.settings) {
       dispatch(getUserSettings(user.id));
     }
-  }, []);
+  }, [dispatch, user.id, user.settings]);
 
   function handleLogout() {
     dispatch(logout());

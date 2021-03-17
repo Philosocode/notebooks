@@ -29,25 +29,28 @@ export function useForm<TFormState extends object>(initialValues: TFormState) {
   }, []);
 
   function itemsChanged() {
-    // if initial values !== current values, something has changed
     const keys = Object.keys(initialValues);
 
     for (let key of keys) {
-      // @ts-ignore
-      const initial = initialValues[key].trim().toLowerCase();
-      // @ts-ignore
-      const current = values[key].trim().toLowerCase();
-
-      if (initial !== current) return false;
+      // @ts-ignore. Done so numbers and number-strings can be compared
+      if (initialValues[key] != values[key]) { // eslint-disable-line
+        return true; 
+      }
     }
 
-    return true;
+    return false;
   }
 
   function handleChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     // Change `values` based on input events
     event.persist();
-    setValues(values => ({ ...values, [event.target.name]: event.target.value }));
+
+    if (event.target.type === "checkbox") {
+      // @ts-ignore
+      setValues(values => ({ ...values, [event.target.name]: event.target.checked }));
+    } else {
+      setValues(values => ({ ...values, [event.target.name]: event.target.value }));
+    }
   }
 
   return { 
