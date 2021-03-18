@@ -64,7 +64,7 @@ export const ConceptsPage: React.FC = () => {
         },
       })
     );
-  };
+  }
 
   return (
     <SPage>

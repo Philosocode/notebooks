@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import { useRandom } from "../../shared/hooks/use-random.hook";
@@ -21,7 +21,7 @@ const items = [
     <li>Go for a walk</li>
   </ul>,
 
-  <p>Switch to a completely different type of problem</p>,
+  <p>Switch to a completely different type of problem. Come back to this problem later.</p>,
 
   <>
     <SAnchorTag href={duckUrl}>Rubber Duck Debugging:</SAnchorTag>
