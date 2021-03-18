@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 // logic
 import { appRoutes } from "./shared/config/app-routes.config";
-import { useAuth } from "auth/hooks/use-auth.hook";
-import { useScrollToTop } from "shared/hooks/use-scroll-to-top.hook";
 import { useAppLocation } from "shared/hooks/use-app-location.hook";
-import { selectSettings, selectUser } from "./user/redux/user.selectors";
+import { useInit } from "./shared/hooks/use-init.hook";
+import { selectIsLoggedIn, selectSettings } from "./user/redux/user.selectors";
 
 // components
 import { Alert } from "alert/components/alert.component";
@@ -23,22 +22,13 @@ import { PreStudyModal } from "./modal/components/pre-study-modal.component";
 // styles
 import { theme } from "./shared/styles/theme.style";
 import { SMainContent } from "shared/styles/layout.style";
-import { getUserSettings } from "./user/redux/user.thunks";
+import { Loader } from "./loading/components/loader.component";
 
 export function App() {
-  const dispatch = useDispatch();
-  const user = useSelector(selectUser);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const settings = useSelector(selectSettings);
 
-  // load settings if logged in
-  useEffect(() => {
-    if (!user || settings) return;
-
-    dispatch(getUserSettings(user.id));
-  }, [user, dispatch, settings]);
-
-  useScrollToTop();
-  useAuth();
+  useInit();
 
   const appLocation = useAppLocation();
 
@@ -80,7 +70,7 @@ export function App() {
       paddingLeft = "0";
   }
 
-  if (user && !settings) return null;
+  if (isLoggedIn && !settings) return <Loader />;
   return (
     <>
       <Navbar />
