@@ -171,6 +171,8 @@ async function updateTagForEntity(tableName, entityId, oldName, newName, connect
 
 /* HELPER FUNCTIONS */
 async function entityHasTag(tableName, entityId, tag, connection=db) {
+  console.log(tableName, entityId, tag);
+  
   const res = await connection.first(
     connection.raw(
       "exists ? as exists",
@@ -179,6 +181,8 @@ async function entityHasTag(tableName, entityId, tag, connection=db) {
         .where({ [`${tableName}_tag.${tableName}_id`]: entityId, "tag.name": tag })
     )
   );
+
+  console.log("RES", res);
 
   return res.exists;
 }

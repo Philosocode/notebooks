@@ -5,7 +5,8 @@ import { IMaterial } from "material/redux/material.types";
 import { showModal } from "modal/redux/modal.slice";
 
 import { deleteTagFromMaterial } from "material/redux/material-tag.thunk";
-import { DetailHeaderWithTags } from "../../shared/components/info/detail-header-with-tags.component";
+import { TagList } from "../../tag/components/tag-list.component";
+import { DetailHeader } from "../../shared/components/info/detail-header.component";
 
 interface IProps {
   material: IMaterial;
@@ -26,12 +27,11 @@ export const MaterialDetailHeader: React.FC<IProps> = ({ material }) => {
   }
 
   return (
-    <DetailHeaderWithTags
+    <DetailHeader
       name={material.name}
       updatedAt={material.updated_at}
-      tags={material.tags}
       showUpdateModal={showUpdateModal}
-      handleDeleteTag={handleDeleteTag}
+      bottomSlot={<TagList tags={material.tags} handleDeleteTag={handleDeleteTag} />}
     />
   );
 }

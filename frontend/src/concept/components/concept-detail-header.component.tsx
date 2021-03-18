@@ -6,8 +6,9 @@ import { IConcept } from "../redux/concept.types";
 import { showModal } from "modal/redux/modal.slice";
 import { deleteTagFromConcept } from "concept/redux/concept.thunks";
 
-// styles
-import { DetailHeaderWithTags } from "../../shared/components/info/detail-header-with-tags.component";
+// components
+import { DetailHeader } from "shared/components/info/detail-header.component";
+import { TagList } from "../../tag/components/tag-list.component";
 
 interface IProps {
   concept: IConcept
@@ -29,12 +30,11 @@ export const ConceptDetailHeader: React.FC<IProps> = ({ concept }) => {
   }
 
   return (
-    <DetailHeaderWithTags
+    <DetailHeader
       name={concept.name}
       updatedAt={concept.updated_at}
-      tags={concept.tags}
-      handleDeleteTag={handleDeleteTag}
       showUpdateModal={showUpdateModal}
+      bottomSlot={<TagList tags={concept.tags} handleDeleteTag={handleDeleteTag} />}
     />
   );
 };
