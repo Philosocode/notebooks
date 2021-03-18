@@ -15,7 +15,7 @@ interface IProps {
   entity: IEntity;
   link: string;
   updateEntity: () => void;
-  deleteTag: (entityId: string, tag: string) => void;
+  deleteTag: (tag: string) => void;
   children?: React.ReactNode;
 }
 export const EntityListItem: React.FC<IProps> = ({
@@ -33,7 +33,7 @@ export const EntityListItem: React.FC<IProps> = ({
   }
 
   function handleDeleteTag(tag: string) {
-    deleteTag(entity.id, tag);
+    deleteTag(tag);
   }
 
   return (
