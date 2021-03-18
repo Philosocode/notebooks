@@ -161,10 +161,10 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
 
   function getTimerDuration() {
     if (mode === "study") {
-      return milliseconds({ seconds: 10 });
+      return milliseconds({ minutes: settings.defaultStudyTime });
     }
 
-    return milliseconds({ seconds: 10 });
+    return milliseconds({ minutes: settings.defaultBreakTime });
   }
 
   function getTimeText() {
