@@ -14,6 +14,11 @@ export const selectMaterialsLoaded = createSelector(
   (state) => state.materialsLoaded
 );
 
+export const selectSettingsLoaded = createSelector(
+  [selectInitState],
+  (state) => state.settingsLoaded
+);
+
 export const selectWelcomeScreenShown = createSelector(
   [selectInitState],
   (state) => state.welcomeScreenShown

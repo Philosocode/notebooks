@@ -32,7 +32,7 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginGoogle.fulfilled, (state, action) => {
-        const { token, user } = action.payload;
+        const { token } = action.payload;
 
         localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
       })

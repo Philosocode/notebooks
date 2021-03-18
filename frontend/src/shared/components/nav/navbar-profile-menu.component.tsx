@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
 // logic
 import { IUser } from "user/redux/user.types";
-import { getUserSettings } from "user/redux/user.thunks";
 import { IMenuAction, Menu } from "../menu/menu.component";
 import { useToggle } from "shared/hooks/use-toggle.hook";
 import { logout } from "user/redux/user.slice";
@@ -25,12 +24,6 @@ export const NavbarProfileMenu: React.FC<IProps> = ({ user }) => {
   const [settingsModalShowing, toggleSettingsModal] = useToggle(false);
   const dispatch = useDispatch();
   const settings = useSelector(selectSettings);
-
-  useEffect(() => {
-    if (!settings) {
-      dispatch(getUserSettings(user.id));
-    }
-  }, [dispatch, user.id, settings]);
 
   function handleLogout() {
     dispatch(logout());

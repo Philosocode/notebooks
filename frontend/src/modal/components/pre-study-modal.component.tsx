@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 
+// logic
+import { IUserSettings } from "../../user/redux/user.types";
 import { selectWelcomeScreenShown } from "shared/redux/init.selectors";
 import { setWelcomeScreenShown } from "shared/redux/init.slice";
-import { ModalWrapper } from "./modal-wrapper.component";
 
+// components
+import { ModalWrapper } from "./modal-wrapper.component";
+import { LabelCheckbox } from "../../shared/components/form/label-checkbox.component";
+
+// styles
 import { SHeadingSubtitle } from "shared/styles/typography.style";
-import styled from "styled-components";
 import { theme } from "../../shared/styles/theme.style";
 import { SButtonGreen } from "../../shared/styles/button.style";
-import { LabelCheckbox } from "../../shared/components/form/label-checkbox.component";
-import { selectUser } from "user/redux/user.selectors";
 
 const formItems = [
   "Find a quiet, distraction-free place to study",
@@ -31,9 +35,11 @@ const initialFormState = formItems.reduce<IFormState>(
   },
 {});
 
-export const PreStudyModal: React.FC = () => {
+interface IProps {
+  settings: IUserSettings;
+}
+export const PreStudyModal: React.FC<IProps> = ({ settings }) => {
   const welcomeScreenShown = useSelector(selectWelcomeScreenShown);
-  const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
   const [values, setValues] = useState(initialFormState);
@@ -58,11 +64,11 @@ export const PreStudyModal: React.FC = () => {
   }
 
   const submitDisabled = Object.values(values).includes(false);
-
+  const shouldShow = !welcomeScreenShown && settings.showWelcomeModal;
   return (
     <ModalWrapper
       handleClose={handleClose}
-      isShowing={!welcomeScreenShown}
+      isShowing={shouldShow}
       disableDefaultClose={true}
     >
       <SHeadingSubtitle>Pre-Study Checklist</SHeadingSubtitle>

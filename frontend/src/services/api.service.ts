@@ -2,8 +2,6 @@ import axios from "axios";
 import { store } from "shared/redux/store";
 import { logout } from "user/redux/user.slice";
 
-import { LOCAL_STORAGE_TOKEN_KEY } from "shared/constants.shared";
-
 export const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL ?? "http://localhost:5000/api/v1",
 });
