@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
+import milliseconds from "date-fns/milliseconds";
 
 // logic
+import { IUserSettings } from "../../user/redux/user.types";
 import { selectTimerState } from "timer/redux/timer.selectors";
 import { msToMMSS } from "shared/utils/time.util";
+import { useInterval } from "shared/hooks/use-interval.hook";
+import { showModal, hideModal } from "../redux/timer.slice";
 import {
-  defaultBreakTime,
-  defaultStudyTime,
   pauseTimer,
   resetTimer,
   startTimer,
@@ -15,13 +17,13 @@ import {
   unpauseTimer,
 } from "timer/redux/timer.slice";
 
+// components
+import { ModalWrapper } from "modal/components/modal-wrapper.component";
+import { LabelCheckbox } from "shared/components/form/label-checkbox.component";
+
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SButtonGreen, SButtonRed } from "shared/styles/button.style";
-import { useInterval } from "shared/hooks/use-interval.hook";
-import { showModal, hideModal } from "../redux/timer.slice";
-import { ModalWrapper } from "modal/components/modal-wrapper.component";
-import { LabelCheckbox } from "../../shared/components/form/label-checkbox.component";
 
 const checkboxItems = [
   "Summarize what you learned during this study session",
@@ -34,7 +36,6 @@ const checkboxItems = [
 interface ICheckboxItems {
   [key: string]: boolean;
 }
-
 const checkboxHash = checkboxItems.reduce<ICheckboxItems>(
   (acc, _, index) => {
     const stepNumber = "step" + (index + 1);
@@ -43,7 +44,12 @@ const checkboxHash = checkboxItems.reduce<ICheckboxItems>(
     return acc;
   }, {});
 
-export const TimerModal: React.FC = () => {
+const audio = new Audio("/alarm-beep.mp3");
+
+interface IProps {
+  settings: IUserSettings;
+}
+export const TimerModal: React.FC<IProps> = ({ settings }) => {
   const dispatch = useDispatch();
   const timerState = useSelector(selectTimerState);
   const { endTime, runningState, mode, modalShowing } = timerState;
@@ -52,8 +58,6 @@ export const TimerModal: React.FC = () => {
   const timerTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [values, setValues] = useState(checkboxHash);
-
-  const audio = new Audio("/alarm-beep.mp3");
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setValues(prevState => {
@@ -66,16 +70,13 @@ export const TimerModal: React.FC = () => {
 
   useEffect(() => {
     if (runningState === "stopped") {
-      setTimeText(
-        mode === "study"
-          ? msToMMSS(defaultStudyTime)
-          : msToMMSS(defaultBreakTime)
-      );
+      setTimeText(getTimeText());
 
       // reset checkboxes when switching modes
       setValues(checkboxHash);
     }
-  }, [runningState, mode]);
+    // eslint-disable-next-line
+  }, [runningState, mode, settings.defaultBreakTime, settings.defaultStudyTime]);
 
   // update timer display
   useInterval(
@@ -103,17 +104,18 @@ export const TimerModal: React.FC = () => {
   function handleStart() {
     if (runningState === "running") return;
 
-    dispatch(startTimer());
+    const duration = getTimerDuration();
 
-    const intervalTime = mode === "study" ? defaultStudyTime : defaultBreakTime;
+    dispatch(startTimer(duration));
 
+    // create timeout for when timer is finished
     timerTimeout.current = setTimeout(() => {
       if (mode === "study") {
         audio.play();
       }
       dispatch(timerFinished());
       dispatch(showModal());
-    }, intervalTime);
+    }, duration);
   }
 
   function handlePause() {
@@ -138,18 +140,26 @@ export const TimerModal: React.FC = () => {
   function handleReset() {
     dispatch(resetTimer());
 
-    setTimeText(msToMMSS(defaultStudyTime));
+    const duration = getTimerDuration();
+    setTimeText(msToMMSS(duration));
 
     if (timerTimeout.current) {
       clearTimeout(timerTimeout.current);
     }
   }
 
+  function getTimerDuration() {
+    if (mode === "study") {
+      return milliseconds({ minutes: settings.defaultStudyTime });
+    }
+
+    return milliseconds({ minutes: settings.defaultBreakTime });
+  }
+
   function getTimeText() {
     if (runningState === "stopped") {
-      return mode === "study"
-        ? msToMMSS(defaultStudyTime)
-        : msToMMSS(defaultStudyTime);
+      const duration = getTimerDuration();
+      return msToMMSS(duration);
     }
 
     const remainingTime = Math.max(endTime - Date.now(), 0);
@@ -175,7 +185,7 @@ export const TimerModal: React.FC = () => {
     <ModalWrapper
       isShowing={modalShowing}
       handleClose={handleCloseModal}
-      disableDefaultClose={mode === "break"}
+      disableDefaultClose={mode === "break" && settings.forcedBreaks}
     >
       <SContainer>
         <SMode>{mode === "study" ? "Study" : "Break"}</SMode>

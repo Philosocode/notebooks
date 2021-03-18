@@ -15,6 +15,7 @@ import { PrivateRoute } from "shared/components/nav/private-route.component";
 import { Navbar } from "shared/components/nav/navbar.component";
 import { Sidebar } from "./shared/components/nav/sidebar.component";
 import { NotFoundPage } from "shared/pages/not-found.page";
+import { Loader } from "./loading/components/loader.component";
 import { ModalRoot } from "./modal/components/modal-root.component";
 import { TimerModal } from "timer/components/timer-modal.component";
 import { PreStudyModal } from "./modal/components/pre-study-modal.component";
@@ -22,7 +23,6 @@ import { PreStudyModal } from "./modal/components/pre-study-modal.component";
 // styles
 import { theme } from "./shared/styles/theme.style";
 import { SMainContent } from "shared/styles/layout.style";
-import { Loader } from "./loading/components/loader.component";
 
 export function App() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -84,7 +84,7 @@ export function App() {
         settings && (
           <>
             <PreStudyModal settings={settings} />
-            <TimerModal />
+            <TimerModal settings={settings} />
           </>
         )
       }

@@ -1,7 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import milliseconds from "date-fns/milliseconds";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { ITimerState, TTimerMode } from "./timer.types";
+import { ITimerState } from "./timer.types";
 
 const initialState: ITimerState = {
   endTime: 0,
@@ -11,15 +10,12 @@ const initialState: ITimerState = {
   runningState: "stopped",
 };
 
-export const defaultStudyTime = milliseconds({ minutes: 30 });
-export const defaultBreakTime = milliseconds({ minutes: 5 });
-
 const timerSlice = createSlice({
   name: "timer",
   initialState,
   reducers: {
-    startTimer: (state) => {
-      state.endTime = Date.now() + getTimeIncrement(state.mode);
+    startTimer: (state, action: PayloadAction<number>) => {
+      state.endTime = Date.now() + action.payload;
       state.runningState = "running";
     },
     timerFinished: (state) => {
@@ -30,9 +26,11 @@ const timerSlice = createSlice({
         ? state.mode = "break"
         : state.mode = "study";
     },
-    resetTimer: (state) => {
-      state.endTime = Date.now() + getTimeIncrement(state.mode);
-      state.runningState = "stopped";
+    resetTimer: () => {
+      return {
+        ...initialState,
+        modalShowing: true,
+      };
     },
     pauseTimer: (state) => {
       state.pauseTime = state.endTime - Date.now();
@@ -62,9 +60,3 @@ export const {
   showModal,
   hideModal,
 } = timerSlice.actions;
-
-/* HELPERS */
-function getTimeIncrement(mode: TTimerMode) {
-  if (mode === "study") return defaultStudyTime;
-  return defaultBreakTime;
-}
