@@ -11,7 +11,7 @@ import { modalReducer, showModal, hideModal } from "modal/redux/modal.slice";
 import { partReducer } from "part/redux/part.slice";
 import { sectionReducer } from "../../section/redux/section.slice";
 import { timerReducer } from "timer/redux/timer.slice";
-import { userReducer } from "user/redux/user.slice";
+import { userReducer, logout } from "user/redux/user.slice";
 
 const appReducer = combineReducers({
   alert: alertReducer,
@@ -33,7 +33,7 @@ export type TAppState = ReturnType<typeof appReducer>;
 const rootReducer: Reducer = (state: TAppState, action: AnyAction) => {
   // Reset state of Redux on logout
   // FROM: https://stackoverflow.com/a/35641992
-  if (action.type === "auth/logout") {
+  if (action.type === logout.type) {
     state = {} as TAppState;
   }
 

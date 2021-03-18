@@ -26,10 +26,10 @@ const timerSlice = createSlice({
         ? state.mode = "break"
         : state.mode = "study";
     },
-    resetTimer: () => {
+    resetTimer: (state) => {
       return {
         ...initialState,
-        modalShowing: true,
+        modalShowing: state.modalShowing,
       };
     },
     pauseTimer: (state) => {

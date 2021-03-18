@@ -69,6 +69,17 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
   }
 
   useEffect(() => {
+    // start timer at beginning if setting enabled
+    if (settings.autoStartTimer) {
+      handleStart();
+    }
+
+    return () => {
+      handleReset();
+    }
+  }, []);
+
+  useEffect(() => {
     if (runningState === "stopped") {
       setTimeText(getTimeText());
 
@@ -150,10 +161,10 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
 
   function getTimerDuration() {
     if (mode === "study") {
-      return milliseconds({ minutes: settings.defaultStudyTime });
+      return milliseconds({ seconds: 10 });
     }
 
-    return milliseconds({ minutes: settings.defaultBreakTime });
+    return milliseconds({ seconds: 10 });
   }
 
   function getTimeText() {
