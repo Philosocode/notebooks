@@ -58,9 +58,9 @@ export const DraggableContentBox: React.FC<IProps> = ({
   }
 
   function buttonDisabled() {
-    if (title.trim() === "" || content.trim() === "") return true;
+    if (values.title.trim() === "" || values.content.trim() === "") return true;
 
-    return itemsChanged();
+    return !itemsChanged();
   }
 
   return (
