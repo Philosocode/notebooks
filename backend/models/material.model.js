@@ -8,6 +8,8 @@ module.exports = {
   deleteMaterial,
   getMaterials,
   updateMaterial,
+
+  getFactsForMaterial,
 };
 
 async function createMaterial(user_id, name, tagNames, connection=db) {
@@ -67,12 +69,6 @@ async function getMaterials(user_id, options, connection=db) {
   return query;
 }
 
-async function getConceptsForMaterial(material_id, options, connection=db) {
-  const result = await connection
-
-  return result;
-}
-
 async function updateMaterial(material_id, updates, connection=db) {
   const { name, tags: updatedTags } = updates;
 
@@ -85,4 +81,21 @@ async function updateMaterial(material_id, updates, connection=db) {
       await updateTagsForEntity("material", material_id, updatedTags, trx);
     }
   });
+}
+
+async function getFactsForMaterial(material_id, connection=db) {
+  const columnsToSelect = [
+    "fact.id",
+    "fact.question",
+    "fact.answer",
+    "fact.mastered",
+    "fact.part_id",
+  ];
+
+  return connection("fact")
+    .select(columnsToSelect)
+    .join("part", "part.id", "fact.part_id")
+    .whereIn("part.id", function() {
+      this.select("id").from("part").where({ "part.material_id": material_id })
+    });
 }
