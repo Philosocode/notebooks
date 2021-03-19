@@ -12,11 +12,12 @@ import { showAndHideAlert } from "alert/redux/alert.thunks";
 // components
 import { TabNames } from "shared/components/nav/tab-names.component";
 import { MaterialDetailHeader } from "material/components/material-detail-header.component";
+import { Tab } from "shared/components/nav/tab.component";
+import { PartList } from "part/components/part-list.component";
 
 // styles
 import { SDetailPageContent } from "shared/styles/layout.style";
-import { Tab } from "shared/components/nav/tab.component";
-import { PartList } from "part/components/part-list.component";
+import { ConceptLinksForMaterial } from "../components/concept-links-for-material.component";
 
 interface IMatchParams {
   materialId: string;
@@ -60,7 +61,9 @@ export const MaterialDetailPage: React.FC<RouteComponentProps> = () => {
       <div>
         <Tab title="Parts" selectedTab={selectedTab}><PartList materialId={materialId} /></Tab>
         <Tab title="Facts" selectedTab={selectedTab}>Facts</Tab>
-        <Tab title="Concept Links" selectedTab={selectedTab}>Concept Links</Tab>
+        <Tab title="Concept Links" selectedTab={selectedTab}>
+          <ConceptLinksForMaterial material={currentMaterial} />
+        </Tab>
       </div>
     </SDetailPageContent>
   );
