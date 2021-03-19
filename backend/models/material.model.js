@@ -67,6 +67,12 @@ async function getMaterials(user_id, options, connection=db) {
   return query;
 }
 
+async function getConceptsForMaterial(material_id, options, connection=db) {
+  const result = await connection
+
+  return result;
+}
+
 async function updateMaterial(material_id, updates, connection=db) {
   const { name, tags: updatedTags } = updates;
 

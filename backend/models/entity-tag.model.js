@@ -182,8 +182,6 @@ async function entityHasTag(tableName, entityId, tag, connection=db) {
     )
   );
 
-  console.log("RES", res);
-
   return res.exists;
 }
 
