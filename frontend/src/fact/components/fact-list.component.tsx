@@ -13,13 +13,14 @@ import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
 
 // components
 import { DragAndDropWrapper } from "shared/components/drag-and-drop/drag-and-drop-wrapper.component";
-import { DraggableContentBox } from "../../shared/components/info/draggable-content-box.component";
+import { ContentBox } from "../../shared/components/info/content-box.component";
 import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
 
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 import { IFact } from "fact/redux/fact.types";
+import { DraggableWrapper } from "../../shared/components/drag-and-drop/draggable-wrapper.component";
 
 interface IProps {
   partId: string;
@@ -96,26 +97,26 @@ export const FactList: React.FC<IProps> = ({ partId }) => {
       <DragAndDropWrapper droppableId="section-list-droppable" handleDragEnd={handleDragEnd}>
         <SList>
           {facts.map((fact, index) => (
-            <DraggableContentBox
-              key={fact.id}
-              dragDisabled={false}
-              entityId={fact.id}
-              handleDelete={handleDelete}
-              handleUpdate={handleUpdate}
-              index={index}
-              initialContent={fact.answer}
-              initialName={fact.question}
-              isExpanded={expandedHash[fact.id]}
-              toggleIsExpanded={toggleEntityExpansion}
-              headerSlot={
-                <SStarContainer
-                  mastered={fact.mastered}
-                  onClick={(event) => toggleFactMastered(event, fact)}
-                >
-                  <SIcon icon={faCheck} />
-                </SStarContainer>
-              }
-            />
+            <DraggableWrapper key={fact.id} draggableId={fact.id} dragDisabled={false} index={index}>
+              <ContentBox
+                entityId={fact.id}
+                handleDelete={handleDelete}
+                handleUpdate={handleUpdate}
+                index={index}
+                initialContent={fact.answer}
+                initialName={fact.question}
+                isExpanded={expandedHash[fact.id]}
+                toggleIsExpanded={toggleEntityExpansion}
+                headerSlot={
+                  <SStarContainer
+                    mastered={fact.mastered}
+                    onClick={(event) => toggleFactMastered(event, fact)}
+                  >
+                    <SIcon icon={faCheck} />
+                  </SStarContainer>
+                }
+              />
+            </DraggableWrapper>
           ))}
         </SList>
       </DragAndDropWrapper>

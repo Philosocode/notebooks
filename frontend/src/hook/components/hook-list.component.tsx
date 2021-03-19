@@ -7,15 +7,16 @@ import { DropResult } from "react-beautiful-dnd";
 // logic
 import { IHook } from "../redux/hook.types";
 import { repositionHook } from "concept/redux/concept.slice";
-import { updateHookPosition } from "../redux/hook.thunks";
+import { deleteHook, updateHook, updateHookPosition } from "../redux/hook.thunks";
 import { useExpandHash } from "shared/hooks/use-expand-hash.hook";
 import { useEntityFilterSort } from "shared/hooks/use-entity-filter-sort.hook";
 
 // components
-import { HookListItem } from "./hook-list-item.component";
 import { FloatingCornerButton } from "../../shared/components/button/floating-corner-button.component";
 import { DragAndDropWrapper } from "shared/components/drag-and-drop/drag-and-drop-wrapper.component";
 import { SortFilterControls } from "../../shared/components/button/sort-filter-controls.component";
+import { ContentBox } from "../../shared/components/info/content-box.component";
+import { DraggableWrapper } from "../../shared/components/drag-and-drop/draggable-wrapper.component";
 
 // styles
 import { theme } from "../../shared/styles/theme.style";
@@ -66,6 +67,19 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
     }));
   }
 
+  function handleUpdate(hookId: string, title?: string, content?: string) {
+    const updates = { title, content };
+    dispatch(updateHook({
+      hookId,
+      conceptId,
+      updates,
+    }));
+  }
+
+  function handleDelete(hookId: string) {
+    dispatch(deleteHook({ hookId, conceptId }));
+  }
+
   const hasExpandedHook = hasExpandedEntity();
 
   // disable drag-and-drop if sort mode
@@ -88,20 +102,24 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
         includeCustom
       />
 
-      {filteredHooks.length === 0 && <SNoHooksHeading>No hooks found...</SNoHooksHeading>}
+      {filteredHooks.length === 0 && <SNotFoundHeading>No hooks found...</SNotFoundHeading>}
       <DragAndDropWrapper droppableId="hook-list-droppable" handleDragEnd={handleDragEnd}>
-        <SHookList>
+        <SList>
           {hooksToShow.map((hook, index) => (
-            <HookListItem
-              dragDisabled={!dragEnabled}
-              key={hook.id}
-              hook={hook}
-              index={index}
-              isExpanded={expandedHash[hook.id]}
-              toggleIsExpanded={toggleEntityExpansion}
-            />
+            <DraggableWrapper key={hook.id} draggableId={hook.id} index={index} dragDisabled={!dragEnabled}>
+              <ContentBox
+                entityId={hook.id}
+                handleDelete={handleDelete}
+                handleUpdate={handleUpdate}
+                index={index}
+                initialContent={hook.content}
+                initialName={hook.title}
+                isExpanded={expandedHash[hook.id]}
+                toggleIsExpanded={toggleEntityExpansion}
+              />
+            </DraggableWrapper>
           ))}
-        </SHookList>
+        </SList>
       </DragAndDropWrapper>
 
       <FloatingCornerButton
@@ -121,12 +139,12 @@ const SContainer = styled.div`
   padding-bottom: 20rem;
 `;
 
-const SNoHooksHeading = styled(SHeadingSubSubtitle)`
+const SNotFoundHeading = styled(SHeadingSubSubtitle)`
   font-weight: 500;
   margin-top: ${theme.spacing.md};
 `;
 
-const SHookList = styled.ul`
+const SList = styled.ul`
   margin-top: ${theme.spacing.md};
   max-width: 80rem;
   margin-left: auto;

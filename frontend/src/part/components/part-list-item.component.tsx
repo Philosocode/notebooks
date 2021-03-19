@@ -12,6 +12,7 @@ import { showModal } from "modal/redux/modal.slice";
 import { IconCircle } from "../../shared/components/button/circle-icon.component";
 
 import { theme } from "shared/styles/theme.style";
+import { DraggableWrapper } from "../../shared/components/drag-and-drop/draggable-wrapper.component";
 
 interface IProps {
   index: number;
@@ -48,27 +49,20 @@ export const PartListItem: React.FC<IProps> = ({ index, materialId, part }) => {
   ];
 
   return (
-    <Draggable draggableId={part.id} index={index}>
-      {provided => (
-        <SContainer
-          ref={provided.innerRef}
-          to={`/parts/${part.id}`}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-        >
-          <div>
-            <SHeadingId>{part.id}</SHeadingId>
-            <SName>{part.name}</SName>
-          </div>
-          <div>
-            <IconCircle handleClick={toggleMenuShowing} icon="ellipsis-v" />
-            <SMenuContainer>
-              <Menu actions={menuActions} menuShowing={menuShowing} toggleMenu={toggleMenuShowing} />
-            </SMenuContainer>
-          </div>
-        </SContainer>
-      )}
-    </Draggable>
+    <DraggableWrapper draggableId={part.id} dragDisabled={false} index={index}>
+      <SContainer to={`/parts/${part.id}`}>
+        <div>
+          <SHeadingId>{part.id}</SHeadingId>
+          <SName>{part.name}</SName>
+        </div>
+        <div>
+          <IconCircle handleClick={toggleMenuShowing} icon="ellipsis-v" />
+          <SMenuContainer>
+            <Menu actions={menuActions} menuShowing={menuShowing} toggleMenu={toggleMenuShowing} />
+          </SMenuContainer>
+        </div>
+      </SContainer>
+    </DraggableWrapper>
   )
 };
 

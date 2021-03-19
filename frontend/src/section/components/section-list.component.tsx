@@ -11,12 +11,13 @@ import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
 
 // components
 import { DragAndDropWrapper } from "shared/components/drag-and-drop/drag-and-drop-wrapper.component";
-import { DraggableContentBox } from "../../shared/components/info/draggable-content-box.component";
+import { ContentBox } from "../../shared/components/info/content-box.component";
 import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
 
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
+import { DraggableWrapper } from "../../shared/components/drag-and-drop/draggable-wrapper.component";
 
 interface IProps {
   partId: string;
@@ -78,18 +79,18 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
       <DragAndDropWrapper droppableId="section-list-droppable" handleDragEnd={handleDragEnd}>
         <SList>
           {sections.map((section, index) => (
-            <DraggableContentBox
-              key={section.id}
-              dragDisabled={false}
-              entityId={section.id}
-              handleDelete={handleDelete}
-              handleUpdate={handleUpdate}
-              index={index}
-              initialContent={section.content}
-              initialName={section.name}
-              isExpanded={expandedHash[section.id]}
-              toggleIsExpanded={toggleEntityExpansion}
-            />
+            <DraggableWrapper key={section.id} draggableId={section.id} index={index} dragDisabled={false}>
+              <ContentBox
+                entityId={section.id}
+                handleDelete={handleDelete}
+                handleUpdate={handleUpdate}
+                index={index}
+                initialContent={section.content}
+                initialName={section.name}
+                isExpanded={expandedHash[section.id]}
+                toggleIsExpanded={toggleEntityExpansion}
+              />
+            </DraggableWrapper>
           ))}
         </SList>
       </DragAndDropWrapper>

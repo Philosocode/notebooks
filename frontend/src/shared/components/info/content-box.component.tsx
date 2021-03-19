@@ -12,7 +12,6 @@ import { theme } from "shared/styles/theme.style";
 import { SButtonGreen, SButtonRed } from "shared/styles/button.style";
 
 interface IProps {
-  dragDisabled: boolean;
   entityId: string;
   index: number;
   initialContent: string;
@@ -24,8 +23,7 @@ interface IProps {
   headerSlot?: React.ReactNode;
 }
 
-export const DraggableContentBox: React.FC<IProps> = ({
-  dragDisabled,
+export const ContentBox: React.FC<IProps> = ({
   entityId,
   index,
   initialName,
@@ -64,43 +62,36 @@ export const DraggableContentBox: React.FC<IProps> = ({
   }
 
   return (
-    <Draggable draggableId={entityId} index={index} isDragDisabled={dragDisabled}>
-      {provided => (
-        <SContainer
-          isExpanded={isExpanded}
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-        >
-          <SHeader isExpanded={isExpanded} onClick={handleToggleClick}>
-            <SHeaderColumn>
-              <SPosition>{index + 1}</SPosition>
-              { headerSlot }
-              {!isExpanded && <STitle>{title}</STitle>}
-            </SHeaderColumn>
-            <SCaret icon={isExpanded ? "caret-up" : "caret-down"} />
-          </SHeader>
-          {
-            isExpanded && (
-              <>
-                <STitleTextarea name="title" onChange={handleChange} value={title} placeholder="Enter title">
-                  {title}
-                </STitleTextarea>
-                <SContentTextarea name="content" onChange={handleChange} value={content} placeholder="Enter content">
-                  {content}
-                </SContentTextarea>
-                <SButtons>
-                  <SButtonGreen disabled={buttonDisabled()} onClick={handleUpdateClick}>
-                    Update
-                  </SButtonGreen>
-                  <SButtonRed onClick={handleDeleteClick}>Delete</SButtonRed>
-                </SButtons>
-              </>
-            )
-          }
-        </SContainer>
-      )}
-    </Draggable>
+    <SContainer
+      isExpanded={isExpanded}
+    >
+      <SHeader isExpanded={isExpanded} onClick={handleToggleClick}>
+        <SHeaderColumn>
+          <SPosition>{index + 1}</SPosition>
+          { headerSlot }
+          {!isExpanded && <STitle>{title}</STitle>}
+        </SHeaderColumn>
+        <SCaret icon={isExpanded ? "caret-up" : "caret-down"} />
+      </SHeader>
+      {
+        isExpanded && (
+          <>
+            <STitleTextarea name="title" onChange={handleChange} value={title} placeholder="Enter title">
+              {title}
+            </STitleTextarea>
+            <SContentTextarea name="content" onChange={handleChange} value={content} placeholder="Enter content">
+              {content}
+            </SContentTextarea>
+            <SButtons>
+              <SButtonGreen disabled={buttonDisabled()} onClick={handleUpdateClick}>
+                Update
+              </SButtonGreen>
+              <SButtonRed onClick={handleDeleteClick}>Delete</SButtonRed>
+            </SButtons>
+          </>
+        )
+      }
+    </SContainer>
   );
 };
 
@@ -170,20 +161,6 @@ export const STextareaBase = styled(AutosizeTextarea)`
     outline: none;
   }
 `;
-
-export const SHookTitleTextarea = styled(STextareaBase)`
-  border: none;
-  border-bottom: 1px solid ${theme.colors.gray[300]};
-  font-size: ${theme.fontSizes.basePlus};
-  padding: 0;
-  padding-bottom: ${theme.spacing.xs};
-`;
-
-export const SHookContentTextarea = styled(STextareaBase)`
-  margin-top: ${theme.spacing.base};
-  padding: ${theme.spacing.sm};
-`;
-
 
 const STitleTextarea = styled(STextareaBase)`
   border-top: none;
