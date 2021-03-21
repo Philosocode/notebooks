@@ -37,7 +37,7 @@ export const FactsForMaterial: React.FC<IProps> = ({ material }) => {
       api.get<IGetFactsForMaterialResponse>(`/materials/${material.id}/facts`)
         .then(response => setFactsForMaterial(response.data.data.facts));
     }
-  }, [material.id]);
+  }, [material.id, factsForMaterial]);
 
   if (!factsForMaterial) return null;
   return (
@@ -48,6 +48,7 @@ export const FactsForMaterial: React.FC<IProps> = ({ material }) => {
       <SList>
         { factsForMaterial.map((fact, index) => (
             <ContentBox
+              key={fact.id}
               entityId={fact.id}
               index={index}
               title={fact.question}
