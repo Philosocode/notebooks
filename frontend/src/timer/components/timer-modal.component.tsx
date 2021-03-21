@@ -24,6 +24,8 @@ import { LabelCheckbox } from "shared/components/form/label-checkbox.component";
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SButtonGreen, SButtonRed } from "shared/styles/button.style";
+import { SInputBorderless } from "shared/styles/form.style";
+import { useForm } from "shared/hooks/use-form.hook";
 
 const checkboxItems = [
   "Summarize what you learned during this study session",
@@ -43,7 +45,10 @@ const checkboxHash = checkboxItems.reduce<ICheckboxItems>(
 
     return acc;
   }, {});
-
+const initialFormState = {
+  topic1: "",
+  topic2: "",
+}
 const audio = new Audio("/alarm-beep.mp3");
 
 interface IProps {
@@ -58,6 +63,7 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
   const timerTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [values, setValues] = useState(checkboxHash);
+  const { values: formValues, handleChange: handleFormChange } = useForm(initialFormState);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setValues(prevState => {
@@ -74,6 +80,7 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
       handleStart();
     }
 
+    // reset timer state when component unmounts
     return () => {
       handleReset();
     }
@@ -117,18 +124,22 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
   function handleStart() {
     if (runningState === "running") return;
 
-    const duration = getTimerDuration();
+    // handle 1 topic
+    if (formValues["topic2"].trim() === "") {
+      const duration = getTimerDuration();
 
-    dispatch(startTimer(duration));
+      dispatch(startTimer(duration));
 
-    // create timeout for when timer is finished
-    timerTimeout.current = setTimeout(() => {
-      if (mode === "study") {
-        audio.play();
-      }
-      dispatch(timerFinished());
-      dispatch(showModal());
-    }, duration);
+      // create timeout for when timer is finished
+      timerTimeout.current = setTimeout(() => {
+        if (mode === "study") {
+          audio.play();
+        }
+        dispatch(timerFinished());
+        dispatch(showModal());
+      }, duration);
+    }
+
   }
 
   function handlePause() {
@@ -162,6 +173,8 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
   }
 
   function getTimerDuration() {
+    return milliseconds({ seconds: 5 });
+
     if (mode === "study") {
       return milliseconds({ minutes: settings.defaultStudyTime });
     }
@@ -184,7 +197,9 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
     dispatch(hideModal());
   }
 
-  function breakButtonDisabled() {
+  function startButtonDisabled() {
+    if (mode === "study" && formValues["topic1"].trim() === "") return true;
+
     if (mode !== "break") return false;
     if (runningState === "running") return true;
 
@@ -203,10 +218,23 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
       <SContainer>
         <SMode>{mode === "study" ? "Study" : "Break"}</SMode>
         <STimeRemaining>{timeText}</STimeRemaining>
+        {
+          mode == "study" && runningState === "stopped" && (
+            <div>
+              <SInput name="topic1" value={formValues["topic1"]} onChange={handleFormChange} placeholder="Topic 1 (required)" />
+              <SInput name="topic2" value={formValues["topic2"]} onChange={handleFormChange} placeholder="Topic 2" />
+            </div>
+          )
+        }
+        {
+          mode === "study" && runningState !== "stopped" && (
+            <STopicHeading>Current Topic: {formValues["topic1"]}</STopicHeading>
+          )
+        }
         <SButtons>
           <SButtonGreen
             onClick={handleClick}
-            disabled={breakButtonDisabled()}
+            disabled={startButtonDisabled()}
           >
             {runningState === "running" ? "Pause" : "Start"}
           </SButtonGreen>
@@ -217,7 +245,7 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
         {mode === "break" && (
           <SBreakList>
             {
-              checkboxItems.map((item, index) => {
+              checkboxItems.map((_, index) => {
                 const stepName = "step" + (index + 1);
 
                 return (
@@ -259,6 +287,11 @@ const STimeRemaining = styled.h2`
   font-weight: 500;
 `;
 
+const STopicHeading = styled.h3`
+  font-size: ${theme.fontSizes.basePlus};
+  font-weight: 400;
+`;
+
 const SButtons = styled.div`
   & > button {
     margin: ${theme.spacing.base} ${theme.spacing.sm};
@@ -270,4 +303,9 @@ const SBreakList = styled.ul`
   list-style-type: disc;
   padding: ${theme.spacing.base};
   padding-top: 0;
+`;
+
+const SInput = styled(SInputBorderless)`
+  margin-top: ${theme.spacing.sm};
+;
 `;

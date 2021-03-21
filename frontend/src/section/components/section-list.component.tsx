@@ -11,14 +11,13 @@ import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
 
 // components
 import { DragAndDropWrapper } from "shared/components/drag-and-drop/drag-and-drop-wrapper.component";
-import { ContentBox } from "../../shared/components/info/content-box.component";
+import { DraggableWrapper } from "../../shared/components/drag-and-drop/draggable-wrapper.component";
 import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
+import { EditableContentBox } from "../../shared/components/info/editable-content-box.component";
 
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
-import { DraggableWrapper } from "../../shared/components/drag-and-drop/draggable-wrapper.component";
-import { EditableContentBox } from "../../shared/components/info/editable-content-box.component";
 
 interface IProps {
   partId: string;

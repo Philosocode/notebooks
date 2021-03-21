@@ -1,4 +1,4 @@
-export type TTimerMode = "study" | "break";
+export type TTimerMode = "study" | "break" | "switch";
 export type TTimerState = "running" | "paused" | "stopped";
 
 export interface ITimerState {
