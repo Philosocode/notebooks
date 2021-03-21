@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 // logic
+import { IFact } from "fact/redux/fact.types";
 import { selectFactsForPart } from "../redux/fact.selectors";
 import { createFact, deleteFact, getFacts, updateFact, updateFactPosition } from "../redux/fact.thunks";
 import { repositionFact } from "part/redux/part.slice";
@@ -13,14 +14,13 @@ import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
 
 // components
 import { DragAndDropWrapper } from "shared/components/drag-and-drop/drag-and-drop-wrapper.component";
-import { ContentBox } from "../../shared/components/info/content-box.component";
 import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
+import { DraggableWrapper } from "../../shared/components/drag-and-drop/draggable-wrapper.component";
+import { EditableContentBox } from "../../shared/components/info/editable-content-box.component";
 
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
-import { IFact } from "fact/redux/fact.types";
-import { DraggableWrapper } from "../../shared/components/drag-and-drop/draggable-wrapper.component";
 
 interface IProps {
   partId: string;
@@ -98,13 +98,13 @@ export const FactList: React.FC<IProps> = ({ partId }) => {
         <SList>
           {facts.map((fact, index) => (
             <DraggableWrapper key={fact.id} draggableId={fact.id} dragDisabled={false} index={index}>
-              <ContentBox
+              <EditableContentBox
                 entityId={fact.id}
                 handleDelete={handleDelete}
                 handleUpdate={handleUpdate}
                 index={index}
-                initialContent={fact.answer}
-                initialName={fact.question}
+                content={fact.answer}
+                title={fact.question}
                 isExpanded={expandedHash[fact.id]}
                 toggleIsExpanded={toggleEntityExpansion}
                 headerSlot={

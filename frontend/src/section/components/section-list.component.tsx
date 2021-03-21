@@ -18,6 +18,7 @@ import { FloatingCornerButton } from "shared/components/button/floating-corner-b
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 import { DraggableWrapper } from "../../shared/components/drag-and-drop/draggable-wrapper.component";
+import { EditableContentBox } from "../../shared/components/info/editable-content-box.component";
 
 interface IProps {
   partId: string;
@@ -80,13 +81,13 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
         <SList>
           {sections.map((section, index) => (
             <DraggableWrapper key={section.id} draggableId={section.id} index={index} dragDisabled={false}>
-              <ContentBox
+              <EditableContentBox
                 entityId={section.id}
                 handleDelete={handleDelete}
                 handleUpdate={handleUpdate}
                 index={index}
-                initialContent={section.content}
-                initialName={section.name}
+                content={section.content}
+                title={section.name}
                 isExpanded={expandedHash[section.id]}
                 toggleIsExpanded={toggleEntityExpansion}
               />

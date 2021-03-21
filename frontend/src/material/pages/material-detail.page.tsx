@@ -18,6 +18,7 @@ import { PartList } from "part/components/part-list.component";
 // styles
 import { SDetailPageContent } from "shared/styles/layout.style";
 import { ConceptLinksForMaterial } from "../components/concept-links-for-material.component";
+import { FactsForMaterial } from "../components/facts-for-material.component";
 
 interface IMatchParams {
   materialId: string;
@@ -60,7 +61,9 @@ export const MaterialDetailPage: React.FC<RouteComponentProps> = () => {
       <TabNames tabNames={tabNames} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       <div>
         <Tab title="Parts" selectedTab={selectedTab}><PartList materialId={materialId} /></Tab>
-        <Tab title="Facts" selectedTab={selectedTab}>Facts</Tab>
+        <Tab title="Facts" selectedTab={selectedTab}>
+          <FactsForMaterial material={currentMaterial} />
+        </Tab>
         <Tab title="Concept Links" selectedTab={selectedTab}>
           <ConceptLinksForMaterial material={currentMaterial} />
         </Tab>

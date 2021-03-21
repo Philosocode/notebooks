@@ -1,64 +1,35 @@
 import React from "react";
-import { Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AutosizeTextarea from "react-textarea-autosize";
 import styled from "styled-components";
 
-// logic
-import { useForm } from "shared/hooks/use-form.hook";
-
 // styles
 import { theme } from "shared/styles/theme.style";
-import { SButtonGreen, SButtonRed } from "shared/styles/button.style";
 
-interface IProps {
+export interface IContentBoxProps {
   entityId: string;
   index: number;
-  initialContent: string;
-  initialName: string;
+  title: string;
+  content: string;
   isExpanded: boolean;
-  handleDelete: (entityId: string) => void;
-  handleUpdate: (entityId: string, name: string, content: string) => void;
   toggleIsExpanded: (entityId: string) => void;
   headerSlot?: React.ReactNode;
+  buttonSlot?: React.ReactNode;
+  handleChange?: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
-
-export const ContentBox: React.FC<IProps> = ({
+export const ContentBox: React.FC<IContentBoxProps> = ({
   entityId,
   index,
-  initialName,
-  initialContent,
+  title,
+  content,
   isExpanded,
-  handleDelete,
-  handleUpdate,
   toggleIsExpanded,
   headerSlot,
+  buttonSlot,
+  handleChange,
 }) => {
-  const { handleChange, values, itemsChanged } = useForm({
-    title: initialName,
-    content: initialContent,
-  });
-
-  const { content, title } = values;
-
   function handleToggleClick() {
     toggleIsExpanded(entityId);
-  }
-
-  function handleDeleteClick() {
-    handleDelete(entityId);
-  }
-
-  function handleUpdateClick() {
-      if (buttonDisabled()) return;
-
-      handleUpdate(entityId, title, content);
-  }
-
-  function buttonDisabled() {
-    if (values.title.trim() === "" || values.content.trim() === "") return true;
-
-    return !itemsChanged();
   }
 
   return (
@@ -83,10 +54,7 @@ export const ContentBox: React.FC<IProps> = ({
               {content}
             </SContentTextarea>
             <SButtons>
-              <SButtonGreen disabled={buttonDisabled()} onClick={handleUpdateClick}>
-                Update
-              </SButtonGreen>
-              <SButtonRed onClick={handleDeleteClick}>Delete</SButtonRed>
+              {buttonSlot}
             </SButtons>
           </>
         )

@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
 import { IPart } from "part/redux/part.types";

@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { IMaterial } from "../redux/material.types";
 import { ILinkGridItem } from "../../shared/components/link/link-grid-item.component";
 import { api } from "services/api.service";
-import { getMaterials } from "material/redux/material.thunks";
 import { selectConceptsLoaded } from "shared/redux/init.selectors";
 import { selectConceptHash } from "../../concept/redux/concept.selectors";
 

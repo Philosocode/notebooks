@@ -68,8 +68,8 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
     });
   }
 
+  // start timer at beginning if setting enabled
   useEffect(() => {
-    // start timer at beginning if setting enabled
     if (settings.autoStartTimer) {
       handleStart();
     }
@@ -77,6 +77,8 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
     return () => {
       handleReset();
     }
+
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
