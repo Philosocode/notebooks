@@ -27,6 +27,8 @@ import { SButtonGreen, SButtonRed } from "shared/styles/button.style";
 import { SInputBorderless } from "shared/styles/form.style";
 import { useForm } from "shared/hooks/use-form.hook";
 
+const LONG_BREAK_COUNT = 3;
+
 const checkboxItems = [
   "Summarize what you learned during this study session",
   "Relax. Don't think about what you just studied",
@@ -65,6 +67,7 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
   const [values, setValues] = useState(checkboxHash);
   const { values: formValues, handleChange: handleFormChange } = useForm(initialFormState);
 
+  const [numBreaks, setNumBreaks] = useState(0);
   const [timeText, setTimeText] = useState(getTimeText());
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -133,6 +136,7 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
         dispatch(showModal());
         dispatch(timerFinished());
         setCurrentTopic("");
+        setNumBreaks(prevState => prevState + 1);
       }, duration);
 
       return;
@@ -143,6 +147,7 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
       const duration = getTimerDuration();
 
       dispatch(startTimer(duration));
+      setCurrentTopic(formValues["topic1"]);
 
       // create timeout for when timer is finished
       timerTimeout.current = setTimeout(() => {
@@ -212,7 +217,11 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
 
   function getTimerDuration() {
     if (mode === "break") {
-      return milliseconds({ minutes: settings.defaultBreakTime });
+      if (numBreaks === LONG_BREAK_COUNT) {
+        return milliseconds({ minutes: settings.defaultLongBreakTime });
+      } else {
+        return milliseconds({ minutes: settings.defaultBreakTime });
+      }
     }
 
     return milliseconds({ minutes: settings.defaultStudyTime });
@@ -258,7 +267,14 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
   }
 
   function getStudyModeText() {
-    if (mode === "break") return "Break";
+    if (mode === "break") {
+      if (numBreaks === LONG_BREAK_COUNT) {
+        return "Long Break"
+      } else {
+        return `Break #${numBreaks + 1}`;
+      }
+
+    }
     if (mode === "switch") return "Study #2";
     return "Study #1";
   }
@@ -273,7 +289,7 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
         <SMode>{getStudyModeText()}</SMode>
         <STimeRemaining>{timeText}</STimeRemaining>
         {
-          mode == "study" && runningState === "stopped" && (
+          mode === "study" && runningState === "stopped" && (
             <div>
               <SInput name="topic1" value={formValues["topic1"]} onChange={handleFormChange} placeholder="Topic 1 (required)" />
               <SInput name="topic2" value={formValues["topic2"]} onChange={handleFormChange} placeholder="Topic 2" />

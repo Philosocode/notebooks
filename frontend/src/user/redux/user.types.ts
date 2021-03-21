@@ -12,6 +12,7 @@ export interface IUserSettings {
   showWelcomeModal: boolean;
   defaultStudyTime: number;
   defaultBreakTime: number;
+  defaultLongBreakTime: number;
 }
 
 export interface IUserState {

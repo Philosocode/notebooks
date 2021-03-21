@@ -4,17 +4,17 @@ import { useDispatch } from "react-redux";
 
 // logic
 import { IUserSettings } from "../redux/user.types";
-import { useForm } from "../../shared/hooks/use-form.hook";
+import { useForm } from "shared/hooks/use-form.hook";
+import { updateUserSettings } from "../redux/user.thunks";
 
 // components
 import { ModalWrapper } from "modal/components/modal-wrapper.component";
-import { LabelCheckbox } from "../../shared/components/form/label-checkbox.component";
+import { LabelCheckbox } from "shared/components/form/label-checkbox.component";
 
 // styles
 import { theme } from "../../shared/styles/theme.style";
 import { SHeadingSubtitle } from "shared/styles/typography.style";
 import { SButtonGreen } from "shared/styles/button.style";
-import { updateUserSettings } from "../redux/user.thunks";
 
 interface IProps {
   currentSettings: IUserSettings;
@@ -52,8 +52,11 @@ export const SettingsModal: React.FC<IProps> = ({
     if (updates["defaultStudyTime"]) {
       updates["defaultStudyTime"] = +updates["defaultStudyTime"];
     }
+    if (updates["defaultLongBreakTime"]) {
+      updates["defaultLongBreakTime"] = +updates["defaultLongBreakTime"];
+    }
 
-    dispatch(updateUserSettings({ userId: "hello", updates }));
+    dispatch(updateUserSettings({ userId: "x", updates }));
 
     toggleModal();
   }
@@ -62,6 +65,7 @@ export const SettingsModal: React.FC<IProps> = ({
     <ModalWrapper handleClose={toggleModal} isShowing={modalShowing}>
       <SHeadingSubtitle>Settings</SHeadingSubtitle>
       <form onSubmit={handleUpdateSettings}>
+
         <LabelCheckbox
           text="Show welcome modal"
           htmlFor="showWelcomeModal"
@@ -70,6 +74,7 @@ export const SettingsModal: React.FC<IProps> = ({
           onChange={handleChange}
           checked={values["showWelcomeModal"]}
         />
+
         <LabelCheckbox
           text="Forced breaks"
           htmlFor="forcedBreaks"
@@ -78,6 +83,7 @@ export const SettingsModal: React.FC<IProps> = ({
           onChange={handleChange}
           checked={values["forcedBreaks"]}
         />
+
         <LabelCheckbox
           text="Automatically start study timer"
           htmlFor="autoStartTimer"
@@ -86,6 +92,7 @@ export const SettingsModal: React.FC<IProps> = ({
           onChange={handleChange}
           checked={values["autoStartTimer"]}
         />
+
         <SSelectLabel>
           Default Study Time:
           <select
@@ -97,6 +104,7 @@ export const SettingsModal: React.FC<IProps> = ({
             <option value="60">1 hour</option>
           </select>
         </SSelectLabel>
+
         <SSelectLabel>
           Default Break Time:
           <select
@@ -108,6 +116,20 @@ export const SettingsModal: React.FC<IProps> = ({
             <option value="10">10 minutes</option>
           </select>
         </SSelectLabel>
+
+        <SSelectLabel>
+          Default Long Break Time:
+          <select
+            name="defaultLongBreakTime"
+            value={values["defaultLongBreakTime"]}
+            onChange={handleChange}
+          >
+            <option value="10">10 minutes</option>
+            <option value="15">15 minutes</option>
+            <option value="30">30 minutes</option>
+          </select>
+        </SSelectLabel>
+
         <SSubmit disabled={!itemsChanged()}>Submit</SSubmit>
       </form>
     </ModalWrapper>
