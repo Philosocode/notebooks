@@ -8,7 +8,7 @@ import { IUserSettings } from "../../user/redux/user.types";
 import { selectTimerState } from "timer/redux/timer.selectors";
 import { msToMMSS } from "shared/utils/time.util";
 import { useInterval } from "shared/hooks/use-interval.hook";
-import { showModal, hideModal } from "../redux/timer.slice";
+import { showModal, hideModal, switchTopics } from "../redux/timer.slice";
 import {
   pauseTimer,
   resetTimer,
@@ -59,11 +59,13 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
   const timerState = useSelector(selectTimerState);
   const { endTime, runningState, mode, modalShowing } = timerState;
 
-  const [timeText, setTimeText] = useState(getTimeText());
+  const [currentTopic, setCurrentTopic] = useState("");
   const timerTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [values, setValues] = useState(checkboxHash);
   const { values: formValues, handleChange: handleFormChange } = useForm(initialFormState);
+
+  const [timeText, setTimeText] = useState(getTimeText());
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setValues(prevState => {
@@ -96,7 +98,7 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
       setValues(checkboxHash);
     }
     // eslint-disable-next-line
-  }, [runningState, mode, settings.defaultBreakTime, settings.defaultStudyTime]);
+  }, [runningState, mode, formValues.topic2, settings.defaultBreakTime, settings.defaultStudyTime]);
 
   // update timer display
   useInterval(
@@ -106,7 +108,6 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
     runningState === "running" ? 500 : null
   );
 
-  // start timer
   function handleClick() {
     switch (runningState) {
       case "paused":
@@ -124,6 +125,19 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
   function handleStart() {
     if (runningState === "running") return;
 
+    if (mode === "break") {
+      const duration = getTimerDuration();
+      dispatch(startTimer(duration));
+
+      timerTimeout.current = setTimeout(() => {
+        dispatch(showModal());
+        dispatch(timerFinished());
+        setCurrentTopic("");
+      }, duration);
+
+      return;
+    }
+
     // handle 1 topic
     if (formValues["topic2"].trim() === "") {
       const duration = getTimerDuration();
@@ -132,14 +146,38 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
 
       // create timeout for when timer is finished
       timerTimeout.current = setTimeout(() => {
-        if (mode === "study") {
-          audio.play();
-        }
+        audio.play();
+        dispatch(timerFinished());
+        dispatch(showModal());
+      }, duration);
+
+      return;
+    }
+
+    // handle 2 topics
+    // start 2nd topic
+    const duration = getTimerDuration() / 2;
+
+    if (mode === "switch") {
+      dispatch(startTimer(duration));
+
+      timerTimeout.current = setTimeout(() => {
+        audio.play();
         dispatch(timerFinished());
         dispatch(showModal());
       }, duration);
     }
+    // start 1st topic
+    else {
+      dispatch(startTimer(duration));
+      setCurrentTopic(formValues["topic1"]);
 
+      timerTimeout.current = setTimeout(() => {
+        dispatch(switchTopics());
+        dispatch(showModal());
+        setCurrentTopic(formValues["topic2"]);
+      }, duration);
+    }
   }
 
   function handlePause() {
@@ -173,18 +211,21 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
   }
 
   function getTimerDuration() {
-    return milliseconds({ seconds: 5 });
-
-    if (mode === "study") {
-      return milliseconds({ minutes: settings.defaultStudyTime });
+    if (mode === "break") {
+      return milliseconds({ minutes: settings.defaultBreakTime });
     }
 
-    return milliseconds({ minutes: settings.defaultBreakTime });
+    return milliseconds({ minutes: settings.defaultStudyTime });
   }
 
   function getTimeText() {
     if (runningState === "stopped") {
-      const duration = getTimerDuration();
+      let duration = getTimerDuration();
+
+      if (mode !== "break" && formValues["topic2"]) {
+        duration /= 2;
+      }
+
       return msToMMSS(duration);
     }
 
@@ -209,6 +250,19 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
     return false;
   }
 
+  function showCurrentTopic() {
+    if (mode === "switch") return true;
+    if (mode === "study" && runningState !== "stopped") return true;
+
+    return false;
+  }
+
+  function getStudyModeText() {
+    if (mode === "break") return "Break";
+    if (mode === "switch") return "Study #2";
+    return "Study #1";
+  }
+
   return (
     <ModalWrapper
       isShowing={modalShowing}
@@ -216,7 +270,7 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
       disableDefaultClose={mode === "break" && settings.forcedBreaks}
     >
       <SContainer>
-        <SMode>{mode === "study" ? "Study" : "Break"}</SMode>
+        <SMode>{getStudyModeText()}</SMode>
         <STimeRemaining>{timeText}</STimeRemaining>
         {
           mode == "study" && runningState === "stopped" && (
@@ -227,8 +281,8 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
           )
         }
         {
-          mode === "study" && runningState !== "stopped" && (
-            <STopicHeading>Current Topic: {formValues["topic1"]}</STopicHeading>
+          showCurrentTopic() && (
+            <STopicHeading>Current Topic: {currentTopic}</STopicHeading>
           )
         }
         <SButtons>
@@ -238,7 +292,7 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
           >
             {runningState === "running" ? "Pause" : "Start"}
           </SButtonGreen>
-          {mode === "study" && (
+          {mode !== "break" && (
             <SButtonRed disabled={runningState === "stopped"} onClick={handleReset}>Reset</SButtonRed>
           )}
         </SButtons>

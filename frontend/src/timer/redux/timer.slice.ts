@@ -18,13 +18,18 @@ const timerSlice = createSlice({
       state.endTime = Date.now() + action.payload;
       state.runningState = "running";
     },
+    switchTopics: (state) => {
+      state.runningState = "stopped";
+
+      state.mode = "switch";
+    },
     timerFinished: (state) => {
       state.runningState = "stopped";
 
       // toggle the mode
-      state.mode === "study"
-        ? state.mode = "break"
-        : state.mode = "study";
+      state.mode === "break"
+        ? state.mode = "study"
+        : state.mode = "break";
     },
     resetTimer: (state) => {
       return {
@@ -54,6 +59,7 @@ export const timerReducer = timerSlice.reducer;
 export const {
   startTimer,
   timerFinished,
+  switchTopics,
   resetTimer,
   pauseTimer,
   unpauseTimer,
