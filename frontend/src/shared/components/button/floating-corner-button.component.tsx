@@ -27,11 +27,15 @@ const SButton = styled.button`
   border-radius: 50%;
   box-shadow: ${theme.boxShadows.pressed};
   cursor: pointer;
-  height: 6rem;
-  width: 6rem;
+  height: 3em;
+  width: 3em;
   position: fixed;
     bottom: 5vh;
     right: 2.5vw;
+  
+  ${theme.media.tabLand} {
+    font-size: 2rem;
+  }
 
   &:focus,
   &:active {
@@ -45,5 +49,4 @@ const SButton = styled.button`
 
 const SIcon = styled(FontAwesomeIcon)`
   color: ${theme.colors.white};
-  font-size: 2rem;
 `;

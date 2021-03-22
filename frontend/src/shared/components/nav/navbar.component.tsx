@@ -10,11 +10,11 @@ import { useToggle } from "shared/hooks/use-toggle.hook";
 
 // components
 import { HelpModal } from "modal/components/help-modal.component";
+import { NavbarProfileMenu } from "./navbar-profile-menu.component";
 
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SButtonGreen } from "shared/styles/button.style";
-import { NavbarProfileMenu } from "./navbar-profile-menu.component";
 
 export const Navbar = () => {
   const user = useSelector(selectUser);
@@ -73,7 +73,7 @@ const SNav = styled.nav`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   z-index: ${theme.zIndices.nav};
 `;
 
@@ -82,11 +82,15 @@ const SStuckButton = styled(SButtonGreen)`
   margin-right: ${theme.spacing.base};
   font-size: ${theme.fontSizes.sm};
   font-weight: 600;
-  text-transform: uppercase;
   letter-spacing: 0.5px;
+  text-transform: uppercase;
   padding: 0.5em;
+  
+  ${theme.media.phoneOnly} {
+    font-size: ${theme.fontSizes.xs};
+    padding: 0.6em;
+  }
 `;
-
 const SNavList = styled.ul`
   display: flex;
     justify-content: flex-end;

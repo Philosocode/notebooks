@@ -61,7 +61,6 @@ export const ModalWrapper: FC<IProps> = ({
   );
 };
 
-
 const SIcon = styled(FontAwesomeIcon)`
   color: ${theme.colors.gray["700"]};
   cursor: pointer;
