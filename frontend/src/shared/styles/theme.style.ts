@@ -2,6 +2,12 @@ const BASE_FONT_SIZE = 1.6;
 const FONT_MULTIPLIER = 1.3;
 const BASE_SPACING_SIZE = 2.5;
 
+
+// Media Query Stuff: https://github.com/styled-components/styled-components/issues/2303#issuecomment-480047731
+function customMediaQuery(maxWidth: number, type: string = "min") {
+  return `@media (${type}-width: ${maxWidth}em)`;
+}
+
 export const theme = {
   animations: {
     transitionAppend: "0.3s ease-in-out",
@@ -58,6 +64,14 @@ export const theme = {
     "2xl": `${BASE_FONT_SIZE * (FONT_MULTIPLIER**4)}rem`,
     "3xl": `${BASE_FONT_SIZE * (FONT_MULTIPLIER**5)}rem`,
     "4xl": `${BASE_FONT_SIZE * (FONT_MULTIPLIER**6)}rem`,
+  },
+  media: {
+    smallPhoneOnly: customMediaQuery(30, "max"),  // max: 480px
+    phoneOnly: customMediaQuery(37.5, "max"),     // max: 600px
+    tabPort: customMediaQuery(37.5),  // 600px
+    tabLand: customMediaQuery(56.25), // 900px
+    desktop: customMediaQuery(75), // 1200px
+    bigDesktop: customMediaQuery(112.5), // 1800px
   },
   spacing: {
     xs: `${BASE_SPACING_SIZE / 3}rem`,

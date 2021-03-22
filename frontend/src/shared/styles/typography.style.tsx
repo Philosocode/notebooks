@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+
 import { theme } from "./theme.style";
 
 interface IHeadingBaseProps {

@@ -166,8 +166,6 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
   }
 
   function getTimerDuration() {
-    return milliseconds({ seconds: 5});
-
     if (mode === "break") {
       if (breakCount === LONG_BREAK_COUNT) {
         return milliseconds({ minutes: settings.defaultLongBreakTime });
