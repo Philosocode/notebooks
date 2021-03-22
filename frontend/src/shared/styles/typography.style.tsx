@@ -11,7 +11,11 @@ const SHeadingBase = css<IHeadingBaseProps>`
 
 export const SHeadingTitle = styled.h1`
   ${SHeadingBase};
-  font-size: ${theme.fontSizes.xl};
+  font-size: ${theme.fontSizes.lg};
+  
+  ${theme.media.tabLand} {
+    font-size: ${theme.fontSizes.xl};
+  }
 `;
 
 export const SHeadingSubtitle = styled.h2`
