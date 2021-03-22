@@ -87,9 +87,15 @@ const SAction = styled.button`
   border: none;
   border-radius: 1rem;
   cursor: pointer;
+  font-size: ${theme.fontSizes.sm};
   font-weight: 500;
-  padding: ${theme.spacing.sm};
+  padding: ${theme.spacing.xs};
   text-align: left;
+  
+  ${theme.media.tabPort} {
+    font-size: ${theme.fontSizes.base};
+    padding: ${theme.spacing.sm};
+  }
 
   &:hover {
     background: ${theme.colors.gray[200]};

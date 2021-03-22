@@ -62,6 +62,7 @@ const SProfilePictureContainer = styled.li`
     justify-content: center;
     align-items: center;
   margin-left: ${theme.spacing.base};
+  position: relative;
 `;
 
 const SProfilePicture = styled.img`
@@ -71,6 +72,11 @@ const SProfilePicture = styled.img`
 `;
 
 const SMenuContainer = styled.div`
-  position: relative;
-  transform: translate(-11rem, 2rem);
+  position: absolute;
+    top: 3.5rem;
+    right: 11rem;
+
+  ${theme.media.tabLand} {
+    right: 12rem;
+  }
 `;

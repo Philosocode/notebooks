@@ -74,10 +74,10 @@ export function App() {
   return (
     <>
       <Navbar />
-      <Sidebar />
+      {/*<Sidebar />*/}
       <Switch>
         <Redirect exact from="/" to="/concepts" />
-        <SMainContent paddingLeft={paddingLeft}>{getRoutes()}</SMainContent>
+        <SMainContent paddingLeft={"0px"}>{getRoutes()}</SMainContent>
         <Route component={NotFoundPage} />
       </Switch>
       {
