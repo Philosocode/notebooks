@@ -10,6 +10,7 @@ import { selectIsLoggedIn } from "user/redux/user.selectors";
 import { theme } from "shared/styles/theme.style";
 import { SHeadingTitle } from "shared/styles/typography.style";
 import { SPageContentCenter } from "shared/styles/layout.style";
+import { showAndHideAlert } from "../../alert/redux/alert.thunks";
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,10 @@ export const LoginPage = () => {
   }
 
   function handleGoogleFailure() {
-    alert("ERROR: Failed to sign in with Google");
+    dispatch(showAndHideAlert({
+      type: "error",
+      message: "ERROR: Failed to sign in with Google",
+    }));
   }
 
   return (
