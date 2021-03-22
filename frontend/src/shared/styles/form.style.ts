@@ -15,14 +15,34 @@ export const SInputBorderless = styled.input`
   }
 `;
 
+export const SSelectLabel = styled.label`
+  display: block;
+  font-size: ${theme.fontSizes.base};
+  margin-top: ${theme.spacing.base};
+  
+  ${theme.media.tabLand} {
+    font-size: ${theme.fontSizes.basePlus};
+  }
+  
+  & > select {
+    display: block;
+  }
+`;
+
+// FROM: https://www.w3schools.com/howto/howto_css_custom_checkbox.asp
 export const SCheckboxLabel = styled.label`
   cursor: pointer;
   display: block;
-  font-size: ${theme.fontSizes.basePlus};
+  font-size: ${theme.fontSizes.base};
   margin-top: ${theme.spacing.sm};
-  padding-left: calc(${theme.spacing.base} + ${theme.spacing.sm});
+  padding-left: 2.1em;
   position: relative;
   width: max-content;
+  max-width: 100%;
+
+  ${theme.media.tabLand} {
+    font-size: ${theme.fontSizes.basePlus};
+  }
 
   // hide the checkbox input
   & > input {
@@ -33,8 +53,8 @@ export const SCheckboxLabel = styled.label`
   & > span {
     border: 1px solid ${theme.colors.gray[500]};
     border-radius: 3px;
-    height: 2.5rem;
-    width: 2.5rem;
+    height: 1.4em;
+    width: 1.4em;
     position: absolute;
     top: 0;
     left: 0;

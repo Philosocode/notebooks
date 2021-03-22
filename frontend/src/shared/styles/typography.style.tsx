@@ -20,7 +20,11 @@ export const SHeadingTitle = styled.h1`
 
 export const SHeadingSubtitle = styled.h2`
   ${SHeadingBase};
-  font-size: ${theme.fontSizes.lg};
+  font-size: ${theme.fontSizes.md};
+  
+  ${theme.media.tabLand} {
+    font-size: ${theme.fontSizes.lg};
+  }
 `;
 
 export const SHeadingSubSubtitle = styled.h3`

@@ -15,6 +15,7 @@ import { LabelCheckbox } from "shared/components/form/label-checkbox.component";
 import { theme } from "../../shared/styles/theme.style";
 import { SHeadingSubtitle } from "shared/styles/typography.style";
 import { SButtonGreen } from "shared/styles/button.style";
+import { SSelectLabel } from "shared/styles/form.style";
 
 interface IProps {
   currentSettings: IUserSettings;
@@ -136,16 +137,6 @@ export const SettingsModal: React.FC<IProps> = ({
   );
 };
 
-const SSelectLabel = styled.label`
-  display: block;
-  font-size: ${theme.fontSizes.basePlus};
-  margin-top: ${theme.spacing.base};
-  
-  & > select {
-    display: block;
-  }
-`;
-
 const SSubmit = styled(SButtonGreen)`
-  margin-top: ${theme.spacing.md};
+  margin-top: ${theme.spacing.base};
 `;
