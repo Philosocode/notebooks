@@ -125,7 +125,13 @@ export const UpdateEntityModal: React.FC<IProps> = ({
   );
 };
 
-const SContent = styled.div``;
+const SContent = styled.div`
+  ${theme.media.phoneOnly} {
+    & > p {
+      font-size: ${theme.fontSizes.sm};
+    }
+  }
+`;
 
 const SForm = styled.form`
   margin-top: ${theme.spacing.base};

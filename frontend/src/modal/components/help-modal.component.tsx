@@ -95,9 +95,12 @@ const SIconContainer = styled.div`
 
 const STextContainer = styled.div`
   background: ${theme.colors.gray[100]};
-  font-size: ${theme.fontSizes.basePlus};
   padding: ${theme.spacing.sm};
   margin-top: ${theme.spacing.sm};
+  
+  ${theme.media.tabLand} {
+    font-size: ${theme.fontSizes.basePlus};
+  }
   
   & > ol,
   & > ul {

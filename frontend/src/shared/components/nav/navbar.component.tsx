@@ -87,6 +87,7 @@ const SStuckButton = styled(SButtonGreen)`
   padding: 0.5em;
   
   ${theme.media.phoneOnly} {
+    display: none;
     font-size: ${theme.fontSizes.xs};
     padding: 0.6em;
   }
