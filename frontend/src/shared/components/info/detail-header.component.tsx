@@ -42,13 +42,19 @@ const STitleContainer = styled.div`
 
 const SSettingsIcon = styled(FontAwesomeIcon)`
   cursor: pointer;
-  font-size: 2rem;
   position: absolute;
-  left: -2.75rem;
-  top: 8px;
+  font-size: ${theme.fontSizes.basePlus};
+  left: -2rem;
+  top: 5.5px;
   transition:
     color ${theme.animations.transitionAppend},
     transform ${theme.animations.transitionAppend};
+  
+  ${theme.media.tabLand} {
+    font-size: ${theme.fontSizes.md};
+    left: -2.75rem;
+    top: 8px;
+  }
 
   &:hover {
     color: ${theme.colors.green[400]};

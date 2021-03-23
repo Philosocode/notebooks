@@ -29,6 +29,12 @@ export const TabNames: React.FC<IProps> = ({ tabNames, selectedTab, setSelectedT
 
 const STabList = styled.ul`
   display: flex;
-  margin-top: ${theme.spacing.md};
+    flex-wrap: wrap;
+  margin-top: ${theme.spacing.base};
   margin-bottom: ${theme.spacing.base};
+
+  ${theme.media.tabLand} {
+    margin-top: ${theme.spacing.md};
+    margin-bottom: ${theme.spacing.base};
+  }
 `;

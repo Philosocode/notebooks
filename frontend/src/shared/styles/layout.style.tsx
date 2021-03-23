@@ -13,7 +13,11 @@ export const SPageContent = styled.div`
 `;
 
 export const SDetailPageContent = styled.div`
-  padding: ${theme.spacing.md} ${theme.spacing.lg};
+  padding: ${theme.spacing.base} ${theme.spacing.base};
+  
+  ${theme.media.tabLand} {
+    padding: ${theme.spacing.md} ${theme.spacing.lg};
+  }
 `;
 
 interface ISPageContentCenterProps {

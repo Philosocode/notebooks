@@ -4,21 +4,21 @@ import { RouteComponentProps, useParams } from "react-router-dom";
 
 // logic
 import { selectConceptHash, selectCurrentConcept } from "concept/redux/concept.selectors";
+import { showAndHideAlert } from "../../alert/redux/alert.thunks";
+import { getConcepts } from "../redux/concept.thunks";
+import { selectConceptsLoaded } from "shared/redux/init.selectors";
 import { setCurrentConceptId } from "concept/redux/concept.slice";
 
 // components
 import { ConceptDetailHeader } from "concept/components/concept-detail-header.component";
 import { ConceptHooks } from "hook/components/concept-hooks.component";
+import { ConceptMaterials } from "../components/concept-materials.component";
 import { ConceptLinks } from "../components/concept-links.component";
 import { TabNames } from "shared/components/nav/tab-names.component";
 import { Tab } from "shared/components/nav/tab.component";
 
 // styles
 import { SDetailPageContent } from "shared/styles/layout.style";
-import { showAndHideAlert } from "../../alert/redux/alert.thunks";
-import { getConcepts } from "../redux/concept.thunks";
-import { selectConceptsLoaded } from "shared/redux/init.selectors";
-import { ConceptMaterials } from "../components/concept-materials.component";
 
 interface IMatchParams {
   conceptId: string;

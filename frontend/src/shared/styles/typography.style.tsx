@@ -40,3 +40,12 @@ export const SAnchorTag = styled.a`
   color: ${theme.colors.green[300]};
   text-decoration: underline;
 `;
+
+export const SRegularText = styled.p`
+  ${SHeadingBase};
+  font-size: ${theme.fontSizes.sm};
+  
+  ${theme.media.tabPort} {
+    font-size: ${theme.fontSizes.base};
+  }
+`;
