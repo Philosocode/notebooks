@@ -27,4 +27,5 @@ export const TagList: FC<IProps> = ({ handleDeleteTag, tags }) => {
 const STagList = styled.ul`
   list-style-type: none;
   display: flex;
+    flex-wrap: wrap;
 `;

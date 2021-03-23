@@ -35,20 +35,23 @@ interface IContainerProps {
 }
 const SContainer = styled.div<IContainerProps>`
   background: ${(props) => props.color ?? theme.colors.gray[100]};
-  border-radius: 3rem;
+  border-radius: 2em;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 4rem;
+    align-items: center;
+    justify-content: center;
+  font-size: ${theme.fontSizes.sm};
   margin-right: ${theme.spacing.sm};
   margin-top: ${theme.spacing.sm};
-  padding: 1rem 1.5rem;
+  padding: 0.4em 0.8em;
   width: max-content;
-  min-width: 7rem;
+  
+  ${theme.media.tabPort} {
+    font-size: ${theme.fontSizes.base};
+    padding: 0.4em 1em;
+  }
 `;
 
 const STagText = styled.span`
-  font-size: ${theme.fontSizes.sm};
 `;
 
 const SDeleteIcon = styled(FontAwesomeIcon)`
@@ -56,9 +59,13 @@ const SDeleteIcon = styled(FontAwesomeIcon)`
   cursor: pointer;
   display: inline;
   font-size: 1.8rem;
-  margin-left: ${theme.spacing.sm};
+  margin-left: ${theme.spacing.xs};
   margin-top: 0;
   transition: color ${theme.animations.transitionAppend};
+  
+  ${theme.media.tabPort} {
+    margin-left: ${theme.spacing.sm};
+  }
 
   &:hover {
     color: ${theme.colors.gray[400]};

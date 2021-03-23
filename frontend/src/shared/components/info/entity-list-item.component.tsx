@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { theme } from "shared/styles/theme.style";
 import { TagList } from "tag/components/tag-list.component";
 import { OptionIcon } from "../button/option-icon.component";
+import { SHeadingSubSubtitle, SHeadingSubtitle } from "../../styles/typography.style";
+import { CircleIcon } from "../button/circle-icon.component";
 
 interface IEntity {
   id: string;
@@ -39,12 +41,11 @@ export const EntityListItem: React.FC<IProps> = ({
   return (
     <SContainer to={link}>
       <div>
-        <SHeadingId>{[entity.id]}</SHeadingId>
-        <SName>{entity.name}</SName>
+        <SHeadingSubSubtitle>{entity.name}</SHeadingSubSubtitle>
         {children}
         <TagList tags={entity.tags} handleDeleteTag={handleDeleteTag} />
       </div>
-      <OptionIcon handleClick={handleEdit} />
+      <SIcon icon="ellipsis-v" handleEventClick={handleEdit} />
     </SContainer>
   );
 };
@@ -52,23 +53,25 @@ export const EntityListItem: React.FC<IProps> = ({
 const SContainer = styled(Link)`
   border: 1px solid ${theme.colors.gray[200]};
   display: flex;
-  justify-content: space-between;
+    justify-content: space-between;
     align-items: center;
-  padding: ${theme.spacing.md};
+  padding: ${theme.spacing.base} ${theme.spacing.sm};
   position: relative;
   width: 100%;
+  
+  ${theme.media.tabLand} {
+    padding: ${theme.spacing.base} ${theme.spacing.md};
+  }
 
   &:hover {
     background: ${theme.colors.offWhite};
   }
 `;
 
-const SHeadingId = styled.h4`
-  color: ${theme.colors.gray[400]};
-  font-size: ${theme.fontSizes.xs};
-  font-weight: 400;
-`;
-
-const SName = styled.h3`
-  font-size: ${theme.fontSizes.md};
+const SIcon = styled(CircleIcon)`
+  font-size: ${theme.fontSizes.basePlus};
+  
+  ${theme.media.tabLand} {
+    font-size: 2rem;
+  }
 `;

@@ -7,7 +7,7 @@ import { ModalWrapper } from "./modal-wrapper.component";
 
 import { theme } from "../../shared/styles/theme.style";
 import { SAnchorTag, SHeadingSubtitle } from "shared/styles/typography.style";
-import { IconCircle } from "../../shared/components/button/circle-icon.component";
+import { CircleIcon } from "../../shared/components/button/circle-icon.component";
 
 const duckUrl = `https://en.wikipedia.org/wiki/Rubber_duck_debugging`;
 const meditationUrl = `https://www.candoideas.com/blog/why-productive-meditation-should-be-on-your-to-do-list`;
@@ -79,7 +79,7 @@ export const HelpModal: React.FC<IProps> = ({ handleClose, isShowing }) => {
         Get Un-stuck
       </SHeadingSubtitle>
       <SIconContainer>
-        <IconCircle handleClick={handleClick} icon="redo" />
+        <CircleIcon handleClick={handleClick} icon="redo" />
       </SIconContainer>
       <STextContainer>
         {item}

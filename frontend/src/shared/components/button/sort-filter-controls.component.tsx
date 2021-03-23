@@ -106,10 +106,16 @@ const SSortButton = styled.button<SSortButtonProps>`
   color: ${props => props.isSelected && theme.colors.white};
   border: none;
   cursor: pointer;
+  font-size: ${theme.fontSizes.sm};
   margin-right: ${theme.spacing.xs};
   padding: ${theme.spacing.xs};
   font-weight: 500;
-  width: 12rem;
+  width: 7em;
+  
+  ${theme.media.tabLand} {
+    font-size: ${theme.fontSizes.base};
+    width: 8em;
+  }
 
   &:active,
   &:focus {

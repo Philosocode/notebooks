@@ -15,12 +15,12 @@ import { useEntityFilterSort } from "shared/hooks/use-entity-filter-sort.hook";
 import { FloatingCornerButton } from "../../shared/components/button/floating-corner-button.component";
 import { DragAndDropWrapper } from "shared/components/drag-and-drop/drag-and-drop-wrapper.component";
 import { SortFilterControls } from "../../shared/components/button/sort-filter-controls.component";
+import { EditableContentBox } from "../../shared/components/info/editable-content-box.component";
 import { DraggableWrapper } from "../../shared/components/drag-and-drop/draggable-wrapper.component";
 
 // styles
 import { theme } from "../../shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
-import { EditableContentBox } from "../../shared/components/info/editable-content-box.component";
 
 interface IProps {
   conceptId: string;

@@ -8,7 +8,7 @@ import { IMenuAction, Menu } from "../../shared/components/menu/menu.component";
 import { useToggle } from "../../shared/hooks/use-toggle.hook";
 import { showModal } from "modal/redux/modal.slice";
 
-import { IconCircle } from "../../shared/components/button/circle-icon.component";
+import { CircleIcon } from "../../shared/components/button/circle-icon.component";
 
 import { theme } from "shared/styles/theme.style";
 import { DraggableWrapper } from "../../shared/components/drag-and-drop/draggable-wrapper.component";
@@ -55,7 +55,7 @@ export const PartListItem: React.FC<IProps> = ({ index, materialId, part }) => {
           <SName>{part.name}</SName>
         </div>
         <div>
-          <IconCircle handleClick={toggleMenuShowing} icon="ellipsis-v" />
+          <CircleIcon handleClick={toggleMenuShowing} icon="ellipsis-v" />
           <SMenuContainer>
             <Menu actions={menuActions} menuShowing={menuShowing} toggleMenu={toggleMenuShowing} />
           </SMenuContainer>

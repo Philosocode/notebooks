@@ -42,9 +42,13 @@ export const ConceptListItem: React.FC<IProps> = ({ concept }) => {
 };
 
 const SNumHooks = styled.p`
-  font-size: ${theme.fontSizes.sm};
+  font-size: ${theme.fontSizes.xs};
   font-weight: 500;
   margin: 3px 0;
   letter-spacing: 1px;
   text-transform: uppercase;
+  
+  ${theme.media.tabLand} {
+    font-size: ${theme.fontSizes.sm};
+  }
 `;

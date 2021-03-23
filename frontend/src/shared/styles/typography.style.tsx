@@ -29,7 +29,11 @@ export const SHeadingSubtitle = styled.h2`
 
 export const SHeadingSubSubtitle = styled.h3`
   ${SHeadingBase};
-  font-size: ${theme.fontSizes.md};
+  font-size: ${theme.fontSizes.base};
+
+  ${theme.media.tabLand} {
+    font-size: ${theme.fontSizes.md};
+  }
 `;
 
 export const SAnchorTag = styled.a`

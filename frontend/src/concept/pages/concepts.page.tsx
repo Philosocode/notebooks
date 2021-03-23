@@ -110,7 +110,11 @@ const SConceptSection = styled.section`
 `;
 
 const SPaddedContainer = styled.div`
-  padding: ${theme.spacing.md};
+  padding: ${theme.spacing.base};
+  
+  ${theme.media.tabLand} {
+    padding: ${theme.spacing.md};
+  }
 `;
 
 const SNotFoundHeading = styled(SHeadingSubSubtitle)`

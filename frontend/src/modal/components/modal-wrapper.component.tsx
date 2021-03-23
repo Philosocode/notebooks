@@ -4,6 +4,7 @@ import styled, { CSSProperties } from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { theme } from "../../shared/styles/theme.style";
+import { CircleIcon } from "../../shared/components/button/circle-icon.component";
 
 interface IProps {
   children?: React.ReactNode;
@@ -54,17 +55,16 @@ export const ModalWrapper: FC<IProps> = ({
         overlay: overlayStyles,
       }}
     >
-      {handleBack && <SBackIcon onClick={handleBack} icon="arrow-left" />}
-      { !disableDefaultClose && <SCloseIcon onClick={handleClose} icon="times" /> }
+      {handleBack && <SBackIcon handleClick={handleBack} icon="arrow-left" />}
+      { !disableDefaultClose && <SCloseIcon handleEventClick={handleClose} icon="times" /> }
       {children}
     </ReactModal>
   );
 };
 
-const SIcon = styled(FontAwesomeIcon)`
-  color: ${theme.colors.gray["700"]};
+const SIcon = styled(CircleIcon)`
   cursor: pointer;
-  font-size: 2.4rem;
+  font-size: ${theme.fontSizes.basePlus};
   position: absolute;
   top: 0.5em;
 `;
