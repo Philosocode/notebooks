@@ -101,8 +101,11 @@ export const CreateHookForm: React.FC<IProps> = ({ conceptId, numberOfHooks }) =
 };
 
 const SHookCreateForm = styled.form`
-  margin-top: ${theme.spacing.md};
   max-width: 80rem;
+  
+  ${theme.media.tabLand} {
+    margin-top: ${theme.spacing.md};
+  }
 `;
 
 const SHookTitleContainer = styled.div`
@@ -125,5 +128,5 @@ const SHookTitleIcon = styled(FontAwesomeIcon)`
 `;
 
 const SCreateButton = styled(SButtonGreen)`
-  margin-top: ${theme.spacing.base};
+  margin-top: 1.6em;
 `;

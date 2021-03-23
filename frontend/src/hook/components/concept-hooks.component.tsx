@@ -43,6 +43,10 @@ export const ConceptHooks: React.FC<IProps> = ({ concept }) => {
 const SDivider = styled.div`
   background: ${theme.colors.black};
   height: 1px;
+  margin: ${theme.spacing.base} auto;
   width: 100%;
-  margin: ${theme.spacing.md} auto;
+
+  ${theme.media.tabLand} {
+    margin: ${theme.spacing.md} auto;
+  }
 `;

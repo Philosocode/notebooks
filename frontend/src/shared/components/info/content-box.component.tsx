@@ -70,8 +70,12 @@ interface IExpanded {
 const SContainer = styled.li<IExpanded>`
   background: ${theme.colors.offWhite};
   box-shadow: ${theme.boxShadows.light};
-  padding: 0 ${theme.spacing.base};
+  padding: ${theme.spacing.xs} ${theme.spacing.sm};
   list-style-type: none;
+  
+  ${theme.media.tabLand} {
+    padding: 0 ${theme.spacing.base};
+  }
 
   &:first-child {
     border-top: none;
@@ -82,10 +86,14 @@ const SHeader = styled.div<IExpanded>`
   background: ${theme.colors.green};
   cursor: pointer;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+    align-items: center;
+    justify-content: space-between;
   position: relative;
-  padding: ${(props) => props.isExpanded ? theme.spacing.base : theme.spacing.sm} 0;
+  padding: ${(props) => props.isExpanded ? theme.spacing.sm : theme.spacing.xs} 0;
+
+  ${theme.media.tabLand} {
+    padding: ${(props) => props.isExpanded ? theme.spacing.base : theme.spacing.sm} 0;
+  }
 `;
 
 const SHeaderColumn = styled.div`
@@ -94,9 +102,14 @@ const SHeaderColumn = styled.div`
 `;
 
 const STitle = styled.h3`
-  text-align: left;
+  font-size: ${theme.fontSizes.sm};
   font-weight: 500;
   margin-left: ${theme.spacing.sm};
+  margin-right: ${theme.spacing.sm};
+  
+  ${theme.media.tabLand} {
+    font-size: ${theme.fontSizes.base};
+  }
 `;
 
 const SPosition = styled.div`
@@ -106,8 +119,9 @@ const SPosition = styled.div`
   justify-content: center;
   align-items: center;
   font-size: ${theme.fontSizes.sm};
-  height: 2.5rem;
-  width: 2.5rem;
+  height: 1.8em;
+  width: 1.8em;
+  min-width: 1.8em;
 `;
 
 const SCaret = styled(FontAwesomeIcon)`
@@ -118,10 +132,15 @@ const SCaret = styled(FontAwesomeIcon)`
 export const STextareaBase = styled(AutosizeTextarea)`
   background: transparent;
   border: 1px solid ${theme.colors.gray[300]};
+  font-size: ${theme.fontSizes.sm};
   padding: 0;
   resize: none;
   overflow: hidden;
   width: 100%;
+  
+  ${theme.media.tabPort} {
+    font-size: ${theme.fontSizes.base};
+  }
 
   &:active,
   &:focus {
@@ -144,7 +163,11 @@ const SContentTextarea = styled(STextareaBase)`
 
 const SButtons = styled.div`
   margin-top: ${theme.spacing.sm};
-  padding-bottom: ${theme.spacing.base};
+  padding-bottom: ${theme.spacing.sm};
+  
+  ${theme.media.tabLand} {
+    padding-bottom: ${theme.spacing.base};
+  }
 
   & > button {
     font-size: ${theme.fontSizes.sm};
