@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { ILinkGridItem, LinkGridItem } from "./link-grid-item.component";
+import { theme } from "../../styles/theme.style";
 
 interface IProps {
   handleDelete?: (currentId: string, otherId: string) => void;
@@ -18,6 +19,12 @@ export const LinkGrid: React.FC<IProps> = ({ handleDelete, links }) => {
 };
 
 const SGrid = styled.div`
-  display: flex;
-    flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 15rem);
+  gap: ${theme.spacing.base};
+  
+  ${theme.media.tabLand} {
+    grid-template-columns: repeat(auto-fill, 20rem);
+    gap: ${theme.spacing.md};
+  }
 `;

@@ -55,12 +55,13 @@ const SLink = styled(Link)`
   border-radius: 5px;
   box-shadow: ${theme.boxShadows.light};
   font-weight: 500;
-  margin: ${theme.spacing.base};
-  padding: ${theme.spacing.md} ${theme.spacing.base};
+  padding: ${theme.spacing.base} ${theme.spacing.base};
   position: relative;
   text-align: center;
-  width: 100%;
-  max-width: 25rem;
+  
+  ${theme.media.tabLand} {
+    padding: ${theme.spacing.md} ${theme.spacing.base};
+  }
 
   &:hover {
     background: ${theme.colors.green[400]};
