@@ -39,9 +39,12 @@ export const HookTypes: React.FC<IProps> = ({
 };
 
 const SHookTypes = styled.ul`
-  display: flex;
-    justify-content: space-between;
   margin-top: ${theme.spacing.base};
+  
+  ${theme.media.tabPort} {
+    display: flex;
+      justify-content: space-between;
+  }
 `;
 
 const SHookType = styled.li`
@@ -50,8 +53,13 @@ const SHookType = styled.li`
   box-shadow: ${theme.boxShadows.light};
   cursor: pointer;
   font-weight: 500;
+  margin-top: ${theme.spacing.base};
   padding: ${theme.spacing.sm};
   text-transform: uppercase;
+  
+  ${theme.media.tabPort} {
+    margin-top: 0;
+  }
 
   &:hover {
     background: ${theme.colors.green[400]};

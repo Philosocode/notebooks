@@ -10,7 +10,7 @@ import { selectConceptHooks } from "concept/redux/concept.selectors";
 // styles
 import { theme } from "../../shared/styles/theme.style";
 import { SInputBorderless } from "shared/styles/form.style";
-import { SHeadingSubSubtitle } from "shared/styles/typography.style";
+import { SHeadingSubSubtitle, SRegularText } from "shared/styles/typography.style";
 
 interface IProps {
   defaultHooks: string[];
@@ -52,7 +52,7 @@ export const HookSelectGrid: React.FC<IProps> = ({ handleSelect, defaultHooks })
             key={hook}
             onClick={() => handleSelect(hook)}
           >
-            {hook}
+            <SRegularText weight={500}>{hook}</SRegularText>
             { conceptHasHook(hook) && <SHookCardIcon icon={faCheck} /> }
           </SHookCard>
         ))}
@@ -67,11 +67,15 @@ const SInput = styled(SInputBorderless)`
 `;
 
 const SHookGrid = styled.div`
-  display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
-    justify-items: space-between;
-    gap: ${theme.spacing.base};
   margin-top: ${theme.spacing.base};
+  
+  ${theme.media.tabLand} {
+    margin-top: ${theme.spacing.sm};
+    display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+      justify-items: space-between;
+      gap: ${theme.spacing.base};
+  }
 `;
 
 const SHookCard = styled.div`
@@ -81,6 +85,7 @@ const SHookCard = styled.div`
   color: ${theme.colors.gray[600]};
   cursor: pointer;
   font-weight: 500;
+  margin-top: ${theme.spacing.base};
   padding: ${theme.spacing.sm};
   position: relative;
 

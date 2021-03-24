@@ -2,10 +2,10 @@ import styled, { css } from "styled-components";
 
 import { theme } from "./theme.style";
 
-interface IHeadingBaseProps {
+interface IHasWeight {
   weight?: number;
 }
-const SHeadingBase = css<IHeadingBaseProps>`
+const SHeadingBase = css<IHasWeight>`
   font-weight: ${props => props.weight ?? "bold"};
 `;
 
@@ -41,9 +41,9 @@ export const SAnchorTag = styled.a`
   text-decoration: underline;
 `;
 
-export const SRegularText = styled.p`
-  ${SHeadingBase};
+export const SRegularText = styled.p<IHasWeight>`
   font-size: ${theme.fontSizes.sm};
+  font-weight: ${props => props.weight ?? "400"};
   
   ${theme.media.tabPort} {
     font-size: ${theme.fontSizes.base};

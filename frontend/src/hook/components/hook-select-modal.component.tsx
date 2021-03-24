@@ -7,10 +7,10 @@ import { THookType } from "hook/redux/hook.types";
 // components
 import { ModalWrapper } from "modal/components/modal-wrapper.component";
 import { HookTypes } from "./hook-types.component";
+import { HookSelect } from "./hook-select.component";
 
 // styles
 import { SHeadingSubtitle } from "shared/styles/typography.style";
-import { HookSelect } from "./hook-select.component";
 
 interface IProps {
   modalShowing: boolean;
