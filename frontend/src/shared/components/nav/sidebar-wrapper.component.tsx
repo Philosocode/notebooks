@@ -1,13 +1,16 @@
 import React, { FC } from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
+import { selectSidebarShowing } from "shared/redux/global.slice";
 import { theme } from "shared/styles/theme.style";
 
 interface IProps {
-  sidebarShowing: boolean;
   width: string;
 }
-export const SidebarWrapper: FC<IProps> = ({ children, sidebarShowing, width }) => {
+export const SidebarWrapper: FC<IProps> = ({ children, width }) => {
+  const sidebarShowing = useSelector(selectSidebarShowing);
+
   return (
     <SSidebar
       sidebarShowing={sidebarShowing}
@@ -16,9 +19,13 @@ export const SidebarWrapper: FC<IProps> = ({ children, sidebarShowing, width }) 
   );
 };
 
-const SSidebar = styled.aside<IProps>`
+interface SSidebarProps {
+  sidebarShowing: boolean;
+  width: string;
+}
+const SSidebar = styled.aside<SSidebarProps>`
   background: #eee;
-  max-height: 100vh;
+  height: 100vh;
   padding-bottom: ${theme.spacing.md};
   padding-top: ${theme.componentSizes.navbarHeight};
   overflow-y: auto;

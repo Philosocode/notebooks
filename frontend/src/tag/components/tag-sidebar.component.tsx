@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import { TagSidebarItem } from "./tag-sidebar-item.component";
 import { theme } from "shared/styles/theme.style";
+import { useSelector } from "react-redux";
+import { selectSidebarShowing } from "../../shared/redux/global.slice";
 
 interface IProps {
   tags: string[];
@@ -19,8 +21,10 @@ export const TagSidebar: React.FC<IProps> = ({
   setCurrentTag,
   setUncategorized
 }) => {
+  const sidebarShowing = useSelector(selectSidebarShowing);
+
   return (
-    <STagSidebar>
+    <STagSidebar sidebarShowing={sidebarShowing}>
       <SHeading>Tags</SHeading>
       <STagList>
         {tags.map((t) => (
@@ -58,12 +62,18 @@ export const TagSidebar: React.FC<IProps> = ({
   );
 };
 
-const STagSidebar = styled.aside`
-  border-right: 1px solid ${theme.colors.gray[600]};
+interface STagSidebarProps {
+  sidebarShowing: boolean;
+}
+const STagSidebar = styled.aside<STagSidebarProps>`
+  background: ${theme.colors.white};
   height: 100vh;
   max-height: 100vh;
   overflow-y: auto;
-  width: 30rem;
+  transition: width ${theme.animations.transitionAppend}, transform ${theme.animations.transitionAppend};
+  transform: ${props => props.sidebarShowing ? "translateX(0)" : `translateX(-30rem);` };
+  width: ${props => props.sidebarShowing ? "30rem" : 0};
+  z-index: 200;
 `;
 
 const SHeading = styled.h2`

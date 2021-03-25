@@ -4,12 +4,9 @@ import { useLocation } from "react-router-dom";
 import { AppSidebar } from "./app-sidebar.component";
 import { LibrarySidebar } from "library/components/library-sidebar.component";
 import { SidebarWrapper } from "./sidebar-wrapper.component";
-import { theme } from "../../styles/theme.style";
+import { theme } from "shared/styles/theme.style";
 
-interface IProps {
-  sidebarShowing: boolean;
-}
-export const Sidebar: React.FC<IProps> = ({ sidebarShowing }) => {
+export const Sidebar: React.FC = () => {
   const { pathname } = useLocation();
 
   if (pathname.includes("login")) return null;
@@ -27,8 +24,8 @@ export const Sidebar: React.FC<IProps> = ({ sidebarShowing }) => {
   }
 
   return (
-    <SidebarWrapper sidebarShowing={sidebarShowing} width={sidebarWidth}>
+    <SidebarWrapper width={sidebarWidth}>
       <SidebarContent />
     </SidebarWrapper>
   )
-};
+}

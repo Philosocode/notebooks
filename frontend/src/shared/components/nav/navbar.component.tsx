@@ -1,13 +1,14 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import styled, { css } from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // logic
 import { selectUser } from "user/redux/user.selectors";
 import { useAppLocation } from "shared/hooks/use-app-location.hook";
 import { useToggle } from "shared/hooks/use-toggle.hook";
+import { toggleSidebar } from "shared/redux/global.slice";
 
 // components
 import { HelpModal } from "modal/components/help-modal.component";
@@ -17,10 +18,8 @@ import { NavbarProfileMenu } from "./navbar-profile-menu.component";
 import { theme } from "shared/styles/theme.style";
 import { SButtonGreen } from "shared/styles/button.style";
 
-interface IProps {
-  toggleSidebar: () => void;
-}
-export const Navbar: React.FC<IProps> = ({ toggleSidebar }) => {
+export const Navbar: React.FC = () => {
+  const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const appLocation = useAppLocation();
 
@@ -53,9 +52,13 @@ export const Navbar: React.FC<IProps> = ({ toggleSidebar }) => {
     );
   }
 
+  function handleToggleClick() {
+    dispatch(toggleSidebar());
+  }
+
   return (
     <SNav>
-      <SMenuToggle icon="bars" onClick={toggleSidebar} />
+      <SMenuToggle icon="bars" onClick={handleToggleClick} />
       <SNavList>
         { user && <SStuckButton onClick={toggleHelpModal}>I'm Stuck</SStuckButton> }
         { user ? getLoggedInLinks() : getLoggedOutLinks() }
@@ -84,7 +87,7 @@ const SMenuToggle = styled(FontAwesomeIcon)`
   cursor: pointer;
   font-size: 2.5rem;
   position: absolute;
-    left: 3.75rem;
+    left: 1rem;
 `;
 
 const SStuckButton = styled(SButtonGreen)`

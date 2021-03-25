@@ -22,7 +22,6 @@ import { TimerModal } from "timer/components/timer-modal.component";
 import { PreStudyModal } from "./modal/components/pre-study-modal.component";
 
 // styles
-import { theme } from "./shared/styles/theme.style";
 import { SMainContent } from "shared/styles/layout.style";
 
 export function App() {
@@ -30,12 +29,6 @@ export function App() {
   const settings = useSelector(selectSettings);
 
   useInit();
-
-  const [sidebarShowing, toggleSidebar] = useToggle(true);
-
-  useEffect(() => {
-    console.log("SHOWING:", sidebarShowing);
-  }, [sidebarShowing]);
 
   function getRoutes() {
     return appRoutes.map((route) => {
@@ -64,11 +57,13 @@ export function App() {
   if (isLoggedIn && !settings) return <Loader />;
   return (
     <SAppContainer>
-      <Navbar toggleSidebar={toggleSidebar} />
-      <Sidebar sidebarShowing={sidebarShowing} />
+      <Navbar />
+      <Sidebar />
       <Switch>
         <Redirect exact from="/" to="/concepts" />
-        <SMainContent>{getRoutes()}</SMainContent>
+        <SMainContent>
+          {getRoutes()}
+        </SMainContent>
         <Route component={NotFoundPage} />
       </Switch>
       {
