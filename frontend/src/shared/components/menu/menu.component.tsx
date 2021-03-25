@@ -70,6 +70,7 @@ export const Menu: FC<IProps> = ({
 const SMenu = styled.div`
   position: absolute;
   width: max-content;
+  z-index: ${theme.zIndices.menu};
 `;
 
 const SActionList = styled.div`

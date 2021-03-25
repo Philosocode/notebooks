@@ -51,7 +51,6 @@ export const PartListItem: React.FC<IProps> = ({ index, materialId, part }) => {
     <DraggableWrapper draggableId={part.id} dragDisabled={false} index={index}>
       <SContainer to={`/parts/${part.id}`}>
         <div>
-          <SHeadingId>{part.id}</SHeadingId>
           <SName>{part.name}</SName>
         </div>
         <div>
@@ -76,14 +75,12 @@ const SContainer = styled(Link)`
   max-width: 80rem;
 `;
 
-const SHeadingId = styled.h4`
-  color: ${theme.colors.gray[400]};
-  font-size: ${theme.fontSizes.xs};
-  font-weight: 400;
-`;
-
 const SName = styled.h3`
-  font-size: ${theme.fontSizes.md};
+  font-size: ${theme.fontSizes.basePlus};
+  
+  ${theme.media.tabLand} {
+    font-size: ${theme.fontSizes.md};
+  }
 `;
 
 const SMenuContainer = styled.div`

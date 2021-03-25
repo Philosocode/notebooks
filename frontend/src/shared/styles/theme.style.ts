@@ -89,6 +89,7 @@ export const theme = {
   },
   zIndices: {
     nav: 100,
+    menu: 100,
     modal: 200,
   }
 };

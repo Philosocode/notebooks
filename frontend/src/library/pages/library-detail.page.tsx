@@ -38,21 +38,33 @@ export const LibraryDetailPage = () => {
 
 const SMarkdownStyles = styled.div`
   & > h1 {
-    font-size: ${theme.fontSizes.xl};
+    font-size: ${theme.fontSizes.lg};
     font-weight: 800;
     margin-bottom: -${theme.spacing.sm};
+    
+    ${theme.media.tabLand} {
+      font-size: ${theme.fontSizes.xl};
+    }
   }
 
   & > h2 {
     border-bottom: 1px solid ${theme.colors.gray};
-    font-size: ${theme.fontSizes.lg};
-    padding-top: ${theme.spacing.md};
+    font-size: ${theme.fontSizes.md};
+    padding-top: ${theme.spacing.base};
     padding-bottom: 5px;
+    
+    ${theme.media.tabLand} {
+      font-size: ${theme.fontSizes.lg};
+      padding-top: ${theme.spacing.md};
+    }
   }
 
   & > p, & > ul, & > ol {
     margin-top: ${theme.spacing.sm};
-    font-size: 1.8rem;
+
+    ${theme.media.tabLand} {
+      font-size: ${theme.fontSizes.basePlus};
+    }
   }
 
   & > ul, & > ol {

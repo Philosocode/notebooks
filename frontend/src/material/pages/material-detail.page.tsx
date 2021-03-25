@@ -60,7 +60,9 @@ export const MaterialDetailPage: React.FC<RouteComponentProps> = () => {
       <MaterialDetailHeader material={currentMaterial} />
       <TabNames tabNames={tabNames} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       <div>
-        <Tab title="Parts" selectedTab={selectedTab}><PartList materialId={materialId} /></Tab>
+        <Tab title="Parts" selectedTab={selectedTab}>
+          <PartList materialId={materialId} />
+        </Tab>
         <Tab title="Facts" selectedTab={selectedTab}>
           <FactsForMaterial material={currentMaterial} />
         </Tab>

@@ -53,7 +53,7 @@ export const CreateConceptLinkModal: React.FC<IProps> = ({
       <SHeadingSubtitle>Create Concept Link</SHeadingSubtitle>
       <SInput value={filterText} onChange={handleFilterTextChange} placeholder="Filter by name" />
       <SLinks>
-        {unlinkedEntities.length === 0 && (
+        {filteredEntities.length === 0 && (
           <SNoLinksHeading weight={500}>No links found...</SNoLinksHeading>
         )}
         {filteredEntities.map(entity => (
@@ -69,7 +69,7 @@ export const CreateConceptLinkModal: React.FC<IProps> = ({
 
 const SLinks = styled.div`
   display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
     column-gap: ${theme.spacing.md};
     row-gap: ${theme.spacing.base};
   margin-top: ${theme.spacing.base};
@@ -77,6 +77,7 @@ const SLinks = styled.div`
 `;
 
 const SNoLinksHeading = styled(SHeadingSubSubtitle)`
+  grid-column: 1 / -1;
   font-weight: 500;
   text-align: left;
 `;

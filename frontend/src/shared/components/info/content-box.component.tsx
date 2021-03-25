@@ -126,7 +126,11 @@ const SPosition = styled.div`
 
 const SCaret = styled(FontAwesomeIcon)`
   color: ${theme.colors.gray[500]};
-  font-size: 3rem;
+  font-size: 2.5rem;
+  
+  ${theme.media.tabLand} {
+    font-size: 3rem;
+  }
 `;
 
 export const STextareaBase = styled(AutosizeTextarea)`

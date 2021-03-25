@@ -80,7 +80,7 @@ interface IControlProps {
 const SControls = styled.div<IControlProps>`
   display: flex;
     flex-direction: column;
-    align-items: ${props => props.isCentered ? "center" : "flex-start" };
+     align-items: ${props => props.isCentered ? "center" : "flex-start" };
   margin-top: ${theme.spacing.base};
   width: 100%;
 `;
@@ -95,7 +95,10 @@ const SSortIcon = styled(FontAwesomeIcon)`
 `;
 
 const SSortButtons = styled.div`
-  margin-top: ${theme.spacing.sm};
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 `;
 
 interface SSortButtonProps {
@@ -108,6 +111,7 @@ const SSortButton = styled.button<SSortButtonProps>`
   cursor: pointer;
   font-size: ${theme.fontSizes.sm};
   margin-right: ${theme.spacing.xs};
+  margin-top: ${theme.spacing.sm};
   padding: ${theme.spacing.xs};
   font-weight: 500;
   width: 7em;
