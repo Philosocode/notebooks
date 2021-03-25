@@ -39,11 +39,14 @@ export const LinkGridItem: React.FC<IProps> = ({ handleDelete, link }) => {
 }
 
 const SIcon = styled(FontAwesomeIcon)`
-  visibility: hidden;
-  font-size: 1.2em;
   position: absolute;
   top: 0.5em;
   right: 0.5em;
+  
+  ${theme.media.tabLand} {
+    font-size: 1.2em;
+    visibility: hidden;
+  }
 
   &:hover {
     color: ${theme.colors.gray[600]};
@@ -55,7 +58,7 @@ const SLink = styled(Link)`
   border-radius: 5px;
   box-shadow: ${theme.boxShadows.light};
   font-weight: 500;
-  padding: ${theme.spacing.base} ${theme.spacing.base};
+  padding: 3.5rem;
   position: relative;
   text-align: center;
   
