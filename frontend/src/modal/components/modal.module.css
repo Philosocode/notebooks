@@ -1,0 +1,38 @@
+.modal {
+    border: 1px solid #ccc;
+    background-color: white;
+    border-radius: 1rem;
+    min-height: 50vh;
+    height: max-content;
+    max-height: 90vh;
+    outline: none;
+    overflow: auto;
+    padding: 3rem;
+    position: absolute;
+        top: 50%;
+        left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-overflow-scrolling: touch;
+    width: 60rem;
+    max-width: 90vw;
+    z-index: 200;
+}
+
+/* 600px */
+@media only screen and (max-width: 37.5em) {
+    .modal {
+        min-height: 0;
+        padding: 3rem 2.5rem;
+        max-width: 95vw;
+    }
+}
+
+.overlay {
+    background-color: rgba(0,0,0,0.5);
+    position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    z-index: 200;
+}
