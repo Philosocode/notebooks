@@ -17,11 +17,14 @@ import { NavbarProfileMenu } from "./navbar-profile-menu.component";
 import { theme } from "shared/styles/theme.style";
 import { SButtonGreen } from "shared/styles/button.style";
 
-export const Navbar = () => {
+interface IProps {
+  toggleSidebar: () => void;
+}
+export const Navbar: React.FC<IProps> = ({ toggleSidebar }) => {
   const user = useSelector(selectUser);
   const appLocation = useAppLocation();
 
-  const [helpModalShowing, toggleHelpModalShowing] = useToggle(false);
+  const [helpModalShowing, toggleHelpModal] = useToggle(false);
 
   const LibraryLink = <li><SNavLink to="/library">Library</SNavLink></li>;
 
@@ -52,13 +55,13 @@ export const Navbar = () => {
 
   return (
     <SNav>
-      <SMenuToggle icon="bars" />
+      <SMenuToggle icon="bars" onClick={toggleSidebar} />
       <SNavList>
-        { user && <SStuckButton onClick={toggleHelpModalShowing}>I'm Stuck</SStuckButton> }
+        { user && <SStuckButton onClick={toggleHelpModal}>I'm Stuck</SStuckButton> }
         { user ? getLoggedInLinks() : getLoggedOutLinks() }
         { user && <NavbarProfileMenu user={user} /> }
       </SNavList>
-      <HelpModal handleClose={toggleHelpModalShowing} isShowing={helpModalShowing} />
+      <HelpModal handleClose={toggleHelpModal} isShowing={helpModalShowing} />
     </SNav>
   );
 };

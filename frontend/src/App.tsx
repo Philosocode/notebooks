@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
@@ -30,7 +30,12 @@ export function App() {
   const settings = useSelector(selectSettings);
 
   useInit();
-  const [menuShowing, toggleMenuShowing] = useToggle(true);
+
+  const [sidebarShowing, toggleSidebar] = useToggle(true);
+
+  useEffect(() => {
+    console.log("SHOWING:", sidebarShowing);
+  }, [sidebarShowing]);
 
   function getRoutes() {
     return appRoutes.map((route) => {
@@ -59,8 +64,8 @@ export function App() {
   if (isLoggedIn && !settings) return <Loader />;
   return (
     <SAppContainer>
-      <Navbar />
-      <Sidebar />
+      <Navbar toggleSidebar={toggleSidebar} />
+      <Sidebar sidebarShowing={sidebarShowing} />
       <Switch>
         <Redirect exact from="/" to="/concepts" />
         <SMainContent>{getRoutes()}</SMainContent>

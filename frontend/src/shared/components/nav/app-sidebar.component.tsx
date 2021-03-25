@@ -7,7 +7,6 @@ import { faLightbulb, faStar } from "@fortawesome/free-regular-svg-icons";
 import { faBook, faStopwatch } from "@fortawesome/free-solid-svg-icons";
 
 import { showModal } from "timer/redux/timer.slice";
-import { SidebarWrapper } from "shared/components/nav/sidebar-wrapper.component";
 
 import { theme } from "shared/styles/theme.style";
 
@@ -19,26 +18,24 @@ export const AppSidebar: React.FC = () => {
   }
 
   return (
-    <SidebarWrapper width={theme.componentSizes.appSidebarWidth}>
-      <SContent>
-        <SSidebarLink to={`/concepts`}>
-          <SIcon icon={faLightbulb} />
-          <SName>Concepts</SName>
-        </SSidebarLink>
-        <SSidebarLink to={`/materials`}>
-          <SIcon icon={faBook} />
-          <SName>Materials</SName>
-        </SSidebarLink>
-        <SSidebarItem onClick={showTimer}>
-          <SIcon icon={faStopwatch} />
-          <SName>Timer</SName>
-        </SSidebarItem>
-        <SSidebarItem>
-          <SIcon icon={faStar} />
-          <SName>Practice</SName>
-        </SSidebarItem>
-      </SContent>
-    </SidebarWrapper>
+    <SContent>
+      <SSidebarLink to={`/concepts`}>
+        <SIcon icon={faLightbulb} />
+        <SName>Concepts</SName>
+      </SSidebarLink>
+      <SSidebarLink to={`/materials`}>
+        <SIcon icon={faBook} />
+        <SName>Materials</SName>
+      </SSidebarLink>
+      <SSidebarItem onClick={showTimer}>
+        <SIcon icon={faStopwatch} />
+        <SName>Timer</SName>
+      </SSidebarItem>
+      <SSidebarItem>
+        <SIcon icon={faStar} />
+        <SName>Practice</SName>
+      </SSidebarItem>
+    </SContent>
   )
  };
 
