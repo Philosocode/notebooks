@@ -61,12 +61,7 @@ const SProfilePictureContainer = styled.li`
   display: flex;
     justify-content: center;
     align-items: center;
-  margin-left: ${theme.spacing.sm};
   position: relative;
-
-  ${theme.media.tabLand} {
-    margin-left: ${theme.spacing.base};
-  }
 `;
 
 const SProfilePicture = styled.img`

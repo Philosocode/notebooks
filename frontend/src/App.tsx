@@ -1,11 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
+import styled from "styled-components";
 
 // logic
 import { appRoutes } from "./shared/config/app-routes.config";
-import { useAppLocation } from "shared/hooks/use-app-location.hook";
 import { useInit } from "./shared/hooks/use-init.hook";
+import { useToggle } from "./shared/hooks/use-toggle.hook";
 import { selectIsLoggedIn, selectSettings } from "./user/redux/user.selectors";
 
 // components
@@ -29,8 +30,7 @@ export function App() {
   const settings = useSelector(selectSettings);
 
   useInit();
-
-  const appLocation = useAppLocation();
+  const [menuShowing, toggleMenuShowing] = useToggle(true);
 
   function getRoutes() {
     return appRoutes.map((route) => {
@@ -56,28 +56,14 @@ export function App() {
     });
   }
 
-  let paddingLeft: string;
-  switch (appLocation) {
-    case "library":
-      paddingLeft = theme.componentSizes.librarySidebarWidth;
-      break;
-    case "concepts":
-    case "materials":
-    case "parts":
-      paddingLeft = theme.componentSizes.appSidebarWidth;
-      break;
-    default:
-      paddingLeft = "0";
-  }
-
   if (isLoggedIn && !settings) return <Loader />;
   return (
-    <>
+    <SAppContainer>
       <Navbar />
-      {/*<Sidebar />*/}
+      <Sidebar />
       <Switch>
         <Redirect exact from="/" to="/concepts" />
-        <SMainContent paddingLeft={"0px"}>{getRoutes()}</SMainContent>
+        <SMainContent>{getRoutes()}</SMainContent>
         <Route component={NotFoundPage} />
       </Switch>
       {
@@ -91,7 +77,10 @@ export function App() {
       <GlobalLoader />
       <Alert />
       <ModalRoot />
-    </>
+    </SAppContainer>
   );
 }
 
+const SAppContainer = styled.div`
+  display: flex;
+`;

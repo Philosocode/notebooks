@@ -80,12 +80,10 @@ export const theme = {
     md: `${BASE_SPACING_SIZE * 2}rem`,
     lg: `${BASE_SPACING_SIZE * 3}rem`,
     xl: `${BASE_SPACING_SIZE * 4}rem`,
+    sideGap: "2.5%",
   },
   timing: {
     alertShowTime: 3000,
-  },
-  other: {
-    sideGap: "2.5%",
   },
   zIndices: {
     nav: 100,

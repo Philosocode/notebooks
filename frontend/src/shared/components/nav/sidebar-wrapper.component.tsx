@@ -13,12 +13,9 @@ export const SidebarWrapper: FC<IProps> = ({ children, width }) => {
 
 const SSidebar = styled.aside`
   background: #eee;
-  display: block;
-  height: 100vh;
-  width: ${(props: IProps) => props.width};
-  padding-bottom: ${theme.spacing.lg};
-  position: fixed;
-  top: ${theme.componentSizes.navbarHeight};
-  left: 0;
+  max-height: 100vh;
+  padding-bottom: ${theme.spacing.md};
+  padding-top: ${theme.componentSizes.navbarHeight};
   overflow-y: auto;
+  min-width: ${(props: IProps) => props.width};
 `;

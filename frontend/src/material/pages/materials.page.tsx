@@ -64,13 +64,13 @@ export const MaterialsPage: React.FC = () => {
 
   return (
     <SPage>
-      {/*<TagSidebar*/}
-      {/*  tags={materialTags}*/}
-      {/*  currentTag={currentTag}*/}
-      {/*  isUncategorized={isUncategorized}*/}
-      {/*  setCurrentTag={setCurrentTag}*/}
-      {/*  setUncategorized={setIsUncategorized}*/}
-      {/*/>*/}
+      <TagSidebar
+        tags={materialTags}
+        currentTag={currentTag}
+        isUncategorized={isUncategorized}
+        setCurrentTag={setCurrentTag}
+        setUncategorized={setIsUncategorized}
+      />
       <SConceptSection>
         <SPaddedContainer>
           <SHeadingSubtitle>Materials</SHeadingSubtitle>

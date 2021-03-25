@@ -2,6 +2,7 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // logic
 import { selectUser } from "user/redux/user.selectors";
@@ -22,19 +23,17 @@ export const Navbar = () => {
 
   const [helpModalShowing, toggleHelpModalShowing] = useToggle(false);
 
-  const LibraryLink = <SNavItem>
-    <SNavLink to="/library">Library</SNavLink>
-  </SNavItem>;
+  const LibraryLink = <li><SNavLink to="/library">Library</SNavLink></li>;
 
   function getLoggedInLinks() {
     return (
       <>
-        <SNavItem>
+        <li>
           <SStudyLink
             $activeLink={appLocation !== "library"}
             to="/concepts"
           >Study</SStudyLink>
-        </SNavItem>
+        </li>
         {LibraryLink}
       </>
     );
@@ -43,9 +42,9 @@ export const Navbar = () => {
   function getLoggedOutLinks() {
     return (
       <>
-        <SNavItem>
+        <li>
           <SNavLink to="/login">Login</SNavLink>
-        </SNavItem>
+        </li>
         {LibraryLink}
       </>
     );
@@ -53,11 +52,12 @@ export const Navbar = () => {
 
   return (
     <SNav>
-      { user && <SStuckButton onClick={toggleHelpModalShowing}>I'm Stuck</SStuckButton> }
+      <SMenuToggle icon="bars" />
       <SNavList>
+        { user && <SStuckButton onClick={toggleHelpModalShowing}>I'm Stuck</SStuckButton> }
         { user ? getLoggedInLinks() : getLoggedOutLinks() }
+        { user && <NavbarProfileMenu user={user} /> }
       </SNavList>
-      { user && <NavbarProfileMenu user={user} /> }
       <HelpModal handleClose={toggleHelpModalShowing} isShowing={helpModalShowing} />
     </SNav>
   );
@@ -69,12 +69,19 @@ const SNav = styled.nav`
   align-items: center;
   justify-content: flex-end;
   height: ${theme.componentSizes.navbarHeight};
-  padding-right: ${theme.other.sideGap};
+  padding: 0 ${theme.spacing.sideGap};
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
   z-index: ${theme.zIndices.nav};
+`;
+
+const SMenuToggle = styled(FontAwesomeIcon)`
+  cursor: pointer;
+  font-size: 2.5rem;
+  position: absolute;
+    left: 3.75rem;
 `;
 
 const SStuckButton = styled(SButtonGreen)`
@@ -96,10 +103,9 @@ const SNavList = styled.ul`
   display: flex;
     justify-content: flex-end;
     align-items: center;
-`;
-
-const SNavItem = styled.li`
-  &:not(:last-child) {
+  position: relative;
+  
+  & > *:not(:last-child) {
     margin-right: 2rem;
   }
 `;

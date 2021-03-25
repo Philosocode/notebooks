@@ -2,10 +2,11 @@ import styled from "styled-components";
 
 import { theme } from "./theme.style";
 
-// padding-left for sidebar, margin-top for navbar
 export const SMainContent = styled.main`
   margin-top: ${theme.componentSizes.navbarHeight};
-  padding-left: ${(props: { paddingLeft: string }) => props.paddingLeft};
+  max-height: calc(100vh - ${theme.componentSizes.navbarHeight});
+  overflow: auto;
+  width: 100%;
 `;
 
 export const SPageContent = styled.div`

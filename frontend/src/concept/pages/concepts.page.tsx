@@ -68,13 +68,13 @@ export const ConceptsPage: React.FC = () => {
 
   return (
     <SPage>
-      {/*<TagSidebar*/}
-      {/*  isUncategorized={isUncategorized}*/}
-      {/*  currentTag={currentTag}*/}
-      {/*  tags={conceptTags}*/}
-      {/*  setCurrentTag={setCurrentTag}*/}
-      {/*  setUncategorized={setIsUncategorized}*/}
-      {/*/>*/}
+      <TagSidebar
+        isUncategorized={isUncategorized}
+        currentTag={currentTag}
+        tags={conceptTags}
+        setCurrentTag={setCurrentTag}
+        setUncategorized={setIsUncategorized}
+      />
       <SConceptSection>
         <SPaddedContainer>
           <SHeadingSubtitle>Concepts</SHeadingSubtitle>
