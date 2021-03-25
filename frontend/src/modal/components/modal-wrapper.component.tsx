@@ -12,8 +12,8 @@ interface IProps {
   isShowing: boolean;
   handleClose: (event: MouseEvent) => void;
   handleBack?: () => void;
-  styles?: CSSProperties;
   disableDefaultClose?: boolean;
+  isWide?: boolean;
 }
 export const ModalWrapper: FC<IProps> = ({
   isShowing,
@@ -21,8 +21,14 @@ export const ModalWrapper: FC<IProps> = ({
   handleClose,
   children,
   disableDefaultClose,
+  isWide,
 }) => {
   ReactModal.setAppElement("#root");
+
+  let modalClasses = modalStyles.modal;
+  if (isWide) {
+    modalClasses += ` ${modalStyles.wide}`;
+  }
 
   return (
     <ReactModal
@@ -31,7 +37,7 @@ export const ModalWrapper: FC<IProps> = ({
       closeTimeoutMS={150}
       shouldCloseOnEsc={!disableDefaultClose}
       shouldCloseOnOverlayClick={!disableDefaultClose}
-      className={modalStyles.modal}
+      className={modalClasses}
       overlayClassName={modalStyles.overlay}
     >
       {handleBack && <SBackIcon handleClick={handleBack} icon="arrow-left" />}

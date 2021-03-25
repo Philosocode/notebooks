@@ -11,7 +11,6 @@ import { HookSelectGrid } from "./hook-select-grid.component";
 
 // styles
 import { SHeadingSubtitle } from "shared/styles/typography.style";
-import { theme } from "../../shared/styles/theme.style";
 
 interface IProps {
   handleSelectHook: (hook: string) => void;
@@ -20,9 +19,7 @@ interface IProps {
 export const HookSelect: React.FC<IProps> = ({ handleSelectHook, hookType }) => {
   return (
     <>
-      <SHeading>
-        Select Hook: {hookType && convertToTitleCase(hookType)}
-      </SHeading>
+      <SHeading>Select Hook: {hookType && convertToTitleCase(hookType)}</SHeading>
       <HookSelectGrid
         defaultHooks={allHooksHash[hookType]}
         handleSelect={handleSelectHook}
@@ -32,5 +29,5 @@ export const HookSelect: React.FC<IProps> = ({ handleSelectHook, hookType }) => 
 };
 
 const SHeading = styled(SHeadingSubtitle)`
-  margin-top: ${theme.spacing.base};
+  margin-top: 3rem;
 `;

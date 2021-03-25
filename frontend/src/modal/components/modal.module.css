@@ -7,7 +7,7 @@
     max-height: 90vh;
     outline: none;
     overflow: auto;
-    padding: 3rem;
+    padding: 4rem 3rem;
     position: absolute;
         top: 50%;
         left: 50%;
@@ -18,12 +18,19 @@
     z-index: 200;
 }
 
+.wide {
+    width: 80vw;
+}
+
 /* 600px */
 @media only screen and (max-width: 37.5em) {
     .modal {
         min-height: 0;
         padding: 3rem 2.5rem;
         max-width: 95vw;
+    }
+    .wide {
+        width: 60rem;
     }
 }
 

@@ -43,19 +43,13 @@ export const HookSelectModal: React.FC<IProps> = ({
     setModalShowing(false);
   }
 
-  function getModalStyles() {
-    if (mode === "select") {
-      return { width: "80vw" };
-    }
-  }
-
   return (
     <>
       <ModalWrapper
         handleBack={mode !== "type" ? handleBack : undefined}
         handleClose={hideModal}
         isShowing={modalShowing}
-        styles={getModalStyles()}
+        isWide={mode === "select"}
       >
         {/* Select Hook Type */}
         <SModalPanel isShowing={mode === "type"}>

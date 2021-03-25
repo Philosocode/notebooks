@@ -69,10 +69,10 @@ const SInput = styled(SInputBorderless)`
 const SHookGrid = styled.div`
   margin-top: ${theme.spacing.base};
   
-  ${theme.media.tabLand} {
+  ${theme.media.tabPort} {
     margin-top: ${theme.spacing.sm};
     display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
       justify-items: space-between;
       gap: ${theme.spacing.base};
   }
@@ -88,7 +88,7 @@ const SHookCard = styled.div`
   margin-top: ${theme.spacing.base};
   padding: ${theme.spacing.sm};
   position: relative;
-
+  
   &:hover {
     background: ${theme.colors.green[400]};
     color: ${theme.colors.white};
@@ -97,6 +97,6 @@ const SHookCard = styled.div`
 
 const SHookCardIcon = styled(FontAwesomeIcon)`
   position: absolute;
-    bottom: 5px;
-    right: 5px;
+    bottom: 7px;
+    right: 7px;
 `;
