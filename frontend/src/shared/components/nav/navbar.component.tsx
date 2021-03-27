@@ -88,6 +88,10 @@ const SMenuToggle = styled(FontAwesomeIcon)`
   font-size: 2.5rem;
   position: absolute;
     left: 1rem;
+  
+  ${theme.media.tabPort} {
+    left: 3.5rem;
+  }
 `;
 
 const SStuckButton = styled(SButtonGreen)`

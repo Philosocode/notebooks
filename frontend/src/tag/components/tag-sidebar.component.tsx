@@ -67,13 +67,20 @@ interface STagSidebarProps {
 }
 const STagSidebar = styled.aside<STagSidebarProps>`
   background: ${theme.colors.white};
+  border-right: 1px solid ${theme.colors.gray[200]};
   height: 100vh;
   max-height: 100vh;
+  position: fixed;
+    left: ${theme.componentSizes.appSidebarWidth};
   overflow-y: auto;
   transition: width ${theme.animations.transitionAppend}, transform ${theme.animations.transitionAppend};
   transform: ${props => props.sidebarShowing ? "translateX(0)" : `translateX(-30rem);` };
   width: ${props => props.sidebarShowing ? "30rem" : 0};
-  z-index: 200;
+  z-index: ${theme.zIndices.sidebar};
+  
+  ${theme.media.tabLand} {
+    position: static;
+  }
 `;
 
 const SHeading = styled.h2`

@@ -6,7 +6,7 @@ export interface IGlobalState {
 }
 
 const initialState: IGlobalState = {
-  sidebarShowing: false
+  sidebarShowing: true
 };
 
 const globalSlice = createSlice({

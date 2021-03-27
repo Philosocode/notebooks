@@ -89,5 +89,6 @@ export const theme = {
     nav: 100,
     menu: 100,
     modal: 200,
+    sidebar: 50,
   }
 };

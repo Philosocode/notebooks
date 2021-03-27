@@ -32,4 +32,10 @@ const SSidebar = styled.aside<SSidebarProps>`
   transition: transform ${theme.animations.transitionAppend}, width ${theme.animations.transitionAppend};
   transform: ${props => props.sidebarShowing ? "translateX(0)" : "translateX(-12rem)"};
   width: ${props => props.sidebarShowing ? props.width : 0};
+  position: fixed;
+  z-index: ${theme.zIndices.sidebar};
+  
+  ${theme.media.tabLand} {
+    position: relative;
+  }
 `;
