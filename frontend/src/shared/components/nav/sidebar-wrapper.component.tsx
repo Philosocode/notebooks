@@ -13,6 +13,7 @@ export const SidebarWrapper: FC<IProps> = ({ children, width }) => {
 
   return (
     <SSidebar
+      className="sidebar-wrapper"
       sidebarShowing={sidebarShowing}
       width={width}
     >{children}</SSidebar>

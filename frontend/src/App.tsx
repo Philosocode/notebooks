@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
@@ -6,7 +6,6 @@ import styled from "styled-components";
 // logic
 import { appRoutes } from "./shared/config/app-routes.config";
 import { useInit } from "./shared/hooks/use-init.hook";
-import { useToggle } from "./shared/hooks/use-toggle.hook";
 import { selectIsLoggedIn, selectSettings } from "./user/redux/user.selectors";
 
 // components

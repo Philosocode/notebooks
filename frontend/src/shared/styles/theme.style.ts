@@ -50,7 +50,7 @@ export const theme = {
     navbarHeight: "5rem",
     appSidebarWidth: "10rem",
     tagSidebarWidth: "30rem",
-    librarySidebarWidth: "25rem",
+    librarySidebarWidth: "30rem",
   },
   fonts: {},
   fontSizes: {

@@ -10,7 +10,6 @@ export const Sidebar: React.FC = () => {
   const { pathname } = useLocation();
 
   if (pathname.includes("login")) return null;
-  if (pathname.includes("library")) return <LibrarySidebar />;
 
   let sidebarWidth: string;
   let SidebarContent: React.FC;
