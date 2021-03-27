@@ -76,6 +76,7 @@ const STagSidebar = styled.aside<STagSidebarProps>`
   transition: width ${theme.animations.transitionAppend}, transform ${theme.animations.transitionAppend};
   transform: ${props => props.sidebarShowing ? "translateX(0)" : `translateX(-30rem);` };
   width: ${props => props.sidebarShowing ? "30rem" : 0};
+  max-width: calc(100vw - ${theme.componentSizes.appSidebarWidth});
   z-index: ${theme.zIndices.sidebar};
   
   ${theme.media.tabLand} {
@@ -85,7 +86,11 @@ const STagSidebar = styled.aside<STagSidebarProps>`
 
 const SHeading = styled.h2`
   font-size: ${theme.fontSizes.md};
-  padding: ${theme.spacing.md};
+  padding: ${theme.spacing.base};
+
+  ${theme.media.tabLand} {
+    padding: ${theme.spacing.md};
+  }
 `;
 
 const STagList = styled.ul`

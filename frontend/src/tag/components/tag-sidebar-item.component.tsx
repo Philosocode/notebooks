@@ -74,7 +74,9 @@ export const TagSidebarItem: FC<IProps> = ({
 };
 
 const SActionIcons = styled.div`
-  visibility: hidden;
+  ${theme.media.tabLand} {
+    visibility: hidden;
+  }
 `;
 
 interface IContainerProps {
@@ -91,9 +93,11 @@ const SContainer = styled.li<IContainerProps>`
   &:hover {
     background: ${theme.colors.gray[100]};
   }
-
-  &:hover ${SActionIcons} {
-    visibility: visible;
+  
+  ${theme.media.tabLand} {
+    &:hover ${SActionIcons} {
+      visibility: visible;
+    }
   }
 `;
 
@@ -103,7 +107,6 @@ const SIcon = styled(FontAwesomeIcon)`
 `;
 
 const SEditIcon = styled(FontAwesomeIcon)`
-  font-size: 1.8rem;
   margin-right: ${theme.spacing.sm};
 
   &:hover {
@@ -112,8 +115,9 @@ const SEditIcon = styled(FontAwesomeIcon)`
 `;
 
 const SDeleteIcon = styled(FontAwesomeIcon)`
-  font-size: 1.8rem;
-
+  ${theme.media.tabLand} {
+    font-size: ${theme.fontSizes.basePlus};
+  }
   &:hover {
     color: ${theme.colors.red[300]};
   }
