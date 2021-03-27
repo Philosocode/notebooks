@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import { faLightbulb, faStar } from "@fortawesome/free-regular-svg-icons";
 import { faBook, faStopwatch } from "@fortawesome/free-solid-svg-icons";
@@ -9,9 +9,13 @@ import { faBook, faStopwatch } from "@fortawesome/free-solid-svg-icons";
 import { showModal } from "timer/redux/timer.slice";
 
 import { theme } from "shared/styles/theme.style";
+import { selectTimerModalShowing } from "timer/redux/timer.selectors";
+import { useAppLocation } from "../../hooks/use-app-location.hook";
 
 export const AppSidebar: React.FC = () => { 
   const dispatch = useDispatch();
+  const timerModalShowing = useSelector(selectTimerModalShowing);
+  const appLocation = useAppLocation();
 
   function showTimer() {
     dispatch(showModal())
@@ -19,15 +23,15 @@ export const AppSidebar: React.FC = () => {
 
   return (
     <SContent>
-      <SSidebarLink to={`/concepts`}>
+      <SSidebarLink to="/concepts">
         <SIcon icon={faLightbulb} />
         <SName>Concepts</SName>
       </SSidebarLink>
-      <SSidebarLink to={`/materials`}>
+      <SSidebarLink to="/materials" isSelected={appLocation === "parts"}>
         <SIcon icon={faBook} />
         <SName>Materials</SName>
       </SSidebarLink>
-      <SSidebarItem onClick={showTimer}>
+      <SSidebarItem onClick={showTimer} isSelected={timerModalShowing}>
         <SIcon icon={faStopwatch} />
         <SName>Timer</SName>
       </SSidebarItem>
@@ -80,9 +84,14 @@ const SidebarItemCss = css`
   }
 `;
 
-const SSidebarItem = styled.button`
+interface ISelected {
+  isSelected?: boolean;
+}
+const SSidebarItem = styled.button<ISelected>`
   ${SidebarItemCss}
 
+  color: ${props => props.isSelected && theme.colors.green[300]};
+  
   &:active, &:focus {
     outline: none;
   }
@@ -90,6 +99,8 @@ const SSidebarItem = styled.button`
 
 const SSidebarLink = styled(NavLink).attrs({
   activeClassName: "active",
-})`
+})<ISelected>`
   ${SidebarItemCss}
+
+  color: ${props => props.isSelected && theme.colors.green[300]};
 `;
