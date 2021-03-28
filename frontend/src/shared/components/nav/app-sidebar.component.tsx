@@ -34,7 +34,7 @@ export const AppSidebar: React.FC = () => {
         <SIcon icon={faLightbulb} />
         <SName>Concepts</SName>
       </SSidebarLink>
-      <SSidebarLink to="/materials" isSelected={appLocation === "parts"}>
+      <SSidebarLink to="/materials">
         <SIcon icon={faBook} />
         <SName>Materials</SName>
       </SSidebarLink>
