@@ -9,8 +9,7 @@ import { ConceptsPage } from "concept/pages/concepts.page";
 import { MaterialsPage } from "material/pages/materials.page";
 import { MaterialDetailPage } from "material/pages/material-detail.page";
 import { PartDetailPage } from "part/pages/part-detail.page";
-import { PracticePage } from "pages/practice.page";
-import { SettingsPage } from "pages/settings.page";
+import { PracticePage } from "practice/pages/practice.page";
 
 interface IAppRoute<T = {}> {
   component: FC<T>;
@@ -69,12 +68,6 @@ const practice: IAppRoute = {
   isPrivate: true,
 };
 
-const settings: IAppRoute = {
-  component: SettingsPage,
-  path: "/settings",
-  isPrivate: true,
-};
-
 export const appRoutes = [
   login,
   library,
@@ -85,5 +78,4 @@ export const appRoutes = [
   materialDetail,
   partDetail,
   practice,
-  settings,
 ];

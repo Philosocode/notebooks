@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-export type TAppLocation = "concepts" | "materials" | "library" | "other" | "parts";
+export type TAppLocation = "concepts" | "materials" | "library" | "other" | "parts" | "practice";
 
 export function useAppLocation(): TAppLocation {
   const [appLocation, setAppLocation] = useState<TAppLocation>("other");
@@ -13,6 +13,7 @@ export function useAppLocation(): TAppLocation {
     if (pathname.startsWith("/concepts"))   setAppLocation("concepts");
     if (pathname.startsWith("/materials"))  setAppLocation("materials");
     if (pathname.startsWith("/parts"))      setAppLocation("parts");
+    if (pathname.startsWith("/practice"))   setAppLocation("practice");
   }, [pathname]);
 
   return appLocation;

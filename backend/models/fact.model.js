@@ -6,6 +6,7 @@ module.exports = {
   deleteFact,
   deleteFacts,
   getFacts,
+  getFactsForUser,
   updateFact,
 };
 
@@ -56,6 +57,22 @@ async function getFacts(part_id, filterObj, connection=db) {
   return connection("fact")
     .where({ part_id, ...filterObj })
     .orderBy("position");
+}
+
+async function getFactsForUser(user_id, mastered, connection=db) {
+  const filter = {
+    "material.user_id": user_id,
+    ...(mastered !== undefined && { "fact.mastered": mastered })
+  };
+
+  console.log(filter)
+
+  return connection("fact")
+    .select(["fact.id", "fact.question", "fact.answer", "fact.mastered", "fact.part_id"])
+    .join("part", "part.id", "fact.part_id")
+    .join("material", "material.id", "part.material_id")
+    .where(filter)
+    .orderBy("fact.position");
 }
 
 async function updateFact(part_id, fact_id, updates, connection=db) {

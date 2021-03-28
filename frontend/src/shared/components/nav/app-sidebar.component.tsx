@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
@@ -7,18 +7,25 @@ import { faLightbulb, faStar } from "@fortawesome/free-regular-svg-icons";
 import { faBook, faStopwatch } from "@fortawesome/free-solid-svg-icons";
 
 import { showModal } from "timer/redux/timer.slice";
+import { setPracticeState } from "practice/redux/practice.slice";
+import { useAppLocation } from "../../hooks/use-app-location.hook";
+import { selectTimerModalShowing } from "timer/redux/timer.selectors";
 
 import { theme } from "shared/styles/theme.style";
-import { selectTimerModalShowing } from "timer/redux/timer.selectors";
-import { useAppLocation } from "../../hooks/use-app-location.hook";
 
 export const AppSidebar: React.FC = () => { 
   const dispatch = useDispatch();
+  const history = useHistory();
   const timerModalShowing = useSelector(selectTimerModalShowing);
   const appLocation = useAppLocation();
 
   function showTimer() {
     dispatch(showModal())
+  }
+
+  function handlePracticeClick() {
+    dispatch(setPracticeState({ source: "all", id: "" }));
+    history.push("/practice");
   }
 
   return (
@@ -35,7 +42,7 @@ export const AppSidebar: React.FC = () => {
         <SIcon icon={faStopwatch} />
         <SName>Timer</SName>
       </SSidebarItem>
-      <SSidebarItem>
+      <SSidebarItem onClick={handlePracticeClick} isSelected={appLocation === "practice"}>
         <SIcon icon={faStar} />
         <SName>Practice</SName>
       </SSidebarItem>
