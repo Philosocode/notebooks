@@ -54,6 +54,7 @@ const getMaterials = require("./handlers/material/get-materials.handler");
 const updateMaterial = require("./handlers/material/update-material.handler");
 
 const getFactsForMaterial = require("./handlers/material/get-facts-for-material.handler");
+const getFactsForPart = require("./handlers/part/get-facts-for-part.handler");
 
 // Material Tags
 const getTagsForMaterial = require("./handlers/material-tag/get-tags-for-material");
@@ -217,6 +218,9 @@ router.route("/materials/:materialId")
 router.route("/parts/:partId/links")
   .get(userOwnsPartMiddleware, getConceptParts)
   .post(userOwnsPartMiddleware, createConceptPart)
+
+router.route("/parts/:partId/facts")
+  .get(userOwnsPartMiddleware, getFactsForPart)
 
 router.route("/parts/:partId/links/:conceptId")
   .delete(userOwnsPartMiddleware, conceptExistsMiddleware, deleteConceptPart)

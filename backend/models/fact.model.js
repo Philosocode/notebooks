@@ -65,8 +65,6 @@ async function getFactsForUser(user_id, mastered, connection=db) {
     ...(mastered !== undefined && { "fact.mastered": mastered })
   };
 
-  console.log(filter)
-
   return connection("fact")
     .select(["fact.id", "fact.question", "fact.answer", "fact.mastered", "fact.part_id"])
     .join("part", "part.id", "fact.part_id")

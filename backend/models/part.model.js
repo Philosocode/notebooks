@@ -12,6 +12,7 @@ module.exports = {
   deletePart,
   deleteParts,
   userOwnsPart,
+  getFactsForPart,
 };
 
 // Referenced: https://medium.com/the-missing-bit/keeping-an-ordered-collection-in-postgresql-9da0348c4bbe
@@ -118,6 +119,18 @@ async function deleteParts(material_id, connection=db) {
     // delete all parts for material ID
     await trx("part").where({ material_id }).del();
   })
+}
+
+async function getFactsForPart(part_id, mastered, connection=db) {
+  const filter = {
+    "part.id": part_id,
+    ...(mastered !== undefined && { "fact.mastered": mastered })
+  };
+
+  return connection("fact")
+    .select(["fact.id", "fact.question", "fact.answer", "fact.mastered", "fact.part_id"])
+    .where(filter)
+    .orderBy("fact.position");
 }
 
 /* HELPERS */

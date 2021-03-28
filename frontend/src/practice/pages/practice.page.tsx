@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import { selectPracticeState } from "../redux/practice.selectors";
 import { IFact } from "../../fact/redux/fact.types";
+import { api } from "../../services/api.service";
+import { selectPracticeState } from "../redux/practice.selectors";
 
 export const PracticePage: React.FC = () => {
   const practiceState = useSelector(selectPracticeState);
@@ -22,14 +23,31 @@ export const PracticePage: React.FC = () => {
       return;
     }
 
+    interface IFactsResponse {
+      data: {
+        facts: IFact[];
+      };
+    }
+    let rawFacts: IFact[];
+
     switch(practiceState.source) {
       case "all":
+        api.get("/facts?mastered=false")
+          .then(response => {
+            rawFacts = response.data.data.facts;
+          });
         break;
       case "material":
+        api.get(`/materials/${practiceState.id}?mastered=false`)
+          .then(response => {
+            rawFacts = response.data.data.facts;
+          });
         break;
       case "part":
         break;
     }
+
+
   }, [practiceState]);
 
   return (

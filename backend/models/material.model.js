@@ -83,19 +83,15 @@ async function updateMaterial(material_id, updates, connection=db) {
   });
 }
 
-async function getFactsForMaterial(material_id, connection=db) {
-  const columnsToSelect = [
-    "fact.id",
-    "fact.question",
-    "fact.answer",
-    "fact.mastered",
-    "fact.part_id",
-  ];
+async function getFactsForMaterial(material_id, mastered, connection=db) {
+  const filter = {
+    "part.material_id": material_id,
+    ...(mastered !== undefined && { "fact.mastered": mastered })
+  };
 
   return connection("fact")
-    .select(columnsToSelect)
+    .select(["fact.id", "fact.question", "fact.answer", "fact.mastered", "fact.part_id"])
     .join("part", "part.id", "fact.part_id")
-    .whereIn("part.id", function() {
-      this.select("id").from("part").where({ "part.material_id": material_id })
-    });
+    .where(filter)
+    .orderBy("fact.position");
 }
