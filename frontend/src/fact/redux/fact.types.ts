@@ -4,6 +4,7 @@ export interface IFact {
   answer: string;
   mastered: boolean;
   part_id: string;
+  part_name: string;
 }
 
 // SEE: https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape

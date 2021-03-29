@@ -2,11 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { theme } from "shared/styles/theme.style";
 import { TagList } from "tag/components/tag-list.component";
-import { OptionIcon } from "../button/option-icon.component";
-import { SHeadingSubSubtitle, SHeadingSubtitle } from "../../styles/typography.style";
 import { CircleIcon } from "../button/circle-icon.component";
+
+import { theme } from "shared/styles/theme.style";
+import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 
 interface IEntity {
   id: string;

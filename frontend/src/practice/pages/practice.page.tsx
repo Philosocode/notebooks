@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import shuffle from "lodash/shuffle";
 import random from "lodash/random";
 import styled from "styled-components";
@@ -157,19 +157,21 @@ export const PracticePage: React.FC = () => {
 
   function getPracticeScreen() {
     if (!facts) return;
+    const currentFact = facts[currentFactIndex];
 
     return (
       <>
         <STextContainer>
           <SMasteredIcon icon={faStar} handleClick={handleMasteredClick} />
-          <SFactCount>{currentFactIndex + 1} / {facts.length}</SFactCount>
-          <SHeadingSubtitle>Question:</SHeadingSubtitle>
-          <SText>{facts[currentFactIndex].question}</SText>
+          <STextCompact>{currentFactIndex + 1} / {facts.length}</STextCompact>
+          <SPartNameLink as={Link} to={`/parts/${currentFact.part_id}`}>{currentFact.part_name}</SPartNameLink>
+          <SQuestionHeading>Question:</SQuestionHeading>
+          <SText>{currentFact.question}</SText>
 
           { answerShowing ? (
             <>
               <SAnswerHeading>Answer:</SAnswerHeading>
-              <SText>{facts[currentFactIndex].answer}</SText>
+              <SText>{currentFact.answer}</SText>
             </>
           ) : (
             <>
@@ -244,20 +246,22 @@ const STextContainer = styled.div`
   overflow: auto;
   position: relative;
 `;
-
 const STextarea = styled(STextareaBase)`
   padding: ${theme.spacing.sm};
   margin-top: ${theme.spacing.xs};
 `;
 
-const SFactCount = styled.h3`
+const STextCompact = styled.h3`
   letter-spacing: 1px;
-  margin-bottom: ${theme.spacing.xs};
   text-transform: uppercase;
 `;
 
 const SDoneHeading = styled(SHeadingSubtitle)`
   margin-bottom: ${theme.spacing.base};
+`;
+
+const SQuestionHeading = styled(SHeadingSubtitle)`
+  margin-top: ${theme.spacing.sm};
 `;
 
 const SAnswerHeading = styled(SHeadingSubtitle)`
@@ -291,4 +295,13 @@ const SShowAnswerButton = styled(SButtonGreen)`
 
 const SCenterContainer = styled.div`
   text-align: center;
+`;
+
+const SPartNameLink = styled(STextCompact)`
+  color: ${theme.colors.green[400]};
+  font-weight: bold;
+  
+  &:hover {
+    text-decoration: underline;
+  }
 `;

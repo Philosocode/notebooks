@@ -1,6 +1,6 @@
 import React, { FC, MouseEvent } from "react";
 import ReactModal from "react-modal";
-import styled, { CSSProperties } from "styled-components";
+import styled from "styled-components";
 
 import { CircleIcon } from "../../shared/components/button/circle-icon.component";
 

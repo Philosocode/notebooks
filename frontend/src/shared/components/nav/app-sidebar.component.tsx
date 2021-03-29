@@ -34,7 +34,7 @@ export const AppSidebar: React.FC = () => {
         <SIcon icon={faLightbulb} />
         <SName>Concepts</SName>
       </SSidebarLink>
-      <SSidebarLink to="/materials">
+      <SSidebarLink to="/materials" $isSelected={appLocation === "parts"}>
         <SIcon icon={faBook} />
         <SName>Materials</SName>
       </SSidebarLink>
@@ -50,7 +50,14 @@ export const AppSidebar: React.FC = () => {
   )
  };
 
+
+interface ISelected {
+  isSelected?: boolean;
+  $isSelected?: boolean;
+}
+
 const { transitionAppend } = theme.animations;
+const green = theme.colors.green[300];
 
 const SContent = styled.div`
   display: flex;
@@ -71,7 +78,7 @@ const SName = styled.h3`
   transition: color ${transitionAppend};
 `;
 
-const SidebarItemCss = css`
+const SidebarItemCss = css<ISelected>`
   background: transparent;
   border: none;
   color: ${theme.colors.gray["400"]};
@@ -83,21 +90,18 @@ const SidebarItemCss = css`
   
   &:hover, &.active {
     background: ${theme.colors.gray["100"]};
-    color: ${theme.colors.green[300]};
+    color: ${green};
     
     ${SIcon} {
-      color: ${theme.colors.green[300]};
+      color: ${green};
     }
   }
 `;
 
-interface ISelected {
-  isSelected?: boolean;
-}
 const SSidebarItem = styled.button<ISelected>`
   ${SidebarItemCss}
 
-  color: ${props => props.isSelected && theme.colors.green[300]};
+  color: ${props => props.isSelected && green};
   
   &:active, &:focus {
     outline: none;
@@ -109,5 +113,5 @@ const SSidebarLink = styled(NavLink).attrs({
 })<ISelected>`
   ${SidebarItemCss}
 
-  color: ${props => props.isSelected && theme.colors.green[300]};
+  color: ${props => (props.isSelected || props.$isSelected) && green};
 `;
