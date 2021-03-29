@@ -152,23 +152,3 @@ const SIcon = styled(CircleIcon)<IMastered>`
   font-size: ${theme.fontSizes.base};
   margin-left: 3px;
 `;
-
-// const SStarContainer = styled.div<SStarContainerProps>`
-//   display: flex;
-//     align-items: center;
-//     justify-content: center;
-//   margin-left: ${theme.spacing.xs};
-//   position: relative;
-//
-//   &:hover {
-//     background: ${theme.colors.gray[100]};
-//
-//     ${SIcon} {
-//       color: ${theme.colors.green[300]};
-//     }
-//   }
-//
-//   border-radius: 50%;
-//   height: 3rem;
-//   width: 3rem;
-// `;
