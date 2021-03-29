@@ -9,7 +9,6 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { IFact } from "../../fact/redux/fact.types";
 import { api } from "../../services/api.service";
 import { selectPracticeState } from "../redux/practice.selectors";
-import { setPracticeState } from "../redux/practice.slice";
 import { useToggle } from "../../shared/hooks/use-toggle.hook";
 
 import { CircleIcon } from "../../shared/components/button/circle-icon.component";
@@ -21,6 +20,7 @@ import { SHeadingSubtitle } from "../../shared/styles/typography.style";
 import { SButtonGreen, SButtonRed, SButton } from "shared/styles/button.style";
 import { STextareaBase } from "shared/styles/form.style";
 import { useForm } from "../../shared/hooks/use-form.hook";
+import { updateFact } from "../../fact/redux/fact.thunks";
 
 export const PracticePage: React.FC = () => {
   const practiceState = useSelector(selectPracticeState);
@@ -29,7 +29,6 @@ export const PracticePage: React.FC = () => {
 
   const [facts, setFacts] = useState<IFact[]>();
   const [currentFactIndex, setCurrentFactIndex] = useState(-1);
-  const [totalFacts, setTotalFacts] = useState(0);
   const [answerShowing, toggleAnswerShowing] = useToggle(false);
   const { values, handleChange, setValues } = useForm({ responseText: "" });
 
@@ -67,7 +66,6 @@ export const PracticePage: React.FC = () => {
       .then(response => {
         const rawFacts = response.data.data.facts;
 
-        setTotalFacts(rawFacts.length);
         setFacts(shuffle(rawFacts));
         setCurrentFactIndex(0);
       });
@@ -122,11 +120,38 @@ export const PracticePage: React.FC = () => {
     setCurrentFactIndex(prevState => prevState - 1);
   }
 
+  function handleMasteredClick() {
+    if (!facts) return;
+    const fact = facts[currentFactIndex];
+
+    dispatch(updateFact({
+      factId: fact.id,
+      partId: fact.part_id,
+      updates: {
+        mastered: true
+      }
+    }));
+
+    // after mastering a fact, remove it
+    const updatedFacts = [...facts];
+    updatedFacts.splice(currentFactIndex, 1);
+
+    setFacts(updatedFacts);
+
+    if (answerShowing) {
+      handleToggle();
+    }
+  }
+
   // render
   function getNoFactsHeading() {
     if (facts?.length !== 0) return;
+
     return (
-      <SHeadingSubtitle weight={500}>No facts found...</SHeadingSubtitle>
+      <SCenterContainer>
+        <SDoneHeading weight={500}>No facts found...</SDoneHeading>
+        <SShowAnswerButton onClick={handleGoBack}>Exit</SShowAnswerButton>
+      </SCenterContainer>
     );
   }
 
@@ -136,8 +161,8 @@ export const PracticePage: React.FC = () => {
     return (
       <>
         <STextContainer>
-          <SMasteredIcon icon={faStar} />
-          <SFactCount>{currentFactIndex + 1}/{totalFacts}</SFactCount>
+          <SMasteredIcon icon={faStar} handleClick={handleMasteredClick} />
+          <SFactCount>{currentFactIndex + 1} / {facts.length}</SFactCount>
           <SHeadingSubtitle>Question:</SHeadingSubtitle>
           <SText>{facts[currentFactIndex].question}</SText>
 
@@ -181,10 +206,10 @@ export const PracticePage: React.FC = () => {
 
   function getFinishedScreen() {
     return (
-      <div style={{ textAlign: "center" }}>
+      <SCenterContainer>
         <SDoneHeading weight={500}>You are finished studying!</SDoneHeading>
         <SShowAnswerButton onClick={handleGoBack}>Exit</SShowAnswerButton>
-      </div>
+      </SCenterContainer>
     )
   }
 
@@ -193,7 +218,7 @@ export const PracticePage: React.FC = () => {
     <SContainer>
       { facts.length === 0 && getNoFactsHeading() }
       { facts.length > 0 && currentFactIndex < facts.length && getPracticeScreen() }
-      { currentFactIndex === facts.length && getFinishedScreen() }
+      { facts.length > 0 && currentFactIndex === facts.length && getFinishedScreen() }
     </SContainer>
   );
 }
@@ -262,4 +287,8 @@ const SButtons = styled.div`
 const SShowAnswerButton = styled(SButtonGreen)`
   margin: 0 auto;
   width: 15rem !important;
+`;
+
+const SCenterContainer = styled.div`
+  text-align: center;
 `;

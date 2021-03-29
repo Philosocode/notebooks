@@ -29,6 +29,7 @@ const factSlice = createSlice({
         const { factId, updates } = action.payload;
 
         const oldFact = state.facts[factId];
+        if (!oldFact) return;
 
         state.facts[factId] = {
           ...oldFact,
