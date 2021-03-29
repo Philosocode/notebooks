@@ -45,6 +45,8 @@ export const ConceptLinksForMaterial: React.FC<IProps> = ({ material }) => {
   }, [conceptsLoaded, conceptIds, material, dispatch]);
 
   const conceptLinks = useMemo(() => {
+    if (!conceptsLoaded) return;
+
     const uniqueConceptIds = Array.from(new Set(conceptIds ?? []));
     const links: ILinkGridItem[] = [];
 
