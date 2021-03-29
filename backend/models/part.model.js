@@ -123,7 +123,7 @@ async function deleteParts(material_id, connection=db) {
 
 async function getFactsForPart(part_id, mastered, connection=db) {
   const filter = {
-    "part.id": part_id,
+    "fact.part_id": part_id,
     ...(mastered !== undefined && { "fact.mastered": mastered })
   };
 
