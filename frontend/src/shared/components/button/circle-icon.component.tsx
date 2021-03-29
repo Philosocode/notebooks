@@ -45,8 +45,8 @@ const SIconContainer = styled.div`
   display: flex;
     align-items: center;
     justify-content: center;
-  height: 2.5em;
-  width: 2.5em;
+  height: 2.2em;
+  width: 2.2em;
 
   &:hover {
     background: ${theme.colors.gray[100]};
