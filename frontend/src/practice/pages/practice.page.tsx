@@ -298,10 +298,10 @@ const SCenterContainer = styled.div`
 `;
 
 const SPartNameLink = styled(STextCompact)`
-  color: ${theme.colors.green[400]};
   font-weight: bold;
+  text-decoration: underline;
   
   &:hover {
-    text-decoration: underline;
+    color: ${theme.colors.green[400]};
   }
 `;
