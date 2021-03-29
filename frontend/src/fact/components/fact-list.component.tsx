@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DropResult } from "react-beautiful-dnd";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
@@ -13,6 +12,7 @@ import { repositionFact } from "part/redux/part.slice";
 import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
 
 // components
+import { CircleIcon } from "../../shared/components/button/circle-icon.component";
 import { DragAndDropWrapper } from "shared/components/drag-and-drop/drag-and-drop-wrapper.component";
 import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
 import { DraggableWrapper } from "../../shared/components/drag-and-drop/draggable-wrapper.component";
@@ -76,9 +76,7 @@ export const FactList: React.FC<IProps> = ({ partId }) => {
     dispatch(deleteFact({ factId, partId }));
   }
 
-  function toggleFactMastered(event: React.MouseEvent, fact: IFact) {
-    event.stopPropagation();
-
+  function toggleFactMastered(fact: IFact) {
     const newValue = !fact.mastered;
 
     dispatch(updateFact({
@@ -108,12 +106,11 @@ export const FactList: React.FC<IProps> = ({ partId }) => {
                 isExpanded={expandedHash[fact.id]}
                 toggleIsExpanded={toggleEntityExpansion}
                 headerSlot={
-                  <SStarContainer
+                  <SIcon
+                    icon={faCheck}
                     mastered={fact.mastered}
-                    onClick={(event) => toggleFactMastered(event, fact)}
-                  >
-                    <SIcon icon={faCheck} />
-                  </SStarContainer>
+                    handleClick={() => toggleFactMastered(fact)}
+                  />
                 }
               />
             </DraggableWrapper>
@@ -147,28 +144,31 @@ const SList = styled.ul`
   margin-right: auto;
 `;
 
-const SIcon = styled(FontAwesomeIcon)``;
-
-interface SStarContainerProps {
+interface IMastered {
   mastered: boolean;
 }
-const SStarContainer = styled.div<SStarContainerProps>`
+const SIcon = styled(CircleIcon)<IMastered>`
   color: ${props => props.mastered ? theme.colors.green[300] : theme.colors.gray[500]};
-  display: flex;
-    align-items: center;
-    justify-content: center;
-  margin-left: ${theme.spacing.xs};
-  position: relative;
-
-  &:hover {
-    background: ${theme.colors.gray[100]};
-    
-    ${SIcon} {
-      color: ${theme.colors.green[300]};
-    }
-  }
-
-  border-radius: 50%;
-  height: 3rem;
-  width: 3rem;
+  font-size: ${theme.fontSizes.base};
+  margin-left: 3px;
 `;
+
+// const SStarContainer = styled.div<SStarContainerProps>`
+//   display: flex;
+//     align-items: center;
+//     justify-content: center;
+//   margin-left: ${theme.spacing.xs};
+//   position: relative;
+//
+//   &:hover {
+//     background: ${theme.colors.gray[100]};
+//
+//     ${SIcon} {
+//       color: ${theme.colors.green[300]};
+//     }
+//   }
+//
+//   border-radius: 50%;
+//   height: 3rem;
+//   width: 3rem;
+// `;
