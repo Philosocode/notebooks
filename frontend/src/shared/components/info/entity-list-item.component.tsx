@@ -50,8 +50,10 @@ export const EntityListItem: React.FC<IProps> = ({
   );
 };
 
+const borderColor = theme.colors.gray[200];
+
 const SContainer = styled(Link)`
-  border: 1px solid ${theme.colors.gray[200]};
+  border-top: 1px solid ${borderColor};
   display: flex;
     justify-content: space-between;
     align-items: center;
@@ -61,6 +63,10 @@ const SContainer = styled(Link)`
   
   ${theme.media.tabLand} {
     padding: ${theme.spacing.base} ${theme.spacing.md};
+  }
+  
+  &:last-of-type {
+    border-bottom: 1px solid ${borderColor};
   }
 
   &:hover {
