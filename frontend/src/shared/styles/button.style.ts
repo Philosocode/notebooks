@@ -24,6 +24,10 @@ export const SButton = styled.button`
   &:disabled {
     cursor: not-allowed;
     background: ${theme.colors.gray[400]};
+    color: white;
+  }
+  
+  &:hover {
   }
 `;
 
