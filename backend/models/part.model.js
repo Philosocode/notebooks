@@ -128,8 +128,9 @@ async function getFactsForPart(part_id, mastered, connection=db) {
   };
 
   return connection("fact")
-    .select(["fact.id", "fact.question", "fact.answer", "fact.mastered", "fact.part_id"])
+    .select(["fact.id", "fact.question", "fact.answer", "fact.mastered", "fact.part_id", "part.name AS part_name"])
     .where(filter)
+    .join("part", "part.id", "fact.part_id")
     .orderBy("fact.position");
 }
 

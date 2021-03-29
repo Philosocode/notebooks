@@ -90,7 +90,7 @@ async function getFactsForMaterial(material_id, mastered, connection=db) {
   };
 
   return connection("fact")
-    .select(["fact.id", "fact.question", "fact.answer", "fact.mastered", "fact.part_id"])
+    .select(["fact.id", "fact.question", "fact.answer", "fact.mastered", "fact.part_id", "part.name AS part_name"])
     .join("part", "part.id", "fact.part_id")
     .where(filter)
     .orderBy("fact.position");

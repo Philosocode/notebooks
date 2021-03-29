@@ -1,6 +1,6 @@
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
-const { getFactsForPart } = require("../../models/part.model");
+const { getFactsForPart, getPart } = require("../../models/part.model");
 
 module.exports = catchAsync(async function (req, res) {
   const { partId } = req.params;
@@ -14,7 +14,7 @@ module.exports = catchAsync(async function (req, res) {
     }
   }
 
-  const factsForPart = await getFactsForPart(partId, mastered);
+  let factsForPart = await getFactsForPart(partId, mastered);
 
   sendResponse(res, 200, { facts: factsForPart });
 });
