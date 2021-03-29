@@ -2,22 +2,25 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import shuffle from "lodash/shuffle";
+import random from "lodash/random";
 import styled from "styled-components";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 import { IFact } from "../../fact/redux/fact.types";
 import { api } from "../../services/api.service";
 import { selectPracticeState } from "../redux/practice.selectors";
 import { setPracticeState } from "../redux/practice.slice";
+import { useToggle } from "../../shared/hooks/use-toggle.hook";
 
+import { CircleIcon } from "../../shared/components/button/circle-icon.component";
 import { Loader } from "loading/components/loader.component";
 
 import { theme } from "../../shared/styles/theme.style";
 import { SPageContentCenter } from "../../shared/styles/layout.style";
 import { SHeadingSubtitle } from "../../shared/styles/typography.style";
 import { SButtonGreen, SButtonRed, SButton } from "shared/styles/button.style";
-import { CircleIcon } from "../../shared/components/button/circle-icon.component";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { useToggle } from "../../shared/hooks/use-toggle.hook";
+import { STextareaBase } from "shared/styles/form.style";
+import { useForm } from "../../shared/hooks/use-form.hook";
 
 export const PracticePage: React.FC = () => {
   const practiceState = useSelector(selectPracticeState);
@@ -28,6 +31,7 @@ export const PracticePage: React.FC = () => {
   const [currentFactIndex, setCurrentFactIndex] = useState(-1);
   const [totalFacts, setTotalFacts] = useState(0);
   const [answerShowing, toggleAnswerShowing] = useToggle(false);
+  const { values, handleChange, setValues } = useForm({ responseText: "" });
 
   useEffect(() => {
     // if Redux state missing, exit
@@ -71,16 +75,49 @@ export const PracticePage: React.FC = () => {
 
   function handleSuccess() {
     setCurrentFactIndex(prevState => prevState + 1);
-    toggleAnswerShowing();
+
+    handleToggle();
+  }
+
+  function handleFailure() {
+    if (!facts) return;
+
+    // if current fact is the last item, do nothing
+    if (currentFactIndex === facts.length - 1) {
+      return handleToggle();
+    }
+
+    // choose a random index in range(current+1, end of array)
+    let randomIndex = currentFactIndex;
+    while (randomIndex === currentFactIndex) {
+      // keep looping until a different index is found
+      randomIndex = random(currentFactIndex+1, facts.length - 1);
+    }
+
+    const factsCopy = [...facts];
+    const temp = factsCopy[currentFactIndex];
+    factsCopy[currentFactIndex] = factsCopy[randomIndex];
+    factsCopy[randomIndex] = temp;
+
+    // update facts array
+    setFacts(factsCopy);
+
+    // swap the items
+    handleToggle();
   }
 
   function handleGoBack() {
     history.goBack();
   }
 
+  function handleToggle() {
+    setValues({ responseText: "" });
+    toggleAnswerShowing();
+  }
+
   function handlePrevious() {
     if (currentFactIndex === 0) return;
-    toggleAnswerShowing();
+    handleToggle();
 
     setCurrentFactIndex(prevState => prevState - 1);
   }
@@ -104,8 +141,22 @@ export const PracticePage: React.FC = () => {
           <SHeadingSubtitle>Question:</SHeadingSubtitle>
           <SText>{facts[currentFactIndex].question}</SText>
 
-          <SAnswerHeading>Answer:</SAnswerHeading>
-          <SText>{facts[currentFactIndex].answer}</SText>
+          { answerShowing ? (
+            <>
+              <SAnswerHeading>Answer:</SAnswerHeading>
+              <SText>{facts[currentFactIndex].answer}</SText>
+            </>
+          ) : (
+            <>
+              <SAnswerHeading>Response:</SAnswerHeading>
+              <STextarea
+                name="responseText"
+                placeholder="Type in your response..."
+                onChange={handleChange}
+                value={values.responseText}
+              />
+            </>
+          )}
         </STextContainer>
 
         <SButtons>
@@ -114,10 +165,13 @@ export const PracticePage: React.FC = () => {
               <>
                 <SButton disabled={currentFactIndex === 0} onClick={handlePrevious}>Previous</SButton>
                 <SButtonGreen onClick={handleSuccess}>Success</SButtonGreen>
-                <SButtonRed>Fail</SButtonRed>
+                <SButtonRed onClick={handleFailure}>Fail</SButtonRed>
               </>
             ) : (
-              <SShowAnswerButton onClick={toggleAnswerShowing}>Show Answer</SShowAnswerButton>
+              <SShowAnswerButton
+                onClick={toggleAnswerShowing}
+                disabled={values.responseText.length < 5}
+              >Show Answer</SShowAnswerButton>
             )
           }
         </SButtons>
@@ -127,9 +181,9 @@ export const PracticePage: React.FC = () => {
 
   function getFinishedScreen() {
     return (
-      <div>
+      <div style={{ textAlign: "center" }}>
         <SDoneHeading weight={500}>You are finished studying!</SDoneHeading>
-        <SButtonGreen onClick={handleGoBack}>Exit</SButtonGreen>
+        <SShowAnswerButton onClick={handleGoBack}>Exit</SShowAnswerButton>
       </div>
     )
   }
@@ -166,6 +220,11 @@ const STextContainer = styled.div`
   position: relative;
 `;
 
+const STextarea = styled(STextareaBase)`
+  padding: ${theme.spacing.sm};
+  margin-top: ${theme.spacing.xs};
+`;
+
 const SFactCount = styled.h3`
   letter-spacing: 1px;
   margin-bottom: ${theme.spacing.xs};
@@ -181,10 +240,10 @@ const SAnswerHeading = styled(SHeadingSubtitle)`
 `;
 
 const SText = styled.p`
-  font-size: ${theme.fontSizes.md};
+  font-size: ${theme.fontSizes.basePlus};
   
   ${theme.media.tabLand} {
-    font-size: ${theme.fontSizes.lg};
+    font-size: ${theme.fontSizes.md};
   }
 `;
 

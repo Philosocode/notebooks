@@ -1,27 +1,7 @@
 import styled from "styled-components";
-import AutosizeTextarea from "react-textarea-autosize";
 
 import { theme } from "shared/styles/theme.style";
-
-export const STextareaBase = styled(AutosizeTextarea)`
-  background: transparent;
-  border: 1px solid ${theme.colors.gray[300]};
-  font-size: ${theme.fontSizes.sm};
-  padding: 0;
-  resize: none;
-  overflow: hidden;
-  width: 100%;
-
-  ${theme.media.tabPort} {
-    font-size: ${theme.fontSizes.sm};
-  }
-
-  &:active,
-  &:focus {
-    border-color: ${theme.colors.gray[800]};
-    outline: none;
-  }
-`;
+import { STextareaBase } from "../../shared/styles/form.style";
 
 export const SHookTitleTextarea = styled(STextareaBase)`
   border: none;

@@ -9,6 +9,7 @@ import { getPart } from "../redux/part.thunks";
 import { getSections } from "../../section/redux/section.thunks";
 
 // components
+import { ConceptParts } from "../components/concept-parts.component";
 import { PartDetailHeader } from "../components/part-detail-header.component";
 import { TabNames } from "../../shared/components/nav/tab-names.component";
 import { Tab } from "../../shared/components/nav/tab.component";
@@ -18,7 +19,6 @@ import { FactList } from "fact/components/fact-list.component";
 
 // styles
 import { SDetailPageContent } from "shared/styles/layout.style";
-import { ConceptParts } from "../components/concept-parts.component";
 
 interface IMatchParams {
   partId: string;

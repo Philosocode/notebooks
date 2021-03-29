@@ -40,6 +40,8 @@ export const EditableContentBox: React.FC<IProps> = ({
   return (
     <ContentBox
       {...props}
+      title={title}
+      content={content}
       handleChange={handleChange}
       buttonSlot={
         <>

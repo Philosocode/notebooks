@@ -1,10 +1,10 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import AutosizeTextarea from "react-textarea-autosize";
 import styled from "styled-components";
 
 // styles
 import { theme } from "shared/styles/theme.style";
+import { STextareaBase } from "../../styles/form.style";
 
 export interface IContentBoxProps {
   entityId: string;
@@ -130,26 +130,6 @@ const SCaret = styled(FontAwesomeIcon)`
   
   ${theme.media.tabLand} {
     font-size: 3rem;
-  }
-`;
-
-export const STextareaBase = styled(AutosizeTextarea)`
-  background: transparent;
-  border: 1px solid ${theme.colors.gray[300]};
-  font-size: ${theme.fontSizes.sm};
-  padding: 0;
-  resize: none;
-  overflow: hidden;
-  width: 100%;
-  
-  ${theme.media.tabPort} {
-    font-size: ${theme.fontSizes.base};
-  }
-
-  &:active,
-  &:focus {
-    border-color: ${theme.colors.gray[800]};
-    outline: none;
   }
 `;
 

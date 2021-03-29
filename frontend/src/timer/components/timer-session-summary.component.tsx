@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-import { STextareaBase } from "../../shared/components/info/content-box.component";
 import { theme } from "../../shared/styles/theme.style";
+import { STextareaBase } from "../../shared/styles/form.style";
 
 interface IProps {
   handleChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
