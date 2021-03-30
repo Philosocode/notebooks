@@ -10,15 +10,15 @@ import { setCurrentMaterialId } from "material/redux/material.slice";
 import { showAndHideAlert } from "alert/redux/alert.thunks";
 
 // components
-import { TabNames } from "shared/components/nav/tab-names.component";
+import { ConceptLinksForMaterial } from "../components/concept-links-for-material.component";
+import { FactsForMaterial } from "../components/facts-for-material.component";
 import { MaterialDetailHeader } from "material/components/material-detail-header.component";
-import { Tab } from "shared/components/nav/tab.component";
 import { PartList } from "part/components/part-list.component";
+import { TabNames } from "shared/components/nav/tab-names.component";
+import { Tab } from "shared/components/nav/tab.component";
 
 // styles
 import { SDetailPageContent } from "shared/styles/layout.style";
-import { ConceptLinksForMaterial } from "../components/concept-links-for-material.component";
-import { FactsForMaterial } from "../components/facts-for-material.component";
 
 interface IMatchParams {
   materialId: string;

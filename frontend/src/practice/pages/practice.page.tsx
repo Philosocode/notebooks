@@ -55,7 +55,7 @@ export const PracticePage: React.FC = () => {
         requestUrl = "/facts?mastered=false";
         break;
       case "material":
-        requestUrl = `/materials/${practiceState.id}?mastered=false`;
+        requestUrl = `/materials/${practiceState.id}/facts?mastered=false`;
         break;
       case "part":
         requestUrl = `/parts/${practiceState.id}/facts?mastered=false`;

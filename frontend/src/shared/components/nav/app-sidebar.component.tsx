@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory, useLocation, matchPath } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
@@ -12,11 +12,13 @@ import { useAppLocation } from "../../hooks/use-app-location.hook";
 import { selectTimerModalShowing } from "timer/redux/timer.selectors";
 
 import { theme } from "shared/styles/theme.style";
+import { TFactSource } from "../../../practice/redux/practice.types";
 
 export const AppSidebar: React.FC = () => { 
   const dispatch = useDispatch();
   const history = useHistory();
   const timerModalShowing = useSelector(selectTimerModalShowing);
+  const location = useLocation();
   const appLocation = useAppLocation();
 
   function showTimer() {
@@ -24,7 +26,27 @@ export const AppSidebar: React.FC = () => {
   }
 
   function handlePracticeClick() {
-    dispatch(setPracticeState({ source: "all", id: "" }));
+    let source: TFactSource = "all";
+
+    switch(appLocation) {
+      case "materials":
+        source = "material";
+        break;
+      case "parts":
+        source = "part";
+        break;
+    }
+
+    if (source === "all") {
+      dispatch(setPracticeState({ source: "all", id: "" }));
+    } else {
+      // FROM: https://github.com/ReactTraining/react-router/issues/5870#issuecomment-394194338
+      const match = matchPath<{ id: string; }>(location.pathname, { path: `/${source}s/:id`, exact: true });
+      if (match?.params.id) {
+        dispatch(setPracticeState({ source, id: match.params.id }));
+      }
+    }
+
     history.push("/practice");
   }
 
