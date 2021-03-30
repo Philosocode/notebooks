@@ -37,7 +37,7 @@ export const WelcomeWizardModal: React.FC<IProps> = ({
   const minStep = 1;
   const maxStep = Object.keys(steps).length;
 
-  const { step, increment, decrement } = useStep(minStep, maxStep, maxStep);
+  const { step, increment, decrement } = useStep(minStep, maxStep);
 
   function handleClose() {
     dispatch(updateUserSettings({
@@ -138,7 +138,7 @@ const gettingStarted = (
     <SBodyText>This quick guide will show you how to use this website.</SBodyText>
     <SBodyText>
       You can always view this guide again by clicking on your profile image in the top-right corner of the screen
-      and choosing "Welcome"
+      and selecting "Tutorial".
     </SBodyText>
     <SImage src={welcomeSvg} />
   </>
@@ -264,7 +264,7 @@ const done = (
     <SHeadingSubSubtitle>All Done!</SHeadingSubSubtitle>
     <SBodyText>
       You can always view this guide again by clicking on your profile image in the top-right corner of the screen
-      and choosing "Welcome".
+      and selecting "Tutorial".
     </SBodyText>
     <SImage src={doneSvg} style={{ maxHeight: "34rem" }} />
   </>

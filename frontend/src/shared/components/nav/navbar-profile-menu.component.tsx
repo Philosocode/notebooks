@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
 // logic
 import { IUser } from "user/redux/user.types";
@@ -15,6 +15,7 @@ import { SettingsModal } from "user/components/settings-modal.component";
 
 // styles
 import { theme } from "../../styles/theme.style";
+import { updateUserSettings } from "../../../user/redux/user.thunks";
 
 interface IProps {
   user: IUser;
@@ -25,12 +26,22 @@ export const NavbarProfileMenu: React.FC<IProps> = ({ user }) => {
   const dispatch = useDispatch();
   const settings = useSelector(selectSettings);
 
+  function handleTutorial() {
+    dispatch(updateUserSettings({
+      userId: "test",
+      updates: {
+        showWelcomeWizard: true,
+      }
+    }));
+  }
+
   function handleLogout() {
     dispatch(logout());
   }
 
   const menuActions: IMenuAction[] = [
     { name: "Settings", icon: "cog", action: toggleSettingsModal },
+    { name: "Tutorial", icon: faInfoCircle, action: handleTutorial },
     { name: "Logout", icon: faSignOutAlt, action: handleLogout },
   ];
 

@@ -77,15 +77,6 @@ export const SettingsModal: React.FC<IProps> = ({
         />
 
         <LabelCheckbox
-          text="Show welcome wizard"
-          htmlFor="showWelcomeWizard"
-          id="showWelcomeWizard"
-          name="showWelcomeWizard"
-          onChange={handleChange}
-          checked={values["showWelcomeWizard"]}
-        />
-
-        <LabelCheckbox
           text="Forced breaks"
           htmlFor="forcedBreaks"
           id="forcedBreaks"
