@@ -52,13 +52,13 @@ export const AppSidebar: React.FC = () => {
 
   return (
     <SContent>
-      <SSidebarLink to="/concepts">
-        <SIcon icon={faLightbulb} />
-        <SName>Concepts</SName>
-      </SSidebarLink>
       <SSidebarLink to="/materials" $isSelected={appLocation === "parts"}>
         <SIcon icon={faBook} />
         <SName>Materials</SName>
+      </SSidebarLink>
+      <SSidebarLink to="/concepts">
+        <SIcon icon={faLightbulb} />
+        <SName>Concepts</SName>
       </SSidebarLink>
       <SSidebarItem onClick={showTimer} isSelected={timerModalShowing}>
         <SIcon icon={faStopwatch} />

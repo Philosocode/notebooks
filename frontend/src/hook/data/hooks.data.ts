@@ -19,7 +19,7 @@ const processHooks = [
   "What are the key things I need to remember?",
   "Why is this important?",
   "On a scale from 1-10, how well do I understand this?",
-  "What's hard about this? Why are they hard?",
+  "What's hard about this? Why is this hard?",
   "How do I feel about this? Is this surprising? Interesting?",
   "Do I agree or disagree? Why?",
   "How does this work? Why does it work like this? (repeat multiple times)",

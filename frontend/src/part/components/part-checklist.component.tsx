@@ -27,7 +27,7 @@ export const PartChecklist: React.FC<IProps> = ({
 
   return (
     <SForm>
-      <SHeadingSubSubtitle>Part Checklist</SHeadingSubSubtitle>
+      <SHeadingSubSubtitle>Checklist</SHeadingSubSubtitle>
       {
         Object.keys(part.checklist).reverse().map(key => (
           <SCheckboxLabel key={key}>

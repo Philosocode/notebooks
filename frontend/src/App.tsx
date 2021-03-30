@@ -19,6 +19,7 @@ import { Loader } from "./loading/components/loader.component";
 import { ModalRoot } from "./modal/components/modal-root.component";
 import { TimerModal } from "timer/components/timer-modal.component";
 import { PreStudyModal } from "./modal/components/pre-study-modal.component";
+import { WelcomeWizardModal } from "./modal/components/welcome-wizard-modal.component";
 
 // styles
 import { SMainContent } from "shared/styles/layout.style";
@@ -59,7 +60,7 @@ export function App() {
       <Navbar />
       <Sidebar />
       <Switch>
-        <Redirect exact from="/" to="/concepts" />
+        <Redirect exact from="/" to="/materials" />
         <SMainContent>
           {getRoutes()}
         </SMainContent>
@@ -70,6 +71,7 @@ export function App() {
           <>
             <PreStudyModal settings={settings} />
             <TimerModal settings={settings} />
+            <WelcomeWizardModal settings={settings} />
           </>
         )
       }

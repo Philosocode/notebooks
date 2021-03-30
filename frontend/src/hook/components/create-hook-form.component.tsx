@@ -71,7 +71,7 @@ export const CreateHookForm: React.FC<IProps> = ({ conceptId, numberOfHooks }) =
       <SHookCreateForm onSubmit={handleSubmit}>
         <SHookTitleContainer>
           <SHookTitleTextarea
-            placeholder="Enter a hook title..."
+            placeholder="Enter hook title..."
             onChange={(e) => setTitle(e.target.value)}
             value={title}
             required
