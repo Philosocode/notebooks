@@ -171,8 +171,6 @@ async function updateTagForEntity(tableName, entityId, oldName, newName, connect
 
 /* HELPER FUNCTIONS */
 async function entityHasTag(tableName, entityId, tag, connection=db) {
-  console.log(tableName, entityId, tag);
-  
   const res = await connection.first(
     connection.raw(
       "exists ? as exists",
