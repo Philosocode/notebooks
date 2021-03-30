@@ -62,7 +62,7 @@ export const ConceptLinksForMaterial: React.FC<IProps> = ({ material }) => {
     });
 
     return sortEntitiesByKey(links, "name");
-  }, [conceptHash, material.id, conceptIds]);
+  }, [conceptsLoaded, conceptHash, material.id, conceptIds]);
 
   if (!conceptLinks) return null;
   return (
