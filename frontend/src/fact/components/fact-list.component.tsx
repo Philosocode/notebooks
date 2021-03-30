@@ -30,7 +30,7 @@ export const FactList: React.FC<IProps> = ({ partId }) => {
   const dispatch = useDispatch();
   const facts = useSelector(selectFactsForPart);
 
-  const { expandedHash, toggleEntityExpansion } = useExpandHash(facts ?? [], true);
+  const { expandedHash, toggleEntityExpansion } = useExpandHash(facts ?? [], false);
 
   useEffect(() => {
     if (!facts) {

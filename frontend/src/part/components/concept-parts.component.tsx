@@ -52,14 +52,15 @@ export const ConceptParts: React.FC<IProps> = ({ part }) => {
   }
 
   const linkGridItems = useMemo(() => {
-    if (!part.conceptIds) return [];
+    if (!part.conceptIds || Object.keys(conceptHash).length === 0) return [];
 
     const items: ILinkGridItem[] = [];
 
     for (let i = 0 ; i < part.conceptIds.length; i++) {
+      console.log(part.conceptIds);
       const conceptId = part.conceptIds[i];
 
-      const concept = conceptHash[conceptId]
+      const concept = conceptHash[conceptId];
       items.push({
         currentId: part.id,
         otherId: concept.id,
