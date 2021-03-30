@@ -26,6 +26,7 @@ import hooksImage from "shared/assets/hooks.jpg";
 import dragSvg from "shared/assets/undraw-drag.svg";
 import practiceImage from "shared/assets/practice.jpg";
 import doneSvg from "shared/assets/done.svg";
+import useKeypress from "../../shared/hooks/use-key-press.hook";
 
 interface IProps {
   settings: IUserSettings;
@@ -38,6 +39,9 @@ export const WelcomeWizardModal: React.FC<IProps> = ({
   const maxStep = Object.keys(steps).length;
 
   const { step, increment, decrement } = useStep(minStep, maxStep);
+
+  useKeypress("ArrowLeft", decrement);
+  useKeypress("ArrowRight", increment);
 
   function handleClose() {
     dispatch(updateUserSettings({
@@ -60,7 +64,7 @@ export const WelcomeWizardModal: React.FC<IProps> = ({
       </div>
       <SButtons>
         <div>
-          <SButton onClick={decrement} disabled={step === minStep}>Previous</SButton>
+          <SButton onClick={decrement}>Previous</SButton>
           <SButtonNext onClick={increment} disabled={step === maxStep}>Next</SButtonNext>
         </div>
         <SButtonClose hidden={step !== maxStep} onClick={handleClose}>Close</SButtonClose>
