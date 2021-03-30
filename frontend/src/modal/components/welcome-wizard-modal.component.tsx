@@ -34,11 +34,12 @@ export const WelcomeWizardModal: React.FC<IProps> = ({
   const minStep = 1;
   const maxStep = Object.keys(steps).length;
 
-  const { step, increment, decrement } = useStep(minStep, maxStep, maxStep);
+  const { step, increment, decrement } = useStep(minStep, maxStep);
 
   return (
     <ModalWrapper isShowing={true} handleClose={() => {}} disableDefaultClose={true}>
       <div>
+        <SStepHeading>Step {step}/{maxStep}</SStepHeading>
         {steps[step]}
       </div>
       <SButtons>
@@ -55,6 +56,14 @@ export const WelcomeWizardModal: React.FC<IProps> = ({
 // styles
 const fontCss = css`
   font-size: 2rem;
+`;
+
+const SStepHeading = styled.h3`
+  color: ${theme.colors.gray[400]};
+  font-size: ${theme.fontSizes.sm};
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 `;
 
 const SButtons = styled.div`
