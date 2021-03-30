@@ -155,6 +155,13 @@ export const PracticePage: React.FC = () => {
     );
   }
 
+  function getStudyHeadingText() {
+    if (practiceState.source === "material") return "Studying facts for material";
+    if (practiceState.source === "part") return "Studying facts for part";
+
+    return "Studying all facts";
+  }
+
   function getPracticeScreen() {
     if (!facts) return;
     const currentFact = facts[currentFactIndex];
@@ -162,6 +169,7 @@ export const PracticePage: React.FC = () => {
     return (
       <>
         <STextContainer>
+          <SStudyHeading>{getStudyHeadingText()}</SStudyHeading>
           <SMasteredIcon icon={faStar} handleClick={handleMasteredClick} />
           <STextCompact>{currentFactIndex + 1} / {facts.length}</STextCompact>
           <SPartNameLink as={Link} to={`/parts/${currentFact.part_id}`}>{currentFact.part_name}</SPartNameLink>
@@ -231,6 +239,8 @@ const SContainer = styled(SPageContentCenter)`
     justify-content: space-between;
   height: calc(100vh - ${theme.componentSizes.navbarHeight});
   padding: ${theme.spacing.base} ${theme.spacing.md};
+  position: relative;
+  
   ${theme.media.tabLand} {
     padding: ${theme.spacing.lg};
   }
@@ -254,6 +264,14 @@ const STextarea = styled(STextareaBase)`
 const STextCompact = styled.h3`
   letter-spacing: 1px;
   text-transform: uppercase;
+`;
+
+const SStudyHeading = styled(STextCompact)`
+  color: ${theme.colors.gray[300]};
+  font-size: ${theme.fontSizes.sm};
+  letter-spacing: 2px;
+  margin-bottom: ${theme.spacing.base};
+  text-align: center;
 `;
 
 const SDoneHeading = styled(SHeadingSubtitle)`
