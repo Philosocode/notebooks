@@ -14,14 +14,14 @@ export const DragAndDropWrapper: React.FC<IProps> = ({
 }) => {
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-    <Droppable droppableId={droppableId}>
-      {(provided) => (
-        <SDroppableContainer
-          ref={provided.innerRef}
-          {...provided.droppableProps}
-        >
-          {children}
-          {provided.placeholder}
+      <Droppable droppableId={droppableId}>
+        {(provided) => (
+          <SDroppableContainer
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            {children}
+            {provided.placeholder}
           </SDroppableContainer>
         )}
       </Droppable>

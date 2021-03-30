@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
 import { IPart } from "part/redux/part.types";
@@ -11,7 +12,6 @@ import { showModal } from "modal/redux/modal.slice";
 import { CircleIcon } from "../../shared/components/button/circle-icon.component";
 
 import { theme } from "shared/styles/theme.style";
-import { DraggableWrapper } from "../../shared/components/drag-and-drop/draggable-wrapper.component";
 
 interface IProps {
   index: number;
@@ -48,19 +48,24 @@ export const PartListItem: React.FC<IProps> = ({ index, materialId, part }) => {
   ];
 
   return (
-    <DraggableWrapper draggableId={part.id} dragDisabled={false} index={index}>
-      <SContainer to={`/parts/${part.id}`}>
-        <div>
+    <Draggable draggableId={part.id} index={index} isDragDisabled={false}>
+      {provided => (
+        <SContainer
+          to={`/parts/${part.id}`}
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
           <SName>{part.name}</SName>
-        </div>
-        <div>
-          <CircleIcon handleClick={toggleMenuShowing} icon="ellipsis-v" />
-          <SMenuContainer>
-            <Menu actions={menuActions} menuShowing={menuShowing} toggleMenu={toggleMenuShowing} />
-          </SMenuContainer>
-        </div>
-      </SContainer>
-    </DraggableWrapper>
+          <div>
+            <CircleIcon handleClick={toggleMenuShowing} icon="ellipsis-v" />
+            <SMenuContainer>
+              <Menu actions={menuActions} menuShowing={menuShowing} toggleMenu={toggleMenuShowing} />
+            </SMenuContainer>
+          </div>
+        </SContainer>
+      )}
+    </Draggable>
   )
 };
 
