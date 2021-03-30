@@ -31,7 +31,7 @@ export const PartDetailPage: React.FC = () => {
   const { partId } = useParams<IMatchParams>();
 
   const tabNames = ["Sections", "Facts", "Concept Links"];
-  const [selectedTab, setSelectedTab] = useState(tabNames[1]);
+  const [selectedTab, setSelectedTab] = useState(tabNames[0]);
 
   useEffect(() => {
     if (currentPart?.id === partId) return;

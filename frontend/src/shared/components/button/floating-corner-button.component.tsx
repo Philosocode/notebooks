@@ -39,7 +39,7 @@ const SButton = styled.button`
 
   &:focus,
   &:active {
-    outline: 1px solid grey;
+    outline: none;
   }
 
   &:hover {

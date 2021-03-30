@@ -78,7 +78,7 @@ const SActionList = styled.div`
   border: 1px solid ${theme.colors.gray[200]};
   border-radius: 1rem;
   display: flex;
-  flex-direction: column;
+    flex-direction: column;
   padding: ${theme.spacing.xs};
   overflow: hidden;
 `;
@@ -110,4 +110,5 @@ const SAction = styled.button`
 
 const SActionIcon = styled(FontAwesomeIcon)`
   margin-right: ${theme.spacing.sm};
+  min-width: 2rem;
 `;
