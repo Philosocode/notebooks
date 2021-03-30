@@ -9,7 +9,8 @@ export interface IUser {
 export interface IUserSettings {
   autoStartTimer: boolean;
   forcedBreaks: boolean;
-  showWelcomeModal: boolean;
+  showWelcomeWizard: boolean;
+  showPreStudyModal: boolean;
   defaultStudyTime: number;
   defaultBreakTime: number;
   defaultLongBreakTime: number;

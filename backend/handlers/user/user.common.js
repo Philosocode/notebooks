@@ -1,6 +1,7 @@
 const defaultSettings = {
   autoStartTimer: false,
-  showWelcomeModal: true,
+  showPreStudyModal: true,
+  showWelcomeWizard: true,
   forcedBreaks: true,
   defaultBreakTime: 5,
   defaultStudyTime: 30,

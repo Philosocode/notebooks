@@ -68,12 +68,21 @@ export const SettingsModal: React.FC<IProps> = ({
       <form onSubmit={handleUpdateSettings}>
 
         <LabelCheckbox
-          text="Show welcome modal"
-          htmlFor="showWelcomeModal"
-          id="showWelcomeModal"
-          name="showWelcomeModal"
+          text="Show pre-study modal"
+          htmlFor="showPreStudyModal"
+          id="showPreStudyModal"
+          name="showPreStudyModal"
           onChange={handleChange}
-          checked={values["showWelcomeModal"]}
+          checked={values["showPreStudyModal"]}
+        />
+
+        <LabelCheckbox
+          text="Show welcome wizard"
+          htmlFor="showWelcomeWizard"
+          id="showWelcomeWizard"
+          name="showWelcomeWizard"
+          onChange={handleChange}
+          checked={values["showWelcomeWizard"]}
         />
 
         <LabelCheckbox

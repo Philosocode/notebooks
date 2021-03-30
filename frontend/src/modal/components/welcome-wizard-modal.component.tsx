@@ -1,15 +1,17 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { useDispatch } from "react-redux";
 
 // logic
-import { IUserSettings } from "../../user/redux/user.types";
-import { useStep } from "../../shared/hooks/use-step.hook";
+import { IUserSettings } from "user/redux/user.types";
+import { updateUserSettings } from "user/redux/user.thunks";
+import { useStep } from "shared/hooks/use-step.hook";
 
 // components
 import { ModalWrapper } from "./modal-wrapper.component";
 
 // styles
-import { SHeadingSubtitle } from "../../shared/styles/typography.style";
+import { SHeadingSubSubtitle } from "../../shared/styles/typography.style";
 import { SButton, SButtonGreen } from "../../shared/styles/button.style";
 import { theme } from "../../shared/styles/theme.style";
 
@@ -31,13 +33,27 @@ interface IProps {
 export const WelcomeWizardModal: React.FC<IProps> = ({
   settings,
 }) => {
+  const dispatch = useDispatch();
   const minStep = 1;
   const maxStep = Object.keys(steps).length;
 
-  const { step, increment, decrement } = useStep(minStep, maxStep);
+  const { step, increment, decrement } = useStep(minStep, maxStep, maxStep);
+
+  function handleClose() {
+    dispatch(updateUserSettings({
+      userId: "user",
+      updates: {
+        showWelcomeWizard: false,
+      },
+    }));
+  }
 
   return (
-    <ModalWrapper isShowing={true} handleClose={() => {}} disableDefaultClose={true}>
+    <ModalWrapper
+      isShowing={settings.showWelcomeWizard}
+      handleClose={handleClose}
+      disableDefaultClose={true}
+    >
       <div>
         <SStepHeading>Step {step}/{maxStep}</SStepHeading>
         {steps[step]}
@@ -47,7 +63,7 @@ export const WelcomeWizardModal: React.FC<IProps> = ({
           <SButton onClick={decrement} disabled={step === minStep}>Previous</SButton>
           <SButtonNext onClick={increment} disabled={step === maxStep}>Next</SButtonNext>
         </div>
-        <SButtonClose hidden={step !== maxStep}>Close</SButtonClose>
+        <SButtonClose hidden={step !== maxStep} onClick={handleClose}>Close</SButtonClose>
       </SButtons>
     </ModalWrapper>
   );
@@ -55,7 +71,9 @@ export const WelcomeWizardModal: React.FC<IProps> = ({
 
 // styles
 const fontCss = css`
-  font-size: 2rem;
+  ${theme.media.tabLand} {
+    font-size: ${theme.fontSizes.basePlus};
+  }
 `;
 
 const SStepHeading = styled.h3`
@@ -116,7 +134,7 @@ const SList = styled.ul`
 // steps
 const gettingStarted = (
   <>
-    <SHeadingSubtitle>Getting Started</SHeadingSubtitle>
+    <SHeadingSubSubtitle>Getting Started</SHeadingSubSubtitle>
     <SBodyText>This quick guide will show you how to use this website.</SBodyText>
     <SBodyText>
       You can always view this guide again by clicking on your profile image in the top-right corner of the screen
@@ -128,7 +146,7 @@ const gettingStarted = (
 
 const materials = (
   <>
-    <SHeadingSubtitle>Materials</SHeadingSubtitle>
+    <SHeadingSubSubtitle>Materials</SHeadingSubSubtitle>
     <SBodyText>Analogy: think of a material like a book or subject notebook</SBodyText>
     <SBodyText>
       Materials are used to organize and group notes.
@@ -146,7 +164,7 @@ const materials = (
 
 const parts = (
   <>
-    <SHeadingSubtitle>Material - Parts</SHeadingSubtitle>
+    <SHeadingSubSubtitle>Material - Parts</SHeadingSubSubtitle>
     <SBodyText>
       A material is made up of multiple parts. Use parts to store a single "unit" of a material.
       For example, if your material is a course, a part could be 1 lecture.
@@ -166,7 +184,7 @@ const parts = (
 
 const sections = (
   <>
-    <SHeadingSubtitle>Part - Sections</SHeadingSubtitle>
+    <SHeadingSubSubtitle>Part - Sections</SHeadingSubSubtitle>
     <SBodyText>A section contains text boxes that you type your notes into. This is where you write your notes.</SBodyText>
     <SBodyText>A part can have many sections.</SBodyText>
     <SImageShadow src={sectionsImage} />
@@ -175,7 +193,7 @@ const sections = (
 
 const facts = (
   <>
-    <SHeadingSubtitle>Part - Facts</SHeadingSubtitle>
+    <SHeadingSubSubtitle>Part - Facts</SHeadingSubSubtitle>
     <SBodyText>
       A fact is a flashcard. Create a fact for information you want to practice and remember.
     </SBodyText>
@@ -190,7 +208,7 @@ const facts = (
 
 const concepts = (
   <>
-    <SHeadingSubtitle>Concepts</SHeadingSubtitle>
+    <SHeadingSubSubtitle>Concepts</SHeadingSubSubtitle>
     <SBodyText>
       Concepts represent abstract ideas or concepts that you're struggling to understand.
       Create a concept when you want to better understand an idea, theory, or concept.
@@ -202,7 +220,7 @@ const concepts = (
 
 const hooks = (
   <>
-    <SHeadingSubtitle>Concept - Hooks</SHeadingSubtitle>
+    <SHeadingSubSubtitle>Concept - Hooks</SHeadingSubSubtitle>
     <SBodyText>
       Hooks are prompts that help you deepen your understanding of a concept.
       They encourage you to think about the concept and relate to your existing knowledge.
@@ -214,7 +232,7 @@ const hooks = (
 
 const dragAndDrop = (
   <>
-    <SHeadingSubtitle>Drag & Drop</SHeadingSubtitle>
+    <SHeadingSubSubtitle>Drag & Drop</SHeadingSubSubtitle>
     <SBodyText>You can re-arrange the following things using drag-and-drop:</SBodyText>
     <SList>
       <li>Material: Parts, Sections, Facts</li>
@@ -226,7 +244,7 @@ const dragAndDrop = (
 
 const practice = (
   <>
-    <SHeadingSubtitle>Practice Mode</SHeadingSubtitle>
+    <SHeadingSubSubtitle>Practice Mode</SHeadingSubSubtitle>
     <SBodyText>
       Click on "Practice" in the left sidebar to enter practice mode.
       This is where you can study your (non-mastered) facts.
@@ -243,12 +261,12 @@ const practice = (
 
 const done = (
   <>
-    <SHeadingSubtitle>All Done!</SHeadingSubtitle>
+    <SHeadingSubSubtitle>All Done!</SHeadingSubSubtitle>
     <SBodyText>
       You can always view this guide again by clicking on your profile image in the top-right corner of the screen
       and choosing "Welcome".
     </SBodyText>
-    <SImage src={doneSvg} style={{ maxHeight: "35rem" }} />
+    <SImage src={doneSvg} style={{ maxHeight: "34rem" }} />
   </>
 );
 

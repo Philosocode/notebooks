@@ -64,7 +64,7 @@ export const PreStudyModal: React.FC<IProps> = ({ settings }) => {
   }
 
   const submitDisabled = Object.values(values).includes(false);
-  const shouldShow = !welcomeScreenShown && settings.showWelcomeModal;
+  const shouldShow = !settings.showWelcomeWizard && !welcomeScreenShown && settings.showPreStudyModal;
   return (
     <ModalWrapper
       handleClose={handleClose}
