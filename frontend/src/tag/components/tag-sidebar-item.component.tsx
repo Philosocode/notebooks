@@ -57,10 +57,12 @@ export const TagSidebarItem: FC<IProps> = ({
 
   return (
     <SContainer onClick={handleItemClick} isSelected={isSelected}>
-      <div>
+      <SLeftColumn>
         <SIcon icon={icon} />
-        {children}
-      </div>
+        <STagName>
+          {children}
+        </STagName>
+      </SLeftColumn>
       {
         showActions ? (
           <SActionIcons>
@@ -101,6 +103,11 @@ const SContainer = styled.li<IContainerProps>`
   }
 `;
 
+const SLeftColumn = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const SIcon = styled(FontAwesomeIcon)`
   color: ${theme.colors.gray[600]};
   margin-right: ${theme.spacing.sm};
@@ -112,6 +119,14 @@ const SEditIcon = styled(FontAwesomeIcon)`
   &:hover {
     color: orange;
   }
+`;
+
+const STagName = styled.span`
+  display: inline-block;
+  max-width: 12rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const SDeleteIcon = styled(FontAwesomeIcon)`

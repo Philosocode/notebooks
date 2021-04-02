@@ -64,7 +64,7 @@ export const WelcomeWizardModal: React.FC<IProps> = ({
       </div>
       <SButtons>
         <div>
-          <SButton onClick={decrement}>Previous</SButton>
+          <SButton onClick={decrement} disabled={step === minStep}>Previous</SButton>
           <SButtonNext onClick={increment} disabled={step === maxStep}>Next</SButtonNext>
         </div>
         <SButtonClose hidden={step !== maxStep} onClick={handleClose}>Close</SButtonClose>
