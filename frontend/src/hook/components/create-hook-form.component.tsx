@@ -16,6 +16,7 @@ import { HookSelectModal } from "./hook-select-modal.component";
 import { theme } from "shared/styles/theme.style";
 import { SButtonGreen } from "shared/styles/button.style";
 import { SHookContentTextarea, SHookTitleTextarea } from "../styles/hook.style";
+import { MarkdownEditor } from "../../shared/mde/markdown-editor.component";
 
 interface IProps {
   conceptId: string;
@@ -81,12 +82,10 @@ export const CreateHookForm: React.FC<IProps> = ({ conceptId, numberOfHooks }) =
             <SHookTitleIcon icon={faRandom} onClick={setRandomTitle} />
           </SHookTitleIcons>
         </SHookTitleContainer>
-        <SHookContentTextarea
-          placeholder="Enter hook content..."
-          onChange={(e) => setContent(e.target.value)}
+        <MarkdownEditor
           value={content}
-          minRows={10}
-          required
+          setValue={setContent}
+          placeholder="Enter hook content..."
         />
         <SCreateButton disabled={formDisabled()}>Create Hook</SCreateButton>
       </SHookCreateForm>

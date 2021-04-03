@@ -5,6 +5,7 @@ import styled from "styled-components";
 // styles
 import { theme } from "shared/styles/theme.style";
 import { STextareaBase } from "../../styles/form.style";
+import { MarkdownEditor } from "../../mde/markdown-editor.component";
 
 export interface IContentBoxProps {
   entityId: string;
@@ -53,6 +54,7 @@ export const ContentBox: React.FC<IContentBoxProps> = ({
             <SContentTextarea name="content" onChange={handleChange} value={content} placeholder="Enter content">
               {content}
             </SContentTextarea>
+            <MarkdownEditor value={content} setValue={() => {}} placeholder="Enter content" />
             <SButtons>
               {buttonSlot}
             </SButtons>
