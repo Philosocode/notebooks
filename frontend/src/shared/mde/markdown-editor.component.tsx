@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ReactMde, { SaveImageHandler } from "react-mde";
+import ReactMde, { SaveImageHandler, getDefaultToolbarCommands } from "react-mde";
 import ReactMarkdown from "react-markdown";
 import styled from "styled-components";
 
@@ -7,6 +7,11 @@ import { theme } from "../styles/theme.style";
 import styles from "./markdown-editor.module.css";
 
 export type TMarkdownEditorTab = "write" | "preview";
+
+const toolbarCommands = getDefaultToolbarCommands();
+
+// remove the strikethrough command
+toolbarCommands[0].pop();
 
 interface IProps {
   value: string;
@@ -65,6 +70,7 @@ export const MarkdownEditor: React.FC<IProps> = ({
         paste={{
           saveImage: save
         }}
+        toolbarCommands={toolbarCommands}
       />
     </SContainer>
   );
