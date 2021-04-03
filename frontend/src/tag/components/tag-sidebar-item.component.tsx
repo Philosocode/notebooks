@@ -76,6 +76,8 @@ export const TagSidebarItem: FC<IProps> = ({
 };
 
 const SActionIcons = styled.div`
+  position: absolute;
+    right: ${theme.spacing.sm};
   ${theme.media.tabLand} {
     visibility: hidden;
   }
@@ -123,7 +125,7 @@ const SEditIcon = styled(FontAwesomeIcon)`
 
 const STagName = styled.span`
   display: inline-block;
-  max-width: 12rem;
+  max-width: 15rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

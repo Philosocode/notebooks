@@ -13,6 +13,9 @@ const toolbarCommands = getDefaultToolbarCommands();
 // remove the strikethrough command
 toolbarCommands[0].pop();
 
+// remove to do command
+toolbarCommands[2].pop();
+
 interface IProps {
   value: string;
   initialTab?: TMarkdownEditorTab;
