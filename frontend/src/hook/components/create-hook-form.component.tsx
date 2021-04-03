@@ -86,6 +86,7 @@ export const CreateHookForm: React.FC<IProps> = ({ conceptId, numberOfHooks }) =
           value={content}
           setValue={setContent}
           placeholder="Enter hook content..."
+          initialTab="write"
         />
         <SCreateButton disabled={formDisabled()}>Create Hook</SCreateButton>
       </SHookCreateForm>

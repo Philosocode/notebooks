@@ -1,10 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 // logic
 import { useForm } from "../../hooks/use-form.hook";
 import { IContentBoxProps, ContentBox } from "./content-box.component";
-
-// components
 
 // styles
 import { SButtonGreen, SButtonRed } from "../../styles/button.style";
@@ -18,13 +16,14 @@ export const EditableContentBox: React.FC<IProps> = ({
   handleDelete,
   ...props
 }) => {
-  const { handleChange, values, itemsChanged } = useForm({ title: props.title, content: props.content });
-  const { content, title } = values;
+  const { handleChange, values, itemsChanged } = useForm({ title: props.title });
+  const { title } = values;
+  const [content, setContent] = useState(props.content);
 
   function buttonDisabled() {
-    if (values.title.trim() === "" || values.content.trim() === "") return true;
+    if (values.title.trim() === "" || content.trim() === "") return true;
 
-    return !itemsChanged();
+    return !itemsChanged() && content.trim() === props.content;
   }
 
   function handleDeleteClick() {
@@ -42,7 +41,8 @@ export const EditableContentBox: React.FC<IProps> = ({
       {...props}
       title={title}
       content={content}
-      handleChange={handleChange}
+      handleTitleChange={handleChange}
+      handleContentChange={setContent}
       buttonSlot={
         <>
           <SButtonGreen disabled={buttonDisabled()} onClick={handleUpdateClick}>Update</SButtonGreen>

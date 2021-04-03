@@ -5,7 +5,7 @@ import styled from "styled-components";
 // styles
 import { theme } from "shared/styles/theme.style";
 import { STextareaBase } from "../../styles/form.style";
-import { MarkdownEditor } from "../../mde/markdown-editor.component";
+import { MarkdownEditor, TMarkdownEditorTab } from "../../mde/markdown-editor.component";
 
 export interface IContentBoxProps {
   entityId: string;
@@ -14,9 +14,11 @@ export interface IContentBoxProps {
   content: string;
   isExpanded: boolean;
   toggleIsExpanded: (entityId: string) => void;
+  initialTab?: TMarkdownEditorTab;
   headerSlot?: React.ReactNode;
   buttonSlot?: React.ReactNode;
-  handleChange?: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  handleTitleChange?: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  handleContentChange?: (value: string) => void;
 }
 export const ContentBox: React.FC<IContentBoxProps> = ({
   entityId,
@@ -25,9 +27,11 @@ export const ContentBox: React.FC<IContentBoxProps> = ({
   content,
   isExpanded,
   toggleIsExpanded,
+  initialTab,
   headerSlot,
   buttonSlot,
-  handleChange,
+  handleTitleChange,
+  handleContentChange,
 }) => {
   function handleToggleClick() {
     toggleIsExpanded(entityId);
@@ -48,13 +52,15 @@ export const ContentBox: React.FC<IContentBoxProps> = ({
       {
         isExpanded && (
           <>
-            <STitleTextarea name="title" onChange={handleChange} value={title} placeholder="Enter title">
+            <STitleTextarea name="title" onChange={handleTitleChange} value={title} placeholder="Enter title">
               {title}
             </STitleTextarea>
-            <SContentTextarea name="content" onChange={handleChange} value={content} placeholder="Enter content">
-              {content}
-            </SContentTextarea>
-            <MarkdownEditor value={content} setValue={() => {}} placeholder="Enter content" />
+            <MarkdownEditor
+              value={content}
+              setValue={handleContentChange}
+              placeholder="Enter content"
+              initialTab={initialTab}
+            />
             <SButtons>
               {buttonSlot}
             </SButtons>
@@ -142,13 +148,8 @@ const STitleTextarea = styled(STextareaBase)`
   padding-bottom: 5px;
 `;
 
-const SContentTextarea = styled(STextareaBase)`
-  margin-top: ${theme.spacing.sm};
-  padding: ${theme.spacing.sm};
-`;
-
 const SButtons = styled.div`
-  margin-top: ${theme.spacing.sm};
+  margin-top: calc(${theme.spacing.sm} + 5px);
   padding-bottom: ${theme.spacing.sm};
   
   ${theme.media.tabLand} {
