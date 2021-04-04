@@ -105,6 +105,10 @@ const deleteTag = require("./handlers/tag/delete-tag.handler");
 const getUser = require("./handlers/user/get-user.handler");
 const updateUser = require("./handlers/user/update-user.handler");
 
+// Uploads
+const uploadImageHandler = require("./handlers/upload/upload-image.handler");
+const { uploadImage, resizeImage } = require("./middlewares/upload-image.middleware");
+
 const router = express.Router();
 
 /* ======================
@@ -263,5 +267,9 @@ router.route("/tags")
 router.route("/tags/:tagId")
    .patch(updateTag)
    .delete(deleteTag)
+
+// Uploads
+router.route("/images")
+  .post(uploadImage, resizeImage, uploadImageHandler)
 
 module.exports = router;

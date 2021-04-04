@@ -3,7 +3,7 @@ const logger = require("./utils/logger.util");
 // e.g. console.log(undefined VAR)
 process.on('uncaughtException', err => {
   logger.error('UNCAUGHT EXCEPTION! 💥 Shutting down...');
-  logger.error(err);
+  logger.error(err.stack);
   
   process.exit(1);
 });
