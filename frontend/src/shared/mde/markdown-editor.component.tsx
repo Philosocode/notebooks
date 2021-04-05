@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import { theme } from "../styles/theme.style";
 import styles from "./markdown-editor.module.css";
+import { api } from "../../services/api.service";
 
 export type TMarkdownEditorTab = "write" | "preview";
 
@@ -31,22 +32,25 @@ export const MarkdownEditor: React.FC<IProps> = ({
   const [selectedTab, setSelectedTab] = useState<TMarkdownEditorTab>(initialTab ?? "preview");
 
   const save: SaveImageHandler = async function*(data: ArrayBuffer) {
-    // Promise that waits for "time" milliseconds
-    // const wait = function(time: number) {
-    //   return new Promise((a, r) => {
-    //     setTimeout(() => a(), time);
-    //   });
-    // };
-
     // Upload "data" to your server
     // Use XMLHttpRequest.send to send a FormData object containing
     // "data"
     // Check this question: https://stackoverflow.com/questions/18055422/how-to-receive-php-image-data-over-copy-n-paste-javascript-with-xmlhttprequest
+    const formData = new FormData();
+    const dataBlob = new Blob([data], { type: "image/jpeg" });
+    formData.append("image", dataBlob);
 
-    // await wait(2000);
+    // https://github.com/andrerpena/react-mde/pull/268#issuecomment-707563996
+    const response = await api.post("/images", formData, {
+      headers: {
+        "Content-Type": `multipart/form-data`,
+      }
+    });
+
+    const baseUrl = process.env.REACT_APP_STATIC_URL ?? "http://localhost:5000";
+
     // yields the URL that should be inserted in the markdown
-    yield "https://picsum.photos/300";
-    // await wait(2000);
+    yield `${baseUrl}/${response.data.data.imageUrl}`;
 
     // returns true meaning that the save was successful
     return true;

@@ -1,6 +1,8 @@
 const multer = require("multer");
 const sharp = require("sharp");
+
 const catchAsync = require("./catch-async.middleware");
+const AppError = require("../utils/app-error.util");
 
 // Store image in memory/buffer
 const multerStorage = multer.memoryStorage();
@@ -24,13 +26,7 @@ exports.uploadImage = upload.single("image");
 exports.resizeImage = catchAsync(async (req, _, next) => {
   if (!req.file) return next();
 
-  // req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
-  const originalNameSplit = req.file.originalname.split(".");
-  originalNameSplit.pop();
-
-  const nameWithoutExtension = originalNameSplit.join("");
-
-  req.file.filename = `${nameWithoutExtension}-${Date.now()}.jpeg`;
+  req.file.filename = `${req.user.id}-${Date.now()}.jpeg`;
 
   await sharp(req.file.buffer)
     .resize({ width: 600 })
