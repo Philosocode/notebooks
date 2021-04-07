@@ -17,7 +17,4 @@ const theorySection = {
 
 export const sections = [
   theorySection,
-  theorySection,
-  theorySection,
-  theorySection,
 ];

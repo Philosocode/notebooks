@@ -30,9 +30,10 @@ export const LoginPage = () => {
 
   return (
     <SPageContentCenter centerContent>
-      { loggedIn && <Redirect to={location.state?.from?.pathname ?? "/concepts"} /> }
       <SHeadingTitle>Login Page</SHeadingTitle>
-      {!loggedIn ? (
+      {loggedIn ? (
+        <Redirect to={location.state?.from?.pathname ?? "/concepts"} />
+      ) : (
         <SGoogleLogin
           clientId={`${process.env.REACT_APP_OAUTH_CLIENT_ID}`}
           buttonText="Login With Google"
@@ -40,7 +41,7 @@ export const LoginPage = () => {
           onFailure={handleGoogleFailure}
           cookiePolicy={"single_host_origin"}
         />
-      ) : null}
+      )}
     </SPageContentCenter>
   );
 };
