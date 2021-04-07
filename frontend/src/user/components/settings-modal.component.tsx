@@ -39,6 +39,10 @@ export const SettingsModal: React.FC<IProps> = ({
 
     Object.keys(currentSettings).forEach((setting) => {
       const key = setting as keyof IUserSettings;
+
+      // hacky: disallow wizard updates in settings modal
+      if (key === "showWelcomeWizard") return;
+
       // FROM: https://fettblog.eu/typescript-better-object-keys/
       if (currentSettings[key] !== values[key]) {
         // @ts-ignore
@@ -56,6 +60,8 @@ export const SettingsModal: React.FC<IProps> = ({
     if (updates["defaultLongBreakTime"]) {
       updates["defaultLongBreakTime"] = +updates["defaultLongBreakTime"];
     }
+
+    console.log("UPDATES TO SEND", updates);
 
     dispatch(updateUserSettings({ userId: "x", updates }));
 

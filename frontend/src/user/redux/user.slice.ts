@@ -43,10 +43,12 @@ const userSlice = createSlice({
         if (!state.settings) return;
         if (!action.payload?.updates) return;
 
-        state.settings = {
+        const updatedSettings = {
           ...state.settings,
           ...action.payload.updates,
-        };
+        }
+
+        state.settings = updatedSettings;
       })
   }
 });
