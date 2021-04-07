@@ -24,14 +24,14 @@ export const DeleteMaterialModal: FC<IProps> = ({ material, handleClose }) => {
   }
 
   const trimmedName = trimString(material.name, 50);
-  const modalText = "You are about to delete this material: " + trimmedName;
+  const modalText = "You are about to delete this notebook: " + trimmedName;
 
   return (
     <ConfirmationModal
       confirmButtonText="Delete"
       handleClose={handleClose}
       handleConfirm={handleDelete}
-      title="Delete Material"
+      title="Delete Notebook"
       text={modalText}
       isWarning
     />

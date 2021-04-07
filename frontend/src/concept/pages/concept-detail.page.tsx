@@ -30,7 +30,7 @@ export const ConceptDetailPage: FC<RouteComponentProps> = () => {
   const params = useParams<IMatchParams>();
   const conceptsLoaded = useSelector(selectConceptsLoaded);
 
-  const tabNames = ["Hooks", "Materials", "Concept Links"];
+  const tabNames = ["Hooks", "Notebooks", "Concept Links"];
   const [selectedTab, setSelectedTab] = useState("Hooks");
 
   const { conceptId } = params;
@@ -67,7 +67,7 @@ export const ConceptDetailPage: FC<RouteComponentProps> = () => {
         <Tab title="Hooks" selectedTab={selectedTab}>
           <ConceptHooks concept={currentConcept} />
         </Tab>
-        <Tab title="Materials" selectedTab={selectedTab}>
+        <Tab title="Notebooks" selectedTab={selectedTab}>
           <ConceptMaterials concept={currentConcept} />
         </Tab>
         <Tab title="Concept Links" selectedTab={selectedTab}>

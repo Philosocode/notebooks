@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DropResult } from "react-beautiful-dnd";
-import { faBrain, faCube, faLightbulb } from "@fortawesome/free-solid-svg-icons";
+import { faLightbulb, faQuestionCircle, faStickyNote } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
 // logic
@@ -14,6 +14,7 @@ import { useToggle } from "../../shared/hooks/use-toggle.hook";
 import { showModal } from "modal/redux/modal.slice";
 
 // components
+import { CreateFactModal } from "../../fact/components/create-fact-modal.component";
 import { DragAndDropWrapper } from "shared/components/drag-and-drop/drag-and-drop-wrapper.component";
 import { DraggableWrapper } from "shared/components/drag-and-drop/draggable-wrapper.component";
 import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
@@ -22,7 +23,6 @@ import { EditableContentBox } from "shared/components/info/editable-content-box.
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
-import { CreateFactModal } from "../../fact/components/create-fact-modal.component";
 
 interface IProps {
   partId: string;
@@ -36,9 +36,9 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
 
   const [menuShowing, toggleMenu] = useToggle(false);
   const menuActions: IMenuAction[] = [
-    { name: "Section", icon: faCube, action: handleCreateSection },
-    { name: "Fact", icon: faLightbulb, action: handleCreateFact },
-    { name: "Concept", icon: faBrain, action: handleCreateConcept },
+    { name: "Note", icon: faStickyNote, action: handleCreateSection },
+    { name: "Flashcard", icon: faQuestionCircle, action: handleCreateFact },
+    { name: "Concept", icon: faLightbulb, action: handleCreateConcept },
   ];
 
   function handleDragEnd(result: DropResult) {
@@ -94,7 +94,7 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
   if (!sections) return null;
   return (
     <SContainer>
-      <SHeadingSubSubtitle># Sections: {sections.length}</SHeadingSubSubtitle>
+      <SHeadingSubSubtitle># Notes: {sections.length}</SHeadingSubSubtitle>
 
       {sections.length === 0 && <SNoItemsHeading>No sections found...</SNoItemsHeading>}
       <DragAndDropWrapper droppableId="section-list-droppable" handleDragEnd={handleDragEnd}>

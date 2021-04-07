@@ -69,7 +69,7 @@ export const PartList: React.FC<IProps> = ({ materialId }) => {
     <DragAndDropWrapper droppableId="part-list-droppable" handleDragEnd={handleDragEnd}>
       <SList>
         {materialParts.length === 0 && (
-          <SHeadingSubSubtitle weight={500}>No parts found...</SHeadingSubSubtitle>
+          <SHeadingSubSubtitle weight={500}>No sections found...</SHeadingSubSubtitle>
         )}
         {materialParts.map((part, index) => (
           <PartListItem
@@ -83,7 +83,7 @@ export const PartList: React.FC<IProps> = ({ materialId }) => {
       <FloatingCornerButton icon="plus" handleClick={toggleCreateModalShowing} />
       <CreateNamedEntityModal
         createEntity={handleCreate}
-        entityName="Part"
+        entityName="Section"
         handleClose={toggleCreateModalShowing}
         isShowing={createModalShowing}
       />

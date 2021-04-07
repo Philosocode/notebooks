@@ -30,8 +30,8 @@ export const MaterialDetailPage: React.FC<RouteComponentProps> = () => {
   const materialsLoaded = useSelector(selectMaterialsLoaded);
   const { materialId } = useParams<IMatchParams>();
 
-  const tabNames = ["Parts", "Facts", "Concept Links"];
-  const [selectedTab, setSelectedTab] = useState("Parts");
+  const tabNames = ["Sections", "Flashcards", "Concept Links"];
+  const [selectedTab, setSelectedTab] = useState(tabNames[0]);
 
   useEffect(() => {
     if (currentMaterial?.id === materialId) return;
@@ -44,10 +44,10 @@ export const MaterialDetailPage: React.FC<RouteComponentProps> = () => {
     const materialExists = materialHash.hasOwnProperty(materialId);
     if (materialExists) {
       dispatch(setCurrentMaterialId(materialId));
-      setSelectedTab("Parts");
+      setSelectedTab(tabNames[0]);
     } else {
       dispatch(showAndHideAlert({
-        message: "Material with that ID not found.",
+        message: "Notebook with that ID not found.",
         type: "warning",
       }));
     }
@@ -60,10 +60,10 @@ export const MaterialDetailPage: React.FC<RouteComponentProps> = () => {
       <MaterialDetailHeader material={currentMaterial} />
       <TabNames tabNames={tabNames} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       <div>
-        <Tab title="Parts" selectedTab={selectedTab}>
+        <Tab title="Sections" selectedTab={selectedTab}>
           <PartList materialId={materialId} />
         </Tab>
-        <Tab title="Facts" selectedTab={selectedTab}>
+        <Tab title="Flashcards" selectedTab={selectedTab}>
           <FactsForMaterial material={currentMaterial} />
         </Tab>
         <Tab title="Concept Links" selectedTab={selectedTab}>

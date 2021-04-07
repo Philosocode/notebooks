@@ -48,7 +48,7 @@ export const theme = {
   },
   componentSizes: {
     navbarHeight: "5rem",
-    appSidebarWidth: "10rem",
+    appSidebarWidth: "11rem",
     tagSidebarWidth: "30rem",
     librarySidebarWidth: "30rem",
   },

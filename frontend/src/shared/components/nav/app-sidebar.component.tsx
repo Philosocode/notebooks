@@ -12,7 +12,7 @@ import { useAppLocation } from "../../hooks/use-app-location.hook";
 import { selectTimerModalShowing } from "timer/redux/timer.selectors";
 
 import { theme } from "shared/styles/theme.style";
-import { TFactSource } from "../../../practice/redux/practice.types";
+import { TFactSource } from "practice/redux/practice.types";
 
 export const AppSidebar: React.FC = () => { 
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ export const AppSidebar: React.FC = () => {
     let source: TFactSource = "all";
 
     switch(appLocation) {
-      case "materials":
+      case "material-detail":
         source = "material";
         break;
       case "parts":
@@ -54,7 +54,7 @@ export const AppSidebar: React.FC = () => {
     <SContent>
       <SSidebarLink to="/materials" $isSelected={appLocation === "parts"}>
         <SIcon icon={faBook} />
-        <SName>Materials</SName>
+        <SName>Notebooks</SName>
       </SSidebarLink>
       <SSidebarLink to="/concepts">
         <SIcon icon={faLightbulb} />

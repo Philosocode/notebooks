@@ -150,11 +150,10 @@ const gettingStarted = (
 
 const materials = (
   <>
-    <SHeadingSubSubtitle>Materials</SHeadingSubSubtitle>
-    <SBodyText>Analogy: think of a material like a book or subject notebook</SBodyText>
+    <SHeadingSubSubtitle>Notebooks</SHeadingSubSubtitle>
     <SBodyText>
-      Materials are used to organize and group notes.
-      You can add tags to materials for further organization.
+      Notebooks are used to organize and group notes.
+      You can add tags to notebooks for further organization.
     </SBodyText>
     <SBodyText>Example Usages:</SBodyText>
     <SList>
@@ -168,13 +167,10 @@ const materials = (
 
 const parts = (
   <>
-    <SHeadingSubSubtitle>Material - Parts</SHeadingSubSubtitle>
+    <SHeadingSubSubtitle>Notebook - Sections</SHeadingSubSubtitle>
     <SBodyText>
-      A material is made up of multiple parts. Use parts to store a single "unit" of a material.
-      For example, if your material is a course, a part could be 1 lecture.
-    </SBodyText>
-    <SBodyText>
-      Analogy: chapter in a book
+      A notebook is made up of multiple sections.
+      For example, if your notebook is for a course, each section could be a lecture.
     </SBodyText>
     <SBodyText>Example Usages:</SBodyText>
     <SList>
@@ -188,24 +184,29 @@ const parts = (
 
 const sections = (
   <>
-    <SHeadingSubSubtitle>Part - Sections</SHeadingSubSubtitle>
-    <SBodyText>A section contains text boxes that you type your notes into. This is where you write your notes.</SBodyText>
-    <SBodyText>A part can have many sections.</SBodyText>
+    <SHeadingSubSubtitle>Section - Notes</SHeadingSubSubtitle>
+    <SBodyText>
+      This is where you write your notes.
+      Each note has two text boxes: one for a note title, the other for the note contents.
+    </SBodyText>
+    <SBodyText>A section can have many notes.</SBodyText>
     <SImageShadow src={sectionsImage} />
   </>
 );
 
 const facts = (
   <>
-    <SHeadingSubSubtitle>Part - Facts</SHeadingSubSubtitle>
+    <SHeadingSubSubtitle>Section - Flashcards</SHeadingSubSubtitle>
     <SBodyText>
-      A fact is a flashcard. Create a fact for information you want to practice and remember.
+      Create flashcards for information you want to practice and remember.
     </SBodyText>
     <SBodyText>
-      Clicking the checkmark will toggle the "mastered" status of a fact (green = mastered).
-      If a fact is mastered, you won't see it in practice mode (more on that later).
+      Clicking the checkmark will toggle the "mastered" status of a flashcard (green = mastered).
     </SBodyText>
-    <SBodyText>A part can have many facts.</SBodyText>
+    <SBodyText>
+      If you mark a flashcard as mastered, you won't see it in practice mode (more on that later).
+    </SBodyText>
+    <SBodyText>A section can have many flashcards.</SBodyText>
     <SImageShadow src={factsImage} />
   </>
 );
@@ -215,9 +216,11 @@ const concepts = (
     <SHeadingSubSubtitle>Concepts</SHeadingSubSubtitle>
     <SBodyText>
       Concepts represent abstract ideas or concepts that you're struggling to understand.
+    </SBodyText>
+    <SBodyText>
       Create a concept when you want to better understand an idea, theory, or concept.
     </SBodyText>
-    <SBodyText>Like materials, concepts can have tags.</SBodyText>
+    <SBodyText>Like notebooks, concepts be tagged for better organization.</SBodyText>
     <SImageShadow src={conceptsImage} />
   </>
 );
@@ -239,8 +242,10 @@ const dragAndDrop = (
     <SHeadingSubSubtitle>Drag & Drop</SHeadingSubSubtitle>
     <SBodyText>You can re-arrange the following things using drag-and-drop:</SBodyText>
     <SList>
-      <li>Material: Parts, Sections, Facts</li>
-      <li>Concept: Hooks</li>
+      <li>Notebook Sections</li>
+      <li>Notes</li>
+      <li>Flashcards</li>
+      <li>Hooks</li>
     </SList>
     <SImage src={dragSvg} />
   </>
@@ -251,13 +256,13 @@ const practice = (
     <SHeadingSubSubtitle>Practice Mode</SHeadingSubSubtitle>
     <SBodyText>
       Click on "Practice" in the left sidebar to enter practice mode.
-      This is where you can study your (non-mastered) facts.
+      This is where you can study your (non-mastered) flashcards.
     </SBodyText>
-    <SBodyText>The facts loaded depends on your current page:</SBodyText>
+    <SBodyText>Which flashcards are loaded depends on your current page:</SBodyText>
     <SList>
-      <li>Part Page: load facts for that part</li>
-      <li>Material Page: load facts for all parts in that material</li>
-      <li>Otherwise: load all facts for all materials / parts</li>
+      <li>Section Page: load flashcards for that section</li>
+      <li>Notebook Page: load flashcards for all sections in that notebook</li>
+      <li>Other Page: load all flashcards for all notebooks</li>
     </SList>
     <SImageShadow src={practiceImage} />
   </>

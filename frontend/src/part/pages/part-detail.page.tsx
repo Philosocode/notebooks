@@ -30,7 +30,7 @@ export const PartDetailPage: React.FC = () => {
 
   const { partId } = useParams<IMatchParams>();
 
-  const tabNames = ["Sections", "Facts", "Concept Links"];
+  const tabNames = ["Notes", "Flashcards", "Concept Links"];
   const [selectedTab, setSelectedTab] = useState(tabNames[0]);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export const PartDetailPage: React.FC = () => {
     const partExists = partHash.hasOwnProperty(partId);
     if (partExists) {
       dispatch(setCurrentPartId(partId));
-      setSelectedTab("Sections");
+      setSelectedTab("Notes");
     } else {
       dispatch(getPart(partId));
       dispatch(setCurrentPartId(partId));
@@ -61,11 +61,11 @@ export const PartDetailPage: React.FC = () => {
 
       <TabNames tabNames={tabNames} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       <div>
-        <Tab title="Sections" selectedTab={selectedTab}>
+        <Tab title="Notes" selectedTab={selectedTab}>
           <PartChecklist part={currentPart} />
           <SectionList partId={currentPart.id} />
         </Tab>
-        <Tab title="Facts" selectedTab={selectedTab}>
+        <Tab title="Flashcards" selectedTab={selectedTab}>
           <FactList partId={partId} />
         </Tab>
         <Tab title="Concept Links" selectedTab={selectedTab}>

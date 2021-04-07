@@ -45,7 +45,7 @@ export const PartDetailHeader: React.FC<IProps> = ({ part }) => {
         name={part.name}
         updatedAt={part.updated_at}
         showUpdateModal={toggleModalShowing}
-        topSlot={<SLink to={`/materials/${part.material_id}`}>Back to Material</SLink>}
+        topSlot={<SLink to={`/materials/${part.material_id}`}>Back to Notebook</SLink>}
       />
       <ModalWrapper isShowing={modalShowing} handleClose={toggleModalShowing}>
         <UpdateNamedEntityModal

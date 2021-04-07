@@ -22,7 +22,7 @@ export const CreateMaterialModal: React.FC<IModalProps> = ({
   return (
     <CreateEntityModal
       entities={materials}
-      entityName="Material"
+      entityName="Notebook"
       entityTags={materialTags}
       createEntity={handleCreate}
       handleClose={handleClose}

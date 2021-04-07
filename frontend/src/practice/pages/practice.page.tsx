@@ -21,6 +21,7 @@ import { SButtonGreen, SButtonRed, SButton } from "shared/styles/button.style";
 import { STextareaBase } from "shared/styles/form.style";
 import { useForm } from "../../shared/hooks/use-form.hook";
 import { updateFact } from "../../fact/redux/fact.thunks";
+import { showAndHideAlert } from "../../alert/redux/alert.thunks";
 
 export const PracticePage: React.FC = () => {
   const practiceState = useSelector(selectPracticeState);
@@ -156,10 +157,10 @@ export const PracticePage: React.FC = () => {
   }
 
   function getStudyHeadingText() {
-    if (practiceState.source === "material") return "Studying facts for material";
-    if (practiceState.source === "part") return "Studying facts for part";
+    if (practiceState.source === "material") return "Studying flashcards in notebook";
+    if (practiceState.source === "part") return "Studying flashcards in section";
 
-    return "Studying all facts";
+    return "Studying all flashcards";
   }
 
   function getPracticeScreen() {

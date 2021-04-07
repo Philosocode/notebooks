@@ -15,5 +15,5 @@ export function useStep(min: number, max: number, initialValue?: number) {
     setStep(prevState => prevState - 1);
   }
 
-  return { step, increment, decrement };
+  return { step, setStep, increment, decrement };
 }

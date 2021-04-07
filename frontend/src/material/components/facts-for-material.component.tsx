@@ -120,7 +120,7 @@ export const FactsForMaterial: React.FC<IProps> = ({ material }) => {
 
   return (
     <SContainer>
-      { factsForMaterial.length === 0 && <SHeadingSubSubtitle weight={500}>No facts found.</SHeadingSubSubtitle> }
+      { factsForMaterial.length === 0 && <SHeadingSubSubtitle weight={500}>No flashcards found.</SHeadingSubSubtitle> }
 
       {
         Object.keys(factHash).map((partName, index) => (
@@ -128,7 +128,7 @@ export const FactsForMaterial: React.FC<IProps> = ({ material }) => {
             <SPartHeading
               as={Link}
               to={`/parts/${factHash[partName][0].part_id}`}
-            >{partName}: {factHash[partName].length} Fact(s)</SPartHeading>
+            >{partName}: {factHash[partName].length} Flashcard{factHash[partName].length > 1 && "s"}</SPartHeading>
             <SList>
               {factHash[partName].map((fact, index) => (
                 <EditableContentBox
@@ -172,6 +172,7 @@ const SFactList = styled.div`
 `;
 
 const SPartHeading = styled(SHeadingSubSubtitle)`
+  font-weight: 500;
   display: inline-block;
   text-decoration: underline;
   

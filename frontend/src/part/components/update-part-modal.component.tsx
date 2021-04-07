@@ -27,7 +27,7 @@ export const UpdatePartModal: React.FC<IProps> = ({ handleClose, materialId, par
   return (
     <UpdateNamedEntityModal
       currentName={part.name}
-      entityName="Part"
+      entityName="Section"
       handleClose={handleClose}
       updateEntity={handleUpdate}
     />

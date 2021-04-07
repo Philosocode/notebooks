@@ -89,9 +89,9 @@ export const FactList: React.FC<IProps> = ({ partId }) => {
   if (!facts) return null;
   return (
     <SContainer>
-      <SHeadingSubSubtitle># Facts: {facts.length}</SHeadingSubSubtitle>
+      <SHeadingSubSubtitle># Flashcards: {facts.length}</SHeadingSubSubtitle>
 
-      {facts.length === 0 && <SNoItemsHeading>No facts found...</SNoItemsHeading>}
+      {facts.length === 0 && <SNoItemsHeading>No flashcards found...</SNoItemsHeading>}
       <DragAndDropWrapper droppableId="section-list-droppable" handleDragEnd={handleDragEnd}>
         <SList>
           {facts.map((fact, index) => (

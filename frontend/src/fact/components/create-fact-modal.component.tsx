@@ -27,7 +27,7 @@ export const CreateFactModal: React.FC<IProps> = ({
   return (
     <ModalWrapper isShowing={modalShowing} handleClose={handleClose}>
       <CreateContentModal
-        entityName="Fact"
+        entityName="Flashcard"
         handleCreate={handleCreate}
         handleClose={handleClose}
         placeholderTitle="Question"

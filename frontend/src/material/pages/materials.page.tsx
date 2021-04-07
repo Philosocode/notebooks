@@ -73,7 +73,7 @@ export const MaterialsPage: React.FC = () => {
       />
       <SConceptSection>
         <SPaddedContainer>
-          <SHeadingSubtitle>Materials</SHeadingSubtitle>
+          <SHeadingSubtitle>Notebooks</SHeadingSubtitle>
           <SortFilterControls
             filterText={filterText}
             getIcon={getSortIconCaret}
@@ -82,7 +82,7 @@ export const MaterialsPage: React.FC = () => {
             sortMode={sortMode}
             isCentered={false}
           />
-          { filteredMaterials.length === 0 && <SNotFoundHeading>No materials found.</SNotFoundHeading> }
+          { filteredMaterials.length === 0 && <SNotFoundHeading>No notebooks found.</SNotFoundHeading> }
         </SPaddedContainer>
 
         <MaterialList materials={filteredMaterials} />
