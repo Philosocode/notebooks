@@ -38,7 +38,7 @@ export const WelcomeWizardModal: React.FC<IProps> = ({
   const minStep = 1;
   const maxStep = Object.keys(steps).length;
 
-  const { step, increment, decrement } = useStep(minStep, maxStep);
+  const { step, setStep, increment, decrement } = useStep(minStep, maxStep);
 
   useKeypress("ArrowLeft", decrement);
   useKeypress("ArrowRight", increment);
@@ -50,6 +50,10 @@ export const WelcomeWizardModal: React.FC<IProps> = ({
         showWelcomeWizard: false,
       },
     }));
+
+    setTimeout(() => {
+      setStep(minStep);
+    }, 200);
   }
 
   return (
