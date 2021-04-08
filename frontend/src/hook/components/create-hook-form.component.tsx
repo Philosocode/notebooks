@@ -15,7 +15,7 @@ import { HookSelectModal } from "./hook-select-modal.component";
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SButtonGreen } from "shared/styles/button.style";
-import { SHookContentTextarea, SHookTitleTextarea } from "../styles/hook.style";
+import { SHookTitleTextarea } from "../styles/hook.style";
 import { MarkdownEditor } from "../../shared/mde/markdown-editor.component";
 
 interface IProps {

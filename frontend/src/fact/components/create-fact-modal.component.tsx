@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { IModalProps } from "modal/redux/modal.types";
 import { createFact } from "../redux/fact.thunks";
 import { CreateContentModal } from "../../modal/components/create-content-modal.component";
-import { ModalWrapper } from "../../modal/components/modal-wrapper.component";
 
 interface IProps extends IModalProps {
   partId: string;

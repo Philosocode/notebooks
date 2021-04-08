@@ -7,7 +7,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 // logic
 import { IFact } from "fact/redux/fact.types";
 import { selectFactsForPart } from "../redux/fact.selectors";
-import { createFact, deleteFact, getFacts, updateFact, updateFactPosition } from "../redux/fact.thunks";
+import { deleteFact, getFacts, updateFact, updateFactPosition } from "../redux/fact.thunks";
 import { repositionFact } from "part/redux/part.slice";
 import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
 

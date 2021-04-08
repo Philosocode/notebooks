@@ -14,7 +14,6 @@ import { useToggle } from "../../shared/hooks/use-toggle.hook";
 import { showModal } from "modal/redux/modal.slice";
 
 // components
-import { CreateFactModal } from "../../fact/components/create-fact-modal.component";
 import { DragAndDropWrapper } from "shared/components/drag-and-drop/drag-and-drop-wrapper.component";
 import { DraggableWrapper } from "shared/components/drag-and-drop/draggable-wrapper.component";
 import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
@@ -31,7 +30,6 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
   const dispatch = useDispatch();
   const sections = useSelector(selectSectionsForPart);
 
-  const [factModalShowing, toggleFactModal] = useToggle(false);
   const { expandedHash, toggleEntityExpansion } = useExpandHash(sections ?? [], true);
 
   const [menuShowing, toggleMenu] = useToggle(false);
