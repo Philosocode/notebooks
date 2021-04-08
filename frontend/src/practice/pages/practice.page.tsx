@@ -21,7 +21,6 @@ import { SButtonGreen, SButtonRed, SButton } from "shared/styles/button.style";
 import { STextareaBase } from "shared/styles/form.style";
 import { useForm } from "../../shared/hooks/use-form.hook";
 import { updateFact } from "../../fact/redux/fact.thunks";
-import { showAndHideAlert } from "../../alert/redux/alert.thunks";
 
 export const PracticePage: React.FC = () => {
   const practiceState = useSelector(selectPracticeState);
@@ -36,7 +35,7 @@ export const PracticePage: React.FC = () => {
   useEffect(() => {
     // if Redux state missing, exit
     if (!practiceState.source) {
-      return history.push("/concepts");
+      return history.push("/materials");
     }
 
     // don't load facts if already loaded
