@@ -9,6 +9,7 @@ import { selectUser } from "user/redux/user.selectors";
 import { LOCAL_STORAGE_TOKEN_KEY } from "../constants.shared";
 import { IAuthToken } from "user/redux/user.types";
 import { login, logout } from "user/redux/user.slice";
+import { setSidebarShowing } from "../redux/global.slice";
 
 export function useInit() {
   const dispatch = useDispatch();
@@ -33,6 +34,14 @@ export function useInit() {
     // eslint-disable-next-line
   }, [history, window.location.pathname]);
 
+  // intiially show/hide sidebar depending on window width
+  useEffect(() => {
+    if (!user) return;
+
+    window.innerWidth <= 600
+      ? dispatch(setSidebarShowing(false))
+      : dispatch(setSidebarShowing(true));
+  }, [user]);
 
   // automatically load user from local storage token
   useEffect(() => {
