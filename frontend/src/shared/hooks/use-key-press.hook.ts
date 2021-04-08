@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export default function useKeypress(key: string, action: () => void, isDisabled: boolean = false) {
+export function useKeypress(key: string, action: () => void, isDisabled: boolean = false) {
   useEffect(() => {
     if (isDisabled) return;
 

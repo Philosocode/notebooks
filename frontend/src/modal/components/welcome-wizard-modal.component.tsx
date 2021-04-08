@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { IUserSettings } from "user/redux/user.types";
 import { updateUserSettings } from "user/redux/user.thunks";
 import { useStep } from "shared/hooks/use-step.hook";
+import { useKeypress } from "shared/hooks/use-key-press.hook";
 
 // components
 import { ModalWrapper } from "./modal-wrapper.component";
@@ -21,12 +22,12 @@ import materialsImage from "shared/assets/materials.jpg";
 import partsImage from "shared/assets/parts.jpg";
 import sectionsImage from "shared/assets/sections.jpg";
 import factsImage from "shared/assets/facts.jpg";
+import practiceImage from "shared/assets/practice.jpg";
 import conceptsImage from "shared/assets/concepts.jpg";
 import hooksImage from "shared/assets/hooks.jpg";
 import dragSvg from "shared/assets/undraw-drag.svg";
-import practiceImage from "shared/assets/practice.jpg";
+import uploadSvg from "shared/assets/undraw-image-upload.svg";
 import doneSvg from "shared/assets/done.svg";
-import useKeypress from "../../shared/hooks/use-key-press.hook";
 
 interface IProps {
   settings: IUserSettings;
@@ -258,6 +259,20 @@ const hooks = (
   </>
 );
 
+const imageUploads = (
+  <>
+    <SHeadingSubSubtitle>Upload Images</SHeadingSubSubtitle>
+    <SBodyText>You can add images to the following things using:</SBodyText>
+    <SList>
+      <li>Notes</li>
+      <li>Flashcards</li>
+      <li>Hooks</li>
+    </SList>
+    <SBodyText>To upload an image, you can drag-and-drop it into the textbox or paste it.</SBodyText>
+    <SImage src={uploadSvg} />
+  </>
+);
+
 const dragAndDrop = (
   <>
     <SHeadingSubSubtitle>Drag & Drop</SHeadingSubSubtitle>
@@ -293,5 +308,6 @@ const steps: { [key: string]: React.ReactNode } = {
   7: concepts,
   8: hooks,
   9: dragAndDrop,
-  10: done,
+  10: imageUploads,
+  11: done,
 }
