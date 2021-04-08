@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 import shuffle from "lodash/shuffle";
 import random from "lodash/random";
 import styled from "styled-components";
@@ -179,7 +180,9 @@ export const PracticePage: React.FC = () => {
           { answerShowing ? (
             <>
               <SAnswerHeading>Answer:</SAnswerHeading>
-              <SText>{currentFact.answer}</SText>
+              <SMarkdownStyles>
+                <ReactMarkdown source={currentFact.answer} />
+              </SMarkdownStyles>
             </>
           ) : (
             <>
@@ -238,7 +241,7 @@ const SContainer = styled(SPageContentCenter)`
     flex-direction: column;
     justify-content: space-between;
   height: calc(100vh - ${theme.componentSizes.navbarHeight});
-  padding: ${theme.spacing.base} ${theme.spacing.md};
+  padding: ${theme.spacing.base} ${theme.spacing.base};
   position: relative;
   
   ${theme.media.tabLand} {
@@ -255,6 +258,7 @@ const SMasteredIcon = styled(CircleIcon)`
 const STextContainer = styled.div`
   overflow: auto;
   position: relative;
+  margin-bottom: ${theme.spacing.base};
 `;
 const STextarea = styled(STextareaBase)`
   padding: ${theme.spacing.sm};
@@ -298,7 +302,7 @@ const SButtons = styled.div`
   display: flex;
     justify-content: space-between;
   max-width: 100vw;
-  
+
   & > button {
     ${theme.media.tabPort} {
       width: 12rem;
@@ -323,3 +327,54 @@ const SPartNameLink = styled(STextCompact)`
     color: ${theme.colors.green[400]};
   }
 `;
+
+const SMarkdownStyles = styled.div`
+  & > h1 {
+    font-size: ${theme.fontSizes.lg};
+    font-weight: 800;
+    margin-bottom: -${theme.spacing.sm};
+    
+    ${theme.media.tabLand} {
+      font-size: ${theme.fontSizes.xl};
+    }
+  }
+  
+  & img {
+    max-width: 100%;
+  }
+
+  & > h2 {
+    border-bottom: 1px solid ${theme.colors.gray};
+    font-size: ${theme.fontSizes.md};
+    padding-top: ${theme.spacing.base};
+    padding-bottom: 5px;
+    
+    ${theme.media.tabLand} {
+      font-size: ${theme.fontSizes.lg};
+      padding-top: ${theme.spacing.md};
+    }
+  }
+
+  & > p, & > ul, & > ol {
+    margin-top: ${theme.spacing.sm};
+    font-size: ${theme.fontSizes.basePlus};
+
+    ${theme.media.tabLand} {
+      font-size: ${theme.fontSizes.md};
+    }
+  }
+  
+  & > p:first-child {
+    margin-top: 0;
+  }
+
+  & > ul, & > ol {
+    list-style-type: inherit;
+    padding-left: 1.8rem;
+  }
+
+  & a {
+    text-decoration: underline;
+  }
+`
+
