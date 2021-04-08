@@ -22,6 +22,7 @@ import { EditableContentBox } from "../../shared/components/info/editable-conten
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 import { showModal } from "../../modal/redux/modal.slice";
+import { SContentBoxList } from "../../shared/components/info/content-box.style";
 
 interface IProps {
   partId: string;
@@ -101,7 +102,7 @@ export const FactList: React.FC<IProps> = ({ partId }) => {
 
       {facts.length === 0 && <SNoItemsHeading>No flashcards found...</SNoItemsHeading>}
       <DragAndDropWrapper droppableId="section-list-droppable" handleDragEnd={handleDragEnd}>
-        <SList>
+        <SContentBoxList>
           {facts.map((fact, index) => (
             <DraggableWrapper key={fact.id} draggableId={fact.id} dragDisabled={false} index={index}>
               <EditableContentBox
@@ -123,7 +124,7 @@ export const FactList: React.FC<IProps> = ({ partId }) => {
               />
             </DraggableWrapper>
           ))}
-        </SList>
+        </SContentBoxList>
       </DragAndDropWrapper>
 
       <FloatingCornerButton
@@ -143,13 +144,6 @@ const SContainer = styled.div`
 
 const SNoItemsHeading = styled(SHeadingSubSubtitle)`
   font-weight: 500;
-`;
-
-const SList = styled.ul`
-  margin-top: ${theme.spacing.base};
-  max-width: 80rem;
-  margin-left: auto;
-  margin-right: auto;
 `;
 
 interface IMastered {

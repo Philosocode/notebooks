@@ -22,6 +22,7 @@ import { EditableContentBox } from "shared/components/info/editable-content-box.
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
+import { SContentBoxList } from "../../shared/components/info/content-box.style";
 
 interface IProps {
   partId: string;
@@ -102,7 +103,7 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
 
       {sections.length === 0 && <SNoItemsHeading>No sections found...</SNoItemsHeading>}
       <DragAndDropWrapper droppableId="section-list-droppable" handleDragEnd={handleDragEnd}>
-        <SList>
+        <SContentBoxList>
           {sections.map((section, index) => (
             <DraggableWrapper key={section.id} draggableId={section.id} index={index} dragDisabled={false}>
               <EditableContentBox
@@ -117,7 +118,7 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
               />
             </DraggableWrapper>
           ))}
-        </SList>
+        </SContentBoxList>
       </DragAndDropWrapper>
 
       <FloatingCornerButton
@@ -139,13 +140,6 @@ const SContainer = styled.div`
 `;
 const SNoItemsHeading = styled(SHeadingSubSubtitle)`
   font-weight: 500;
-`;
-
-const SList = styled.ul`
-  margin-top: ${theme.spacing.base};
-  max-width: 80rem;
-  margin-left: auto;
-  margin-right: auto;
 `;
 
 const SMenuContainer = styled.div`

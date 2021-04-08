@@ -21,6 +21,7 @@ import { DraggableWrapper } from "../../shared/components/drag-and-drop/draggabl
 // styles
 import { theme } from "../../shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
+import { SContentBoxList } from "../../shared/components/info/content-box.style";
 
 interface IProps {
   conceptId: string;
@@ -144,9 +145,6 @@ const SNotFoundHeading = styled(SHeadingSubSubtitle)`
   margin-top: ${theme.spacing.md};
 `;
 
-const SList = styled.ul`
+const SList = styled(SContentBoxList)`
   margin-top: ${theme.spacing.md};
-  max-width: 80rem;
-  margin-left: auto;
-  margin-right: auto;
 `;
