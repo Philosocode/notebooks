@@ -70,7 +70,12 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
   }
 
   function handleCreateFact() {
-    toggleFactModal();
+    dispatch(showModal({
+      modalType: "create-fact",
+      modalProps: {
+        partId
+      }
+    }));
   }
 
   function handleCreateConcept() {
@@ -87,6 +92,7 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
       updates,
     }));
   }
+
   function handleDelete(sectionId: string) {
     dispatch(deleteSection({ sectionId, partId }));
   }
@@ -123,7 +129,6 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
       <SMenuContainer>
         <Menu actions={menuActions} toggleMenu={toggleMenu} menuShowing={menuShowing} />
       </SMenuContainer>
-      <CreateFactModal modalShowing={factModalShowing} partId={partId} handleClose={toggleFactModal} />
     </SContainer>
   );
 };

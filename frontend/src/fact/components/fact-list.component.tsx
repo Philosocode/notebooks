@@ -21,6 +21,7 @@ import { EditableContentBox } from "../../shared/components/info/editable-conten
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
+import { showModal } from "../../modal/redux/modal.slice";
 
 interface IProps {
   partId: string;
@@ -62,8 +63,15 @@ export const FactList: React.FC<IProps> = ({ partId }) => {
     }));
   }
 
+
+
   function handleCreate() {
-    dispatch(createFact({ partId, initialValues: { question: "Question", answer: "Answer" } }));
+    dispatch(showModal({
+      modalType: "create-fact",
+      modalProps: {
+        partId
+      }
+    }));
   }
 
   function handleUpdate(factId: string, question?: string, answer?: string) {

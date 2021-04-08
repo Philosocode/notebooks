@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 // logic
@@ -12,6 +12,7 @@ import { STextareaBase } from "shared/styles/form.style";
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubtitle } from "shared/styles/typography.style";
 import { SButtonGreen } from "shared/styles/button.style";
+import { MarkdownEditor } from "../../shared/mde/markdown-editor.component";
 
 interface IProps extends IModalProps {
   entityName: string;
@@ -26,8 +27,9 @@ export const CreateContentModal: React.FC<IProps> = ({
   placeholderTitle,
   placeholderContent,
 }) => {
-  const { values, handleChange } = useForm({ title: "", content: "" });
-  const { title, content } = values;
+  const { values, handleChange } = useForm({ title: "" });
+  const { title } = values;
+  const [content, setContent] = useState("");
 
   function submitDisabled() {
     if (title.trim() === "" || content.trim() === "") return true;
@@ -53,11 +55,11 @@ export const CreateContentModal: React.FC<IProps> = ({
           placeholder={placeholderTitle}
           onChange={handleChange}
         />
-        <STextarea
-          name="content"
+        <MarkdownEditor
+          initialTab="write"
+          setValue={setContent}
           value={content}
           placeholder={placeholderContent}
-          onChange={handleChange}
         />
         <SButton disabled={submitDisabled()}>Create</SButton>
       </SForm>

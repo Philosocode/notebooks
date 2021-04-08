@@ -7,12 +7,10 @@ import { CreateContentModal } from "../../modal/components/create-content-modal.
 import { ModalWrapper } from "../../modal/components/modal-wrapper.component";
 
 interface IProps extends IModalProps {
-  modalShowing: boolean;
   partId: string;
 }
 export const CreateFactModal: React.FC<IProps> = ({
   handleClose,
-  modalShowing,
   partId,
 }) => {
   const dispatch = useDispatch();
@@ -25,14 +23,12 @@ export const CreateFactModal: React.FC<IProps> = ({
   }
 
   return (
-    <ModalWrapper isShowing={modalShowing} handleClose={handleClose}>
-      <CreateContentModal
-        entityName="Flashcard"
-        handleCreate={handleCreate}
-        handleClose={handleClose}
-        placeholderTitle="Question"
-        placeholderContent="Answer"
-      />
-    </ModalWrapper>
+    <CreateContentModal
+      entityName="Flashcard"
+      handleCreate={handleCreate}
+      handleClose={handleClose}
+      placeholderTitle="Question"
+      placeholderContent="Answer"
+    />
   );
 };
