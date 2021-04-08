@@ -208,10 +208,27 @@ const facts = (
       Clicking the checkmark will toggle the "mastered" status of a flashcard (green = mastered).
     </SBodyText>
     <SBodyText>
-      If you mark a flashcard as mastered, you won't see it in practice mode (more on that later).
+      If you mark a flashcard as mastered, you won't see it in practice mode.
     </SBodyText>
     <SBodyText>A section can have many flashcards.</SBodyText>
     <SImageShadow src={factsImage} />
+  </>
+);
+
+const practice = (
+  <>
+    <SHeadingSubSubtitle>Practice Mode</SHeadingSubSubtitle>
+    <SBodyText>
+      Click on "Practice" in the left sidebar to enter practice mode.
+      This is where you can study your (non-mastered) flashcards.
+    </SBodyText>
+    <SBodyText>Which flashcards are loaded depends on your current page:</SBodyText>
+    <SList>
+      <li>Section Page: load flashcards for that section</li>
+      <li>Notebook Page: load flashcards for all sections in that notebook</li>
+      <li>Other Page: load all flashcards for all notebooks</li>
+    </SList>
+    <SImageShadow src={practiceImage} />
   </>
 );
 
@@ -255,23 +272,6 @@ const dragAndDrop = (
   </>
 );
 
-const practice = (
-  <>
-    <SHeadingSubSubtitle>Practice Mode</SHeadingSubSubtitle>
-    <SBodyText>
-      Click on "Practice" in the left sidebar to enter practice mode.
-      This is where you can study your (non-mastered) flashcards.
-    </SBodyText>
-    <SBodyText>Which flashcards are loaded depends on your current page:</SBodyText>
-    <SList>
-      <li>Section Page: load flashcards for that section</li>
-      <li>Notebook Page: load flashcards for all sections in that notebook</li>
-      <li>Other Page: load all flashcards for all notebooks</li>
-    </SList>
-    <SImageShadow src={practiceImage} />
-  </>
-);
-
 const done = (
   <>
     <SHeadingSubSubtitle>All Done!</SHeadingSubSubtitle>
@@ -289,9 +289,9 @@ const steps: { [key: string]: React.ReactNode } = {
   3: parts,
   4: sections,
   5: facts,
-  6: concepts,
-  7: hooks,
-  8: dragAndDrop,
-  9: practice,
+  6: practice,
+  7: concepts,
+  8: hooks,
+  9: dragAndDrop,
   10: done,
 }
