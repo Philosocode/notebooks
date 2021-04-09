@@ -41,7 +41,7 @@ export function useInit() {
     window.innerWidth <= 600
       ? dispatch(setSidebarShowing(false))
       : dispatch(setSidebarShowing(true));
-  }, [user]);
+  }, [user, dispatch]);
 
   // automatically load user from local storage token
   useEffect(() => {

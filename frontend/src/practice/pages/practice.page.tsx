@@ -150,7 +150,7 @@ export const PracticePage: React.FC = () => {
 
     return (
       <SCenterContainer>
-        <SDoneHeading weight={500}>No facts found...</SDoneHeading>
+        <SDoneHeading weight={500}>No flashcards found...</SDoneHeading>
         <SShowAnswerButton onClick={handleGoBack}>Exit</SShowAnswerButton>
       </SCenterContainer>
     );
