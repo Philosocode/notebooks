@@ -172,13 +172,13 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
         // return milliseconds({ minutes: settings.defaultLongBreakTime });
         return milliseconds({ seconds: 30 });
       } else {
-        return milliseconds({ seconds: 5 });
+        return milliseconds({ seconds: 10 });
         // return milliseconds({ minutes: settings.defaultBreakTime });
       }
     }
 
     // return milliseconds({ minutes: settings.defaultStudyTime });
-    return milliseconds({ seconds: 10 });
+    return milliseconds({ seconds: 20 });
   }
 
   function handlePause() {

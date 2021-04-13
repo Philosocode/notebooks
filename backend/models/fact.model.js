@@ -8,6 +8,7 @@ module.exports = {
   getFacts,
   getFactsForUser,
   updateFact,
+  deleteFactsForMaterial,
 };
 
 // Referenced: https://medium.com/the-missing-bit/keeping-an-ordered-collection-in-postgresql-9da0348c4bbe
@@ -51,6 +52,14 @@ async function deleteFact(fact_id, connection=db) {
 
 async function deleteFacts(part_id, connection=db) {
   return connection("fact").where({ part_id }).del();
+}
+
+async function deleteFactsForMaterial(material_id, connection=db) {
+  return connection("fact").whereIn("part_id", function() {
+    this.select("id")
+      .from("part")
+      .where({ "part.material_id": material_id });
+  }).del();
 }
 
 async function getFacts(part_id, filterObj, connection=db) {
