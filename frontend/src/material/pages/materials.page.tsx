@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
@@ -31,13 +31,11 @@ export const MaterialsPage: React.FC = () => {
 
   const { setIsUncategorized, isUncategorized, currentTag, setCurrentTag } = useTagFilter();
 
-  function getMaterialsWithTag() {
+  const materialsWithTag = useMemo(() => {
     if (isUncategorized) return materials.filter(material => material.tags.length === 0);
     if (!currentTag) return materials;
     return materials.filter(m => m.tags.includes(currentTag));
-  }
-
-  const materialsWithTag = getMaterialsWithTag();
+  }, [materials, isUncategorized, currentTag]);
 
   const {
     handleFilterTextChange,
