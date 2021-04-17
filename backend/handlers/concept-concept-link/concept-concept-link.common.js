@@ -1,4 +1,4 @@
-exports.processConceptLinks = function processConceptLinks(concept_id, flatLinks) {
+exports.processConceptConceptLinks = function processConceptConceptLinks(concept_id, flatLinks) {
   /**
    * IN: [ { id, concept1_id, concept2_id } ]
    * OUT: [ { id, concept_id } ]

@@ -37,13 +37,13 @@ const deleteHooks = require("./handlers/hook/delete-hooks.handler");
 const updateHook = require("./handlers/hook/update-hook.handler");
 
 // Concept Links
-const createConceptLink = require("./handlers/concept-concept-link/create-concept-concept-link.handler");
-const deleteConceptLink = require("./handlers/concept-concept-link/delete-concept-concept-link.handler");
-const getConceptLink = require("./handlers/concept-concept-link/get-concept-concept-link.handler");
-const getConceptLinks = require("./handlers/concept-concept-link/get-concept-concept-links.handler");
+const createConceptConceptLink = require("./handlers/concept-concept-link/create-concept-concept-link.handler");
+const deleteConceptConceptLink = require("./handlers/concept-concept-link/delete-concept-concept-link.handler");
+const getConceptConceptLink = require("./handlers/concept-concept-link/get-concept-concept-link.handler");
+const getConceptConceptLinks = require("./handlers/concept-concept-link/get-concept-concept-links.handler");
 
-const deleteConceptLinksForConcept = require("./handlers/concept-concept-link/delete-concept-concept-links-for-concept.handler");
-const getConceptLinksForConcept = require("./handlers/concept-concept-link/get-concept-concept-links-for-concept.handler");
+const deleteConceptConceptLinksForConcept = require("./handlers/concept-concept-link/delete-concept-concept-links-for-concept.handler");
+const getConceptConceptLinksForConcept = require("./handlers/concept-concept-link/get-concept-concept-links-for-concept.handler");
 const getConceptsForMaterial = require("./handlers/material/get-concepts-for-material.handler");
 
 // Materials
@@ -137,12 +137,12 @@ router.route("/concepts/tags/:tagName")
 
 // Concept Links
 router.route("/concepts/links")
-  .get(getConceptLinks)
-  .post(createConceptLink)
+  .get(getConceptConceptLinks)
+  .post(createConceptConceptLink)
 
 router.route("/concepts/links/:linkId")
-  .get(getConceptLink)
-  .delete(deleteConceptLink);
+  .get(getConceptConceptLink)
+  .delete(deleteConceptConceptLink);
 
 // Concepts
 router.route("/concepts")
@@ -155,8 +155,8 @@ router.route("/concepts/:conceptId")
    .delete(conceptExistsMiddleware, deleteConcept)
 
 router.route("/concepts/:conceptId/links")
-  .get(conceptExistsMiddleware, getConceptLinksForConcept)
-  .delete(conceptExistsMiddleware, deleteConceptLinksForConcept)
+  .get(conceptExistsMiddleware, getConceptConceptLinksForConcept)
+  .delete(conceptExistsMiddleware, deleteConceptConceptLinksForConcept)
 
 // Concept Tags For Concept
 router.route("/concepts/:conceptId/tags")

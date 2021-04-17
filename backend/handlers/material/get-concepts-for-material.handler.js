@@ -1,6 +1,6 @@
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
-const { getConceptLinksForMaterial } = require("../../models/concept-link.model");
+const { getConceptLinksForMaterial } = require("../../models/material.model");
 
 module.exports = catchAsync(async function (req, res) {
   const { materialId } = req.params;

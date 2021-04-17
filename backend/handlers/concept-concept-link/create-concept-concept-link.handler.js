@@ -2,7 +2,7 @@ const AppError = require("../../utils/app-error.util");
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
 const { entityExists } = require("../../models/common.model");
-const { conceptLinkExists, createConceptLink } = require("../../models/concept-link.model");
+const { conceptConceptConceptLinkExists, createConceptConceptLink } = require("../../models/concept-concept-link.model");
 
 module.exports = catchAsync(async function (req, res, next) {
   const userId = req.user.id;
@@ -25,15 +25,15 @@ module.exports = catchAsync(async function (req, res, next) {
     return next(new AppError("conceptIds must contain IDs of concepts that actually exist."), 404);
   }
 
-  const exists = await conceptLinkExists(conceptIds);
+  const exists = await conceptConceptLinkExists(conceptIds);
   if (exists) {
     return next(new AppError("Concept link with those IDs already exists."));
   }
 
-  const conceptLinkResult = await createConceptLink(conceptIds);
-  const conceptLink = conceptLinkResult[0];
+  const conceptConceptLinkResult = await createConceptConceptLink(conceptIds);
+  const conceptConceptLink = conceptConceptLinkResult[0];
 
   sendResponse(res, 201, {
-    conceptLink,
+    conceptConceptLink,
   });
 });

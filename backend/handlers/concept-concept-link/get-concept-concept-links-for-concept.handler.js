@@ -1,7 +1,7 @@
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
-const { getConceptLinksForConcept, getMaterialLinksForConcept } = require("../../models/concept-link.model");
-const { processConceptLinks } = require("./concept-concept-link.common");
+const { getConceptConceptLinksForConcept, getMaterialLinksForConcept } = require("../../models/concept-concept-link.model");
+const { processConceptConceptLinks } = require("./concept-concept-link.common");
 
 module.exports = catchAsync(async function (req, res) {
   const { conceptId } = req.params;
@@ -9,10 +9,10 @@ module.exports = catchAsync(async function (req, res) {
   const linksToReturn = {};
 
   if ("concepts" in req.query) {
-    const conceptLinksFlat = await getConceptLinksForConcept(conceptId);
-    const conceptLinks = processConceptLinks(conceptId, conceptLinksFlat);
+    const conceptConceptLinksFlat = await getConceptConceptLinksForConcept(conceptId);
+    const conceptConceptLinks = processConceptConceptLinks(conceptId, conceptConceptLinksFlat);
 
-    linksToReturn.conceptLinks = conceptLinks;
+    linksToReturn.conceptConceptLinks = conceptConceptLinks;
   }
 
   if ("materials" in req.query) {

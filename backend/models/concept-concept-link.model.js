@@ -1,18 +1,18 @@
 const db = require("../db/db");
 
 module.exports = {
-  conceptLinkExists,
-  createConceptLink,
-  deleteConceptLink,
-  getConceptLinks,
+  conceptConceptLinkExists,
+  createConceptConceptLink,
+  deleteConceptConceptLink,
+  getConceptConceptLinks,
 
-  deleteConceptLinksForConcept,
-  getConceptLinksForConcept,
+  deleteConceptConceptLinksForConcept,
+  getConceptConceptLinksForConcept,
   getConceptLinksForMaterial,
   getMaterialLinksForConcept,
 };
 
-async function conceptLinkExists(concept_ids, connection=db) {
+async function conceptConceptLinkExists(concept_ids, connection=db) {
   const res = await connection.first(
     connection.raw(
       "exists ? as exists",
@@ -26,32 +26,32 @@ async function conceptLinkExists(concept_ids, connection=db) {
   return res.exists;
 }
 
-async function createConceptLink(concept_ids, connection=db) {
+async function createConceptConceptLink(concept_ids, connection=db) {
   return connection("concept_concept_link")
     .insert({ concept1_id: concept_ids[0], concept2_id: concept_ids[1] })
     .returning("*");
 }
 
-async function deleteConceptLink(link_id, connection=db) {
+async function deleteConceptConceptLink(link_id, connection=db) {
   return connection("concept_concept_link")
     .where({ id: link_id })
     .del();
 }
 
-async function deleteConceptLinksForConcept(concept_id, connection=db) {
+async function deleteConceptConceptLinksForConcept(concept_id, connection=db) {
   return connection("concept_concept_link")
     .where({ concept1_id: concept_id })
     .orWhere({ concept2_id: concept_id })
     .del();
 }
 
-async function getConceptLinksForConcept(concept_id, connection=db) {
+async function getConceptConceptLinksForConcept(concept_id, connection=db) {
   return connection("concept_concept_link")
     .where({ concept1_id: concept_id })
     .orWhere({ concept2_id: concept_id });
 }
 
-async function getConceptLinks(user_id, filterObj, connection=db) {
+async function getConceptConceptLinks(user_id, filterObj, connection=db) {
   return connection("concept_concept_link")
     .where({ ...filterObj })
     .whereIn("concept1_id", function() {
@@ -60,14 +60,6 @@ async function getConceptLinks(user_id, filterObj, connection=db) {
     .whereIn("concept2_id", function() {
       this.select("id").from("concept").where({ user_id });
     });
-}
-
-async function getConceptLinksForMaterial(material_id, connection=db) {
-  return connection("concept_part")
-    .select("concept_id")
-    .join("part", "part.id", "concept_part.part_id")
-    .where({ "part.material_id": material_id })
-    .distinct("concept_id");
 }
 
 async function getMaterialLinksForConcept(concept_id, connection=db) {

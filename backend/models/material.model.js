@@ -10,6 +10,7 @@ module.exports = {
   updateMaterial,
 
   getFlashcardsForMaterial,
+  getConceptLinksForMaterial,
 };
 
 async function createMaterial(user_id, name, tagNames, connection=db) {
@@ -94,4 +95,12 @@ async function getFlashcardsForMaterial(material_id, mastered, connection=db) {
     .join("part", "part.id", "flashcard.part_id")
     .where(filter)
     .orderBy("flashcard.position");
+}
+
+async function getConceptLinksForMaterial(material_id, connection=db) {
+  return connection("concept_part")
+    .select("concept_id")
+    .join("part", "part.id", "concept_part.part_id")
+    .where({ "part.material_id": material_id })
+    .distinct("concept_id");
 }
