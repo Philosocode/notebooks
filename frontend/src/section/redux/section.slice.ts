@@ -6,7 +6,7 @@ import { ISectionState } from "./section.types";
 import { createNote, deleteNote, getNotes } from "note/redux/note.thunks";
 import { IRepositionEntityPayload } from "../../shared/types.shared";
 import { createConceptSection, deleteConceptSection, getConceptSections } from "../../concept-link/redux/concept-link.thunks";
-import { createFact, deleteFact, getFacts } from "fact/redux/fact.thunks";
+import { createFlashcard, deleteFlashcard, getFlashcards } from "flashcard/redux/flashcard.thunks";
 
 const initialState: ISectionState  = {
   sections: {},
@@ -29,14 +29,14 @@ const sectionSlice = createSlice({
       const [noteIdToMove] = section.noteIds.splice(oldIndex, 1);
       section.noteIds.splice(newIndex, 0, noteIdToMove);
     },
-    repositionFact: (state, action: PayloadAction<IRepositionEntityPayload>) => {
+    repositionFlashcard: (state, action: PayloadAction<IRepositionEntityPayload>) => {
       const { ownerEntityId: sectionId, oldIndex, newIndex } = action.payload;
 
       const section = state.sections[sectionId];
-      if (!section.factIds) return;
+      if (!section.flashcardIds) return;
 
-      const [factIdToMove] = section.factIds.splice(oldIndex, 1);
-      section.factIds.splice(newIndex, 0, factIdToMove);
+      const [flashcardIdToMove] = section.flashcardIds.splice(oldIndex, 1);
+      section.flashcardIds.splice(newIndex, 0, flashcardIdToMove);
     }
   },
   extraReducers: (builder) => {
@@ -101,32 +101,32 @@ const sectionSlice = createSlice({
         section.noteIds = section.noteIds.filter(id => id !== noteId);
       })
 
-      /* Facts */
-      .addCase(createFact.fulfilled, (state, action) => {
-        const { sectionId, fact } = action.payload;
+      /* Flashcards */
+      .addCase(createFlashcard.fulfilled, (state, action) => {
+        const { sectionId, flashcard } = action.payload;
 
         const section = state.sections[sectionId];
         if (!section) return;
-        if (!section.factIds) section.factIds = [];
+        if (!section.flashcardIds) section.flashcardIds = [];
 
-        section.factIds.push(fact.id);
+        section.flashcardIds.push(flashcard.id);
       })
-      .addCase(getFacts.fulfilled, (state, action) => {
-        const { sectionId, facts } = action.payload;
+      .addCase(getFlashcards.fulfilled, (state, action) => {
+        const { sectionId, flashcards } = action.payload;
 
-        const factIds = facts.map(fact => fact.id);
+        const flashcardIds = flashcards.map(flashcard => flashcard.id);
 
-        state.sections[sectionId].factIds = factIds;
+        state.sections[sectionId].flashcardIds = flashcardIds;
       })
-      .addCase(deleteFact.fulfilled, (state, action) => {
-        const { sectionId, factId } = action.payload;
+      .addCase(deleteFlashcard.fulfilled, (state, action) => {
+        const { sectionId, flashcardId } = action.payload;
 
         const section = state.sections[sectionId];
         if (section === undefined) return;
 
-        if (!section.factIds) return;
+        if (!section.flashcardIds) return;
 
-        section.factIds = section.factIds.filter(id => id !== factId);
+        section.flashcardIds = section.flashcardIds.filter(id => id !== flashcardId);
       })
       
       /* Concept Sections */
@@ -160,6 +160,6 @@ const sectionSlice = createSlice({
 export const sectionReducer = sectionSlice.reducer;
 export const {
   setCurrentSectionId,
-  repositionFact,
+  repositionFlashcard,
   repositionNote,
 } = sectionSlice.actions;

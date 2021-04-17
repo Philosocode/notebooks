@@ -11,7 +11,7 @@ import { showAndHideAlert } from "alert/redux/alert.thunks";
 
 // components
 import { ConceptLinksForMaterial } from "../components/concept-links-for-material.component";
-import { FactsForMaterial } from "../components/facts-for-material.component";
+import { FlashcardsForMaterial } from "../components/flashcards-for-material.component";
 import { MaterialDetailHeader } from "material/components/material-detail-header.component";
 import { SectionList } from "section/components/section-list.component";
 import { TabNames } from "shared/components/nav/tab-names.component";
@@ -64,7 +64,7 @@ export const MaterialDetailPage: React.FC<RouteComponentProps> = () => {
           <SectionList materialId={materialId} />
         </Tab>
         <Tab title="Flashcards" selectedTab={selectedTab}>
-          <FactsForMaterial material={currentMaterial} />
+          <FlashcardsForMaterial material={currentMaterial} />
         </Tab>
         <Tab title="Concept Links" selectedTab={selectedTab}>
           <ConceptLinksForMaterial material={currentMaterial} />

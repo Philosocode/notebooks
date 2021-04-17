@@ -12,7 +12,7 @@ import { useAppLocation } from "../../hooks/use-app-location.hook";
 import { selectTimerModalShowing } from "timer/redux/timer.selectors";
 
 import { theme } from "shared/styles/theme.style";
-import { TFactSource } from "practice/redux/practice.types";
+import { TFlashcardSource } from "practice/redux/practice.types";
 
 export const AppSidebar: React.FC = () => { 
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ export const AppSidebar: React.FC = () => {
   }
 
   function handlePracticeClick() {
-    let source: TFactSource = "all";
+    let source: TFlashcardSource = "all";
 
     switch(appLocation) {
       case "material-detail":

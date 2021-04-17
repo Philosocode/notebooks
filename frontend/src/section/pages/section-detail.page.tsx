@@ -15,7 +15,7 @@ import { TabNames } from "../../shared/components/nav/tab-names.component";
 import { Tab } from "../../shared/components/nav/tab.component";
 import { PartChecklist } from "../components/section-checklist.component";
 import { NoteList } from "../../note/components/note-list.component";
-import { FactList } from "fact/components/fact-list.component";
+import { FlashcardList } from "flashcard/components/flashcard-list.component";
 
 // styles
 import { SDetailPageContent } from "shared/styles/layout.style";
@@ -66,7 +66,7 @@ export const SectionDetailPage: React.FC = () => {
           <NoteList sectionId={currentPart.id} />
         </Tab>
         <Tab title="Flashcards" selectedTab={selectedTab}>
-          <FactList sectionId={sectionId} />
+          <FlashcardList sectionId={sectionId} />
         </Tab>
         <Tab title="Concept Links" selectedTab={selectedTab}>
           <ConceptSectionLinks section={currentPart} />

@@ -23,7 +23,7 @@ import { CreateNamedEntityModal } from "shared/components/modal/create-named-ent
 import { UpdateNamedEntityModal } from "shared/components/modal/update-named-entity.modal";
 import { UpdateSectionModal } from "../../section/components/update-section-modal.component";
 import { DeleteSectionModal } from "../../section/components/delete-section-modal.component";
-import { CreateFactModal } from "../../fact/components/create-fact-modal.component";
+import { CreateFlashcardModal } from "../../flashcard/components/create-flashcard-modal.component";
 
 type TModalComponents = {
   [key in TModalType]: React.FC<any>;
@@ -44,8 +44,8 @@ const MODAL_COMPONENTS: TModalComponents = {
   "update-section": UpdateSectionModal,
   "delete-section": DeleteSectionModal,
 
-  // Fact
-  "create-fact": CreateFactModal,
+  // Flashcard
+  "create-flashcard": CreateFlashcardModal,
 
   // Tag
   "delete-tag": DeleteTagModal,

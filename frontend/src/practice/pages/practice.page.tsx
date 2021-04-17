@@ -7,7 +7,7 @@ import random from "lodash/random";
 import styled from "styled-components";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
-import { IFact } from "../../fact/redux/fact.types";
+import { IFlashcard } from "../../flashcard/redux/flashcard.types";
 import { api } from "../../services/api.service";
 import { selectPracticeState } from "../redux/practice.selectors";
 import { useToggle } from "../../shared/hooks/use-toggle.hook";
@@ -21,15 +21,15 @@ import { SHeadingSubtitle } from "../../shared/styles/typography.style";
 import { SButtonGreen, SButtonRed, SButton } from "shared/styles/button.style";
 import { STextareaBase } from "shared/styles/form.style";
 import { useForm } from "../../shared/hooks/use-form.hook";
-import { updateFact } from "../../fact/redux/fact.thunks";
+import { updateFlashcard } from "../../flashcard/redux/flashcard.thunks";
 
 export const PracticePage: React.FC = () => {
   const practiceState = useSelector(selectPracticeState);
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [facts, setFacts] = useState<IFact[]>();
-  const [currentFactIndex, setCurrentFactIndex] = useState(-1);
+  const [flashcards, setFlashcards] = useState<IFlashcard[]>();
+  const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState(-1);
   const [answerShowing, toggleAnswerShowing] = useToggle(false);
   const { values, handleChange, setValues } = useForm({ responseText: "" });
 
@@ -39,67 +39,67 @@ export const PracticePage: React.FC = () => {
       return history.push("/materials");
     }
 
-    // don't load facts if already loaded
-    if (facts !== undefined) {
+    // don't load flashcards if already loaded
+    if (flashcards !== undefined) {
       return;
     }
 
-    interface IFactsResponse {
+    interface IFlashcardsResponse {
       data: {
-        facts: IFact[];
+        flashcards: IFlashcard[];
       };
     }
 
     let requestUrl: string;
     switch(practiceState.source) {
       case "all":
-        requestUrl = "/facts?mastered=false";
+        requestUrl = "/flashcards?mastered=false";
         break;
       case "material":
-        requestUrl = `/materials/${practiceState.id}/facts?mastered=false`;
+        requestUrl = `/materials/${practiceState.id}/flashcards?mastered=false`;
         break;
       case "section":
-        requestUrl = `/sections/${practiceState.id}/facts?mastered=false`;
+        requestUrl = `/sections/${practiceState.id}/flashcards?mastered=false`;
         break;
     }
 
-    api.get<IFactsResponse>(requestUrl)
+    api.get<IFlashcardsResponse>(requestUrl)
       .then(response => {
-        const rawFacts = response.data.data.facts;
+        const rawFlashcards = response.data.data.flashcards;
 
-        setFacts(shuffle(rawFacts));
-        setCurrentFactIndex(0);
+        setFlashcards(shuffle(rawFlashcards));
+        setCurrentFlashcardIndex(0);
       });
-  }, [practiceState, facts, history]);
+  }, [practiceState, flashcards, history]);
 
   function handleSuccess() {
-    setCurrentFactIndex(prevState => prevState + 1);
+    setCurrentFlashcardIndex(prevState => prevState + 1);
 
     handleToggle();
   }
 
   function handleFailure() {
-    if (!facts) return;
+    if (!flashcards) return;
 
-    // if current fact is the last item, do nothing
-    if (currentFactIndex === facts.length - 1) {
+    // if current flashcard is the last item, do nothing
+    if (currentFlashcardIndex === flashcards.length - 1) {
       return handleToggle();
     }
 
     // choose a random index in range(current+1, end of array)
-    let randomIndex = currentFactIndex;
-    while (randomIndex === currentFactIndex) {
+    let randomIndex = currentFlashcardIndex;
+    while (randomIndex === currentFlashcardIndex) {
       // keep looping until a different index is found
-      randomIndex = random(currentFactIndex+1, facts.length - 1);
+      randomIndex = random(currentFlashcardIndex+1, flashcards.length - 1);
     }
 
-    const factsCopy = [...facts];
-    const temp = factsCopy[currentFactIndex];
-    factsCopy[currentFactIndex] = factsCopy[randomIndex];
-    factsCopy[randomIndex] = temp;
+    const flashcardsCopy = [...flashcards];
+    const temp = flashcardsCopy[currentFlashcardIndex];
+    flashcardsCopy[currentFlashcardIndex] = flashcardsCopy[randomIndex];
+    flashcardsCopy[randomIndex] = temp;
 
-    // update facts array
-    setFacts(factsCopy);
+    // update flashcards array
+    setFlashcards(flashcardsCopy);
 
     // swap the items
     handleToggle();
@@ -115,29 +115,29 @@ export const PracticePage: React.FC = () => {
   }
 
   function handlePrevious() {
-    if (currentFactIndex === 0) return;
+    if (currentFlashcardIndex === 0) return;
     handleToggle();
 
-    setCurrentFactIndex(prevState => prevState - 1);
+    setCurrentFlashcardIndex(prevState => prevState - 1);
   }
 
   function handleMasteredClick() {
-    if (!facts) return;
-    const fact = facts[currentFactIndex];
+    if (!flashcards) return;
+    const flashcard = flashcards[currentFlashcardIndex];
 
-    dispatch(updateFact({
-      factId: fact.id,
-      sectionId: fact.section_id,
+    dispatch(updateFlashcard({
+      flashcardId: flashcard.id,
+      sectionId: flashcard.section_id,
       updates: {
         mastered: true
       }
     }));
 
-    // after mastering a fact, remove it
-    const updatedFacts = [...facts];
-    updatedFacts.splice(currentFactIndex, 1);
+    // after mastering a flashcard, remove it
+    const updatedFlashcards = [...flashcards];
+    updatedFlashcards.splice(currentFlashcardIndex, 1);
 
-    setFacts(updatedFacts);
+    setFlashcards(updatedFlashcards);
 
     if (answerShowing) {
       handleToggle();
@@ -145,8 +145,8 @@ export const PracticePage: React.FC = () => {
   }
 
   // render
-  function getNoFactsHeading() {
-    if (facts?.length !== 0) return;
+  function getNoFlashcardsHeading() {
+    if (flashcards?.length !== 0) return;
 
     return (
       <SCenterContainer>
@@ -164,24 +164,24 @@ export const PracticePage: React.FC = () => {
   }
 
   function getPracticeScreen() {
-    if (!facts) return;
-    const currentFact = facts[currentFactIndex];
+    if (!flashcards) return;
+    const currentFlashcard = flashcards[currentFlashcardIndex];
 
     return (
       <>
         <STextContainer>
           <SStudyHeading>{getStudyHeadingText()}</SStudyHeading>
           <SMasteredIcon icon={faStar} handleClick={handleMasteredClick} />
-          <STextCompact>{currentFactIndex + 1} / {facts.length}</STextCompact>
-          <SSectionNameLink as={Link} to={`/sections/${currentFact.section_id}`}>{currentFact.section_name}</SSectionNameLink>
+          <STextCompact>{currentFlashcardIndex + 1} / {flashcards.length}</STextCompact>
+          <SSectionNameLink as={Link} to={`/sections/${currentFlashcard.section_id}`}>{currentFlashcard.section_name}</SSectionNameLink>
           <SQuestionHeading>Question:</SQuestionHeading>
-          <SText>{currentFact.question}</SText>
+          <SText>{currentFlashcard.question}</SText>
 
           { answerShowing ? (
             <>
               <SAnswerHeading>Answer:</SAnswerHeading>
               <SMarkdownStyles>
-                <ReactMarkdown source={currentFact.answer} />
+                <ReactMarkdown source={currentFlashcard.answer} />
               </SMarkdownStyles>
             </>
           ) : (
@@ -201,7 +201,7 @@ export const PracticePage: React.FC = () => {
           {
             answerShowing ? (
               <>
-                <SButton disabled={currentFactIndex === 0} onClick={handlePrevious}>Previous</SButton>
+                <SButton disabled={currentFlashcardIndex === 0} onClick={handlePrevious}>Previous</SButton>
                 <SButtonGreen onClick={handleSuccess}>Success</SButtonGreen>
                 <SButtonRed onClick={handleFailure}>Fail</SButtonRed>
               </>
@@ -226,12 +226,12 @@ export const PracticePage: React.FC = () => {
     )
   }
 
-  if (!facts || currentFactIndex === -1) return <Loader />;
+  if (!flashcards || currentFlashcardIndex === -1) return <Loader />;
   return (
     <SContainer>
-      { facts.length === 0 && getNoFactsHeading() }
-      { facts.length > 0 && currentFactIndex < facts.length && getPracticeScreen() }
-      { facts.length > 0 && currentFactIndex === facts.length && getFinishedScreen() }
+      { flashcards.length === 0 && getNoFlashcardsHeading() }
+      { flashcards.length > 0 && currentFlashcardIndex < flashcards.length && getPracticeScreen() }
+      { flashcards.length > 0 && currentFlashcardIndex === flashcards.length && getFinishedScreen() }
     </SContainer>
   );
 }

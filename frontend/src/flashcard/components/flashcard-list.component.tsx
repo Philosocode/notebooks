@@ -5,10 +5,10 @@ import styled from "styled-components";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 // logic
-import { IFact } from "fact/redux/fact.types";
-import { selectFactsForSection } from "../redux/fact.selectors";
-import { deleteFact, getFacts, updateFact, updateFactPosition } from "../redux/fact.thunks";
-import { repositionFact } from "section/redux/section.slice";
+import { IFlashcard } from "flashcard/redux/flashcard.types";
+import { selectFlashcardsForSection } from "../redux/flashcard.selectors";
+import { deleteFlashcard, getFlashcards, updateFlashcard, updateFlashcardPosition } from "../redux/flashcard.thunks";
+import { repositionFlashcard } from "section/redux/section.slice";
 import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
 
 // components
@@ -28,20 +28,20 @@ interface IProps {
   sectionId: string;
 }
 
-export const FactList: React.FC<IProps> = ({ sectionId }) => {
+export const FlashcardList: React.FC<IProps> = ({ sectionId }) => {
   const dispatch = useDispatch();
-  const facts = useSelector(selectFactsForSection);
+  const flashcards = useSelector(selectFlashcardsForSection);
 
-  const { expandedHash, toggleEntityExpansion } = useExpandHash(facts ?? [], false);
+  const { expandedHash, toggleEntityExpansion } = useExpandHash(flashcards ?? [], false);
 
   useEffect(() => {
-    if (!facts) {
-      dispatch(getFacts(sectionId))
+    if (!flashcards) {
+      dispatch(getFlashcards(sectionId))
     }
-  }, [dispatch, sectionId, facts]);
+  }, [dispatch, sectionId, flashcards]);
 
   function handleDragEnd(result: DropResult) {
-    if (!facts) return;
+    if (!flashcards) return;
 
     const { source, destination } = result;
     if (!destination || destination.index === source.index) return;
@@ -49,16 +49,16 @@ export const FactList: React.FC<IProps> = ({ sectionId }) => {
     const oldIndex = source.index;
     const newIndex = destination.index;
 
-    dispatch(repositionFact({
+    dispatch(repositionFlashcard({
       ownerEntityId: sectionId,
       oldIndex,
       newIndex
     }));
 
     // async call to update position on backend
-    dispatch(updateFactPosition({
+    dispatch(updateFlashcardPosition({
       sectionId,
-      factId: facts[oldIndex].id,
+      flashcardId: flashcards[oldIndex].id,
       // positions in DB start at 1, not 0
       newPosition: newIndex + 1,
     }));
@@ -68,57 +68,57 @@ export const FactList: React.FC<IProps> = ({ sectionId }) => {
 
   function handleCreate() {
     dispatch(showModal({
-      modalType: "create-fact",
+      modalType: "create-flashcard",
       modalProps: {
         sectionId
       }
     }));
   }
 
-  function handleUpdate(factId: string, question?: string, answer?: string) {
+  function handleUpdate(flashcardId: string, question?: string, answer?: string) {
     const updates = { question, answer };
 
-    dispatch(updateFact({ sectionId, factId, updates }));
+    dispatch(updateFlashcard({ sectionId, flashcardId, updates }));
   }
 
-  function handleDelete(factId: string) {
-    dispatch(deleteFact({ factId, sectionId }));
+  function handleDelete(flashcardId: string) {
+    dispatch(deleteFlashcard({ flashcardId, sectionId }));
   }
 
-  function toggleFactMastered(fact: IFact) {
-    const newValue = !fact.mastered;
+  function toggleFlashcardMastered(flashcard: IFlashcard) {
+    const newValue = !flashcard.mastered;
 
-    dispatch(updateFact({
+    dispatch(updateFlashcard({
       sectionId,
-      factId: fact.id,
+      flashcardId: flashcard.id,
       updates: { mastered: newValue }
     }));
   }
 
-  if (!facts) return null;
+  if (!flashcards) return null;
   return (
     <SContainer>
-      <SHeadingSubSubtitle># Flashcards: {facts.length}</SHeadingSubSubtitle>
+      <SHeadingSubSubtitle># Flashcards: {flashcards.length}</SHeadingSubSubtitle>
 
-      {facts.length === 0 && <SNoItemsHeading>No flashcards found...</SNoItemsHeading>}
+      {flashcards.length === 0 && <SNoItemsHeading>No flashcards found...</SNoItemsHeading>}
       <DragAndDropWrapper droppableId="flashcard-list-droppable" handleDragEnd={handleDragEnd}>
         <SContentBoxList>
-          {facts.map((fact, index) => (
-            <DraggableWrapper key={fact.id} draggableId={fact.id} dragDisabled={false} index={index}>
+          {flashcards.map((flashcard, index) => (
+            <DraggableWrapper key={flashcard.id} draggableId={flashcard.id} dragDisabled={false} index={index}>
               <EditableContentBox
-                entityId={fact.id}
+                entityId={flashcard.id}
                 handleDelete={handleDelete}
                 handleUpdate={handleUpdate}
                 index={index}
-                content={fact.answer}
-                title={fact.question}
-                isExpanded={expandedHash[fact.id]}
+                content={flashcard.answer}
+                title={flashcard.question}
+                isExpanded={expandedHash[flashcard.id]}
                 toggleIsExpanded={toggleEntityExpansion}
                 headerSlot={
                   <SIcon
                     icon={faCheck}
-                    mastered={fact.mastered}
-                    handleClick={() => toggleFactMastered(fact)}
+                    mastered={flashcard.mastered}
+                    handleClick={() => toggleFlashcardMastered(flashcard)}
                   />
                 }
               />

@@ -36,7 +36,7 @@ export const NoteList: React.FC<IProps> = ({ sectionId }) => {
   const [menuShowing, toggleMenu] = useToggle(false);
   const menuActions: IMenuAction[] = [
     { name: "Note", icon: faStickyNote, action: handleCreateNote },
-    { name: "Flashcard", icon: faQuestionCircle, action: handleCreateFact },
+    { name: "Flashcard", icon: faQuestionCircle, action: handleCreateFlashcard },
     { name: "Concept", icon: faLightbulb, action: handleCreateConcept },
   ];
 
@@ -68,9 +68,9 @@ export const NoteList: React.FC<IProps> = ({ sectionId }) => {
     dispatch(createNote({ sectionId }));
   }
 
-  function handleCreateFact() {
+  function handleCreateFlashcard() {
     dispatch(showModal({
-      modalType: "create-fact",
+      modalType: "create-flashcard",
       modalProps: {
         sectionId
       }

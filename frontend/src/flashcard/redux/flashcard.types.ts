@@ -1,4 +1,4 @@
-export interface IFact {
+export interface IFlashcard {
   id: string;
   question: string;
   answer: string;
@@ -8,8 +8,8 @@ export interface IFact {
 }
 
 // SEE: https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape
-export interface IFactState {
-  facts: {
-    [key: string]: IFact;
+export interface IFlashcardState {
+  flashcards: {
+    [key: string]: IFlashcard;
   };
 }

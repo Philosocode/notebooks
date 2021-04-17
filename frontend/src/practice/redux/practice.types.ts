@@ -1,6 +1,6 @@
-export type TFactSource = "all" | "material" | "section";
+export type TFlashcardSource = "all" | "material" | "section";
 
 export interface IPracticeState {
   id: string;
-  source: TFactSource;
+  source: TFlashcardSource;
 }

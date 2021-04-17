@@ -13,7 +13,7 @@ export type TModalType =
   | "delete-tag"
   | "update-tag"
 
-  | "create-fact"
+  | "create-flashcard"
 
   | "create-named-entity"
   | "update-named-entity"

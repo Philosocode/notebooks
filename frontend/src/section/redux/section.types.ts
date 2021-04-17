@@ -5,7 +5,7 @@ export interface ISection {
   updated_at: string;
   checklist: ISectionChecklist;
   noteIds?: string[];
-  factIds?: string[];
+  flashcardIds?: string[];
   conceptIds?: string[];
   material_id: string;
 }

@@ -21,7 +21,7 @@ import welcomeSvg from "shared/assets/undraw-welcome.svg";
 import materialsImage from "shared/assets/materials.jpg";
 import sectionsImage from "shared/assets/sections.jpg";
 import notesImage from "shared/assets/notes.jpg";
-import factsImage from "shared/assets/facts.jpg";
+import flashcardsImage from "shared/assets/flashcards.jpg";
 import practiceImage from "shared/assets/practice.jpg";
 import conceptsImage from "shared/assets/concepts.jpg";
 import hooksImage from "shared/assets/hooks.jpg";
@@ -199,7 +199,7 @@ const notes = (
   </>
 );
 
-const facts = (
+const flashcards = (
   <>
     <SHeadingSubSubtitle>Section - Flashcards</SHeadingSubSubtitle>
     <SBodyText>
@@ -212,7 +212,7 @@ const facts = (
       If you mark a flashcard as mastered, you won't see it in practice mode.
     </SBodyText>
     <SBodyText>A section can have many flashcards.</SBodyText>
-    <SImageShadow src={factsImage} />
+    <SImageShadow src={flashcardsImage} />
   </>
 );
 
@@ -303,7 +303,7 @@ const steps: { [key: string]: React.ReactNode } = {
   2: materials,
   3: sections,
   4: notes,
-  5: facts,
+  5: flashcards,
   6: practice,
   7: concepts,
   8: hooks,
