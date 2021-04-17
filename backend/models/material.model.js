@@ -9,7 +9,7 @@ module.exports = {
   getMaterials,
   updateMaterial,
 
-  getFactsForMaterial,
+  getFlashcardsForMaterial,
 };
 
 async function createMaterial(user_id, name, tagNames, connection=db) {
@@ -83,15 +83,15 @@ async function updateMaterial(material_id, updates, connection=db) {
   });
 }
 
-async function getFactsForMaterial(material_id, mastered, connection=db) {
+async function getFlashcardsForMaterial(material_id, mastered, connection=db) {
   const filter = {
     "part.material_id": material_id,
-    ...(mastered !== undefined && { "fact.mastered": mastered })
+    ...(mastered !== undefined && { "flashcard.mastered": mastered })
   };
 
-  return connection("fact")
-    .select(["fact.id", "fact.question", "fact.answer", "fact.mastered", "fact.part_id", "part.name AS part_name"])
-    .join("part", "part.id", "fact.part_id")
+  return connection("flashcard")
+    .select(["flashcard.id", "flashcard.question", "flashcard.answer", "flashcard.mastered", "flashcard.part_id", "part.name AS part_name"])
+    .join("part", "part.id", "flashcard.part_id")
     .where(filter)
-    .orderBy("fact.position");
+    .orderBy("flashcard.position");
 }

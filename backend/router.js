@@ -53,8 +53,8 @@ const getMaterial = require("./handlers/material/get-material.handler");
 const getMaterials = require("./handlers/material/get-materials.handler");
 const updateMaterial = require("./handlers/material/update-material.handler");
 
-const getFactsForMaterial = require("./handlers/material/get-facts-for-material.handler");
-const getFactsForPart = require("./handlers/part/get-facts-for-part.handler");
+const getFlashcardsForMaterial = require("./handlers/material/get-flashcards-for-material.handler");
+const getFlashcardsForPart = require("./handlers/part/get-flashcards-for-part.handler");
 
 // Material Tags
 const getTagsForMaterial = require("./handlers/material-tag/get-tags-for-material");
@@ -79,13 +79,13 @@ const createConceptPart = require("./handlers/concept-part/create-concept-part.h
 const getConceptParts = require("./handlers/concept-part/get-concept-parts.handler");
 const deleteConceptPart = require("./handlers/concept-part/delete-concept-part.handler");
 
-// Facts
-const createFact = require("./handlers/fact/create-fact.handler");
-const getFacts = require("./handlers/fact/get-facts.handler");
-const getFactsForUser = require("./handlers/fact/get-facts-for-user.handler");
-const updateFact = require("./handlers/fact/update-fact.handler");
-const deleteFact = require("./handlers/fact/delete-fact.handler");
-const deleteFacts = require("./handlers/fact/delete-facts.handler");
+// Flashcards
+const createFlashcard = require("./handlers/flashcard/create-flashcard.handler");
+const getFlashcards = require("./handlers/flashcard/get-flashcards.handler");
+const getFlashcardsForUser = require("./handlers/flashcard/get-flashcards-for-user.handler");
+const updateFlashcard = require("./handlers/flashcard/update-flashcard.handler");
+const deleteFlashcard = require("./handlers/flashcard/delete-flashcard.handler");
+const deleteFlashcards = require("./handlers/flashcard/delete-flashcards.handler");
 
 // Note
 const createNote = require("./handlers/note/create-note.handler");
@@ -203,8 +203,8 @@ router.route("/materials/:materialId/tags/:tagName")
 router.route("/materials/:materialId/concepts")
   .get(materialExistsMiddleware, getConceptsForMaterial)
 
-router.route("/materials/:materialId/facts")
-  .get(materialExistsMiddleware, getFactsForMaterial)
+router.route("/materials/:materialId/flashcards")
+  .get(materialExistsMiddleware, getFlashcardsForMaterial)
 
 // Material Parts
 router.route("/materials/:materialId/parts")
@@ -223,24 +223,24 @@ router.route("/parts/:partId/links")
   .get(userOwnsPartMiddleware, getConceptParts)
   .post(userOwnsPartMiddleware, createConceptPart)
 
-router.route("/parts/:partId/facts")
-  .get(userOwnsPartMiddleware, getFactsForPart)
+router.route("/parts/:partId/flashcards")
+  .get(userOwnsPartMiddleware, getFlashcardsForPart)
 
 router.route("/parts/:partId/links/:conceptId")
   .delete(userOwnsPartMiddleware, conceptExistsMiddleware, deleteConceptPart)
 
-// Part Facts
-router.route("/facts")
-  .get(getFactsForUser)
+// Part Flashcards
+router.route("/flashcards")
+  .get(getFlashcardsForUser)
 
-router.route("/parts/:partId/facts")
-  .get(userOwnsPartMiddleware, getFacts)
-  .post(userOwnsPartMiddleware, createFact)
-  .delete(userOwnsPartMiddleware, deleteFacts)
+router.route("/parts/:partId/flashcards")
+  .get(userOwnsPartMiddleware, getFlashcards)
+  .post(userOwnsPartMiddleware, createFlashcard)
+  .delete(userOwnsPartMiddleware, deleteFlashcards)
 
-router.route("/parts/:partId/facts/:factId")
-  .patch(updateFact)
-  .delete(deleteFact)
+router.route("/parts/:partId/flashcards/:flashcardId")
+  .patch(updateFlashcard)
+  .delete(deleteFlashcard)
 
 // Notes
 router.route("/parts/:partId/notes")

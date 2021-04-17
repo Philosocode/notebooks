@@ -3,7 +3,7 @@ const { shiftPositions, getMaxPosition } = require("./common.model");
 const { defaultPartChecklist } = require("../handlers/part/part.common");
 const { deleteNotes, deleteNotesForMaterial } = require("./note.model");
 const { deleteConceptPartsForPart, deleteConceptPartsForMaterial } = require("./concept-part.model");
-const { deleteFacts, deleteFactsForMaterial } = require("./fact.model");
+const { deleteFlashcards, deleteFlashcardsForMaterial } = require("./flashcard.model");
 
 module.exports = {
   createPart,
@@ -13,7 +13,7 @@ module.exports = {
   deletePart,
   deleteParts,
   userOwnsPart,
-  getFactsForPart,
+  getFlashcardsForPart,
 };
 
 // Referenced: https://medium.com/the-missing-bit/keeping-an-ordered-collection-in-postgresql-9da0348c4bbe
@@ -103,8 +103,8 @@ async function deletePart(part_id, connection=db) {
     // delete notes for part
     await deleteNotes(part_id, trx);
 
-    // delete facts for part
-    await deleteFacts(part_id);
+    // delete flashcards for part
+    await deleteFlashcards(part_id);
 
     await trx("part").where({ id: part_id }).del();
 
@@ -121,24 +121,24 @@ async function deleteParts(material_id, connection=db) {
     await deleteConceptPartsForMaterial(material_id, trx);
 
     // delete flashcards for material ID
-    await deleteFactsForMaterial(material_id, trx);
+    await deleteFlashcardsForMaterial(material_id, trx);
 
     // delete all parts for material ID
     await trx("part").where({ material_id }).del();
   })
 }
 
-async function getFactsForPart(part_id, mastered, connection=db) {
+async function getFlashcardsForPart(part_id, mastered, connection=db) {
   const filter = {
-    "fact.part_id": part_id,
-    ...(mastered !== undefined && { "fact.mastered": mastered })
+    "flashcard.part_id": part_id,
+    ...(mastered !== undefined && { "flashcard.mastered": mastered })
   };
 
-  return connection("fact")
-    .select(["fact.id", "fact.question", "fact.answer", "fact.mastered", "fact.part_id", "part.name AS part_name"])
+  return connection("flashcard")
+    .select(["flashcard.id", "flashcard.question", "flashcard.answer", "flashcard.mastered", "flashcard.part_id", "part.name AS part_name"])
     .where(filter)
-    .join("part", "part.id", "fact.part_id")
-    .orderBy("fact.position");
+    .join("part", "part.id", "flashcard.part_id")
+    .orderBy("flashcard.position");
 }
 
 /* HELPERS */

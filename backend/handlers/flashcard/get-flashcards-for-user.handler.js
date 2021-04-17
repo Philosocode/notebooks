@@ -1,11 +1,10 @@
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
-const { getFactsForPart, getPart } = require("../../models/part.model");
+const { getFlashcardsForUser } = require("../../models/flashcard.model");
 
 module.exports = catchAsync(async function (req, res) {
-  const { partId } = req.params;
-
   let mastered;
+
   if (req.query.mastered) {
     if (req.query.mastered === "true") {
       mastered = true;
@@ -14,7 +13,7 @@ module.exports = catchAsync(async function (req, res) {
     }
   }
 
-  let factsForPart = await getFactsForPart(partId, mastered);
+  const flashcards = await getFlashcardsForUser(req.user.id, mastered);
 
-  sendResponse(res, 200, { facts: factsForPart });
+  sendResponse(res, 200, { flashcards });
 });

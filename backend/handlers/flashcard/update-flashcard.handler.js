@@ -2,16 +2,16 @@ const AppError = require("../../utils/app-error.util");
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
 const { entityExists } = require("../../models/common.model");
-const { updateFact } = require("../../models/fact.model");
+const { updateFlashcard } = require("../../models/flashcard.model");
 const { getValidInsertPosition } = require("../../models/common.model");
 
 module.exports = catchAsync(async function (req, res, next) {
-  const { partId, factId } = req.params;
+  const { partId, flashcardId } = req.params;
 
   // validations
-  const factExists = await entityExists("fact", { part_id: partId, id: factId });
-  if (!factExists) {
-    return next(new AppError("Fact with that ID not found.", 404));
+  const flashcardExists = await entityExists("flashcard", { part_id: partId, id: flashcardId });
+  if (!flashcardExists) {
+    return next(new AppError("Flashcard with that ID not found.", 404));
   }
 
   // check if at least 1 update-able property included
@@ -49,14 +49,14 @@ module.exports = catchAsync(async function (req, res, next) {
 
   if (typeof position === "number") {
     updates.position = await getValidInsertPosition(
-      "fact", 
+      "flashcard", 
       { part_id: partId }, 
       position,
       false
     );
   }
 
-  await updateFact(partId, factId, updates);
+  await updateFlashcard(partId, flashcardId, updates);
 
   sendResponse(res, 204);
 });

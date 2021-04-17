@@ -1,6 +1,6 @@
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
-const { getFactsForMaterial } = require("../../models/material.model");
+const { getFlashcardsForMaterial } = require("../../models/material.model");
 
 module.exports = catchAsync(async function (req, res) {
   const { materialId } = req.params;
@@ -14,7 +14,7 @@ module.exports = catchAsync(async function (req, res) {
     }
   }
 
-  const factsForMaterial = await getFactsForMaterial(materialId, mastered);
+  const flashcardsForMaterial = await getFlashcardsForMaterial(materialId, mastered);
 
-  sendResponse(res, 200, { facts: factsForMaterial });
+  sendResponse(res, 200, { flashcards: flashcardsForMaterial });
 });
