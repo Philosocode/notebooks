@@ -3,7 +3,7 @@ import { createPart, deletePart, getPart, getParts, updatePart, updatePartCheckl
 import omit from "lodash/omit";
 
 import { IPartState } from "./part.types";
-import { createSection, deleteSection, getSections } from "../../section/redux/section.thunks";
+import { createNote, deleteNote, getNotes } from "note/redux/note.thunks";
 import { IRepositionEntityPayload } from "../../shared/types.shared";
 import { createConceptPart, deleteConceptPart, getConceptParts } from "../../concept-link/redux/concept-link.thunks";
 import { createFact, deleteFact, getFacts } from "fact/redux/fact.thunks";
@@ -20,14 +20,14 @@ const partSlice = createSlice({
     setCurrentPartId: (state, action: PayloadAction<string>) => {
       state.currentPartId = action.payload;
     },
-    repositionSection: (state, action: PayloadAction<IRepositionEntityPayload>) => {
+    repositionNote: (state, action: PayloadAction<IRepositionEntityPayload>) => {
       const { ownerEntityId: partId, oldIndex, newIndex } = action.payload;
 
       const part = state.parts[partId];
-      if (!part.sectionIds) return;
+      if (!part.noteIds) return;
 
-      const [sectionIdToMove] = part.sectionIds.splice(oldIndex, 1);
-      part.sectionIds.splice(newIndex, 0, sectionIdToMove);
+      const [noteIdToMove] = part.noteIds.splice(oldIndex, 1);
+      part.noteIds.splice(newIndex, 0, noteIdToMove);
     },
     repositionFact: (state, action: PayloadAction<IRepositionEntityPayload>) => {
       const { ownerEntityId: partId, oldIndex, newIndex } = action.payload;
@@ -73,32 +73,32 @@ const partSlice = createSlice({
         state.parts = omit(state.parts, [part.id]);
       })
       
-      /* Sections */
-      .addCase(createSection.fulfilled, (state, action) => {
-        const { partId, section } = action.payload;
+      /* Notes */
+      .addCase(createNote.fulfilled, (state, action) => {
+        const { partId, note } = action.payload;
 
         const part = state.parts[partId];
         if (!part) return;
-        if (!part.sectionIds) part.sectionIds = [];
+        if (!part.noteIds) part.noteIds = [];
 
-        part.sectionIds.push(section.id);
+        part.noteIds.push(note.id);
       })
-      .addCase(getSections.fulfilled, (state, action) => {
-        const { partId, sections } = action.payload;
+      .addCase(getNotes.fulfilled, (state, action) => {
+        const { partId, notes } = action.payload;
 
-        const sectionIds = sections.map(s => s.id);
+        const noteIds = notes.map(s => s.id);
 
-        state.parts[partId].sectionIds = sectionIds;
+        state.parts[partId].noteIds = noteIds;
       })
-      .addCase(deleteSection.fulfilled, (state, action) => {
-        const { partId, sectionId } = action.payload;
+      .addCase(deleteNote.fulfilled, (state, action) => {
+        const { partId, noteId } = action.payload;
 
         const part = state.parts[partId];
         if (part === undefined) return;
 
-        if (!part.sectionIds) return;
+        if (!part.noteIds) return;
 
-        part.sectionIds = part.sectionIds.filter(id => id !== sectionId);
+        part.noteIds = part.noteIds.filter(id => id !== noteId);
       })
 
       /* Facts */
@@ -161,5 +161,5 @@ export const partReducer = partSlice.reducer;
 export const {
   setCurrentPartId,
   repositionFact,
-  repositionSection,
+  repositionNote,
 } = partSlice.actions;

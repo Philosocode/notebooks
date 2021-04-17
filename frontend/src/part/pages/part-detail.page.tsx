@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { selectCurrentPart, selectPartHash } from "../redux/part.selectors";
 import { setCurrentPartId } from "../redux/part.slice";
 import { getPart } from "../redux/part.thunks";
-import { getSections } from "../../section/redux/section.thunks";
+import { getNotes } from "../../note/redux/note.thunks";
 
 // components
 import { ConceptParts } from "../components/concept-parts.component";
@@ -14,7 +14,7 @@ import { PartDetailHeader } from "../components/part-detail-header.component";
 import { TabNames } from "../../shared/components/nav/tab-names.component";
 import { Tab } from "../../shared/components/nav/tab.component";
 import { PartChecklist } from "../components/part-checklist.component";
-import { SectionList } from "../../section/components/section-list.component";
+import { NoteList } from "../../note/components/note-list.component";
 import { FactList } from "fact/components/fact-list.component";
 
 // styles
@@ -49,12 +49,12 @@ export const PartDetailPage: React.FC = () => {
   useEffect(() => {
     if (!currentPart) return;
 
-    if (!currentPart.sectionIds) {
-      dispatch(getSections(partId));
+    if (!currentPart.noteIds) {
+      dispatch(getNotes(partId));
     }
   }, [currentPart, dispatch, partId]);
 
-  if (!currentPart?.sectionIds) return null;
+  if (!currentPart?.noteIds) return null;
   return (
     <SDetailPageContent>
       <PartDetailHeader part={currentPart} />
@@ -63,7 +63,7 @@ export const PartDetailPage: React.FC = () => {
       <div>
         <Tab title="Notes" selectedTab={selectedTab}>
           <PartChecklist part={currentPart} />
-          <SectionList partId={currentPart.id} />
+          <NoteList partId={currentPart.id} />
         </Tab>
         <Tab title="Flashcards" selectedTab={selectedTab}>
           <FactList partId={partId} />

@@ -101,7 +101,7 @@ export const FactList: React.FC<IProps> = ({ partId }) => {
       <SHeadingSubSubtitle># Flashcards: {facts.length}</SHeadingSubSubtitle>
 
       {facts.length === 0 && <SNoItemsHeading>No flashcards found...</SNoItemsHeading>}
-      <DragAndDropWrapper droppableId="section-list-droppable" handleDragEnd={handleDragEnd}>
+      <DragAndDropWrapper droppableId="flashcard-list-droppable" handleDragEnd={handleDragEnd}>
         <SContentBoxList>
           {facts.map((fact, index) => (
             <DraggableWrapper key={fact.id} draggableId={fact.id} dragDisabled={false} index={index}>

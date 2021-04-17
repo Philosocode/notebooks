@@ -22,7 +22,7 @@ export const DeletePartModal: FC<IProps> = ({ materialId, part, handleClose }) =
   }
   
   const trimmedName = trimString(part.name, 50);
-  const modalText = "You are about to delete this section: " + trimmedName;
+  const modalText = "You are about to delete this note: " + trimmedName;
 
   return (
     <ConfirmationModal

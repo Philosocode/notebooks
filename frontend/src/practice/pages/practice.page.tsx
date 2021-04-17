@@ -158,7 +158,7 @@ export const PracticePage: React.FC = () => {
 
   function getStudyHeadingText() {
     if (practiceState.source === "material") return "Studying flashcards in notebook";
-    if (practiceState.source === "part") return "Studying flashcards in section";
+    if (practiceState.source === "part") return "Studying flashcards in note";
 
     return "Studying all flashcards";
   }

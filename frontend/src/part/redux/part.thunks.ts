@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { IPart } from "./part.types";
 import { api } from "services/api.service";
-import { createSection } from "../../section/redux/section.thunks";
+import { createNote } from "note/redux/note.thunks";
 
 interface IGetPartsResponse {
   status: string;
@@ -70,7 +70,7 @@ export const createPart = createAsyncThunk(
       });
       const createdPart = res.data.data.part;
 
-      thunkAPI.dispatch(createSection({
+      thunkAPI.dispatch(createNote({
         partId: createdPart.id,
         initialValues: {
           name: "Summary",

@@ -6,9 +6,9 @@ import styled from "styled-components";
 
 // logic
 import { IMenuAction, Menu } from "../../shared/components/menu/menu.component";
-import { selectSectionsForPart } from "../redux/section.selectors";
-import { createSection, deleteSection, updateSection, updateSectionPosition } from "../redux/section.thunks";
-import { repositionSection } from "part/redux/part.slice";
+import { selectNotesForPart } from "../redux/note.selectors";
+import { createNote, deleteNote, updateNote, updateNotePosition } from "../redux/note.thunks";
+import { repositionNote } from "part/redux/part.slice";
 import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
 import { useToggle } from "../../shared/hooks/use-toggle.hook";
 import { showModal } from "modal/redux/modal.slice";
@@ -27,21 +27,21 @@ import { SContentBoxList } from "../../shared/components/info/content-box.style"
 interface IProps {
   partId: string;
 }
-export const SectionList: React.FC<IProps> = ({ partId }) => {
+export const NoteList: React.FC<IProps> = ({ partId }) => {
   const dispatch = useDispatch();
-  const sections = useSelector(selectSectionsForPart);
+  const notes = useSelector(selectNotesForPart);
 
-  const { expandedHash, toggleEntityExpansion } = useExpandHash(sections ?? [], true);
+  const { expandedHash, toggleEntityExpansion } = useExpandHash(notes ?? [], true);
 
   const [menuShowing, toggleMenu] = useToggle(false);
   const menuActions: IMenuAction[] = [
-    { name: "Note", icon: faStickyNote, action: handleCreateSection },
+    { name: "Note", icon: faStickyNote, action: handleCreateNote },
     { name: "Flashcard", icon: faQuestionCircle, action: handleCreateFact },
     { name: "Concept", icon: faLightbulb, action: handleCreateConcept },
   ];
 
   function handleDragEnd(result: DropResult) {
-    if (!sections) return;
+    if (!notes) return;
 
     const { source, destination } = result;
     if (!destination || destination.index === source.index) return;
@@ -49,23 +49,23 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
     const oldIndex = source.index;
     const newIndex = destination.index;
 
-    dispatch(repositionSection({
+    dispatch(repositionNote({
       ownerEntityId: partId,
       oldIndex,
       newIndex
     }));
 
     // async call to update position on backend
-    dispatch(updateSectionPosition({
+    dispatch(updateNotePosition({
       partId,
-      sectionId: sections[oldIndex].id,
+      noteId: notes[oldIndex].id,
       // positions in DB start at 1, not 0
       newPosition: newIndex + 1,
     }));
   }
 
-  function handleCreateSection() {
-    dispatch(createSection({ partId }));
+  function handleCreateNote() {
+    dispatch(createNote({ partId }));
   }
 
   function handleCreateFact() {
@@ -83,37 +83,37 @@ export const SectionList: React.FC<IProps> = ({ partId }) => {
     }));
   }
 
-  function handleUpdate(sectionId: string, name?: string, content?: string) {
+  function handleUpdate(noteId: string, name?: string, content?: string) {
     const updates = { name, content };
-    dispatch(updateSection({
+    dispatch(updateNote({
       partId,
-      sectionId,
+      noteId,
       updates,
     }));
   }
 
-  function handleDelete(sectionId: string) {
-    dispatch(deleteSection({ sectionId, partId }));
+  function handleDelete(noteId: string) {
+    dispatch(deleteNote({ noteId, partId }));
   }
 
-  if (!sections) return null;
+  if (!notes) return null;
   return (
     <SContainer>
-      <SHeadingSubSubtitle># Notes: {sections.length}</SHeadingSubSubtitle>
+      <SHeadingSubSubtitle># Notes: {notes.length}</SHeadingSubSubtitle>
 
-      {sections.length === 0 && <SNoItemsHeading>No sections found...</SNoItemsHeading>}
-      <DragAndDropWrapper droppableId="section-list-droppable" handleDragEnd={handleDragEnd}>
+      {notes.length === 0 && <SNoItemsHeading>No notes found...</SNoItemsHeading>}
+      <DragAndDropWrapper droppableId="note-list-droppable" handleDragEnd={handleDragEnd}>
         <SContentBoxList>
-          {sections.map((section, index) => (
-            <DraggableWrapper key={section.id} draggableId={section.id} index={index} dragDisabled={false}>
+          {notes.map((note, index) => (
+            <DraggableWrapper key={note.id} draggableId={note.id} index={index} dragDisabled={false}>
               <EditableContentBox
-                entityId={section.id}
+                entityId={note.id}
                 handleDelete={handleDelete}
                 handleUpdate={handleUpdate}
                 index={index}
-                content={section.content}
-                title={section.name}
-                isExpanded={expandedHash[section.id]}
+                content={note.content}
+                title={note.name}
+                isExpanded={expandedHash[note.id]}
                 toggleIsExpanded={toggleEntityExpansion}
               />
             </DraggableWrapper>

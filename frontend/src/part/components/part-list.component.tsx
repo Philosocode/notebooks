@@ -69,7 +69,7 @@ export const PartList: React.FC<IProps> = ({ materialId }) => {
     <DragAndDropWrapper droppableId="part-list-droppable" handleDragEnd={handleDragEnd}>
       <SList>
         {materialParts.length === 0 && (
-          <SHeadingSubSubtitle weight={500}>No sections found...</SHeadingSubSubtitle>
+          <SHeadingSubSubtitle weight={500}>No notes found...</SHeadingSubSubtitle>
         )}
         {materialParts.map((part, index) => (
           <PartListItem

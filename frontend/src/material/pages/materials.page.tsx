@@ -69,7 +69,7 @@ export const MaterialsPage: React.FC = () => {
         setCurrentTag={setCurrentTag}
         setUncategorized={setIsUncategorized}
       />
-      <SConceptSection>
+      <SSection>
         <SPaddedContainer>
           <SHeadingSubtitle>Notebooks</SHeadingSubtitle>
           <SortFilterControls
@@ -88,7 +88,7 @@ export const MaterialsPage: React.FC = () => {
           icon="plus"
           handleClick={showCreateMaterialModal}
         />
-      </SConceptSection>
+      </SSection>
     </SPage>
   );
 };
@@ -97,7 +97,7 @@ const SPage = styled.div`
   display: flex;
 `;
 
-const SConceptSection = styled.section`
+const SSection = styled.section`
   width: 100%;
   height: calc(100vh - ${theme.componentSizes.navbarHeight});
   overflow: auto;
