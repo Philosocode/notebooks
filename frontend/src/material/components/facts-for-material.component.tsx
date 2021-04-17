@@ -27,7 +27,7 @@ export const FactsForMaterial: React.FC<IProps> = ({ material }) => {
   interface IFactHash {
     [key: string]: IFact[];
   }
-  // key: part name, value: list of facts
+  // key: section name, value: list of facts
   const [factsForMaterial, setFactsForMaterial] = useState<IFact[]>();
   const {
     expandedHash,
@@ -60,7 +60,7 @@ export const FactsForMaterial: React.FC<IProps> = ({ material }) => {
     const factIndex = factsForMaterial.findIndex(f => f.id === factId);
     const fact = factsForMaterial[factIndex];
 
-    dispatch(updateFact({ partId: fact.part_id, factId, updates }));
+    dispatch(updateFact({ sectionId: fact.section_id, factId, updates }));
 
     updateLocalFact(factId, updates);
   }
@@ -71,7 +71,7 @@ export const FactsForMaterial: React.FC<IProps> = ({ material }) => {
     const factIndex = factsForMaterial.findIndex(f => f.id === factId);
     const factToUpdate = factsForMaterial[factIndex];
 
-    dispatch(deleteFact({ factId, partId: factToUpdate.part_id }));
+    dispatch(deleteFact({ factId, sectionId: factToUpdate.section_id }));
 
     setFactsForMaterial(factsForMaterial.filter(f => f.id !== factId));
   }
@@ -82,7 +82,7 @@ export const FactsForMaterial: React.FC<IProps> = ({ material }) => {
     const newValue = !fact.mastered;
 
     dispatch(updateFact({
-      partId: fact.part_id,
+      sectionId: fact.section_id,
       factId: fact.id,
       updates: { mastered: newValue }
     }));
@@ -106,11 +106,11 @@ export const FactsForMaterial: React.FC<IProps> = ({ material }) => {
 
   const factHash = useMemo(() => {
     return factsForMaterial?.reduce<IFactHash>((hash, fact) => {
-      if (!hash[fact.part_name]) {
-        hash[fact.part_name] = [];
+      if (!hash[fact.section_name]) {
+        hash[fact.section_name] = [];
       }
 
-      hash[fact.part_name].push(fact);
+      hash[fact.section_name].push(fact);
 
       return hash;
     }, {})
@@ -123,14 +123,14 @@ export const FactsForMaterial: React.FC<IProps> = ({ material }) => {
       { factsForMaterial.length === 0 && <SHeadingSubSubtitle weight={500}>No flashcards found.</SHeadingSubSubtitle> }
 
       {
-        Object.keys(factHash).map((partName, index) => (
-          <SFactList key={partName + index}>
-            <SPartHeading
+        Object.keys(factHash).map((sectionName, index) => (
+          <SFactList key={sectionName + index}>
+            <SSectionHeading
               as={Link}
-              to={`/parts/${factHash[partName][0].part_id}`}
-            >{partName}: {factHash[partName].length} Flashcard{factHash[partName].length > 1 && "s"}</SPartHeading>
+              to={`/sections/${factHash[sectionName][0].section_id}`}
+            >{sectionName}: {factHash[sectionName].length} Flashcard{factHash[sectionName].length > 1 && "s"}</SSectionHeading>
             <SList>
-              {factHash[partName].map((fact, index) => (
+              {factHash[sectionName].map((fact, index) => (
                 <EditableContentBox
                   key={fact.id}
                   entityId={fact.id}
@@ -171,7 +171,7 @@ const SFactList = styled.div`
   margin-top: ${theme.spacing.lg};
 `;
 
-const SPartHeading = styled(SHeadingSubSubtitle)`
+const SSectionHeading = styled(SHeadingSubSubtitle)`
   font-weight: 500;
   display: inline-block;
   text-decoration: underline;

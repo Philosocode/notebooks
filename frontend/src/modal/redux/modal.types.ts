@@ -7,8 +7,8 @@ export type TModalType =
   | "delete-material"
   | "update-material"
 
-  | "update-part"
-  | "delete-part"
+  | "update-section"
+  | "delete-section"
 
   | "delete-tag"
   | "update-tag"

@@ -4,7 +4,7 @@ import { IFact } from "./fact.types";
 import { api } from "../../services/api.service";
 
 interface ICreateFactPayload {
-  partId: string;
+  sectionId: string;
   initialValues: {
     question: string;
     answer: string;
@@ -19,15 +19,15 @@ interface ICreateFactResponse {
 export const createFact = createAsyncThunk(
   "fact/createFact",
   async function (payload: ICreateFactPayload, thunkAPI) {
-    const { initialValues, partId } = payload;
+    const { initialValues, sectionId } = payload;
     try {
       const response = await api.post<ICreateFactResponse>(
-        `/parts/${partId}/facts`, initialValues
+        `/sections/${sectionId}/facts`, initialValues
       );
 
       const { fact } = response.data.data;
 
-      return { fact, partId };
+      return { fact, sectionId };
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
@@ -42,12 +42,12 @@ interface IGetFactsResponse {
 }
 export const getFacts = createAsyncThunk(
   "fact/getFacts",
-  async function (partId: string, thunkAPI) {
+  async function (sectionId: string, thunkAPI) {
     try {
-      const response = await api.get<IGetFactsResponse>(`/parts/${partId}/facts`);
+      const response = await api.get<IGetFactsResponse>(`/sections/${sectionId}/facts`);
       const { facts } = response.data.data;
 
-      return { facts, partId };
+      return { facts, sectionId };
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
@@ -55,7 +55,7 @@ export const getFacts = createAsyncThunk(
 );
 
 export interface IUpdateFactPayload {
-  partId: string;
+  sectionId: string;
   factId: string;
   updates: {
     question?: string;
@@ -66,10 +66,10 @@ export interface IUpdateFactPayload {
 export const updateFact = createAsyncThunk(
   "fact/updateFact",
   async function (payload: IUpdateFactPayload, thunkAPI) {
-    const { partId, factId, updates } = payload;
+    const { sectionId, factId, updates } = payload;
 
     try {
-      await api.patch(`/parts/${partId}/facts/${factId}`, updates);
+      await api.patch(`/sections/${sectionId}/facts/${factId}`, updates);
 
       return payload;
     } catch (err) {
@@ -79,17 +79,17 @@ export const updateFact = createAsyncThunk(
 );
 
 interface IUpdateFactPosition {
-  partId: string;
+  sectionId: string;
   factId: string;
   newPosition: number;
 }
 export const updateFactPosition = createAsyncThunk(
   "fact/updateFactPosition",
   async function (payload: IUpdateFactPosition, thunkAPI) {
-    const {partId, factId, newPosition } = payload;
+    const {sectionId, factId, newPosition } = payload;
 
     try {
-      await api.patch(`/parts/${partId}/facts/${factId}`, { position: newPosition });
+      await api.patch(`/sections/${sectionId}/facts/${factId}`, { position: newPosition });
     } catch(err) {
       return thunkAPI.rejectWithValue(err);
     }
@@ -97,16 +97,16 @@ export const updateFactPosition = createAsyncThunk(
 );
 
 interface IDeleteFactPayload {
-  partId: string;
+  sectionId: string;
   factId: string;
 }
 export const deleteFact = createAsyncThunk(
   "fact/deleteFact",
   async function (payload: IDeleteFactPayload, thunkAPI) {
-    const { partId, factId } = payload;
+    const { sectionId, factId } = payload;
 
     try {
-      await api.delete(`/parts/${partId}/facts/${factId}`);
+      await api.delete(`/sections/${sectionId}/facts/${factId}`);
 
       return payload;
     } catch (err) {

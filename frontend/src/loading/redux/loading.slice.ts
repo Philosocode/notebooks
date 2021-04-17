@@ -8,7 +8,7 @@ import {
 
 import { ILoadingState } from "./loading.types";
 import { updateHookPosition } from "hook/redux/hook.thunks";
-import { updatePartChecklist, updatePartPosition } from "part/redux/part.thunks";
+import { updateSectionChecklist, updateSectionPosition } from "section/redux/section.thunks";
 import { updateNotePosition } from "note/redux/note.thunks";
 import { updateFact, updateFactPosition } from "fact/redux/fact.thunks";
 
@@ -21,8 +21,8 @@ const initialState: ILoadingState = {
 
 const loadingMatcherBlacklist = [
   updateHookPosition.pending.type,
-  updatePartPosition.pending.type,
-  updatePartChecklist.pending.type,
+  updateSectionPosition.pending.type,
+  updateSectionChecklist.pending.type,
   updateNotePosition.pending.type,
   updateFactPosition.pending.type,
   updateFact.pending.type,

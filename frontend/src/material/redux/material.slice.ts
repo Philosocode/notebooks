@@ -4,7 +4,7 @@ import omit from "lodash/omit";
 import { IMaterial, IMaterialState } from "./material.types";
 import { createMaterial, deleteMaterial, getMaterials, updateMaterial } from "./material.thunks";
 import { deleteMaterialTag, deleteTagFromMaterial, updateMaterialTag } from "./material-tag.thunk";
-import { createPart, deletePart, getPart, getParts } from "part/redux/part.thunks";
+import { createSection, deleteSection, getSection, getSections } from "section/redux/section.thunks";
 import { IRepositionEntityPayload } from "shared/types.shared";
 
 const initialState: IMaterialState = {
@@ -19,14 +19,14 @@ const materialSlice = createSlice({
     setCurrentMaterialId: (state, action: PayloadAction<string>) => {
       state.currentMaterialId = action.payload;
     },
-    repositionPart: (state, action: PayloadAction<IRepositionEntityPayload>) => {
+    repositionSection: (state, action: PayloadAction<IRepositionEntityPayload>) => {
       const { ownerEntityId: materialId, oldIndex, newIndex } = action.payload;
 
-      const partIds = state.materials[materialId].partIds;
-      if (!partIds) return;
+      const sectionIds = state.materials[materialId].sectionIds;
+      if (!sectionIds) return;
 
-      const [partToReposition] = partIds.splice(oldIndex, 1);
-      partIds.splice(newIndex, 0, partToReposition);
+      const [sectionToReposition] = sectionIds.splice(oldIndex, 1);
+      sectionIds.splice(newIndex, 0, sectionToReposition);
     }
   },
   extraReducers: (builder) => {
@@ -96,49 +96,49 @@ const materialSlice = createSlice({
         });
       })
 
-      /* Parts */
-      .addCase(getParts.fulfilled, (state, action) => {
-        const { materialId, parts } = action.payload;
+      /* Sections */
+      .addCase(getSections.fulfilled, (state, action) => {
+        const { materialId, sections } = action.payload;
 
         const materialToUpdate = state.materials[materialId];
-        const partIds = parts.map(part => part.id);
+        const sectionIds = sections.map(section => section.id);
 
-        if (!materialToUpdate.partIds) materialToUpdate.partIds = [];
-        materialToUpdate.partIds.push(...partIds);
+        if (!materialToUpdate.sectionIds) materialToUpdate.sectionIds = [];
+        materialToUpdate.sectionIds.push(...sectionIds);
       })
-      .addCase(getPart.fulfilled, (state, action) => {
-        const { part } = action.payload;
+      .addCase(getSection.fulfilled, (state, action) => {
+        const { section } = action.payload;
 
-        const materialToUpdate = state.materials[part.material_id];
+        const materialToUpdate = state.materials[section.material_id];
         if (!materialToUpdate) return;
 
-        if (!materialToUpdate.partIds) materialToUpdate.partIds = [];
+        if (!materialToUpdate.sectionIds) materialToUpdate.sectionIds = [];
 
-        materialToUpdate.partIds.push(part.id);
+        materialToUpdate.sectionIds.push(section.id);
       })
-      .addCase(createPart.fulfilled, (state, action) => {
-        const { materialId, part } = action.payload;
+      .addCase(createSection.fulfilled, (state, action) => {
+        const { materialId, section } = action.payload;
 
         const materialToUpdate = state.materials[materialId];
 
-        if (!materialToUpdate.partIds) materialToUpdate.partIds = [];
-        materialToUpdate.partIds.push(part.id);
+        if (!materialToUpdate.sectionIds) materialToUpdate.sectionIds = [];
+        materialToUpdate.sectionIds.push(section.id);
       })
-      .addCase(deletePart.fulfilled, (state, action) => {
-        const { materialId, part } = action.payload;
+      .addCase(deleteSection.fulfilled, (state, action) => {
+        const { materialId, section } = action.payload;
 
         const materialToUpdate = state.materials[materialId];
 
-        if (!materialToUpdate.partIds) return;
+        if (!materialToUpdate.sectionIds) return;
 
-        // remove the part ID from the array
-        const partIdIndex = materialToUpdate.partIds.findIndex(id => id === part.id);
-        if (partIdIndex === -1) return;
+        // remove the section ID from the array
+        const sectionIdIndex = materialToUpdate.sectionIds.findIndex(id => id === section.id);
+        if (sectionIdIndex === -1) return;
 
-        materialToUpdate.partIds.splice(partIdIndex, 1);
+        materialToUpdate.sectionIds.splice(sectionIdIndex, 1);
       })
   },
 });
 
 export const materialReducer = materialSlice.reducer;
-export const { setCurrentMaterialId, repositionPart } = materialSlice.actions;
+export const { setCurrentMaterialId, repositionSection } = materialSlice.actions;

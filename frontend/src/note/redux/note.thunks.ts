@@ -4,7 +4,7 @@ import { INote } from "./note.types";
 import { api } from "../../services/api.service";
 
 interface ICreateNotePayload {
-  partId: string;
+  sectionId: string;
   initialValues?: {
     name: string;
     content: string;
@@ -19,16 +19,16 @@ interface ICreateNoteResponse {
 export const createNote = createAsyncThunk(
   "note/createNote",
   async function (payload: ICreateNotePayload, thunkAPI) {
-    const { initialValues, partId } = payload;
+    const { initialValues, sectionId } = payload;
     try {
       const response = await api.post<ICreateNoteResponse>(
-        `/parts/${partId}/notes`,
+        `/sections/${sectionId}/notes`,
         initialValues ?? { name: "", content: "" }
       );
 
       const { note } = response.data.data;
 
-      return { note, partId };
+      return { note, sectionId };
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
@@ -43,12 +43,12 @@ interface IGetNotesResponse {
 }
 export const getNotes = createAsyncThunk(
   "note/getNotes",
-  async function (partId: string, thunkAPI) {
+  async function (sectionId: string, thunkAPI) {
     try {
-      const response = await api.get<IGetNotesResponse>(`/parts/${partId}/notes`);
+      const response = await api.get<IGetNotesResponse>(`/sections/${sectionId}/notes`);
       const { notes } = response.data.data;
 
-      return { notes, partId };
+      return { notes, sectionId };
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
@@ -56,7 +56,7 @@ export const getNotes = createAsyncThunk(
 );
 
 export interface IUpdateNotePayload {
-  partId: string;
+  sectionId: string;
   noteId: string;
   updates: {
     name?: string;
@@ -66,10 +66,10 @@ export interface IUpdateNotePayload {
 export const updateNote = createAsyncThunk(
   "note/updateNote",
   async function (payload: IUpdateNotePayload, thunkAPI) {
-    const { partId, noteId, updates } = payload;
+    const { sectionId, noteId, updates } = payload;
 
     try {
-      await api.patch(`/parts/${partId}/notes/${noteId}`, { ...updates });
+      await api.patch(`/sections/${sectionId}/notes/${noteId}`, { ...updates });
 
       return payload;
     } catch (err) {
@@ -79,17 +79,17 @@ export const updateNote = createAsyncThunk(
 );
 
 interface IUpdateNotePosition {
-  partId: string;
+  sectionId: string;
   noteId: string;
   newPosition: number;
 }
 export const updateNotePosition = createAsyncThunk(
   "note/updateNotePosition",
   async function (payload: IUpdateNotePosition, thunkAPI) {
-    const {partId, noteId, newPosition } = payload;
+    const {sectionId, noteId, newPosition } = payload;
 
     try {
-      await api.patch(`/parts/${partId}/notes/${noteId}`, { position: newPosition });
+      await api.patch(`/sections/${sectionId}/notes/${noteId}`, { position: newPosition });
     } catch(err) {
       return thunkAPI.rejectWithValue(err);
     }
@@ -97,16 +97,16 @@ export const updateNotePosition = createAsyncThunk(
 );
 
 interface IDeleteNotePayload {
-  partId: string;
+  sectionId: string;
   noteId: string;
 }
 export const deleteNote = createAsyncThunk(
   "note/deleteNote",
   async function (payload: IDeleteNotePayload, thunkAPI) {
-    const { partId, noteId } = payload;
+    const { sectionId, noteId } = payload;
 
     try {
-      await api.delete(`/parts/${partId}/notes/${noteId}`);
+      await api.delete(`/sections/${sectionId}/notes/${noteId}`);
 
       return payload;
     } catch (err) {

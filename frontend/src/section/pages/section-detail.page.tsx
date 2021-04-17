@@ -3,17 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 // logic
-import { selectCurrentPart, selectPartHash } from "../redux/part.selectors";
-import { setCurrentPartId } from "../redux/part.slice";
-import { getPart } from "../redux/part.thunks";
+import { selectCurrentPart, selectPartHash } from "../redux/section.selectors";
+import { setCurrentPartId } from "../redux/section.slice";
+import { getPart } from "../redux/section.thunks";
 import { getNotes } from "../../note/redux/note.thunks";
 
 // components
-import { ConceptParts } from "../components/concept-parts.component";
-import { PartDetailHeader } from "../components/part-detail-header.component";
+import { ConceptSectionLinks } from "../components/concept-section-links.component";
+import { PartDetailHeader } from "../components/section-detail-header.component";
 import { TabNames } from "../../shared/components/nav/tab-names.component";
 import { Tab } from "../../shared/components/nav/tab.component";
-import { PartChecklist } from "../components/part-checklist.component";
+import { PartChecklist } from "../components/section-checklist.component";
 import { NoteList } from "../../note/components/note-list.component";
 import { FactList } from "fact/components/fact-list.component";
 
@@ -21,55 +21,55 @@ import { FactList } from "fact/components/fact-list.component";
 import { SDetailPageContent } from "shared/styles/layout.style";
 
 interface IMatchParams {
-  partId: string;
+  sectionId: string;
 }
-export const PartDetailPage: React.FC = () => {
+export const SectionDetailPage: React.FC = () => {
   const dispatch = useDispatch();
-  const partHash = useSelector(selectPartHash);
+  const sectionHash = useSelector(selectPartHash);
   const currentPart = useSelector(selectCurrentPart);
 
-  const { partId } = useParams<IMatchParams>();
+  const { sectionId } = useParams<IMatchParams>();
 
   const tabNames = ["Notes", "Flashcards", "Concept Links"];
   const [selectedTab, setSelectedTab] = useState(tabNames[0]);
 
   useEffect(() => {
-    if (currentPart?.id === partId) return;
+    if (currentPart?.id === sectionId) return;
 
-    const partExists = partHash.hasOwnProperty(partId);
-    if (partExists) {
-      dispatch(setCurrentPartId(partId));
+    const sectionExists = sectionHash.hasOwnProperty(sectionId);
+    if (sectionExists) {
+      dispatch(setCurrentPartId(sectionId));
       setSelectedTab("Notes");
     } else {
-      dispatch(getPart(partId));
-      dispatch(setCurrentPartId(partId));
+      dispatch(getPart(sectionId));
+      dispatch(setCurrentPartId(sectionId));
     }
-  }, [currentPart, partHash, partId, dispatch]);
+  }, [currentPart, sectionHash, sectionId, dispatch]);
 
   useEffect(() => {
     if (!currentPart) return;
 
     if (!currentPart.noteIds) {
-      dispatch(getNotes(partId));
+      dispatch(getNotes(sectionId));
     }
-  }, [currentPart, dispatch, partId]);
+  }, [currentPart, dispatch, sectionId]);
 
   if (!currentPart?.noteIds) return null;
   return (
     <SDetailPageContent>
-      <PartDetailHeader part={currentPart} />
+      <PartDetailHeader section={currentPart} />
 
       <TabNames tabNames={tabNames} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       <div>
         <Tab title="Notes" selectedTab={selectedTab}>
-          <PartChecklist part={currentPart} />
-          <NoteList partId={currentPart.id} />
+          <PartChecklist section={currentPart} />
+          <NoteList sectionId={currentPart.id} />
         </Tab>
         <Tab title="Flashcards" selectedTab={selectedTab}>
-          <FactList partId={partId} />
+          <FactList sectionId={sectionId} />
         </Tab>
         <Tab title="Concept Links" selectedTab={selectedTab}>
-          <ConceptParts part={currentPart} />
+          <ConceptSectionLinks section={currentPart} />
         </Tab>
       </div>
     </SDetailPageContent>

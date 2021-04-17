@@ -1,24 +1,24 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 
-import { IPart } from "part/redux/part.types";
+import { ISection } from "section/redux/section.types";
 import { IModalProps } from "modal/redux/modal.types";
-import { updatePart } from "part/redux/part.thunks";
+import { updateSection } from "section/redux/section.thunks";
 
 import { UpdateNamedEntityModal } from "shared/components/modal/update-named-entity.modal";
 
 interface IProps extends IModalProps {
   materialId: string;
-  part: IPart;
+  section: ISection;
 }
-export const UpdatePartModal: React.FC<IProps> = ({ handleClose, materialId, part }) => {
+export const UpdateSectionModal: React.FC<IProps> = ({ handleClose, materialId, section }) => {
   const dispatch = useDispatch();
 
   function handleUpdate(newName: string) {
     dispatch(
-      updatePart({
+      updateSection({
         materialId,
-        partId: part.id,
+        sectionId: section.id,
         name: newName,
       })
     );
@@ -26,7 +26,7 @@ export const UpdatePartModal: React.FC<IProps> = ({ handleClose, materialId, par
 
   return (
     <UpdateNamedEntityModal
-      currentName={part.name}
+      currentName={section.name}
       entityName="Section"
       handleClose={handleClose}
       updateEntity={handleUpdate}

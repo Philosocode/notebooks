@@ -21,8 +21,8 @@ import { UpdateTagModal } from "tag/components/update-tag-modal.component";
 
 import { CreateNamedEntityModal } from "shared/components/modal/create-named-entity-modal.component";
 import { UpdateNamedEntityModal } from "shared/components/modal/update-named-entity.modal";
-import { UpdatePartModal } from "../../part/components/update-part-modal.component";
-import { DeletePartModal } from "../../part/components/delete-part-modal.component";
+import { UpdateSectionModal } from "../../section/components/update-section-modal.component";
+import { DeleteSectionModal } from "../../section/components/delete-section-modal.component";
 import { CreateFactModal } from "../../fact/components/create-fact-modal.component";
 
 type TModalComponents = {
@@ -40,9 +40,9 @@ const MODAL_COMPONENTS: TModalComponents = {
   "update-material": UpdateMaterialModal,
   "delete-material": DeleteMaterialModal,
 
-  // Part
-  "update-part": UpdatePartModal,
-  "delete-part": DeletePartModal,
+  // Section
+  "update-section": UpdateSectionModal,
+  "delete-section": DeleteSectionModal,
 
   // Fact
   "create-fact": CreateFactModal,

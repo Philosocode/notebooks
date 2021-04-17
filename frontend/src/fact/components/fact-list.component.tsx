@@ -6,9 +6,9 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 // logic
 import { IFact } from "fact/redux/fact.types";
-import { selectFactsForPart } from "../redux/fact.selectors";
+import { selectFactsForSection } from "../redux/fact.selectors";
 import { deleteFact, getFacts, updateFact, updateFactPosition } from "../redux/fact.thunks";
-import { repositionFact } from "part/redux/part.slice";
+import { repositionFact } from "section/redux/section.slice";
 import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
 
 // components
@@ -25,20 +25,20 @@ import { showModal } from "../../modal/redux/modal.slice";
 import { SContentBoxList } from "../../shared/components/info/content-box.style";
 
 interface IProps {
-  partId: string;
+  sectionId: string;
 }
 
-export const FactList: React.FC<IProps> = ({ partId }) => {
+export const FactList: React.FC<IProps> = ({ sectionId }) => {
   const dispatch = useDispatch();
-  const facts = useSelector(selectFactsForPart);
+  const facts = useSelector(selectFactsForSection);
 
   const { expandedHash, toggleEntityExpansion } = useExpandHash(facts ?? [], false);
 
   useEffect(() => {
     if (!facts) {
-      dispatch(getFacts(partId))
+      dispatch(getFacts(sectionId))
     }
-  }, [dispatch, partId, facts]);
+  }, [dispatch, sectionId, facts]);
 
   function handleDragEnd(result: DropResult) {
     if (!facts) return;
@@ -50,14 +50,14 @@ export const FactList: React.FC<IProps> = ({ partId }) => {
     const newIndex = destination.index;
 
     dispatch(repositionFact({
-      ownerEntityId: partId,
+      ownerEntityId: sectionId,
       oldIndex,
       newIndex
     }));
 
     // async call to update position on backend
     dispatch(updateFactPosition({
-      partId,
+      sectionId,
       factId: facts[oldIndex].id,
       // positions in DB start at 1, not 0
       newPosition: newIndex + 1,
@@ -70,7 +70,7 @@ export const FactList: React.FC<IProps> = ({ partId }) => {
     dispatch(showModal({
       modalType: "create-fact",
       modalProps: {
-        partId
+        sectionId
       }
     }));
   }
@@ -78,18 +78,18 @@ export const FactList: React.FC<IProps> = ({ partId }) => {
   function handleUpdate(factId: string, question?: string, answer?: string) {
     const updates = { question, answer };
 
-    dispatch(updateFact({ partId, factId, updates }));
+    dispatch(updateFact({ sectionId, factId, updates }));
   }
 
   function handleDelete(factId: string) {
-    dispatch(deleteFact({ factId, partId }));
+    dispatch(deleteFact({ factId, sectionId }));
   }
 
   function toggleFactMastered(fact: IFact) {
     const newValue = !fact.mastered;
 
     dispatch(updateFact({
-      partId,
+      sectionId,
       factId: fact.id,
       updates: { mastered: newValue }
     }));

@@ -1,4 +1,4 @@
-export interface IConceptPart {
+export interface IConceptSection {
   concept_id: string;
-  part_id: string;
+  section_id: string;
 }

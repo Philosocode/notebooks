@@ -1,4 +1,4 @@
-export type TFactSource = "all" | "material" | "part";
+export type TFactSource = "all" | "material" | "section";
 
 export interface IPracticeState {
   id: string;

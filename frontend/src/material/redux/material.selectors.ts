@@ -1,8 +1,8 @@
 import { createSelector } from "@reduxjs/toolkit";
 
 import { TAppState } from "shared/redux/store";
-import { IPart } from "part/redux/part.types";
-import { selectPartHash } from "part/redux/part.selectors";
+import { ISection } from "section/redux/section.types";
+import { selectSectionHash } from "section/redux/section.selectors";
 
 const selectMaterialState = (state: TAppState) => state.material;
 
@@ -43,15 +43,15 @@ export const selectMaterialTags = createSelector(
   }
 );
 
-export const selectMaterialParts = createSelector(
-  [selectCurrentMaterial, selectPartHash],
-  (material, partHash) => {
-    const partsForMaterial = material?.partIds?.reduce<IPart[]>((acc, partId) => {
-      acc.push(partHash[partId]);
+export const selectMaterialSections = createSelector(
+  [selectCurrentMaterial, selectSectionHash],
+  (material, sectionHash) => {
+    const sectionsForMaterial = material?.sectionIds?.reduce<ISection[]>((acc, sectionId) => {
+      acc.push(sectionHash[sectionId]);
 
       return acc;
     }, []);
 
-    return partsForMaterial;
+    return sectionsForMaterial;
   }
 )

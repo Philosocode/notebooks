@@ -6,9 +6,9 @@ import styled from "styled-components";
 
 // logic
 import { IMenuAction, Menu } from "../../shared/components/menu/menu.component";
-import { selectNotesForPart } from "../redux/note.selectors";
+import { selectNotesForSection } from "../redux/note.selectors";
 import { createNote, deleteNote, updateNote, updateNotePosition } from "../redux/note.thunks";
-import { repositionNote } from "part/redux/part.slice";
+import { repositionNote } from "section/redux/section.slice";
 import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
 import { useToggle } from "../../shared/hooks/use-toggle.hook";
 import { showModal } from "modal/redux/modal.slice";
@@ -25,11 +25,11 @@ import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 import { SContentBoxList } from "../../shared/components/info/content-box.style";
 
 interface IProps {
-  partId: string;
+  sectionId: string;
 }
-export const NoteList: React.FC<IProps> = ({ partId }) => {
+export const NoteList: React.FC<IProps> = ({ sectionId }) => {
   const dispatch = useDispatch();
-  const notes = useSelector(selectNotesForPart);
+  const notes = useSelector(selectNotesForSection);
 
   const { expandedHash, toggleEntityExpansion } = useExpandHash(notes ?? [], true);
 
@@ -50,14 +50,14 @@ export const NoteList: React.FC<IProps> = ({ partId }) => {
     const newIndex = destination.index;
 
     dispatch(repositionNote({
-      ownerEntityId: partId,
+      ownerEntityId: sectionId,
       oldIndex,
       newIndex
     }));
 
     // async call to update position on backend
     dispatch(updateNotePosition({
-      partId,
+      sectionId,
       noteId: notes[oldIndex].id,
       // positions in DB start at 1, not 0
       newPosition: newIndex + 1,
@@ -65,14 +65,14 @@ export const NoteList: React.FC<IProps> = ({ partId }) => {
   }
 
   function handleCreateNote() {
-    dispatch(createNote({ partId }));
+    dispatch(createNote({ sectionId }));
   }
 
   function handleCreateFact() {
     dispatch(showModal({
       modalType: "create-fact",
       modalProps: {
-        partId
+        sectionId
       }
     }));
   }
@@ -86,14 +86,14 @@ export const NoteList: React.FC<IProps> = ({ partId }) => {
   function handleUpdate(noteId: string, name?: string, content?: string) {
     const updates = { name, content };
     dispatch(updateNote({
-      partId,
+      sectionId,
       noteId,
       updates,
     }));
   }
 
   function handleDelete(noteId: string) {
-    dispatch(deleteNote({ noteId, partId }));
+    dispatch(deleteNote({ noteId, sectionId }));
   }
 
   if (!notes) return null;

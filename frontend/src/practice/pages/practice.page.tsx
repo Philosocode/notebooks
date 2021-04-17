@@ -58,8 +58,8 @@ export const PracticePage: React.FC = () => {
       case "material":
         requestUrl = `/materials/${practiceState.id}/facts?mastered=false`;
         break;
-      case "part":
-        requestUrl = `/parts/${practiceState.id}/facts?mastered=false`;
+      case "section":
+        requestUrl = `/sections/${practiceState.id}/facts?mastered=false`;
         break;
     }
 
@@ -127,7 +127,7 @@ export const PracticePage: React.FC = () => {
 
     dispatch(updateFact({
       factId: fact.id,
-      partId: fact.part_id,
+      sectionId: fact.section_id,
       updates: {
         mastered: true
       }
@@ -158,7 +158,7 @@ export const PracticePage: React.FC = () => {
 
   function getStudyHeadingText() {
     if (practiceState.source === "material") return "Studying flashcards in notebook";
-    if (practiceState.source === "part") return "Studying flashcards in note";
+    if (practiceState.source === "section") return "Studying flashcards in note";
 
     return "Studying all flashcards";
   }
@@ -173,7 +173,7 @@ export const PracticePage: React.FC = () => {
           <SStudyHeading>{getStudyHeadingText()}</SStudyHeading>
           <SMasteredIcon icon={faStar} handleClick={handleMasteredClick} />
           <STextCompact>{currentFactIndex + 1} / {facts.length}</STextCompact>
-          <SPartNameLink as={Link} to={`/parts/${currentFact.part_id}`}>{currentFact.part_name}</SPartNameLink>
+          <SSectionNameLink as={Link} to={`/sections/${currentFact.section_id}`}>{currentFact.section_name}</SSectionNameLink>
           <SQuestionHeading>Question:</SQuestionHeading>
           <SText>{currentFact.question}</SText>
 
@@ -319,7 +319,7 @@ const SCenterContainer = styled.div`
   text-align: center;
 `;
 
-const SPartNameLink = styled(STextCompact)`
+const SSectionNameLink = styled(STextCompact)`
   font-weight: bold;
   text-decoration: underline;
   

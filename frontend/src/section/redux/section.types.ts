@@ -1,9 +1,9 @@
-export interface IPart {
+export interface ISection {
   id: string;
   name: string;
   created_at: string;
   updated_at: string;
-  checklist: IPartChecklist;
+  checklist: ISectionChecklist;
   noteIds?: string[];
   factIds?: string[];
   conceptIds?: string[];
@@ -11,13 +11,13 @@ export interface IPart {
 }
 
 // SEE: https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape
-export interface IPartState {
-  parts: {
-    [key: string]: IPart;
+export interface ISectionState {
+  sections: {
+    [key: string]: ISection;
   };
-  currentPartId?: string;
+  currentSectionId?: string;
 }
 
-export interface IPartChecklist {
+export interface ISectionChecklist {
   [key: string]: boolean;
 }

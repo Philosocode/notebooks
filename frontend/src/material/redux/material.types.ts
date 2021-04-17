@@ -1,4 +1,4 @@
-import { IPart } from "part/redux/part.types";
+import { ISection } from "section/redux/section.types";
 
 export interface IMaterial {
   id: string;
@@ -7,7 +7,7 @@ export interface IMaterial {
   updated_at: string;
   user_id: string;
   tags: string[];
-  partIds?: string[];
+  sectionIds?: string[];
 }
 
 export interface IMaterialHash {

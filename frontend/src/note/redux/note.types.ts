@@ -4,7 +4,7 @@ export interface INote {
   content: string;
   created_at: string;
   updated_at: string;
-  part_id: string;
+  section_id: string;
 }
 
 // SEE: https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape

@@ -2,26 +2,26 @@ import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 
 import { IModalProps } from "../../modal/redux/modal.types";
-import { IPart } from "part/redux/part.types";
+import { ISection } from "section/redux/section.types";
 import { trimString } from "shared/utils/string.util";
-import { deletePart } from "part/redux/part.thunks";
+import { deleteSection } from "section/redux/section.thunks";
 
 import { ConfirmationModal } from "modal/components/confirmation-modal.component";
 
 interface IProps extends IModalProps {
   materialId: string;
-  part: IPart;
+  section: ISection;
 }
-export const DeletePartModal: FC<IProps> = ({ materialId, part, handleClose }) => {
+export const DeleteSectionModal: FC<IProps> = ({ materialId, section, handleClose }) => {
   const dispatch = useDispatch();
 
   function handleDelete() {
-    dispatch(deletePart({ materialId, part }));
+    dispatch(deleteSection({ materialId, section }));
 
     handleClose();
   }
   
-  const trimmedName = trimString(part.name, 50);
+  const trimmedName = trimString(section.name, 50);
   const modalText = "You are about to delete this note: " + trimmedName;
 
   return (

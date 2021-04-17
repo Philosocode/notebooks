@@ -4,13 +4,13 @@ import { DropResult } from "react-beautiful-dnd";
 import styled from "styled-components";
 
 // logic
-import { createPart, getParts, updatePartPosition } from "part/redux/part.thunks";
-import { selectCurrentMaterial, selectMaterialParts } from "material/redux/material.selectors";
-import { repositionPart } from "material/redux/material.slice";
+import { createSection, getSections, updateSectionPosition } from "section/redux/section.thunks";
+import { selectCurrentMaterial, selectMaterialSections } from "material/redux/material.selectors";
+import { repositionSection } from "material/redux/material.slice";
 
 // components
 import { DragAndDropWrapper } from "shared/components/drag-and-drop/drag-and-drop-wrapper.component";
-import { PartListItem } from "./part-list-item.component";
+import { SectionListItem } from "./section-list-item.component";
 import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
 
 // styles
@@ -22,22 +22,22 @@ import { CreateNamedEntityModal } from "../../shared/components/modal/create-nam
 interface IProps {
   materialId: string;
 }
-export const PartList: React.FC<IProps> = ({ materialId }) => {
+export const SectionList: React.FC<IProps> = ({ materialId }) => {
   const dispatch = useDispatch();
   const currentMaterial = useSelector(selectCurrentMaterial);
-  const materialParts = useSelector(selectMaterialParts);
+  const materialSections = useSelector(selectMaterialSections);
 
   // modal states
   const [createModalShowing, toggleCreateModalShowing] = useToggle(false);
 
   useEffect(() => {
-    if (currentMaterial && !currentMaterial.partIds) {
-      dispatch(getParts(materialId));
+    if (currentMaterial && !currentMaterial.sectionIds) {
+      dispatch(getSections(materialId));
     }
   }, [currentMaterial, dispatch, materialId]);
 
   function handleCreate(name: string) {
-    dispatch(createPart({ name, materialId }));
+    dispatch(createSection({ name, materialId }));
   }
 
   function handleDragEnd(result: DropResult) {
@@ -47,34 +47,34 @@ export const PartList: React.FC<IProps> = ({ materialId }) => {
     const oldIndex = source.index;
     const newIndex = destination.index;
 
-    dispatch(repositionPart({
+    dispatch(repositionSection({
       ownerEntityId: materialId,
       oldIndex,
       newIndex
     }));
 
-    if (!materialParts) return;
+    if (!materialSections) return;
 
     // async call to update position on backend
-    dispatch(updatePartPosition({
+    dispatch(updateSectionPosition({
       materialId,
-      partId: materialParts[oldIndex].id,
+      sectionId: materialSections[oldIndex].id,
       // positions in DB start at 1, not 0
       newPosition: newIndex + 1,
     }));
   }
 
-  if (materialParts === undefined) return null;
+  if (materialSections === undefined) return null;
   return (
-    <DragAndDropWrapper droppableId="part-list-droppable" handleDragEnd={handleDragEnd}>
+    <DragAndDropWrapper droppableId="section-list-droppable" handleDragEnd={handleDragEnd}>
       <SList>
-        {materialParts.length === 0 && (
+        {materialSections.length === 0 && (
           <SHeadingSubSubtitle weight={500}>No notes found...</SHeadingSubSubtitle>
         )}
-        {materialParts.map((part, index) => (
-          <PartListItem
-            part={part}
-            key={part.id}
+        {materialSections.map((section, index) => (
+          <SectionListItem
+            section={section}
+            key={section.id}
             index={index}
             materialId={materialId}
           />

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
-import { IPart } from "part/redux/part.types";
+import { ISection } from "section/redux/section.types";
 import { IMenuAction, Menu } from "../../shared/components/menu/menu.component";
 import { useToggle } from "../../shared/hooks/use-toggle.hook";
 import { showModal } from "modal/redux/modal.slice";
@@ -16,28 +16,28 @@ import { theme } from "shared/styles/theme.style";
 interface IProps {
   index: number;
   materialId: string;
-  part: IPart;
+  section: ISection;
 }
-export const PartListItem: React.FC<IProps> = ({ index, materialId, part }) => {
+export const SectionListItem: React.FC<IProps> = ({ index, materialId, section }) => {
   const dispatch = useDispatch();
   const [menuShowing, toggleMenuShowing] = useToggle(false);
 
   function handleUpdate() {
     dispatch(showModal({
-      modalType: "update-part",
+      modalType: "update-section",
       modalProps: {
         materialId,
-        part,
+        section,
       }
     }))
   }
 
   function handleDelete() {
     dispatch(showModal({
-      modalType: "delete-part",
+      modalType: "delete-section",
       modalProps: {
         materialId,
-        part,
+        section,
       }
     }))
   }
@@ -48,15 +48,15 @@ export const PartListItem: React.FC<IProps> = ({ index, materialId, part }) => {
   ];
 
   return (
-    <Draggable draggableId={part.id} index={index} isDragDisabled={false}>
+    <Draggable draggableId={section.id} index={index} isDragDisabled={false}>
       {provided => (
         <SContainer
-          to={`/parts/${part.id}`}
+          to={`/sections/${section.id}`}
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <SName>{part.name}</SName>
+          <SName>{section.name}</SName>
           <div>
             <CircleIcon handleClick={toggleMenuShowing} icon="ellipsis-v" />
             <SMenuContainer>

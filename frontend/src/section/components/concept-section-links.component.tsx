@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo } from "react";
 
-import { IPart } from "../redux/part.types";
+import { ISection } from "../redux/section.types";
 import { useDispatch, useSelector } from "react-redux";
-import { createConceptPart, deleteConceptPart, getConceptParts } from "../../concept-link/redux/concept-link.thunks";
+import { createConceptSection, deleteConceptSection, getConceptSections } from "../../concept-link/redux/concept-link.thunks";
 import { selectConceptHash } from "../../concept/redux/concept.selectors";
 import { selectConceptsLoaded } from "../../shared/redux/init.selectors";
 import { getConcepts } from "../../concept/redux/concept.thunks";
@@ -15,9 +15,9 @@ import { CreateConceptLinkModal } from "concept-link/components/create-concept-l
 import { sortEntitiesByKey } from "../../shared/utils/entity.util";
 
 interface IProps {
-  part: IPart;
+  section: ISection;
 }
-export const ConceptParts: React.FC<IProps> = ({ part }) => {
+export const ConceptSectionLinks: React.FC<IProps> = ({ section }) => {
   const dispatch = useDispatch();
   const conceptsLoaded = useSelector(selectConceptsLoaded);
   const conceptHash = useSelector(selectConceptHash);
@@ -32,37 +32,36 @@ export const ConceptParts: React.FC<IProps> = ({ part }) => {
   }, [conceptsLoaded, dispatch]);
 
   useEffect(() => {
-    if (!part.conceptIds) {
-      dispatch(getConceptParts(part.id));
+    if (!section.conceptIds) {
+      dispatch(getConceptSections(section.id));
     }
-  }, [part, dispatch]);
+  }, [section, dispatch]);
 
   function handleCreate(conceptId: string) {
-    dispatch(createConceptPart({
+    dispatch(createConceptSection({
       conceptId,
-      part,
+      section,
     }));
   }
 
   function handleDelete(_: string, conceptId: string) {
-    dispatch(deleteConceptPart({
+    dispatch(deleteConceptSection({
       conceptId,
-      part,
+      section,
     }));
   }
 
   const linkGridItems = useMemo(() => {
-    if (!part.conceptIds || Object.keys(conceptHash).length === 0) return [];
+    if (!section.conceptIds || Object.keys(conceptHash).length === 0) return [];
 
     const items: ILinkGridItem[] = [];
 
-    for (let i = 0 ; i < part.conceptIds.length; i++) {
-      console.log(part.conceptIds);
-      const conceptId = part.conceptIds[i];
+    for (let i = 0 ; i < section.conceptIds.length; i++) {
+      const conceptId = section.conceptIds[i];
 
       const concept = conceptHash[conceptId];
       items.push({
-        currentId: part.id,
+        currentId: section.id,
         otherId: concept.id,
         name: concept.name,
         url: `/concepts/${concept.id}`
@@ -71,18 +70,18 @@ export const ConceptParts: React.FC<IProps> = ({ part }) => {
 
     // sort in alphabetical order
     return sortEntitiesByKey(items, "name");
-  }, [part.conceptIds, part.id, conceptHash]);
+  }, [section.conceptIds, section.id, conceptHash]);
 
   const unlinkedConcepts = sortEntitiesByKey(
-    conceptList.filter(c => !part.conceptIds?.includes(c.id)),
+    conceptList.filter(c => !section.conceptIds?.includes(c.id)),
     "name"
   );
 
-  if (!part.conceptIds) return null;
+  if (!section.conceptIds) return null;
   return (
     <div>
       {
-        part.conceptIds.length === 0 && (
+        section.conceptIds.length === 0 && (
           <SHeadingSubSubtitle weight={500}>No links found.</SHeadingSubSubtitle>
         )
       }

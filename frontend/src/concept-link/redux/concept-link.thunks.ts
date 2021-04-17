@@ -1,25 +1,25 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { IConceptPart } from "./concept-link.types";
+import { IConceptSection } from "./concept-link.types";
 import { api } from "services/api.service";
-import { IPart } from "part/redux/part.types";
+import { ISection } from "section/redux/section.types";
 
-/* Concept Part */
-interface IGetConceptPartsResponse {
+/* Concept Section */
+interface IGetConceptSectionsResponse {
   status: string;
   data: {
-    conceptParts: IConceptPart[];
+    conceptSections: IConceptSection[];
   };
 }
-export const getConceptParts = createAsyncThunk(
-  "concept-part/getConceptParts",
-  async function (partId: string, thunkAPI) {
+export const getConceptSections = createAsyncThunk(
+  "concept-section/getConceptSections",
+  async function (sectionId: string, thunkAPI) {
     try {
-      const response = await api.get<IGetConceptPartsResponse>(`/parts/${partId}/links`);
+      const response = await api.get<IGetConceptSectionsResponse>(`/sections/${sectionId}/links`);
 
       return {
-        partId,
-        conceptParts: response.data.data.conceptParts,
+        sectionId,
+        conceptSections: response.data.data.conceptSections,
       };
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -27,26 +27,26 @@ export const getConceptParts = createAsyncThunk(
   }
 );
 
-interface ICreateConceptPartPayload {
+interface ICreateConceptSectionPayload {
   conceptId: string;
-  part: IPart;
+  section: ISection;
 }
-interface ICreateConceptPartResponse {
+interface ICreateConceptSectionResponse {
   status: string;
   data: {
-    conceptPart: {
+    conceptSection: {
       conceptId: string;
-      partId: string;
+      sectionId: string;
     };
   };
 }
-export const createConceptPart = createAsyncThunk(
-  "concept-part/createConceptPart",
-  async function (payload: ICreateConceptPartPayload, thunkAPI) {
-    const { conceptId, part } = payload;
+export const createConceptSection = createAsyncThunk(
+  "concept-section/createConceptSection",
+  async function (payload: ICreateConceptSectionPayload, thunkAPI) {
+    const { conceptId, section } = payload;
 
     try {
-      await api.post<ICreateConceptPartResponse>(`/parts/${part.id}/links`, { conceptId });
+      await api.post<ICreateConceptSectionResponse>(`/sections/${section.id}/links`, { conceptId });
 
       return payload;
     } catch (err) {
@@ -55,17 +55,17 @@ export const createConceptPart = createAsyncThunk(
   }
 );
 
-export interface IDeleteConceptPartPayload {
+export interface IDeleteConceptSectionPayload {
   conceptId: string;
-  part: IPart;
+  section: ISection;
 }
-export const deleteConceptPart = createAsyncThunk(
-  "concept-part/deleteConceptPart",
-  async function (payload: IDeleteConceptPartPayload, thunkAPI) {
-    const { conceptId, part } = payload;
+export const deleteConceptSection = createAsyncThunk(
+  "concept-section/deleteConceptSection",
+  async function (payload: IDeleteConceptSectionPayload, thunkAPI) {
+    const { conceptId, section } = payload;
 
     try {
-      await api.delete(`/parts/${part.id}/links/${conceptId}`);
+      await api.delete(`/sections/${section.id}/links/${conceptId}`);
 
       return payload;
     } catch (err) {

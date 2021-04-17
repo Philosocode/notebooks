@@ -19,8 +19,8 @@ import { theme } from "../../shared/styles/theme.style";
 // images
 import welcomeSvg from "shared/assets/undraw-welcome.svg";
 import materialsImage from "shared/assets/materials.jpg";
-import partsImage from "shared/assets/parts.jpg";
 import sectionsImage from "shared/assets/sections.jpg";
+import notesImage from "shared/assets/notes.jpg";
 import factsImage from "shared/assets/facts.jpg";
 import practiceImage from "shared/assets/practice.jpg";
 import conceptsImage from "shared/assets/concepts.jpg";
@@ -170,7 +170,7 @@ const materials = (
   </>
 );
 
-const parts = (
+const sections = (
   <>
     <SHeadingSubSubtitle>Notebook - Sections</SHeadingSubSubtitle>
     <SBodyText>
@@ -183,11 +183,11 @@ const parts = (
       <li>Store notes for a chapter in a book</li>
       <li>Store notes for a video in a playlist</li>
     </SList>
-    <SImageShadow src={partsImage} />
+    <SImageShadow src={sectionsImage} />
   </>
 );
 
-const sections = (
+const notes = (
   <>
     <SHeadingSubSubtitle>Section - Notes</SHeadingSubSubtitle>
     <SBodyText>
@@ -195,7 +195,7 @@ const sections = (
       Each note has two text boxes: one for a note title, the other for the note contents.
     </SBodyText>
     <SBodyText>A section can have many notes.</SBodyText>
-    <SImageShadow src={sectionsImage} />
+    <SImageShadow src={notesImage} />
   </>
 );
 
@@ -301,8 +301,8 @@ const done = (
 const steps: { [key: string]: React.ReactNode } = {
   1: gettingStarted,
   2: materials,
-  3: parts,
-  4: sections,
+  3: sections,
+  4: notes,
   5: facts,
   6: practice,
   7: concepts,

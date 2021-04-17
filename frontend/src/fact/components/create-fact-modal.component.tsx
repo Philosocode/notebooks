@@ -6,17 +6,17 @@ import { createFact } from "../redux/fact.thunks";
 import { CreateContentModal } from "../../modal/components/create-content-modal.component";
 
 interface IProps extends IModalProps {
-  partId: string;
+  sectionId: string;
 }
 export const CreateFactModal: React.FC<IProps> = ({
   handleClose,
-  partId,
+  sectionId,
 }) => {
   const dispatch = useDispatch();
 
   function handleCreate(title: string, content: string) {
     dispatch(createFact({
-      partId,
+      sectionId,
       initialValues: { question: title, answer: content }
     }));
   }

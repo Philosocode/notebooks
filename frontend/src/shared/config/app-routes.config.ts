@@ -8,7 +8,7 @@ import { ConceptDetailPage } from "concept/pages/concept-detail.page";
 import { ConceptsPage } from "concept/pages/concepts.page";
 import { MaterialsPage } from "material/pages/materials.page";
 import { MaterialDetailPage } from "material/pages/material-detail.page";
-import { PartDetailPage } from "part/pages/part-detail.page";
+import { SectionDetailPage } from "section/pages/section-detail.page";
 import { PracticePage } from "practice/pages/practice.page";
 
 interface IAppRoute<T = {}> {
@@ -56,9 +56,9 @@ const materialDetail: IAppRoute<RouteComponentProps> = {
   isPrivate: true,
 };
 
-const partDetail: IAppRoute = {
-  component: PartDetailPage,
-  path: "/parts/:partId",
+const sectionDetail: IAppRoute = {
+  component: SectionDetailPage,
+  path: "/sections/:sectionId",
   isPrivate: true,
 };
 
@@ -76,6 +76,6 @@ export const appRoutes = [
   conceptDetail,
   materials,
   materialDetail,
-  partDetail,
+  sectionDetail,
   practice,
 ];

@@ -32,8 +32,8 @@ export const AppSidebar: React.FC = () => {
       case "material-detail":
         source = "material";
         break;
-      case "parts":
-        source = "part";
+      case "sections":
+        source = "section";
         break;
     }
 
@@ -52,7 +52,7 @@ export const AppSidebar: React.FC = () => {
 
   return (
     <SContent>
-      <SSidebarLink to="/materials" $isSelected={appLocation === "parts"}>
+      <SSidebarLink to="/materials" $isSelected={appLocation === "sections"}>
         <SIcon icon={faBook} />
         <SName>Notebooks</SName>
       </SSidebarLink>
