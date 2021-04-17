@@ -3,7 +3,7 @@ const express = require("express");
 // Middleware
 const protect = require("./middlewares/protect.middleware");
 const { entityExistsMiddleware } = require("./middlewares/entity-exists.middleware");
-const userOwnsPartMiddleware = require("./middlewares/user-owns-part.middleware");
+const userOwnsSectionMiddleware = require("./middlewares/user-owns-section.middleware");
 
 const conceptExistsMiddleware = entityExistsMiddleware("concept");
 const materialExistsMiddleware = entityExistsMiddleware("material");
@@ -54,7 +54,7 @@ const getMaterials = require("./handlers/material/get-materials.handler");
 const updateMaterial = require("./handlers/material/update-material.handler");
 
 const getFlashcardsForMaterial = require("./handlers/material/get-flashcards-for-material.handler");
-const getFlashcardsForPart = require("./handlers/part/get-flashcards-for-part.handler");
+const getFlashcardsForSection = require("./handlers/section/get-flashcards-for-section.handler");
 
 // Material Tags
 const getTagsForMaterial = require("./handlers/material-tag/get-tags-for-material");
@@ -66,18 +66,18 @@ const getMaterialTags = require("./handlers/material-tag/get-material-tags.handl
 const updateMaterialTag = require("./handlers/material-tag/update-material-tag.handler");
 const deleteMaterialTag = require("./handlers/material-tag/delete-material-tag.handler");
 
-// Material Parts
-const getParts = require("./handlers/part/get-parts.handler");
-const getPart = require("./handlers/part/get-part.handler");
-const createPart = require("./handlers/part/create-part.handler");
-const updatePart = require("./handlers/part/update-part.handler");
-const deletePart = require("./handlers/part/delete-part.handler");
-const deleteParts = require("./handlers/part/delete-parts.handler");
+// Material Sections
+const getSections = require("./handlers/section/get-sections.handler");
+const getSection = require("./handlers/section/get-section.handler");
+const createSection = require("./handlers/section/create-section.handler");
+const updateSection = require("./handlers/section/update-section.handler");
+const deleteSection = require("./handlers/section/delete-section.handler");
+const deleteSections = require("./handlers/section/delete-sections.handler");
 
-// Concept Parts
-const createConceptPart = require("./handlers/concept-part/create-concept-part.handler");
-const getConceptParts = require("./handlers/concept-part/get-concept-parts.handler");
-const deleteConceptPart = require("./handlers/concept-part/delete-concept-part.handler");
+// Concept Sections
+const createConceptSectionLink = require("./handlers/concept-section-link/create-concept-section-link.handler");
+const getConceptSectionLinks = require("./handlers/concept-section-link/get-concept-section-links.handler");
+const deleteConceptSectionLink = require("./handlers/concept-section-link/delete-concept-section-link.handler");
 
 // Flashcards
 const createFlashcard = require("./handlers/flashcard/create-flashcard.handler");
@@ -206,11 +206,11 @@ router.route("/materials/:materialId/concepts")
 router.route("/materials/:materialId/flashcards")
   .get(materialExistsMiddleware, getFlashcardsForMaterial)
 
-// Material Parts
-router.route("/materials/:materialId/parts")
-  .get(materialExistsMiddleware, getParts)
-  .post(materialExistsMiddleware, createPart)
-  .delete(materialExistsMiddleware, deleteParts)
+// Material Sections
+router.route("/materials/:materialId/sections")
+  .get(materialExistsMiddleware, getSections)
+  .post(materialExistsMiddleware, createSection)
+  .delete(materialExistsMiddleware, deleteSections)
 
 // Material Detail
 router.route("/materials/:materialId")
@@ -218,46 +218,46 @@ router.route("/materials/:materialId")
   .patch(materialExistsMiddleware, updateMaterial)
   .delete(materialExistsMiddleware, deleteMaterial)
 
-// Concept Part Links
-router.route("/parts/:partId/links")
-  .get(userOwnsPartMiddleware, getConceptParts)
-  .post(userOwnsPartMiddleware, createConceptPart)
+// Concept Section Links
+router.route("/sections/:sectionId/links")
+  .get(userOwnsSectionMiddleware, getConceptSectionLinks)
+  .post(userOwnsSectionMiddleware, createConceptSectionLink)
 
-router.route("/parts/:partId/flashcards")
-  .get(userOwnsPartMiddleware, getFlashcardsForPart)
+router.route("/sections/:sectionId/flashcards")
+  .get(userOwnsSectionMiddleware, getFlashcardsForSection)
 
-router.route("/parts/:partId/links/:conceptId")
-  .delete(userOwnsPartMiddleware, conceptExistsMiddleware, deleteConceptPart)
+router.route("/sections/:sectionId/links/:conceptId")
+  .delete(userOwnsSectionMiddleware, conceptExistsMiddleware, deleteConceptSectionLink)
 
-// Part Flashcards
+// Section Flashcards
 router.route("/flashcards")
   .get(getFlashcardsForUser)
 
-router.route("/parts/:partId/flashcards")
-  .get(userOwnsPartMiddleware, getFlashcards)
-  .post(userOwnsPartMiddleware, createFlashcard)
-  .delete(userOwnsPartMiddleware, deleteFlashcards)
+router.route("/sections/:sectionId/flashcards")
+  .get(userOwnsSectionMiddleware, getFlashcards)
+  .post(userOwnsSectionMiddleware, createFlashcard)
+  .delete(userOwnsSectionMiddleware, deleteFlashcards)
 
-router.route("/parts/:partId/flashcards/:flashcardId")
+router.route("/sections/:sectionId/flashcards/:flashcardId")
   .patch(updateFlashcard)
   .delete(deleteFlashcard)
 
 // Notes
-router.route("/parts/:partId/notes")
-  .get(userOwnsPartMiddleware, getNotes)
-  .post(userOwnsPartMiddleware, createNote)
-  .delete(userOwnsPartMiddleware, deleteNotes)
+router.route("/sections/:sectionId/notes")
+  .get(userOwnsSectionMiddleware, getNotes)
+  .post(userOwnsSectionMiddleware, createNote)
+  .delete(userOwnsSectionMiddleware, deleteNotes)
 
-router.route("/parts/:partId/notes/:noteId")
-  .get(userOwnsPartMiddleware, getNote)
-  .patch(userOwnsPartMiddleware, updateNote)
-  .delete(userOwnsPartMiddleware, deleteNote)
+router.route("/sections/:sectionId/notes/:noteId")
+  .get(userOwnsSectionMiddleware, getNote)
+  .patch(userOwnsSectionMiddleware, updateNote)
+  .delete(userOwnsSectionMiddleware, deleteNote)
 
-// Parts
-router.route("/parts/:partId")
-  .get(userOwnsPartMiddleware, getPart)
-  .patch(userOwnsPartMiddleware, updatePart)
-  .delete(userOwnsPartMiddleware, deletePart);
+// Sections
+router.route("/sections/:sectionId")
+  .get(userOwnsSectionMiddleware, getSection)
+  .patch(userOwnsSectionMiddleware, updateSection)
+  .delete(userOwnsSectionMiddleware, deleteSection);
 
 // Tags
 router.route("/tags")

@@ -1,26 +1,26 @@
 const AppError = require("../../utils/app-error.util");
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
-const { updatePart, userOwnsPart, getPart } = require("../../models/part.model");
+const { updateSection, userOwnsSection, getSection } = require("../../models/section.model");
 const { trimString } = require("../../utils/string.util");
 const { getValidInsertPosition } = require("../../models/common.model");
-const { partChecklistKeys } = require("./part.common");
+const { sectionChecklistKeys } = require("./section.common");
 const { getMaterials } = require("../../models/material.model");
 
 module.exports = catchAsync(async function (req, res, next) {
-  const { partId } = req.params;
+  const { sectionId } = req.params;
 
-  if (!partId) return next(new AppError("Please include a part ID.", 422));
+  if (!sectionId) return next(new AppError("Please include a section ID.", 422));
 
-  // check if user owns the part through the material
-  const part = await getPart(partId);
-  if (!part) return next(new AppError("Part with that ID not found.", 422));
+  // check if user owns the section through the material
+  const section = await getSection(sectionId);
+  if (!section) return next(new AppError("Section with that ID not found.", 422));
   
-  const materialResult = await getMaterials(req.user.id, { id: part.material_id });
-  const materialForPart = materialResult[0];
+  const materialResult = await getMaterials(req.user.id, { id: section.material_id });
+  const materialForSection = materialResult[0];
 
-  if (!materialForPart || materialForPart.user_id !== req.user.id) {
-    return next(new AppError("Part with that ID not found.", 404));
+  if (!materialForSection || materialForSection.user_id !== req.user.id) {
+    return next(new AppError("Section with that ID not found.", 404));
   }
 
   // validate properties to update
@@ -48,8 +48,8 @@ module.exports = catchAsync(async function (req, res, next) {
 
   if (typeof position === "number") {
     updates.position = await getValidInsertPosition(
-      "part",
-      { material_id: materialForPart.id },
+      "section",
+      { material_id: materialForSection.id },
       position,
       false
     );
@@ -59,8 +59,8 @@ module.exports = catchAsync(async function (req, res, next) {
     const cleanedChecklist = {};
 
     Object.keys(checklist).forEach(key => {
-      // if key is not in partChecklistKeys, ignore
-      if (!partChecklistKeys.includes(key)) return;
+      // if key is not in sectionChecklistKeys, ignore
+      if (!sectionChecklistKeys.includes(key)) return;
 
       // if value is not a boolean, ignore
       if (typeof(checklist[key]) !== "boolean") return;
@@ -71,7 +71,7 @@ module.exports = catchAsync(async function (req, res, next) {
     updates.checklist = cleanedChecklist
   }
 
-  await updatePart(materialForPart.id, partId, updates);
+  await updateSection(materialForSection.id, sectionId, updates);
 
   sendResponse(res, 204);
 });

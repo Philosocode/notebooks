@@ -3,9 +3,9 @@ const catchAsync = require("../../middlewares/catch-async.middleware");
 const { getNotes } = require("../../models/note.model");
 
 module.exports = catchAsync(async function (req, res) {
-  const { partId } = req.params;
+  const { sectionId } = req.params;
 
-  const notes = await getNotes(partId);
+  const notes = await getNotes(sectionId);
 
   sendResponse(res, 200, { notes });
 });

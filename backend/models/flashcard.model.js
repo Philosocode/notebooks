@@ -13,20 +13,20 @@ module.exports = {
 
 // Referenced: https://medium.com/the-missing-bit/keeping-an-ordered-collection-in-postgresql-9da0348c4bbe
 async function createFlashcard(
-  part_id,
+  section_id,
   question,
   answer,
   connection=db
 ) {
   const createdFlashcardResult = await connection.transaction(async (trx) => {
     // shift positions of elements after
-    let insertPosition = await getMaxPosition("flashcard", { part_id });
+    let insertPosition = await getMaxPosition("flashcard", { section_id });
     if (insertPosition === -1) insertPosition = 1;
     else insertPosition++;
 
     return trx("flashcard").insert(
       {
-        question, answer, part_id,
+        question, answer, section_id,
         mastered: false,
         position: insertPosition 
       }, ["*"]
@@ -50,21 +50,21 @@ async function deleteFlashcard(flashcard_id, connection=db) {
   });
 }
 
-async function deleteFlashcards(part_id, connection=db) {
-  return connection("flashcard").where({ part_id }).del();
+async function deleteFlashcards(section_id, connection=db) {
+  return connection("flashcard").where({ section_id }).del();
 }
 
 async function deleteFlashcardsForMaterial(material_id, connection=db) {
-  return connection("flashcard").whereIn("part_id", function() {
+  return connection("flashcard").whereIn("section_id", function() {
     this.select("id")
-      .from("part")
-      .where({ "part.material_id": material_id });
+      .from("section")
+      .where({ "section.material_id": material_id });
   }).del();
 }
 
-async function getFlashcards(part_id, filterObj, connection=db) {
+async function getFlashcards(section_id, filterObj, connection=db) {
   return connection("flashcard")
-    .where({ part_id, ...filterObj })
+    .where({ section_id, ...filterObj })
     .orderBy("position");
 }
 
@@ -75,14 +75,14 @@ async function getFlashcardsForUser(user_id, mastered, connection=db) {
   };
 
   return connection("flashcard")
-    .select(["flashcard.id", "flashcard.question", "flashcard.answer", "flashcard.mastered", "flashcard.part_id", "part.name AS part_name"])
-    .join("part", "part.id", "flashcard.part_id")
-    .join("material", "material.id", "part.material_id")
+    .select(["flashcard.id", "flashcard.question", "flashcard.answer", "flashcard.mastered", "flashcard.section_id", "section.name AS section_name"])
+    .join("section", "section.id", "flashcard.section_id")
+    .join("material", "material.id", "section.material_id")
     .where(filter)
     .orderBy("flashcard.position");
 }
 
-async function updateFlashcard(part_id, flashcard_id, updates, connection=db) {
+async function updateFlashcard(section_id, flashcard_id, updates, connection=db) {
   // updates: name, content, position
   return connection.transaction(async trx => {
     const newPosition = updates.position;
@@ -95,10 +95,10 @@ async function updateFlashcard(part_id, flashcard_id, updates, connection=db) {
 
       if (oldPosition !== newPosition) {
         // decrement positions after old position
-        await shiftPositions("flashcard", { part_id }, oldPosition, false, trx);
+        await shiftPositions("flashcard", { section_id }, oldPosition, false, trx);
 
         // increment positions after the new position
-        await shiftPositions("flashcard", { part_id }, newPosition, true, trx);
+        await shiftPositions("flashcard", { section_id }, newPosition, true, trx);
       }
     }
 

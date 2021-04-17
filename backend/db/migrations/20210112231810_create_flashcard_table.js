@@ -5,7 +5,7 @@ exports.up = function (knex) {
     tbl.text("answer").notNullable();
     tbl.boolean("mastered").notNullable().defaultTo(false);
     tbl.integer("position").notNullable();
-    tbl.uuid("part_id").notNullable().references("id").inTable("part");
+    tbl.uuid("section_id").notNullable().references("id").inTable("section");
   });
 };
 

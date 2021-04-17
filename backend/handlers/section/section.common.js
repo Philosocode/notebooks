@@ -1,13 +1,13 @@
-const defaultPartChecklist = {
+const defaultSectionChecklist = {
   "Skim through the material": false,
   "Attempt practice problems": false,
   "Finish the material": false,
   "Create flashcards": false,
 };
 
-const partChecklistKeys = Object.keys(defaultPartChecklist);
+const sectionChecklistKeys = Object.keys(defaultSectionChecklist);
 
 module.exports = {
-  defaultPartChecklist,
-  partChecklistKeys,
+  defaultSectionChecklist,
+  sectionChecklistKeys,
 };

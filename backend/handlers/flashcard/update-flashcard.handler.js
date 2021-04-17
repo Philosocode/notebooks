@@ -6,10 +6,10 @@ const { updateFlashcard } = require("../../models/flashcard.model");
 const { getValidInsertPosition } = require("../../models/common.model");
 
 module.exports = catchAsync(async function (req, res, next) {
-  const { partId, flashcardId } = req.params;
+  const { sectionId, flashcardId } = req.params;
 
   // validations
-  const flashcardExists = await entityExists("flashcard", { part_id: partId, id: flashcardId });
+  const flashcardExists = await entityExists("flashcard", { section_id: sectionId, id: flashcardId });
   if (!flashcardExists) {
     return next(new AppError("Flashcard with that ID not found.", 404));
   }
@@ -50,13 +50,13 @@ module.exports = catchAsync(async function (req, res, next) {
   if (typeof position === "number") {
     updates.position = await getValidInsertPosition(
       "flashcard", 
-      { part_id: partId }, 
+      { section_id: sectionId }, 
       position,
       false
     );
   }
 
-  await updateFlashcard(partId, flashcardId, updates);
+  await updateFlashcard(sectionId, flashcardId, updates);
 
   sendResponse(res, 204);
 });

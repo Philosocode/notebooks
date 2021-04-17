@@ -4,7 +4,7 @@ const catchAsync = require("../../middlewares/catch-async.middleware");
 const { createFlashcard } = require("../../models/flashcard.model");
 
 module.exports = catchAsync(async function (req, res, next) {
-  const { partId } = req.params;
+  const { sectionId } = req.params;
   const { question, answer } = req.body;
 
   // Validations
@@ -17,7 +17,7 @@ module.exports = catchAsync(async function (req, res, next) {
   }
 
   // name has a max length of 100 chars
-  const createdFlashcard = await createFlashcard(partId, question, answer);
+  const createdFlashcard = await createFlashcard(sectionId, question, answer);
 
   sendResponse(res, 201, { flashcard: createdFlashcard });
 });

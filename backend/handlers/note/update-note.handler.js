@@ -7,10 +7,10 @@ const { trimString } = require("../../utils/string.util");
 const { getValidInsertPosition } = require("../../models/common.model");
 
 module.exports = catchAsync(async function (req, res, next) {
-  const { partId, noteId } = req.params;
+  const { sectionId, noteId } = req.params;
 
   // validations
-  const noteExists = await entityExists("note", { part_id: partId, id: noteId });
+  const noteExists = await entityExists("note", { section_id: sectionId, id: noteId });
   if (!noteExists) {
     return next(new AppError("Note with that ID not found.", 404));
   }
@@ -44,13 +44,13 @@ module.exports = catchAsync(async function (req, res, next) {
   if (typeof position === "number") {
     updates.position = await getValidInsertPosition(
       "note", 
-      { part_id: partId }, 
+      { section_id: sectionId }, 
       position,
       false
     );
   }
 
-  await updateNote(partId, noteId, updates);
+  await updateNote(sectionId, noteId, updates);
 
   sendResponse(res, 204);
 });

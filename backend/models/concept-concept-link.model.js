@@ -8,7 +8,6 @@ module.exports = {
 
   deleteConceptConceptLinksForConcept,
   getConceptConceptLinksForConcept,
-  getConceptLinksForMaterial,
   getMaterialLinksForConcept,
 };
 
@@ -63,9 +62,9 @@ async function getConceptConceptLinks(user_id, filterObj, connection=db) {
 }
 
 async function getMaterialLinksForConcept(concept_id, connection=db) {
-  return connection("concept_part")
+  return connection("concept_section")
     .select("material.id")
-    .join("part", "part.id", "concept_part.part_id")
-    .join("material", "material.id", "part.material_id")
-    .where({ "concept_part.concept_id": concept_id });
+    .join("section", "section.id", "concept_section.section_id")
+    .join("material", "material.id", "section.material_id")
+    .where({ "concept_section.concept_id": concept_id });
 }

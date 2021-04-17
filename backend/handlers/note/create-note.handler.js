@@ -5,7 +5,7 @@ const { trimString } = require("../../utils/string.util");
 const { createNote } = require("../../models/note.model");
 
 module.exports = catchAsync(async function (req, res, next) {
-  const { partId } = req.params;
+  const { sectionId } = req.params;
   const { name, content } = req.body;
 
   // Validations: name not empty, concept with that name doesn't already exist
@@ -19,7 +19,7 @@ module.exports = catchAsync(async function (req, res, next) {
 
   // name has a max length of 100 chars
   const trimmedName = trimString(name, 100);
-  const createdNote = await createNote(partId, trimmedName, content);
+  const createdNote = await createNote(sectionId, trimmedName, content);
 
   sendResponse(res, 201, {
     note: createdNote,

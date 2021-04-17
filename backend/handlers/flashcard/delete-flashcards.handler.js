@@ -3,9 +3,9 @@ const catchAsync = require("../../middlewares/catch-async.middleware");
 const { deleteFlashcards } = require("../../models/flashcard.model");
 
 module.exports = catchAsync(async function (req, res) {
-  const { partId } = req.params;
+  const { sectionId } = req.params;
 
-  await deleteFlashcards(partId);
+  await deleteFlashcards(sectionId);
 
   sendResponse(res, 204);
 });

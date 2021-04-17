@@ -2,11 +2,11 @@ const AppError = require("../../utils/app-error.util");
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
 const { entityExists } = require("../../models/common.model");
-const { conceptPartExists, createConceptPart } = require("../../models/concept-part.model");
+const { conceptSectionLinkExists, createConceptSectionLink } = require("../../models/concept-section-link.model");
 
 module.exports = catchAsync(async function (req, res, next) {
   const userId = req.user.id;
-  const { partId } = req.params;
+  const { sectionId } = req.params;
   const { conceptId } = req.body;
 
   // validations
@@ -20,13 +20,13 @@ module.exports = catchAsync(async function (req, res, next) {
     return next(new AppError("Concept with that ID doesn't exist."), 404);
   }
 
-  const exists = await conceptPartExists(conceptId, partId);
+  const exists = await conceptSectionLinkExists(conceptId, sectionId);
   if (exists) {
-    return next(new AppError("Concept part already exists."));
+    return next(new AppError("Concept section already exists."));
   }
 
-  const conceptPartResult = await createConceptPart(conceptId, partId);
-  const conceptPart = conceptPartResult[0];
+  const conceptSectionLinkResult = await createConceptSectionLink(conceptId, sectionId);
+  const conceptSectionLink = conceptSectionLinkResult[0];
 
-  sendResponse(res, 201, { conceptPart });
+  sendResponse(res, 201, { conceptSectionLink });
 });
