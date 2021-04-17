@@ -1,11 +1,11 @@
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
-const { deleteSections } = require("../../models/section.model");
+const { deleteNote } = require("../../models/note.model");
 
 module.exports = catchAsync(async function (req, res) {
-  const { partId } = req.params;
+  const { partId, noteId } = req.params;
 
-  await deleteSections(partId);
+  await deleteNote(partId, noteId);
 
   sendResponse(res, 204);
 });

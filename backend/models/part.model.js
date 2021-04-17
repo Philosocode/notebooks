@@ -1,7 +1,7 @@
 const db = require("../db/db");
 const { shiftPositions, getMaxPosition } = require("./common.model");
 const { defaultPartChecklist } = require("../handlers/part/part.common");
-const { deleteSections, deleteSectionsForMaterial } = require("./section.model");
+const { deleteNotes, deleteNotesForMaterial } = require("./note.model");
 const { deleteConceptPartsForPart, deleteConceptPartsForMaterial } = require("./concept-part.model");
 const { deleteFacts, deleteFactsForMaterial } = require("./fact.model");
 
@@ -100,8 +100,8 @@ async function deletePart(part_id, connection=db) {
     // delete concept parts for part
     await deleteConceptPartsForPart(part_id, trx);
 
-    // delete sections for part
-    await deleteSections(part_id, trx);
+    // delete notes for part
+    await deleteNotes(part_id, trx);
 
     // delete facts for part
     await deleteFacts(part_id);
@@ -114,8 +114,8 @@ async function deletePart(part_id, connection=db) {
 
 async function deleteParts(material_id, connection=db) {
   return connection.transaction(async (trx) => {
-    // delete sections for material ID
-    await deleteSectionsForMaterial(material_id, trx);
+    // delete notes for material ID
+    await deleteNotesForMaterial(material_id, trx);
 
     // delete concept parts for material ID
     await deleteConceptPartsForMaterial(material_id, trx);

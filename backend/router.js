@@ -87,13 +87,13 @@ const updateFact = require("./handlers/fact/update-fact.handler");
 const deleteFact = require("./handlers/fact/delete-fact.handler");
 const deleteFacts = require("./handlers/fact/delete-facts.handler");
 
-// Section
-const createSection = require("./handlers/section/create-section.handler");
-const getSections = require("./handlers/section/get-sections.handler");
-const getSection = require("./handlers/section/get-section.handler");
-const deleteSections = require("./handlers/section/delete-sections.handler");
-const deleteSection = require("./handlers/section/delete-section.handler");
-const updateSection = require("./handlers/section/update-section.handler");
+// Note
+const createNote = require("./handlers/note/create-note.handler");
+const getNotes = require("./handlers/note/get-notes.handler");
+const getNote = require("./handlers/note/get-note.handler");
+const deleteNotes = require("./handlers/note/delete-notes.handler");
+const deleteNote = require("./handlers/note/delete-note.handler");
+const updateNote = require("./handlers/note/update-note.handler");
 
 // Tag
 const getTags = require("./handlers/tag/get-tags.handler");
@@ -242,16 +242,16 @@ router.route("/parts/:partId/facts/:factId")
   .patch(updateFact)
   .delete(deleteFact)
 
-// Sections
-router.route("/parts/:partId/sections")
-  .get(userOwnsPartMiddleware, getSections)
-  .post(userOwnsPartMiddleware, createSection)
-  .delete(userOwnsPartMiddleware, deleteSections)
+// Notes
+router.route("/parts/:partId/notes")
+  .get(userOwnsPartMiddleware, getNotes)
+  .post(userOwnsPartMiddleware, createNote)
+  .delete(userOwnsPartMiddleware, deleteNotes)
 
-router.route("/parts/:partId/sections/:sectionId")
-  .get(userOwnsPartMiddleware, getSection)
-  .patch(userOwnsPartMiddleware, updateSection)
-  .delete(userOwnsPartMiddleware, deleteSection)
+router.route("/parts/:partId/notes/:noteId")
+  .get(userOwnsPartMiddleware, getNote)
+  .patch(userOwnsPartMiddleware, updateNote)
+  .delete(userOwnsPartMiddleware, deleteNote)
 
 // Parts
 router.route("/parts/:partId")

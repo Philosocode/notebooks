@@ -2,17 +2,17 @@ const AppError = require("../../utils/app-error.util");
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
 const { entityExists } = require("../../models/common.model");
-const { updateSection } = require("../../models/section.model");
+const { updateNote } = require("../../models/note.model");
 const { trimString } = require("../../utils/string.util");
 const { getValidInsertPosition } = require("../../models/common.model");
 
 module.exports = catchAsync(async function (req, res, next) {
-  const { partId, sectionId } = req.params;
+  const { partId, noteId } = req.params;
 
   // validations
-  const sectionExists = await entityExists("section", { part_id: partId, id: sectionId });
-  if (!sectionExists) {
-    return next(new AppError("Section with that ID not found.", 404));
+  const noteExists = await entityExists("note", { part_id: partId, id: noteId });
+  if (!noteExists) {
+    return next(new AppError("Note with that ID not found.", 404));
   }
 
   // check if at least 1 update-able property included
@@ -43,14 +43,14 @@ module.exports = catchAsync(async function (req, res, next) {
 
   if (typeof position === "number") {
     updates.position = await getValidInsertPosition(
-      "section", 
+      "note", 
       { part_id: partId }, 
       position,
       false
     );
   }
 
-  await updateSection(partId, sectionId, updates);
+  await updateNote(partId, noteId, updates);
 
   sendResponse(res, 204);
 });
