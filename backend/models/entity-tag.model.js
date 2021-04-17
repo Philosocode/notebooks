@@ -1,5 +1,5 @@
 /*
- * These functions were designed with only concepts & materials in mind
+ * These functions were designed with only concepts & notebooks in mind
  * Join table must be named: <entity>_tag, e.g. concept_tag
 */
 const db = require("../db/db");

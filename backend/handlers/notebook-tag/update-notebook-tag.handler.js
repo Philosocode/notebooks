@@ -16,10 +16,10 @@ module.exports = catchAsync(async function (req, res, next) {
   if (oldTagName === newTagName) return next(new AppError("New tag name must be different.", 422));
 
   // can't update tag if it doesn't exist
-  const oldTagExists = await entityTagExists("material", oldTagName, req.user.id);
-  if (!oldTagExists) return next(new AppError("Material tag to update was not found.", 409));
+  const oldTagExists = await entityTagExists("notebook", oldTagName, req.user.id);
+  if (!oldTagExists) return next(new AppError("Notebook tag to update was not found.", 409));
 
-  await updateEntityTag("material", req.user.id, oldTagName, newTagName);
+  await updateEntityTag("notebook", req.user.id, oldTagName, newTagName);
 
   sendResponse(res, 204);
 });

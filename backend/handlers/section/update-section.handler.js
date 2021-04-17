@@ -5,21 +5,21 @@ const { updateSection, userOwnsSection, getSection } = require("../../models/sec
 const { trimString } = require("../../utils/string.util");
 const { getValidInsertPosition } = require("../../models/common.model");
 const { sectionChecklistKeys } = require("./section.common");
-const { getMaterials } = require("../../models/material.model");
+const { getNotebooks } = require("../../models/notebook.model");
 
 module.exports = catchAsync(async function (req, res, next) {
   const { sectionId } = req.params;
 
   if (!sectionId) return next(new AppError("Please include a section ID.", 422));
 
-  // check if user owns the section through the material
+  // check if user owns the section through the notebook
   const section = await getSection(sectionId);
   if (!section) return next(new AppError("Section with that ID not found.", 422));
   
-  const materialResult = await getMaterials(req.user.id, { id: section.material_id });
-  const materialForSection = materialResult[0];
+  const notebookResult = await getNotebooks(req.user.id, { id: section.notebook_id });
+  const notebookForSection = notebookResult[0];
 
-  if (!materialForSection || materialForSection.user_id !== req.user.id) {
+  if (!notebookForSection || notebookForSection.user_id !== req.user.id) {
     return next(new AppError("Section with that ID not found.", 404));
   }
 
@@ -49,7 +49,7 @@ module.exports = catchAsync(async function (req, res, next) {
   if (typeof position === "number") {
     updates.position = await getValidInsertPosition(
       "section",
-      { material_id: materialForSection.id },
+      { notebook_id: notebookForSection.id },
       position,
       false
     );
@@ -71,7 +71,7 @@ module.exports = catchAsync(async function (req, res, next) {
     updates.checklist = cleanedChecklist
   }
 
-  await updateSection(materialForSection.id, sectionId, updates);
+  await updateSection(notebookForSection.id, sectionId, updates);
 
   sendResponse(res, 204);
 });

@@ -10,7 +10,7 @@ module.exports = {
   updateNote,
 
   // Helpers
-  deleteNotesForMaterial,
+  deleteNotesForNotebook,
 }
 
 // Referenced: https://medium.com/the-missing-bit/keeping-an-ordered-collection-in-postgresql-9da0348c4bbe
@@ -101,12 +101,12 @@ async function deleteNotes(section_id, connection=db) {
 }
 
 /* HELPERS */
-async function deleteNotesForMaterial(material_id, connection=db) {
+async function deleteNotesForNotebook(notebook_id, connection=db) {
   // delete where note.section_id is in...
   return connection("note").whereIn("section_id", function() {
-    // select sections with the material ID
+    // select sections with the notebook ID
     this.select("id")
       .from("section")
-      .where({ "section.material_id": material_id });
+      .where({ "section.notebook_id": notebook_id });
   }).del();
 }

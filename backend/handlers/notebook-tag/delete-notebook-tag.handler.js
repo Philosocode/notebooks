@@ -1,19 +1,20 @@
 const AppError = require("../../utils/app-error.util");
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
-const { entityHasTag, deleteTagFromEntity } = require("../../models/entity-tag.model");
+const { deleteEntityTag, entityTagExists } = require("../../models/entity-tag.model");
 
 module.exports = catchAsync(async function (req, res, next) {
-  const { materialId, tagName } = req.params;
+  const { tagName } = req.params;
 
-  // validations
   const tagLower = tagName.trim().toLowerCase();
   if (!tagLower) return next(new AppError("Please include a tag to delete.", 422));
 
-  const tagAlreadyAdded = await entityHasTag("material", materialId, tagLower);
-  if (!tagAlreadyAdded) return next(new AppError("Tag for material not found.", 409));
+  const notebookTagExists = await entityTagExists("notebook", tagLower, req.user.id);
+  if (!notebookTagExists) {
+    return next(new AppError("Notebook tag not found.", 404));
+  }
 
-  await deleteTagFromEntity("material", materialId, tagLower);
+  await deleteEntityTag("notebook", tagLower, req.user.id);
 
   sendResponse(res, 204);
 });

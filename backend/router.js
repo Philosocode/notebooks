@@ -6,7 +6,7 @@ const { entityExistsMiddleware } = require("./middlewares/entity-exists.middlewa
 const userOwnsSectionMiddleware = require("./middlewares/user-owns-section.middleware");
 
 const conceptExistsMiddleware = entityExistsMiddleware("concept");
-const materialExistsMiddleware = entityExistsMiddleware("material");
+const notebookExistsMiddleware = entityExistsMiddleware("notebook");
 
 // Auth
 const googleLogin = require("./handlers/auth/google-login.handler");
@@ -44,29 +44,29 @@ const getConceptConceptLinks = require("./handlers/concept-concept-link/get-conc
 
 const deleteConceptConceptLinksForConcept = require("./handlers/concept-concept-link/delete-concept-concept-links-for-concept.handler");
 const getConceptConceptLinksForConcept = require("./handlers/concept-concept-link/get-concept-concept-links-for-concept.handler");
-const getConceptsForMaterial = require("./handlers/material/get-concepts-for-material.handler");
+const getConceptsForNotebook = require("./handlers/notebook/get-concepts-for-notebook.handler");
 
-// Materials
-const createMaterial = require("./handlers/material/create-material.handler");
-const deleteMaterial = require("./handlers/material/delete-material.handler");
-const getMaterial = require("./handlers/material/get-material.handler");
-const getMaterials = require("./handlers/material/get-materials.handler");
-const updateMaterial = require("./handlers/material/update-material.handler");
+// Notebooks
+const createNotebook = require("./handlers/notebook/create-notebook.handler");
+const deleteNotebook = require("./handlers/notebook/delete-notebook.handler");
+const getNotebook = require("./handlers/notebook/get-notebook.handler");
+const getNotebooks = require("./handlers/notebook/get-notebooks.handler");
+const updateNotebook = require("./handlers/notebook/update-notebook.handler");
 
-const getFlashcardsForMaterial = require("./handlers/material/get-flashcards-for-material.handler");
+const getFlashcardsForNotebook = require("./handlers/notebook/get-flashcards-for-notebook.handler");
 const getFlashcardsForSection = require("./handlers/section/get-flashcards-for-section.handler");
 
-// Material Tags
-const getTagsForMaterial = require("./handlers/material-tag/get-tags-for-material");
-const createTagForMaterial = require("./handlers/material-tag/create-tag-for-material");
-const updateTagForMaterial = require("./handlers/material-tag/update-tag-for-material.handler");
-const deleteTagFromMaterial = require("./handlers/material-tag/delete-tag-from-material.handler");
+// Notebook Tags
+const getTagsForNotebook = require("./handlers/notebook-tag/get-tags-for-notebook");
+const createTagForNotebook = require("./handlers/notebook-tag/create-tag-for-notebook");
+const updateTagForNotebook = require("./handlers/notebook-tag/update-tag-for-notebook.handler");
+const deleteTagFromNotebook = require("./handlers/notebook-tag/delete-tag-from-notebook.handler");
 
-const getMaterialTags = require("./handlers/material-tag/get-material-tags.handler");
-const updateMaterialTag = require("./handlers/material-tag/update-material-tag.handler");
-const deleteMaterialTag = require("./handlers/material-tag/delete-material-tag.handler");
+const getNotebookTags = require("./handlers/notebook-tag/get-notebook-tags.handler");
+const updateNotebookTag = require("./handlers/notebook-tag/update-notebook-tag.handler");
+const deleteNotebookTag = require("./handlers/notebook-tag/delete-notebook-tag.handler");
 
-// Material Sections
+// Notebook Sections
 const getSections = require("./handlers/section/get-sections.handler");
 const getSection = require("./handlers/section/get-section.handler");
 const createSection = require("./handlers/section/create-section.handler");
@@ -178,45 +178,45 @@ router.route("/concepts/:conceptId/hooks/:hookId")
   .patch(conceptExistsMiddleware, updateHook)
   .delete(conceptExistsMiddleware, deleteHook)
 
-// Material Tags - General
-router.route("/materials/tags")
-  .get(getMaterialTags)
+// Notebook Tags - General
+router.route("/notebooks/tags")
+  .get(getNotebookTags)
 
-router.route("/materials/tags/:tagName")
-  .patch(updateMaterialTag)
-  .delete(deleteMaterialTag)
+router.route("/notebooks/tags/:tagName")
+  .patch(updateNotebookTag)
+  .delete(deleteNotebookTag)
 
-// Materials
-router.route("/materials")
-  .get(getMaterials)
-  .post(createMaterial)
+// Notebooks
+router.route("/notebooks")
+  .get(getNotebooks)
+  .post(createNotebook)
 
-// Material Tags For Material
-router.route("/materials/:materialId/tags")
-  .get(materialExistsMiddleware, getTagsForMaterial)
-  .post(materialExistsMiddleware, createTagForMaterial)
+// Notebook Tags For Notebook
+router.route("/notebooks/:notebookId/tags")
+  .get(notebookExistsMiddleware, getTagsForNotebook)
+  .post(notebookExistsMiddleware, createTagForNotebook)
 
-router.route("/materials/:materialId/tags/:tagName")
-  .patch(materialExistsMiddleware, updateTagForMaterial)
-  .delete(materialExistsMiddleware, deleteTagFromMaterial)
+router.route("/notebooks/:notebookId/tags/:tagName")
+  .patch(notebookExistsMiddleware, updateTagForNotebook)
+  .delete(notebookExistsMiddleware, deleteTagFromNotebook)
 
-router.route("/materials/:materialId/concepts")
-  .get(materialExistsMiddleware, getConceptsForMaterial)
+router.route("/notebooks/:notebookId/concepts")
+  .get(notebookExistsMiddleware, getConceptsForNotebook)
 
-router.route("/materials/:materialId/flashcards")
-  .get(materialExistsMiddleware, getFlashcardsForMaterial)
+router.route("/notebooks/:notebookId/flashcards")
+  .get(notebookExistsMiddleware, getFlashcardsForNotebook)
 
-// Material Sections
-router.route("/materials/:materialId/sections")
-  .get(materialExistsMiddleware, getSections)
-  .post(materialExistsMiddleware, createSection)
-  .delete(materialExistsMiddleware, deleteSections)
+// Notebook Sections
+router.route("/notebooks/:notebookId/sections")
+  .get(notebookExistsMiddleware, getSections)
+  .post(notebookExistsMiddleware, createSection)
+  .delete(notebookExistsMiddleware, deleteSections)
 
-// Material Detail
-router.route("/materials/:materialId")
-  .get(materialExistsMiddleware, getMaterial)
-  .patch(materialExistsMiddleware, updateMaterial)
-  .delete(materialExistsMiddleware, deleteMaterial)
+// Notebook Detail
+router.route("/notebooks/:notebookId")
+  .get(notebookExistsMiddleware, getNotebook)
+  .patch(notebookExistsMiddleware, updateNotebook)
+  .delete(notebookExistsMiddleware, deleteNotebook)
 
 // Concept Section Links
 router.route("/sections/:sectionId/links")

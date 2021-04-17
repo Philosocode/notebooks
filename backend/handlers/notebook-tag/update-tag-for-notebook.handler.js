@@ -4,7 +4,7 @@ const catchAsync = require("../../middlewares/catch-async.middleware");
 const { entityHasTag, updateTagForEntity } = require("../../models/entity-tag.model");
 
 module.exports = catchAsync(async function (req, res, next) {
-  const { materialId, tagName } = req.params;
+  const { notebookId, tagName } = req.params;
   const { name } = req.body;
 
   const oldTagLower = tagName.trim().toLowerCase();
@@ -17,10 +17,10 @@ module.exports = catchAsync(async function (req, res, next) {
   if (oldTagLower === newTagLower) return next(new AppError("New tag name must be different.", 422));
 
   // can't update tag if it doesn't exist
-  const oldTagExists = await entityHasTag("material", materialId, oldTagLower);
-  if (!oldTagExists) return next(new AppError("Material tag to update was not found.", 409));
+  const oldTagExists = await entityHasTag("notebook", notebookId, oldTagLower);
+  if (!oldTagExists) return next(new AppError("Notebook tag to update was not found.", 409));
 
-  await updateTagForEntity("material", materialId, oldTagLower, newTagLower);
+  await updateTagForEntity("notebook", notebookId, oldTagLower, newTagLower);
 
   sendResponse(res, 204);
 });

@@ -8,7 +8,7 @@ module.exports = {
   getFlashcards,
   getFlashcardsForUser,
   updateFlashcard,
-  deleteFlashcardsForMaterial,
+  deleteFlashcardsForNotebook,
 };
 
 // Referenced: https://medium.com/the-missing-bit/keeping-an-ordered-collection-in-postgresql-9da0348c4bbe
@@ -54,11 +54,11 @@ async function deleteFlashcards(section_id, connection=db) {
   return connection("flashcard").where({ section_id }).del();
 }
 
-async function deleteFlashcardsForMaterial(material_id, connection=db) {
+async function deleteFlashcardsForNotebook(notebook_id, connection=db) {
   return connection("flashcard").whereIn("section_id", function() {
     this.select("id")
       .from("section")
-      .where({ "section.material_id": material_id });
+      .where({ "section.notebook_id": notebook_id });
   }).del();
 }
 
@@ -70,14 +70,14 @@ async function getFlashcards(section_id, filterObj, connection=db) {
 
 async function getFlashcardsForUser(user_id, mastered, connection=db) {
   const filter = {
-    "material.user_id": user_id,
+    "notebook.user_id": user_id,
     ...(mastered !== undefined && { "flashcard.mastered": mastered })
   };
 
   return connection("flashcard")
     .select(["flashcard.id", "flashcard.question", "flashcard.answer", "flashcard.mastered", "flashcard.section_id", "section.name AS section_name"])
     .join("section", "section.id", "flashcard.section_id")
-    .join("material", "material.id", "section.material_id")
+    .join("notebook", "notebook.id", "section.notebook_id")
     .where(filter)
     .orderBy("flashcard.position");
 }

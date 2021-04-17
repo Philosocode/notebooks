@@ -5,7 +5,7 @@ const { trimString } = require("../../utils/string.util");
 const { createSection } = require("../../models/section.model");
 
 module.exports = catchAsync(async function (req, res, next) {
-  const { materialId } = req.params;
+  const { notebookId } = req.params;
   const { name } = req.body;
 
   // Validations: name not empty
@@ -15,7 +15,7 @@ module.exports = catchAsync(async function (req, res, next) {
 
   // name has a max length of 100 chars
   const trimmedName = trimString(name, 100);
-  const createdSection = await createSection(materialId, trimmedName);
+  const createdSection = await createSection(notebookId, trimmedName);
 
   sendResponse(res, 201, { section: createdSection });
 });

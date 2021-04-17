@@ -1,9 +1,9 @@
 const db = require("../db/db");
 const { shiftPositions, getMaxPosition } = require("./common.model");
 const { defaultSectionChecklist } = require("../handlers/section/section.common");
-const { deleteNotes, deleteNotesForMaterial } = require("./note.model");
-const { deleteConceptSectionLinksForSection, deleteConceptSectionLinksForMaterial } = require("./concept-section-link.model");
-const { deleteFlashcards, deleteFlashcardsForMaterial } = require("./flashcard.model");
+const { deleteNotes, deleteNotesForNotebook } = require("./note.model");
+const { deleteConceptSectionLinksForSection, deleteConceptSectionLinksForNotebook } = require("./concept-section-link.model");
+const { deleteFlashcards, deleteFlashcardsForNotebook } = require("./flashcard.model");
 
 module.exports = {
   createSection,
@@ -18,20 +18,20 @@ module.exports = {
 
 // Referenced: https://medium.com/the-missing-bit/keeping-an-ordered-collection-in-postgresql-9da0348c4bbe
 async function createSection(
-  material_id,
+  notebook_id,
   name,
   connection=db
 ) {
   const createdSectionArray = await connection.transaction(async (trx) => {
     // shift positions of elements after
-    let insertPosition = await getMaxPosition("section", { material_id });
+    let insertPosition = await getMaxPosition("section", { notebook_id });
     if (insertPosition === -1) insertPosition = 1;
     else insertPosition++;
 
     // create section
     return trx("section").insert(
       {
-        name, material_id,
+        name, notebook_id,
         position: insertPosition,
         checklist: JSON.stringify(defaultSectionChecklist),
       }, ["*"]
@@ -41,10 +41,10 @@ async function createSection(
   return createdSectionArray[0];
 }
 
-async function getSections(material_id, filterObject, connection=db) {
+async function getSections(notebook_id, filterObject, connection=db) {
   return connection("section")
     .select("*")
-    .where({ material_id, ...filterObject })
+    .where({ notebook_id, ...filterObject })
     .orderBy("position");
 }
 
@@ -55,7 +55,7 @@ async function getSection(section_id, connection=db) {
     .first();
 }
 
-async function updateSection(material_id, section_id, updates, connection=db) {
+async function updateSection(notebook_id, section_id, updates, connection=db) {
   // updates: title, content, position
   return connection.transaction(async trx => {
     const newPosition = updates.position;
@@ -67,10 +67,10 @@ async function updateSection(material_id, section_id, updates, connection=db) {
 
       if (oldPosition !== newPosition) {
         // decrement positions after old position
-        await shiftPositions("section", { material_id }, oldPosition, false, trx);
+        await shiftPositions("section", { notebook_id }, oldPosition, false, trx);
 
         // increment positions after the new position
-        await shiftPositions("section", { material_id }, newPosition, true, trx);
+        await shiftPositions("section", { notebook_id }, newPosition, true, trx);
       }
     }
 
@@ -112,19 +112,19 @@ async function deleteSection(section_id, connection=db) {
   });
 }
 
-async function deleteSections(material_id, connection=db) {
+async function deleteSections(notebook_id, connection=db) {
   return connection.transaction(async (trx) => {
-    // delete notes for material ID
-    await deleteNotesForMaterial(material_id, trx);
+    // delete notes for notebook ID
+    await deleteNotesForNotebook(notebook_id, trx);
 
-    // delete concept sections for material ID
-    await deleteConceptSectionLinksForMaterial(material_id, trx);
+    // delete concept sections for notebook ID
+    await deleteConceptSectionLinksForNotebook(notebook_id, trx);
 
-    // delete flashcards for material ID
-    await deleteFlashcardsForMaterial(material_id, trx);
+    // delete flashcards for notebook ID
+    await deleteFlashcardsForNotebook(notebook_id, trx);
 
-    // delete all sections for material ID
-    await trx("section").where({ material_id }).del();
+    // delete all sections for notebook ID
+    await trx("section").where({ notebook_id }).del();
   })
 }
 
@@ -145,7 +145,7 @@ async function getFlashcardsForSection(section_id, mastered, connection=db) {
 async function userOwnsSection(section_id, user_id, connection=db) {
   const userIdResult = await connection("section")
     .where({ "section.id": section_id })
-    .join("material", "material.id", "section.material_id")
+    .join("notebook", "notebook.id", "section.notebook_id")
     .first();
 
   return userIdResult?.user_id === user_id;

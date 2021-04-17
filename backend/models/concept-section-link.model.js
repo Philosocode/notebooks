@@ -5,7 +5,7 @@ module.exports = {
   createConceptSectionLink,
   deleteConceptSectionLink,
   deleteConceptSectionLinksForSection,
-  deleteConceptSectionLinksForMaterial,
+  deleteConceptSectionLinksForNotebook,
   deleteConceptSectionLinksForConcept,
   getConceptSectionLinksForSection,
 };
@@ -47,13 +47,13 @@ async function deleteConceptSectionLinksForConcept(concept_id, connection=db) {
     .del();
 }
 
-async function deleteConceptSectionLinksForMaterial(material_id, connection=db) {
+async function deleteConceptSectionLinksForNotebook(notebook_id, connection=db) {
   // delete where concept_section.section_id is in...
   return connection("concept_section").whereIn("section_id", function() {
-    // select sections with the material ID
+    // select sections with the notebook ID
     this.select("id")
       .from("section")
-      .where({ "section.material_id": material_id });
+      .where({ "section.notebook_id": notebook_id });
   }).del();
 }
 

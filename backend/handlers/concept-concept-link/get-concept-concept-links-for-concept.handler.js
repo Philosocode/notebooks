@@ -1,6 +1,6 @@
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
-const { getConceptConceptLinksForConcept, getMaterialLinksForConcept } = require("../../models/concept-concept-link.model");
+const { getConceptConceptLinksForConcept, getNotebookLinksForConcept } = require("../../models/concept-concept-link.model");
 const { processConceptConceptLinks } = require("./concept-concept-link.common");
 
 module.exports = catchAsync(async function (req, res) {
@@ -15,11 +15,11 @@ module.exports = catchAsync(async function (req, res) {
     linksToReturn.conceptConceptLinks = conceptConceptLinks;
   }
 
-  if ("materials" in req.query) {
-    const materialLinksRaw = await getMaterialLinksForConcept(conceptId);
-    const materialLinks = materialLinksRaw.map(materialLink => materialLink.id);
+  if ("notebooks" in req.query) {
+    const notebookLinksRaw = await getNotebookLinksForConcept(conceptId);
+    const notebookLinks = notebookLinksRaw.map(notebookLink => notebookLink.id);
 
-    linksToReturn.materialLinks = materialLinks;
+    linksToReturn.notebookLinks = notebookLinks;
   }
 
   sendResponse(res, 200, linksToReturn);

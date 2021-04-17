@@ -1,9 +1,9 @@
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
-const { getFlashcardsForMaterial } = require("../../models/material.model");
+const { getFlashcardsForNotebook } = require("../../models/notebook.model");
 
 module.exports = catchAsync(async function (req, res) {
-  const { materialId } = req.params;
+  const { notebookId } = req.params;
 
   let mastered;
   if (req.query.mastered) {
@@ -14,7 +14,7 @@ module.exports = catchAsync(async function (req, res) {
     }
   }
 
-  const flashcardsForMaterial = await getFlashcardsForMaterial(materialId, mastered);
+  const flashcardsForNotebook = await getFlashcardsForNotebook(notebookId, mastered);
 
-  sendResponse(res, 200, { flashcards: flashcardsForMaterial });
+  sendResponse(res, 200, { flashcards: flashcardsForNotebook });
 });
