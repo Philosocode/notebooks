@@ -12,12 +12,12 @@ interface IGetSectionsResponse {
 }
 export const getSections = createAsyncThunk(
   "section/getSections",
-  async function (materialId: string, thunkAPI) {
+  async function (notebookId: string, thunkAPI) {
     try {
-      const response = await api.get<IGetSectionsResponse>(`/materials/${materialId}/sections`);
+      const response = await api.get<IGetSectionsResponse>(`/notebooks/${notebookId}/sections`);
 
       return {
-        materialId,
+        notebookId,
         sections: response.data.data.sections,
       }
     } catch (err) {
@@ -50,7 +50,7 @@ export const getSection = createAsyncThunk(
 
 interface ICreateSectionPayload {
   name: string;
-  materialId: string;
+  notebookId: string;
 }
 interface ICreateSectionResponse {
   status: string;
@@ -61,12 +61,12 @@ interface ICreateSectionResponse {
 export const createSection = createAsyncThunk(
   "section/createSection",
   async function (payload: ICreateSectionPayload, thunkAPI) {
-    const { materialId, name } = payload;
+    const { notebookId, name } = payload;
 
     try {
-      const res = await api.post<ICreateSectionResponse>(`/materials/${materialId}/sections`, {
+      const res = await api.post<ICreateSectionResponse>(`/notebooks/${notebookId}/sections`, {
         name,
-        materialId,
+        notebookId,
       });
       const createdSection = res.data.data.section;
 
@@ -78,7 +78,7 @@ export const createSection = createAsyncThunk(
         }
       }));
 
-      return { section: createdSection, materialId };
+      return { section: createdSection, notebookId };
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
@@ -86,7 +86,7 @@ export const createSection = createAsyncThunk(
 );
 
 interface IUpdateSectionPayload {
-  materialId: string;
+  notebookId: string;
   sectionId: string;
   name: string;
 }
@@ -130,7 +130,7 @@ export const updateSectionChecklist = createAsyncThunk(
 )
 
 interface IUpdateSectionPosition {
-  materialId: string;
+  notebookId: string;
   sectionId: string;
   newPosition: number;
 }
@@ -148,7 +148,7 @@ export const updateSectionPosition = createAsyncThunk(
 );
 
 interface IDeleteSectionPayload {
-  materialId: string;
+  notebookId: string;
   section: ISection;
 }
 export const deleteSection = createAsyncThunk(

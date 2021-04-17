@@ -1,6 +1,6 @@
 import { ISection } from "section/redux/section.types";
 
-export interface IMaterial {
+export interface INotebook {
   id: string;
   name: string;
   created_at: string;
@@ -10,11 +10,11 @@ export interface IMaterial {
   sectionIds?: string[];
 }
 
-export interface IMaterialHash {
-  [key: string]: IMaterial;
+export interface INotebookHash {
+  [key: string]: INotebook;
 }
 
-export interface IMaterialState {
-  materials: IMaterialHash;
-  currentMaterialId?: string;
+export interface INotebookState {
+  notebooks: INotebookHash;
+  currentNotebookId?: string;
 }

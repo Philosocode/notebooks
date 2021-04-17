@@ -23,7 +23,7 @@ export const SectionDetailHeader: React.FC<IProps> = ({ section }) => {
   function handleUpdate(newName: string) {
     dispatch(updateSection({
       sectionId: section.id,
-      materialId: section.material_id,
+      notebookId: section.notebook_id,
       name: newName
     }));
   }
@@ -31,12 +31,12 @@ export const SectionDetailHeader: React.FC<IProps> = ({ section }) => {
   function handleDelete() {
     dispatch(
       deleteSection({
-        materialId: section.material_id,
+        notebookId: section.notebook_id,
         section
       })
     );
 
-    history.push("/materials/" + section.material_id);
+    history.push("/notebooks/" + section.notebook_id);
   }
 
   return (
@@ -45,7 +45,7 @@ export const SectionDetailHeader: React.FC<IProps> = ({ section }) => {
         name={section.name}
         updatedAt={section.updated_at}
         showUpdateModal={toggleModalShowing}
-        topSlot={<SLink to={`/materials/${section.material_id}`}>Back to Notebook</SLink>}
+        topSlot={<SLink to={`/notebooks/${section.notebook_id}`}>Back to Notebook</SLink>}
       />
       <ModalWrapper isShowing={modalShowing} handleClose={toggleModalShowing}>
         <UpdateNamedEntityModal

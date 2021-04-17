@@ -9,9 +9,9 @@ export const selectConceptsLoaded = createSelector(
   (state) => state.conceptsLoaded
 );
 
-export const selectMaterialsLoaded = createSelector(
+export const selectNotebooksLoaded = createSelector(
   [selectInitState],
-  (state) => state.materialsLoaded
+  (state) => state.notebooksLoaded
 );
 
 export const selectSettingsLoaded = createSelector(

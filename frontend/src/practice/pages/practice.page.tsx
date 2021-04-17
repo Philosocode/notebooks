@@ -36,7 +36,7 @@ export const PracticePage: React.FC = () => {
   useEffect(() => {
     // if Redux state missing, exit
     if (!practiceState.source) {
-      return history.push("/materials");
+      return history.push("/notebooks");
     }
 
     // don't load flashcards if already loaded
@@ -55,8 +55,8 @@ export const PracticePage: React.FC = () => {
       case "all":
         requestUrl = "/flashcards?mastered=false";
         break;
-      case "material":
-        requestUrl = `/materials/${practiceState.id}/flashcards?mastered=false`;
+      case "notebook":
+        requestUrl = `/notebooks/${practiceState.id}/flashcards?mastered=false`;
         break;
       case "section":
         requestUrl = `/sections/${practiceState.id}/flashcards?mastered=false`;
@@ -157,7 +157,7 @@ export const PracticePage: React.FC = () => {
   }
 
   function getStudyHeadingText() {
-    if (practiceState.source === "material") return "Studying flashcards in notebook";
+    if (practiceState.source === "notebook") return "Studying flashcards in notebook";
     if (practiceState.source === "section") return "Studying flashcards in note";
 
     return "Studying all flashcards";

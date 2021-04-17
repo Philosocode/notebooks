@@ -1,4 +1,4 @@
-export type TFlashcardSource = "all" | "material" | "section";
+export type TFlashcardSource = "all" | "notebook" | "section";
 
 export interface IPracticeState {
   id: string;

@@ -1,6 +1,6 @@
 export interface IInitState {
   conceptsLoaded: boolean;
-  materialsLoaded: boolean;
+  notebooksLoaded: boolean;
   settingsLoaded: boolean;
   welcomeScreenShown: boolean;
 }

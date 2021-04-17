@@ -10,9 +10,9 @@ import { CreateConceptModal } from "concept/components/create-concept-modal.comp
 import { UpdateConceptModal } from "concept/components/update-concept-modal.component";
 import { DeleteConceptModal } from "concept/components/delete-concept-modal.component";
 
-import { CreateMaterialModal } from "material/components/create-material-modal.component";
-import { UpdateMaterialModal } from "material/components/update-material-modal.component";
-import { DeleteMaterialModal } from "../../material/components/delete-material-modal.component";
+import { CreateNotebookModal } from "notebook/components/create-notebook-modal.component";
+import { UpdateNotebookModal } from "notebook/components/update-notebook-modal.component";
+import { DeleteNotebookModal } from "../../notebook/components/delete-notebook-modal.component";
 
 import { ConfirmationModal } from "./confirmation-modal.component";
 
@@ -35,10 +35,10 @@ const MODAL_COMPONENTS: TModalComponents = {
   "update-concept": UpdateConceptModal,
   "delete-concept": DeleteConceptModal,
 
-  // Material
-  "create-material": CreateMaterialModal,
-  "update-material": UpdateMaterialModal,
-  "delete-material": DeleteMaterialModal,
+  // Notebook
+  "create-notebook": CreateNotebookModal,
+  "update-notebook": UpdateNotebookModal,
+  "delete-notebook": DeleteNotebookModal,
 
   // Section
   "update-section": UpdateSectionModal,

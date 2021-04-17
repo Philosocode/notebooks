@@ -8,16 +8,16 @@ import { updateSection } from "section/redux/section.thunks";
 import { UpdateNamedEntityModal } from "shared/components/modal/update-named-entity.modal";
 
 interface IProps extends IModalProps {
-  materialId: string;
+  notebookId: string;
   section: ISection;
 }
-export const UpdateSectionModal: React.FC<IProps> = ({ handleClose, materialId, section }) => {
+export const UpdateSectionModal: React.FC<IProps> = ({ handleClose, notebookId, section }) => {
   const dispatch = useDispatch();
 
   function handleUpdate(newName: string) {
     dispatch(
       updateSection({
-        materialId,
+        notebookId,
         sectionId: section.id,
         name: newName,
       })

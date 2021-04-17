@@ -1,17 +1,17 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 
-import { IMaterial } from "material/redux/material.types";
+import { INotebook } from "notebook/redux/notebook.types";
 import { showModal } from "modal/redux/modal.slice";
 
-import { deleteTagFromMaterial } from "material/redux/material-tag.thunk";
+import { deleteTagFromNotebook } from "notebook/redux/notebook-tag.thunk";
 import { TagList } from "../../tag/components/tag-list.component";
 import { DetailHeader } from "../../shared/components/info/detail-header.component";
 
 interface IProps {
-  material: IMaterial;
+  material: INotebook;
 }
-export const MaterialDetailHeader: React.FC<IProps> = ({ material }) => {
+export const NotebookDetailHeader: React.FC<IProps> = ({ material }) => {
   const dispatch = useDispatch();
   function showUpdateModal() {
     dispatch(
@@ -23,7 +23,7 @@ export const MaterialDetailHeader: React.FC<IProps> = ({ material }) => {
   }
 
   function handleDeleteTag(tag: string) {
-    dispatch(deleteTagFromMaterial({ tagName: tag, materialId: material.id }));
+    dispatch(deleteTagFromNotebook({ tagName: tag, materialId: material.id }));
   }
 
   return (

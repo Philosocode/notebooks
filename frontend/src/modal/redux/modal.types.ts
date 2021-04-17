@@ -3,9 +3,9 @@ export type TModalType =
   | "delete-concept"
   | "update-concept"
 
-  | "create-material"
-  | "delete-material"
-  | "update-material"
+  | "create-notebook"
+  | "delete-notebook"
+  | "update-notebook"
 
   | "update-section"
   | "delete-section"

@@ -15,10 +15,10 @@ import { theme } from "shared/styles/theme.style";
 
 interface IProps {
   index: number;
-  materialId: string;
+  notebookId: string;
   section: ISection;
 }
-export const SectionListItem: React.FC<IProps> = ({ index, materialId, section }) => {
+export const SectionListItem: React.FC<IProps> = ({ index, notebookId, section }) => {
   const dispatch = useDispatch();
   const [menuShowing, toggleMenuShowing] = useToggle(false);
 
@@ -26,7 +26,7 @@ export const SectionListItem: React.FC<IProps> = ({ index, materialId, section }
     dispatch(showModal({
       modalType: "update-section",
       modalProps: {
-        materialId,
+        notebookId,
         section,
       }
     }))
@@ -36,7 +36,7 @@ export const SectionListItem: React.FC<IProps> = ({ index, materialId, section }
     dispatch(showModal({
       modalType: "delete-section",
       modalProps: {
-        materialId,
+        notebookId,
         section,
       }
     }))

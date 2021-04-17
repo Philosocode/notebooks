@@ -60,7 +60,7 @@ export function App() {
       <Navbar />
       <Sidebar />
       <Switch>
-        <Redirect exact from="/" to="/materials" />
+        <Redirect exact from="/" to="/notebooks" />
         <SMainContent>
           {getRoutes()}
         </SMainContent>

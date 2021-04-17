@@ -74,22 +74,22 @@ export const deleteConceptSection = createAsyncThunk(
   }
 );
 
-/* Concept Material */
-interface IGetMaterialLinksResponse {
+/* Concept Notebook */
+interface IGetNotebookLinksResponse {
   status: string;
   data: {
-    materialLinks: string[];
+    notebookLinks: string[];
   };
 }
-export const getMaterialLinksForConcept = createAsyncThunk(
-  "concept-link/getMaterialLinksForConcept",
+export const getNotebookLinksForConcept = createAsyncThunk(
+  "concept-link/getNotebookLinksForConcept",
   async function (conceptId: string, thunkAPI) {
     try {
-      const response = await api.get<IGetMaterialLinksResponse>(`/concepts/${conceptId}/links?materials`);
+      const response = await api.get<IGetNotebookLinksResponse>(`/concepts/${conceptId}/links?notebooks`);
 
       return {
         conceptId,
-        materialLinks: response.data.data.materialLinks,
+        notebookLinks: response.data.data.notebookLinks,
       }
     } catch (err) {
       return thunkAPI.rejectWithValue(err);

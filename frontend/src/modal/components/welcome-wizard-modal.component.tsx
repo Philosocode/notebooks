@@ -18,7 +18,7 @@ import { theme } from "../../shared/styles/theme.style";
 
 // images
 import welcomeSvg from "shared/assets/undraw-welcome.svg";
-import materialsImage from "shared/assets/materials.jpg";
+import notebooksImage from "shared/assets/notebooks.jpg";
 import sectionsImage from "shared/assets/sections.jpg";
 import notesImage from "shared/assets/notes.jpg";
 import flashcardsImage from "shared/assets/flashcards.jpg";
@@ -153,7 +153,7 @@ const gettingStarted = (
   </>
 );
 
-const materials = (
+const notebooks = (
   <>
     <SHeadingSubSubtitle>Notebooks</SHeadingSubSubtitle>
     <SBodyText>
@@ -166,7 +166,7 @@ const materials = (
       <li>Group notes for a single subject or topic</li>
       <li>Store notes for a video playlist</li>
     </SList>
-    <SImageShadow src={materialsImage} />
+    <SImageShadow src={notebooksImage} />
   </>
 );
 
@@ -300,7 +300,7 @@ const done = (
 
 const steps: { [key: string]: React.ReactNode } = {
   1: gettingStarted,
-  2: materials,
+  2: notebooks,
   3: sections,
   4: notes,
   5: flashcards,

@@ -9,14 +9,14 @@ import { deleteSection } from "section/redux/section.thunks";
 import { ConfirmationModal } from "modal/components/confirmation-modal.component";
 
 interface IProps extends IModalProps {
-  materialId: string;
+  notebookId: string;
   section: ISection;
 }
-export const DeleteSectionModal: FC<IProps> = ({ materialId, section, handleClose }) => {
+export const DeleteSectionModal: FC<IProps> = ({ notebookId, section, handleClose }) => {
   const dispatch = useDispatch();
 
   function handleDelete() {
-    dispatch(deleteSection({ materialId, section }));
+    dispatch(deleteSection({ notebookId, section }));
 
     handleClose();
   }

@@ -7,7 +7,7 @@ export interface ISection {
   noteIds?: string[];
   flashcardIds?: string[];
   conceptIds?: string[];
-  material_id: string;
+  notebook_id: string;
 }
 
 // SEE: https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape

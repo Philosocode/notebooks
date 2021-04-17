@@ -1,29 +1,29 @@
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 
-import { IMaterial } from "material/redux/material.types";
+import { INotebook } from "notebook/redux/notebook.types";
 import { IModalProps } from "../../modal/redux/modal.types";
-import { deleteMaterial } from "material/redux/material.thunks";
+import { deleteNotebook } from "notebook/redux/notebook.thunks";
 import { trimString } from "shared/utils/string.util";
 
 import { ConfirmationModal } from "modal/components/confirmation-modal.component";
 import { useHistory } from "react-router-dom";
 
 interface IProps extends IModalProps {
-  material: IMaterial;
+  notebook: INotebook;
 }
-export const DeleteMaterialModal: FC<IProps> = ({ material, handleClose }) => {
+export const DeleteNotebookModal: FC<IProps> = ({ notebook, handleClose }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
   function handleDelete() {
-    dispatch(deleteMaterial(material.id));
+    dispatch(deleteNotebook(notebook.id));
     handleClose();
 
-    history.replace("/materials");
+    history.replace("/notebooks");
   }
 
-  const trimmedName = trimString(material.name, 50);
+  const trimmedName = trimString(notebook.name, 50);
   const modalText = "You are about to delete this notebook: " + trimmedName;
 
   return (

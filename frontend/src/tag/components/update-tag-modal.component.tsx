@@ -13,7 +13,7 @@ import { SHeadingSubtitle } from "shared/styles/typography.style";
 import { SButtonGreen } from "shared/styles/button.style";
 import { IModalProps } from "modal/redux/modal.types";
 import { useAppLocation } from "shared/hooks/use-app-location.hook";
-import { updateMaterialTag } from "material/redux/material-tag.thunk";
+import { updateNotebookTag } from "notebook/redux/notebook-tag.thunk";
 
 interface IProps extends IModalProps {
   oldTagName: string;
@@ -40,7 +40,7 @@ export const UpdateTagModal: FC<IProps> = ({ oldTagName, handleClose, handleUpda
 
     appLocation === "concepts"
       ? dispatch(updateConceptTag({ oldTagName, newTagName: tagName }))
-      : dispatch(updateMaterialTag({ oldTagName, newTagName: tagName }))
+      : dispatch(updateNotebookTag({ oldTagName, newTagName: tagName }))
 
     handleClose();
   }

@@ -5,8 +5,8 @@ import styled from "styled-components";
 
 // logic
 import { createSection, getSections, updateSectionPosition } from "section/redux/section.thunks";
-import { selectCurrentMaterial, selectMaterialSections } from "material/redux/material.selectors";
-import { repositionSection } from "material/redux/material.slice";
+import { selectCurrentNotebook, selectNotebookSections } from "notebook/redux/notebook.selectors";
+import { repositionSection } from "notebook/redux/notebook.slice";
 
 // components
 import { DragAndDropWrapper } from "shared/components/drag-and-drop/drag-and-drop-wrapper.component";
@@ -20,24 +20,24 @@ import { useToggle } from "../../shared/hooks/use-toggle.hook";
 import { CreateNamedEntityModal } from "../../shared/components/modal/create-named-entity-modal.component";
 
 interface IProps {
-  materialId: string;
+  notebookId: string;
 }
-export const SectionList: React.FC<IProps> = ({ materialId }) => {
+export const SectionList: React.FC<IProps> = ({ notebookId }) => {
   const dispatch = useDispatch();
-  const currentMaterial = useSelector(selectCurrentMaterial);
-  const materialSections = useSelector(selectMaterialSections);
+  const currentNotebook = useSelector(selectCurrentNotebook);
+  const notebookSections = useSelector(selectNotebookSections);
 
   // modal states
   const [createModalShowing, toggleCreateModalShowing] = useToggle(false);
 
   useEffect(() => {
-    if (currentMaterial && !currentMaterial.sectionIds) {
-      dispatch(getSections(materialId));
+    if (currentNotebook && !currentNotebook.sectionIds) {
+      dispatch(getSections(notebookId));
     }
-  }, [currentMaterial, dispatch, materialId]);
+  }, [currentNotebook, dispatch, notebookId]);
 
   function handleCreate(name: string) {
-    dispatch(createSection({ name, materialId }));
+    dispatch(createSection({ name, notebookId }));
   }
 
   function handleDragEnd(result: DropResult) {
@@ -48,35 +48,35 @@ export const SectionList: React.FC<IProps> = ({ materialId }) => {
     const newIndex = destination.index;
 
     dispatch(repositionSection({
-      ownerEntityId: materialId,
+      ownerEntityId: notebookId,
       oldIndex,
       newIndex
     }));
 
-    if (!materialSections) return;
+    if (!notebookSections) return;
 
     // async call to update position on backend
     dispatch(updateSectionPosition({
-      materialId,
-      sectionId: materialSections[oldIndex].id,
+      notebookId,
+      sectionId: notebookSections[oldIndex].id,
       // positions in DB start at 1, not 0
       newPosition: newIndex + 1,
     }));
   }
 
-  if (materialSections === undefined) return null;
+  if (notebookSections === undefined) return null;
   return (
     <DragAndDropWrapper droppableId="section-list-droppable" handleDragEnd={handleDragEnd}>
       <SList>
-        {materialSections.length === 0 && (
+        {notebookSections.length === 0 && (
           <SHeadingSubSubtitle weight={500}>No notes found...</SHeadingSubSubtitle>
         )}
-        {materialSections.map((section, index) => (
+        {notebookSections.map((section, index) => (
           <SectionListItem
             section={section}
             key={section.id}
             index={index}
-            materialId={materialId}
+            notebookId={notebookId}
           />
         ))}
       </SList>

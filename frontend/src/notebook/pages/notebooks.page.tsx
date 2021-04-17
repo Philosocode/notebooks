@@ -3,18 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 // logic
-import { IMaterial } from "../redux/material.types";
+import { INotebook } from "../redux/notebook.types";
 import { useTagFilter } from "shared/hooks/use-tag-filter.hook";
-import { getMaterials } from "../redux/material.thunks";
-import { selectMaterialList, selectMaterialTags } from "../redux/material.selectors";
-import { selectMaterialsLoaded } from "../../shared/redux/init.selectors";
+import { getNotebooks } from "../redux/notebook.thunks";
+import { selectNotebookList, selectNotebookTags } from "../redux/notebook.selectors";
+import { selectNotebooksLoaded } from "../../shared/redux/init.selectors";
 import { useEntityFilterSort } from "../../shared/hooks/use-entity-filter-sort.hook";
 import { showModal } from "modal/redux/modal.slice";
 import { selectModalShowing } from "modal/redux/modal.selectors";
 
 // components
 import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
-import { MaterialList } from "../components/material-list.component";
+import { NotebookList } from "../components/notebook-list.component";
 import { SortFilterControls } from "../../shared/components/button/sort-filter-controls.component";
 import { TagSidebar } from "tag/components/tag-sidebar.component";
 
@@ -22,48 +22,48 @@ import { TagSidebar } from "tag/components/tag-sidebar.component";
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle, SHeadingSubtitle } from "shared/styles/typography.style";
 
-export const MaterialsPage: React.FC = () => {
+export const NotebooksPage: React.FC = () => {
   const dispatch = useDispatch();
   const modalShowing = useSelector(selectModalShowing);
-  const materialsLoaded = useSelector(selectMaterialsLoaded);
-  const materials = useSelector(selectMaterialList);
-  const materialTags = useSelector(selectMaterialTags);
+  const notebooksLoaded = useSelector(selectNotebooksLoaded);
+  const notebooks = useSelector(selectNotebookList);
+  const notebookTags = useSelector(selectNotebookTags);
 
   const { setIsUncategorized, isUncategorized, currentTag, setCurrentTag } = useTagFilter();
 
-  const materialsWithTag = useMemo(() => {
-    if (isUncategorized) return materials.filter(material => material.tags.length === 0);
-    if (!currentTag) return materials;
-    return materials.filter(m => m.tags.includes(currentTag));
-  }, [materials, isUncategorized, currentTag]);
+  const notebooksWithTag = useMemo(() => {
+    if (isUncategorized) return notebooks.filter(notebook => notebook.tags.length === 0);
+    if (!currentTag) return notebooks;
+    return notebooks.filter(m => m.tags.includes(currentTag));
+  }, [notebooks, isUncategorized, currentTag]);
 
   const {
     handleFilterTextChange,
     handleSortClick,
     getSortIconCaret,
     filterText,
-    filteredEntities: filteredMaterials,
+    filteredEntities: filteredNotebooks,
     sortMode,
-  } = useEntityFilterSort<IMaterial>(materialsWithTag, "name", "updated");
+  } = useEntityFilterSort<INotebook>(notebooksWithTag, "name", "updated");
 
   useEffect(() => {
-    if (!materialsLoaded) {
-      dispatch(getMaterials());
+    if (!notebooksLoaded) {
+      dispatch(getNotebooks());
     }
-  }, [materialsLoaded, dispatch]);
+  }, [notebooksLoaded, dispatch]);
 
-  function showCreateMaterialModal() {
+  function showCreateNotebookModal() {
     if (modalShowing) return;
 
     dispatch(
-      showModal({ modalType: "create-material" })
+      showModal({ modalType: "create-notebook" })
     );
   };
 
   return (
     <SPage>
       <TagSidebar
-        tags={materialTags}
+        tags={notebookTags}
         currentTag={currentTag}
         isUncategorized={isUncategorized}
         setCurrentTag={setCurrentTag}
@@ -80,13 +80,13 @@ export const MaterialsPage: React.FC = () => {
             sortMode={sortMode}
             isCentered={false}
           />
-          { filteredMaterials.length === 0 && <SNotFoundHeading>No notebooks found.</SNotFoundHeading> }
+          { filteredNotebooks.length === 0 && <SNotFoundHeading>No notebooks found.</SNotFoundHeading> }
         </SPaddedContainer>
 
-        <MaterialList materials={filteredMaterials} />
+        <NotebookList notebooks={filteredNotebooks} />
         <FloatingCornerButton
           icon="plus"
-          handleClick={showCreateMaterialModal}
+          handleClick={showCreateNotebookModal}
         />
       </SSection>
     </SPage>

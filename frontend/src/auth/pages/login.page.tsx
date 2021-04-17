@@ -32,7 +32,7 @@ export const LoginPage = () => {
     <SPageContentCenter centerContent>
       <SHeadingTitle>Login Page</SHeadingTitle>
       {loggedIn ? (
-        <Redirect to={location.state?.from?.pathname ?? "/materials"} />
+        <Redirect to={location.state?.from?.pathname ?? "/notebooks"} />
       ) : (
         <SGoogleLogin
           clientId={`${process.env.REACT_APP_OAUTH_CLIENT_ID}`}

@@ -29,8 +29,8 @@ export const AppSidebar: React.FC = () => {
     let source: TFlashcardSource = "all";
 
     switch(appLocation) {
-      case "material-detail":
-        source = "material";
+      case "notebook-detail":
+        source = "notebook";
         break;
       case "sections":
         source = "section";
@@ -52,7 +52,7 @@ export const AppSidebar: React.FC = () => {
 
   return (
     <SContent>
-      <SSidebarLink to="/materials" $isSelected={appLocation === "sections"}>
+      <SSidebarLink to="/notebooks" $isSelected={appLocation === "sections"}>
         <SIcon icon={faBook} />
         <SName>Notebooks</SName>
       </SSidebarLink>

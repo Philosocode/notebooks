@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // logic
-import { IMaterial } from "../redux/material.types";
+import { INotebook } from "../redux/notebook.types";
 import { ILinkGridItem } from "../../shared/components/link/link-grid-item.component";
 import { api } from "services/api.service";
 import { selectConceptsLoaded } from "shared/redux/init.selectors";
@@ -23,9 +23,9 @@ interface IGetConceptLinksResponse {
   };
 }
 interface IProps {
-  material: IMaterial;
+  notebook: INotebook;
 }
-export const ConceptLinksForMaterial: React.FC<IProps> = ({ material }) => {
+export const ConceptLinksForNotebook: React.FC<IProps> = ({ notebook }) => {
   const dispatch = useDispatch();
   const conceptHash = useSelector(selectConceptHash);
   const conceptsLoaded = useSelector(selectConceptsLoaded);
@@ -37,12 +37,12 @@ export const ConceptLinksForMaterial: React.FC<IProps> = ({ material }) => {
     }
 
     if (!conceptIds) {
-      api.get<IGetConceptLinksResponse>(`/materials/${material.id}/concepts`)
+      api.get<IGetConceptLinksResponse>(`/notebooks/${notebook.id}/concepts`)
         .then(response => {
           setConceptIds(response.data.data.conceptLinks)
         });
     }
-  }, [conceptsLoaded, conceptIds, material, dispatch]);
+  }, [conceptsLoaded, conceptIds, notebook, dispatch]);
 
   const conceptLinks = useMemo(() => {
     if (!conceptsLoaded) return;
@@ -54,7 +54,7 @@ export const ConceptLinksForMaterial: React.FC<IProps> = ({ material }) => {
       const concept = conceptHash[id];
 
       links.push({
-        currentId: material.id,
+        currentId: notebook.id,
         otherId: concept.id,
         name: concept.name,
         url: `/concepts/${concept.id}`
@@ -62,7 +62,7 @@ export const ConceptLinksForMaterial: React.FC<IProps> = ({ material }) => {
     });
 
     return sortEntitiesByKey(links, "name");
-  }, [conceptsLoaded, conceptHash, material.id, conceptIds]);
+  }, [conceptsLoaded, conceptHash, notebook.id, conceptIds]);
 
   if (!conceptLinks) return null;
   return (

@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { faCheck, faExpand } from "@fortawesome/free-solid-svg-icons";
 
 // logic
-import { IMaterial } from "../redux/material.types";
+import { INotebook } from "../redux/notebook.types";
 import { IFlashcard } from "flashcard/redux/flashcard.types";
 import { api } from "../../services/api.service";
 import { deleteFlashcard, updateFlashcard } from "../../flashcard/redux/flashcard.thunks";
@@ -21,44 +21,44 @@ import { SHeadingSubSubtitle } from "shared/styles/typography.style";
 import { CircleIcon } from "../../shared/components/button/circle-icon.component";
 
 interface IProps {
-  material: IMaterial;
+  notebook: INotebook;
 }
-export const FlashcardsForMaterial: React.FC<IProps> = ({ material }) => {
+export const FlashcardsForNotebook: React.FC<IProps> = ({ notebook }) => {
   interface IFlashcardHash {
     [key: string]: IFlashcard[];
   }
   // key: section name, value: list of flashcards
-  const [flashcardsForMaterial, setFlashcardsForMaterial] = useState<IFlashcard[]>();
+  const [flashcardsForNotebook, setFlashcardsForNotebook] = useState<IFlashcard[]>();
   const {
     expandedHash,
     toggleEntityExpansion,
     toggleAllExpansions,
-  } = useExpandHash(flashcardsForMaterial ?? [], false);
+  } = useExpandHash(flashcardsForNotebook ?? [], false);
   const dispatch = useDispatch();
 
-  // fetch flashcards for material
+  // fetch flashcards for notebook
   useEffect(() => {
-    if (!flashcardsForMaterial) {
-      interface IGetFlashcardsForMaterialResponse {
+    if (!flashcardsForNotebook) {
+      interface IGetFlashcardsForNotebookResponse {
         status: string;
         data: {
           flashcards: IFlashcard[];
         };
       }
-      api.get<IGetFlashcardsForMaterialResponse>(`/materials/${material.id}/flashcards`)
+      api.get<IGetFlashcardsForNotebookResponse>(`/notebooks/${notebook.id}/flashcards`)
         .then(response => {
           const { flashcards } = response.data.data;
-          setFlashcardsForMaterial(flashcards);
+          setFlashcardsForNotebook(flashcards);
         });
     }
-  }, [material.id, flashcardsForMaterial]);
+  }, [notebook.id, flashcardsForNotebook]);
 
   function handleUpdate(flashcardId: string, question?: string, answer?: string) {
-    if (!flashcardsForMaterial) return;
+    if (!flashcardsForNotebook) return;
 
     const updates = { question, answer };
-    const flashcardIndex = flashcardsForMaterial.findIndex(f => f.id === flashcardId);
-    const flashcard = flashcardsForMaterial[flashcardIndex];
+    const flashcardIndex = flashcardsForNotebook.findIndex(f => f.id === flashcardId);
+    const flashcard = flashcardsForNotebook[flashcardIndex];
 
     dispatch(updateFlashcard({ sectionId: flashcard.section_id, flashcardId, updates }));
 
@@ -66,18 +66,18 @@ export const FlashcardsForMaterial: React.FC<IProps> = ({ material }) => {
   }
 
   function handleDelete(flashcardId: string) {
-    if (!flashcardsForMaterial) return;
+    if (!flashcardsForNotebook) return;
 
-    const flashcardIndex = flashcardsForMaterial.findIndex(f => f.id === flashcardId);
-    const flashcardToUpdate = flashcardsForMaterial[flashcardIndex];
+    const flashcardIndex = flashcardsForNotebook.findIndex(f => f.id === flashcardId);
+    const flashcardToUpdate = flashcardsForNotebook[flashcardIndex];
 
     dispatch(deleteFlashcard({ flashcardId, sectionId: flashcardToUpdate.section_id }));
 
-    setFlashcardsForMaterial(flashcardsForMaterial.filter(f => f.id !== flashcardId));
+    setFlashcardsForNotebook(flashcardsForNotebook.filter(f => f.id !== flashcardId));
   }
 
   function toggleFlashcardMastered(flashcard: IFlashcard) {
-    if (!flashcardsForMaterial) return;
+    if (!flashcardsForNotebook) return;
 
     const newValue = !flashcard.mastered;
 
@@ -91,21 +91,21 @@ export const FlashcardsForMaterial: React.FC<IProps> = ({ material }) => {
   }
 
   function updateLocalFlashcard(id: string, updates: { question?: string; answer?: string; mastered?: boolean; }) {
-    if (!flashcardsForMaterial) return;
+    if (!flashcardsForNotebook) return;
 
-    const flashcardIndex = flashcardsForMaterial.findIndex(f => f.id === id);
-    const flashcards = [ ...flashcardsForMaterial ];
+    const flashcardIndex = flashcardsForNotebook.findIndex(f => f.id === id);
+    const flashcards = [ ...flashcardsForNotebook ];
     const flashcard = {
       ...flashcards[flashcardIndex],
       ...updates,
     };
     flashcards[flashcardIndex] = flashcard;
 
-    setFlashcardsForMaterial(flashcards);
+    setFlashcardsForNotebook(flashcards);
   }
 
   const flashcardHash = useMemo(() => {
-    return flashcardsForMaterial?.reduce<IFlashcardHash>((hash, flashcard) => {
+    return flashcardsForNotebook?.reduce<IFlashcardHash>((hash, flashcard) => {
       if (!hash[flashcard.section_name]) {
         hash[flashcard.section_name] = [];
       }
@@ -114,13 +114,13 @@ export const FlashcardsForMaterial: React.FC<IProps> = ({ material }) => {
 
       return hash;
     }, {})
-  }, [flashcardsForMaterial]);
+  }, [flashcardsForNotebook]);
 
-  if (!flashcardsForMaterial || !flashcardHash) return null;
+  if (!flashcardsForNotebook || !flashcardHash) return null;
 
   return (
     <SContainer>
-      { flashcardsForMaterial.length === 0 && <SHeadingSubSubtitle weight={500}>No flashcards found.</SHeadingSubSubtitle> }
+      { flashcardsForNotebook.length === 0 && <SHeadingSubSubtitle weight={500}>No flashcards found.</SHeadingSubSubtitle> }
 
       {
         Object.keys(flashcardHash).map((sectionName, index) => (

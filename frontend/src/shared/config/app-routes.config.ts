@@ -6,8 +6,8 @@ import { LibraryPage } from "library/pages/library.page";
 import { LibraryDetailPage } from "library/pages/library-detail.page";
 import { ConceptDetailPage } from "concept/pages/concept-detail.page";
 import { ConceptsPage } from "concept/pages/concepts.page";
-import { MaterialsPage } from "material/pages/materials.page";
-import { MaterialDetailPage } from "material/pages/material-detail.page";
+import { NotebooksPage } from "notebook/pages/notebooks.page";
+import { NotebookDetailPage } from "notebook/pages/notebook-detail.page";
 import { SectionDetailPage } from "section/pages/section-detail.page";
 import { PracticePage } from "practice/pages/practice.page";
 
@@ -44,15 +44,15 @@ const conceptDetail: IAppRoute<RouteComponentProps> = {
   isPrivate: true,
 };
 
-const materials: IAppRoute = {
-  component: MaterialsPage,
-  path: "/materials",
+const notebooks: IAppRoute = {
+  component: NotebooksPage,
+  path: "/notebooks",
   isPrivate: true,
 };
 
-const materialDetail: IAppRoute<RouteComponentProps> = {
-  component: MaterialDetailPage,
-  path: "/materials/:materialId",
+const notebookDetail: IAppRoute<RouteComponentProps> = {
+  component: NotebookDetailPage,
+  path: "/notebooks/:notebookId",
   isPrivate: true,
 };
 
@@ -74,8 +74,8 @@ export const appRoutes = [
   libraryDetail,
   concepts,
   conceptDetail,
-  materials,
-  materialDetail,
+  notebooks,
+  notebookDetail,
   sectionDetail,
   practice,
 ];

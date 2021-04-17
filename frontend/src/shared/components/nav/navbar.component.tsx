@@ -33,7 +33,7 @@ export const Navbar: React.FC = () => {
         <li>
           <SStudyLink
             $activeLink={appLocation !== "library"}
-            to="/materials"
+            to="/notebooks"
           >Study</SStudyLink>
         </li>
         {LibraryLink}

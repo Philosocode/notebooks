@@ -7,7 +7,7 @@ import { globalReducer } from "./global.slice";
 import { hookReducer } from "hook/redux/hook.slice";
 import { initReducer } from "./init.slice";
 import { loadingReducer } from "loading/redux/loading.slice";
-import { materialReducer } from "../../material/redux/material.slice";
+import { notebookReducer } from "../../notebook/redux/notebook.slice";
 import { modalReducer, showModal, hideModal } from "modal/redux/modal.slice";
 import { sectionReducer } from "section/redux/section.slice";
 import { practiceReducer } from "../../practice/redux/practice.slice";
@@ -23,7 +23,7 @@ const appReducer = combineReducers({
   hook: hookReducer,
   init: initReducer,
   loading: loadingReducer,
-  material: materialReducer,
+  notebook: notebookReducer,
   modal: modalReducer,
   section: sectionReducer,
   practice: practiceReducer,

@@ -1,35 +1,35 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 
-import { IMaterial } from "material/redux/material.types";
+import { INotebook } from "notebook/redux/notebook.types";
 import { showModal } from "modal/redux/modal.slice";
-import { deleteTagFromMaterial } from "../redux/material-tag.thunk";
+import { deleteTagFromNotebook } from "../redux/notebook-tag.thunk";
 
 import { EntityListItem } from "../../shared/components/info/entity-list-item.component";
 
 interface IProps {
-  material: IMaterial;
+  notebook: INotebook;
 }
-export const MaterialListItem: React.FC<IProps> = ({ material }) => {
+export const NotebookListItem: React.FC<IProps> = ({ notebook }) => {
   const dispatch = useDispatch();
 
   function handleEdit() {
     dispatch(
       showModal({
-        modalType: "update-material",
-        modalProps: { material },
+        modalType: "update-notebook",
+        modalProps: { notebook },
       })
     );
   }
 
   function handleDeleteTag(tag: string) {
-    dispatch(deleteTagFromMaterial({ tagName: tag, materialId: material.id }));
+    dispatch(deleteTagFromNotebook({ tagName: tag, notebookId: notebook.id }));
   }
 
   return (
     <EntityListItem
-      entity={material}
-      link={`/materials/${material.id}`}
+      entity={notebook}
+      link={`/notebooks/${notebook.id}`}
       updateEntity={handleEdit}
       deleteTag={handleDeleteTag}
     />
