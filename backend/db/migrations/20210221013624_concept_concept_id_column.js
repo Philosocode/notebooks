@@ -1,5 +1,5 @@
 exports.up = function(knex) {
-  return knex.schema.table("concept_concept", function(table) {
+  return knex.schema.table("concept_concept_link", function(table) {
     table.dropPrimary();
 
     // add new primary ID column
@@ -9,7 +9,7 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  return knex.schema.table("concept_concept", function(table) {
+  return knex.schema.table("concept_concept_link", function(table) {
     table.dropColumn("id");
     table.dropUnique(["concept1_id", "concept2_id"]);
 

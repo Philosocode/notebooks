@@ -83,7 +83,7 @@ async function getFlashcardsForUser(user_id, mastered, connection=db) {
 }
 
 async function updateFlashcard(part_id, flashcard_id, updates, connection=db) {
-  // updates: title, content, position
+  // updates: name, content, position
   return connection.transaction(async trx => {
     const newPosition = updates.position;
 

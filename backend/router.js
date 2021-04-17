@@ -37,13 +37,13 @@ const deleteHooks = require("./handlers/hook/delete-hooks.handler");
 const updateHook = require("./handlers/hook/update-hook.handler");
 
 // Concept Links
-const createConceptLink = require("./handlers/concept-link/create-concept-link.handler");
-const deleteConceptLink = require("./handlers/concept-link/delete-concept-link.handler");
-const getConceptLink = require("./handlers/concept-link/get-concept-link.handler");
-const getConceptLinks = require("./handlers/concept-link/get-concept-links.handler");
+const createConceptLink = require("./handlers/concept-concept-link/create-concept-concept-link.handler");
+const deleteConceptLink = require("./handlers/concept-concept-link/delete-concept-concept-link.handler");
+const getConceptLink = require("./handlers/concept-concept-link/get-concept-concept-link.handler");
+const getConceptLinks = require("./handlers/concept-concept-link/get-concept-concept-links.handler");
 
-const deleteConceptLinksForConcept = require("./handlers/concept-link/delete-concept-links-for-concept.handler");
-const getConceptLinksForConcept = require("./handlers/concept-link/get-concept-links-for-concept.handler");
+const deleteConceptLinksForConcept = require("./handlers/concept-concept-link/delete-concept-concept-links-for-concept.handler");
+const getConceptLinksForConcept = require("./handlers/concept-concept-link/get-concept-concept-links-for-concept.handler");
 const getConceptsForMaterial = require("./handlers/material/get-concepts-for-material.handler");
 
 // Materials
