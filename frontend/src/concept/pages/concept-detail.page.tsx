@@ -13,7 +13,7 @@ import { setCurrentConceptId } from "concept/redux/concept.slice";
 import { ConceptDetailHeader } from "concept/components/concept-detail-header.component";
 import { ConceptHooks } from "hook/components/concept-hooks.component";
 import { ConceptNotebookLinks } from "../components/concept-notebook-links.component";
-import { ConceptLinks } from "../components/concept-links.component";
+import { ConceptConceptLinks } from "../components/concept-concept-links.component";
 import { TabNames } from "shared/components/nav/tab-names.component";
 import { Tab } from "shared/components/nav/tab.component";
 
@@ -71,7 +71,7 @@ export const ConceptDetailPage: FC<RouteComponentProps> = () => {
           <ConceptNotebookLinks concept={currentConcept} />
         </Tab>
         <Tab title="Concept Links" selectedTab={selectedTab}>
-          <ConceptLinks concept={currentConcept} />
+          <ConceptConceptLinks concept={currentConcept} />
         </Tab>
       </div>
     </SDetailPageContent>

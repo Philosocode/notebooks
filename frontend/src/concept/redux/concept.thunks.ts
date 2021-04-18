@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { IConcept, IConceptLink } from "./concept.types";
+import { IConcept, IConceptConceptLink } from "./concept.types";
 import { api } from "services/api.service";
 import { showAndHideAlert } from "alert/redux/alert.thunks";
 
@@ -133,46 +133,46 @@ export const deleteTagFromConcept = createAsyncThunk(
   }
 );
 
-interface IGetConceptLinksResponse {
+interface IGetConceptConceptLinksResponse {
   status: string;
   data: {
-    conceptLinks: IConceptLink[];
+    conceptConceptConceptLinks: IConceptConceptLink[];
   };
 }
-export const getConceptLinks = createAsyncThunk(
-  "concept/getConceptLinks",
+export const getConceptConceptLinks = createAsyncThunk(
+  "concept/getConceptConceptLinks",
   async function (conceptId: string, thunkAPI) {
     try {
-      const response = await api.get<IGetConceptLinksResponse>(`/concepts/${conceptId}/links?concepts`);
-      return response.data.data.conceptLinks;
+      const response = await api.get<IGetConceptConceptLinksResponse>(`/concepts/${conceptId}/links?concepts`);
+      return response.data.data.conceptConceptConceptLinks;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
   }
 )
 
-interface ICreateConceptLinkPayload {
+interface ICreateConceptConceptLinkPayload {
   currentConceptId: string;
   otherConceptId: string;
 }
-interface ICreateConceptLinkResponse {
+interface ICreateConceptConceptLinkResponse {
   status: string;
   data: {
-    conceptLink: {
+    conceptConceptConceptLink: {
       id: string;
       concept1_id: string;
       concept2_id: string;
     };
   };
 }
-export const createConceptLink = createAsyncThunk(
-  "concept/createConceptLink",
-  async function (payload: ICreateConceptLinkPayload, thunkAPI) {
+export const createConceptConceptLink = createAsyncThunk(
+  "concept/createConceptConceptLink",
+  async function (payload: ICreateConceptConceptLinkPayload, thunkAPI) {
     try {
       const conceptIds = [ payload.currentConceptId, payload.otherConceptId ];
-      const res = await api.post<ICreateConceptLinkResponse>("/concepts/links", { conceptIds });
+      const res = await api.post<ICreateConceptConceptLinkResponse>("/concepts/links", { conceptIds });
 
-      const newLink = res.data.data.conceptLink;
+      const newLink = res.data.data.conceptConceptConceptLink;
       return {
         ...payload,
         id: newLink.id,
@@ -183,14 +183,14 @@ export const createConceptLink = createAsyncThunk(
   }
 )
 
-export interface IDeleteConceptLinkPayload {
+export interface IDeleteConceptConceptLinkPayload {
   currentConceptId: string;
   otherConceptId: string;
   linkId: string;
 }
-export const deleteConceptLink = createAsyncThunk(
-  "concept/deleteConceptLink",
-  async function (payload: IDeleteConceptLinkPayload, thunkAPI) {
+export const deleteConceptConceptLink = createAsyncThunk(
+  "concept/deleteConceptConceptLink",
+  async function (payload: IDeleteConceptConceptLinkPayload, thunkAPI) {
     const { linkId } = payload;
 
     try {

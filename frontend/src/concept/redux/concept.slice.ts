@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import omit from "lodash/omit";
 
 import {
-  createConcept, createConceptLink,
+  createConcept, createConceptConceptLink,
   deleteConcept,
-  deleteConceptLink,
+  deleteConceptConceptLink,
   deleteTagFromConcept,
   getConcept,
-  getConceptLinks,
+  getConceptConceptLinks,
   getConcepts,
   updateConcept,
 } from "./concept.thunks";
@@ -137,7 +137,7 @@ const conceptSlice = createSlice({
         hookIds.splice(hookIndex, 1);
       })
       // Concept Links
-      .addCase(createConceptLink.fulfilled, (state, action) => {
+      .addCase(createConceptConceptLink.fulfilled, (state, action) => {
         const { currentConceptId, otherConceptId, id } = action.payload;
 
         const currentConcept = state.concepts[currentConceptId];
@@ -146,7 +146,7 @@ const conceptSlice = createSlice({
         const otherConcept = state.concepts[otherConceptId];
         otherConcept.links?.push({ id, concept_id: currentConceptId });
       })
-      .addCase(getConceptLinks.fulfilled, (state, action) => {
+      .addCase(getConceptConceptLinks.fulfilled, (state, action) => {
         const { currentConceptId } = state;
 
         if (!currentConceptId) return;
@@ -154,7 +154,7 @@ const conceptSlice = createSlice({
         const currentConcept = state.concepts[currentConceptId];
         currentConcept.links = action.payload;
       })
-      .addCase(deleteConceptLink.fulfilled, (state, action) => {
+      .addCase(deleteConceptConceptLink.fulfilled, (state, action) => {
         const { currentConceptId, otherConceptId, linkId } = action.payload;
 
         removeLinkFromConcept(state.concepts[currentConceptId], linkId);
@@ -171,11 +171,11 @@ export const {
 
 /* HELPERS */
 function removeLinkFromConcept(concept: IConcept, linkId: string) {
-  const conceptLinks = concept.links;
-  if (!conceptLinks) return;
+  const conceptConceptConceptLinks = concept.links;
+  if (!conceptConceptConceptLinks) return;
 
-  const linkIndex = conceptLinks.findIndex(link => link.id === linkId);
+  const linkIndex = conceptConceptConceptLinks.findIndex(link => link.id === linkId);
   if (linkIndex === -1) return;
 
-  conceptLinks.splice(linkIndex, 1);
+  conceptConceptConceptLinks.splice(linkIndex, 1);
 }

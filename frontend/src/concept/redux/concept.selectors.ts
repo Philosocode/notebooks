@@ -3,7 +3,7 @@ import { createSelector } from "@reduxjs/toolkit";
 import { selectHookHash } from "hook/redux/hook.selectors";
 import { IHook } from "hook/redux/hook.types";
 import { TAppState } from "shared/redux/store";
-import { IConceptLinkWithName } from "./concept.types";
+import { IConceptConceptLinkWithName } from "./concept.types";
 
 const selectConcept = (state: TAppState) => state.concept;
 
@@ -62,14 +62,14 @@ export const selectConceptHooks = createSelector(
   }
 )
 
-export const selectConceptLinks = createSelector(
+export const selectConceptConceptLinks = createSelector(
   [selectConceptHash, selectCurrentConcept],
   (conceptHash, currentConcept) => {
     const links = currentConcept?.links;
     if (!links) return;
 
     // find concepts matching link IDs
-    const conceptsForLinks: IConceptLinkWithName[] = [];
+    const conceptsForLinks: IConceptConceptLinkWithName[] = [];
 
     links.forEach(link => {
       const concept = conceptHash[link.concept_id];

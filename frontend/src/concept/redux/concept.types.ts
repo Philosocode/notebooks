@@ -7,7 +7,7 @@ export interface IConcept {
   tags: string[];
   num_hooks: number;
   hookIds?: string[];
-  links?: IConceptLink[];
+  links?: IConceptConceptLink[];
 }
 
 export interface IConceptHash {
@@ -19,12 +19,12 @@ export interface IConceptState {
   currentConceptId?: string;
 }
 
-export interface IConceptLink {
+export interface IConceptConceptLink {
   id: string;
   concept_id: string;
 }
 
-export interface IConceptLinkWithName extends IConceptLink {
+export interface IConceptConceptLinkWithName extends IConceptConceptLink {
   concept_name: string;
   updated_at: string;
   created_at: string;
