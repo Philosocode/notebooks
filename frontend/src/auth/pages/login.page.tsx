@@ -11,7 +11,7 @@ import { theme } from "shared/styles/theme.style";
 import { SHeadingTitle } from "shared/styles/typography.style";
 import { SPageContentCenter } from "shared/styles/layout.style";
 
-export const LoginPage = () => {
+export const LoginPage: React.FC = () => {
   const dispatch = useDispatch();
   const loggedIn = useSelector(selectIsLoggedIn);
   const location = useLocation<{ from: { pathname: string } }>();
