@@ -98,9 +98,9 @@ async function getFlashcardsForNotebook(notebook_id, mastered, connection=db) {
 }
 
 async function getConceptLinksForNotebook(notebook_id, connection=db) {
-  return connection("concept_section")
+  return connection("concept_section_link")
     .select("concept_id")
-    .join("section", "section.id", "concept_section.section_id")
+    .join("section", "section.id", "concept_section_link.section_id")
     .where({ "section.notebook_id": notebook_id })
     .distinct("concept_id");
 }

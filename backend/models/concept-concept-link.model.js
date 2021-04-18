@@ -62,9 +62,9 @@ async function getConceptConceptLinks(user_id, filterObj, connection=db) {
 }
 
 async function getNotebookLinksForConcept(concept_id, connection=db) {
-  return connection("concept_section")
+  return connection("concept_section_link")
     .select("notebook.id")
-    .join("section", "section.id", "concept_section.section_id")
+    .join("section", "section.id", "concept_section_link.section_id")
     .join("notebook", "notebook.id", "section.notebook_id")
-    .where({ "concept_section.concept_id": concept_id });
+    .where({ "concept_section_link.concept_id": concept_id });
 }
