@@ -58,7 +58,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <SNav>
-      <SMenuToggle icon="bars" onClick={handleToggleClick} />
+      { appLocation !== "other" && <SMenuToggle icon="bars" onClick={handleToggleClick} /> }
       <SNavList>
         { user && <SStuckButton onClick={toggleHelpModal}>I'm Stuck</SStuckButton> }
         { user ? getLoggedInLinks() : getLoggedOutLinks() }

@@ -46,7 +46,6 @@ docker-compose up --build [-d]
 docker-compose down
 ```
 
-
 ## knex Commands - Migrations & Seeds
 See: http://knexjs.org/#Migrations
 To run `knex` commands, make sure the `db` and `backend` containers are running
