@@ -48,18 +48,8 @@ app.use(compression());
 // router
 app.use("/api/v1", router);
 
-if (process.env.NODE_ENV === "production") {
-  app.get("/", (req,res) =>{
-    res.sendFile(path.join(__dirname , "build", "index.html" ));
-  });
-}
-
-// handle not found routes
-app.all("*", function (req, _, next) {
-  // When passing an ARG into `next()`, Express assumes there's an error
-  next(
-    new AppError(`Can't find ${req.originalUrl} on this server!`, 404)
-  );
+app.get("*", (req,res) =>{
+  res.sendFile(path.join(__dirname , "build", "index.html" ));
 });
 
 // global error handling MW
