@@ -1,7 +1,7 @@
 const defaultSectionChecklist = {
-  "Skim through the notebook": false,
+  "Skim through the material": false,
   "Attempt practice problems": false,
-  "Finish the notebook": false,
+  "Go through the material": false,
   "Create flashcards": false,
 };
 

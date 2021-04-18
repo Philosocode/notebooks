@@ -51,7 +51,7 @@ export const PracticePage: React.FC = () => {
     }
 
     let requestUrl: string;
-    switch(practiceState.source) {
+    switch (practiceState.source) {
       case "all":
         requestUrl = "/flashcards?mastered=false";
         break;
@@ -63,22 +63,21 @@ export const PracticePage: React.FC = () => {
         break;
     }
 
-    api.get<IFlashcardsResponse>(requestUrl)
-      .then(response => {
-        const rawFlashcards = response.data.data.flashcards;
+    api.get<IFlashcardsResponse>(requestUrl).then((response) => {
+      const rawFlashcards = response.data.data.flashcards;
 
-        setFlashcards(shuffle(rawFlashcards));
-        setCurrentFlashcardIndex(0);
-      });
+      setFlashcards(shuffle(rawFlashcards));
+      setCurrentFlashcardIndex(0);
+    });
   }, [practiceState, flashcards, history]);
 
-  function handleSuccess() {
-    setCurrentFlashcardIndex(prevState => prevState + 1);
+  function handleCorrect() {
+    setCurrentFlashcardIndex((prevState) => prevState + 1);
 
     handleToggle();
   }
 
-  function handleFailure() {
+  function handleIncorrect() {
     if (!flashcards) return;
 
     // if current flashcard is the last item, do nothing
@@ -90,7 +89,7 @@ export const PracticePage: React.FC = () => {
     let randomIndex = currentFlashcardIndex;
     while (randomIndex === currentFlashcardIndex) {
       // keep looping until a different index is found
-      randomIndex = random(currentFlashcardIndex+1, flashcards.length - 1);
+      randomIndex = random(currentFlashcardIndex + 1, flashcards.length - 1);
     }
 
     const flashcardsCopy = [...flashcards];
@@ -118,20 +117,22 @@ export const PracticePage: React.FC = () => {
     if (currentFlashcardIndex === 0) return;
     handleToggle();
 
-    setCurrentFlashcardIndex(prevState => prevState - 1);
+    setCurrentFlashcardIndex((prevState) => prevState - 1);
   }
 
   function handleMasteredClick() {
     if (!flashcards) return;
     const flashcard = flashcards[currentFlashcardIndex];
 
-    dispatch(updateFlashcard({
-      flashcardId: flashcard.id,
-      sectionId: flashcard.section_id,
-      updates: {
-        mastered: true
-      }
-    }));
+    dispatch(
+      updateFlashcard({
+        flashcardId: flashcard.id,
+        sectionId: flashcard.section_id,
+        updates: {
+          mastered: true,
+        },
+      })
+    );
 
     // after mastering a flashcard, remove it
     const updatedFlashcards = [...flashcards];
@@ -157,8 +158,10 @@ export const PracticePage: React.FC = () => {
   }
 
   function getStudyHeadingText() {
-    if (practiceState.source === "notebook") return "Studying flashcards in notebook";
-    if (practiceState.source === "section") return "Studying flashcards in note";
+    if (practiceState.source === "notebook")
+      return "Studying flashcards in notebook";
+    if (practiceState.source === "section")
+      return "Studying flashcards in section";
 
     return "Studying all flashcards";
   }
@@ -172,12 +175,19 @@ export const PracticePage: React.FC = () => {
         <STextContainer>
           <SStudyHeading>{getStudyHeadingText()}</SStudyHeading>
           <SMasteredIcon icon={faStar} handleClick={handleMasteredClick} />
-          <STextCompact>{currentFlashcardIndex + 1} / {flashcards.length}</STextCompact>
-          <SSectionNameLink as={Link} to={`/sections/${currentFlashcard.section_id}`}>{currentFlashcard.section_name}</SSectionNameLink>
+          <STextCompact>
+            {currentFlashcardIndex + 1} / {flashcards.length}
+          </STextCompact>
+          <SSectionNameLink
+            as={Link}
+            to={`/sections/${currentFlashcard.section_id}`}
+          >
+            {currentFlashcard.section_name}
+          </SSectionNameLink>
           <SQuestionHeading>Question:</SQuestionHeading>
           <SText>{currentFlashcard.question}</SText>
 
-          { answerShowing ? (
+          {answerShowing ? (
             <>
               <SAnswerHeading>Answer:</SAnswerHeading>
               <SMarkdownStyles>
@@ -198,20 +208,25 @@ export const PracticePage: React.FC = () => {
         </STextContainer>
 
         <SButtons>
-          {
-            answerShowing ? (
-              <>
-                <SButton disabled={currentFlashcardIndex === 0} onClick={handlePrevious}>Previous</SButton>
-                <SButtonGreen onClick={handleSuccess}>Success</SButtonGreen>
-                <SButtonRed onClick={handleFailure}>Fail</SButtonRed>
-              </>
-            ) : (
-              <SShowAnswerButton
-                onClick={toggleAnswerShowing}
-                disabled={values.responseText.length < 5}
-              >Show Answer</SShowAnswerButton>
-            )
-          }
+          {answerShowing ? (
+            <>
+              <SButton
+                disabled={currentFlashcardIndex === 0}
+                onClick={handlePrevious}
+              >
+                Previous
+              </SButton>
+              <SButtonGreen onClick={handleCorrect}>Correct</SButtonGreen>
+              <SButtonRed onClick={handleIncorrect}>Incorrect</SButtonRed>
+            </>
+          ) : (
+            <SShowAnswerButton
+              onClick={toggleAnswerShowing}
+              disabled={values.responseText.length < 1}
+            >
+              Show Answer
+            </SShowAnswerButton>
+          )}
         </SButtons>
       </>
     );
@@ -223,27 +238,31 @@ export const PracticePage: React.FC = () => {
         <SDoneHeading weight={500}>You are finished studying!</SDoneHeading>
         <SShowAnswerButton onClick={handleGoBack}>Exit</SShowAnswerButton>
       </SCenterContainer>
-    )
+    );
   }
 
   if (!flashcards || currentFlashcardIndex === -1) return <Loader />;
   return (
     <SContainer>
-      { flashcards.length === 0 && getNoFlashcardsHeading() }
-      { flashcards.length > 0 && currentFlashcardIndex < flashcards.length && getPracticeScreen() }
-      { flashcards.length > 0 && currentFlashcardIndex === flashcards.length && getFinishedScreen() }
+      {flashcards.length === 0 && getNoFlashcardsHeading()}
+      {flashcards.length > 0 &&
+        currentFlashcardIndex < flashcards.length &&
+        getPracticeScreen()}
+      {flashcards.length > 0 &&
+        currentFlashcardIndex === flashcards.length &&
+        getFinishedScreen()}
     </SContainer>
   );
-}
+};
 
 const SContainer = styled(SPageContentCenter)`
   display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  flex-direction: column;
+  justify-content: space-between;
   height: calc(100vh - ${theme.componentSizes.navbarHeight});
   padding: ${theme.spacing.base} ${theme.spacing.base};
   position: relative;
-  
+
   ${theme.media.tabLand} {
     padding: ${theme.spacing.lg};
   }
@@ -252,7 +271,7 @@ const SContainer = styled(SPageContentCenter)`
 const SMasteredIcon = styled(CircleIcon)`
   font-size: 2rem;
   position: absolute;
-    right: 0;
+  right: 0;
 `;
 
 const STextContainer = styled.div`
@@ -292,7 +311,7 @@ const SAnswerHeading = styled(SHeadingSubtitle)`
 
 const SText = styled.p`
   font-size: ${theme.fontSizes.basePlus};
-  
+
   ${theme.media.tabLand} {
     font-size: ${theme.fontSizes.md};
   }
@@ -300,7 +319,7 @@ const SText = styled.p`
 
 const SButtons = styled.div`
   display: flex;
-    justify-content: space-between;
+  justify-content: space-between;
   max-width: 100vw;
 
   & > button {
@@ -322,7 +341,7 @@ const SCenterContainer = styled.div`
 const SSectionNameLink = styled(STextCompact)`
   font-weight: bold;
   text-decoration: underline;
-  
+
   &:hover {
     color: ${theme.colors.green[400]};
   }
@@ -333,12 +352,12 @@ const SMarkdownStyles = styled.div`
     font-size: ${theme.fontSizes.lg};
     font-weight: 800;
     margin-bottom: -${theme.spacing.sm};
-    
+
     ${theme.media.tabLand} {
       font-size: ${theme.fontSizes.xl};
     }
   }
-  
+
   & img {
     max-width: 100%;
   }
@@ -348,14 +367,16 @@ const SMarkdownStyles = styled.div`
     font-size: ${theme.fontSizes.md};
     padding-top: ${theme.spacing.base};
     padding-bottom: 5px;
-    
+
     ${theme.media.tabLand} {
       font-size: ${theme.fontSizes.lg};
       padding-top: ${theme.spacing.md};
     }
   }
 
-  & > p, & > ul, & > ol {
+  & > p,
+  & > ul,
+  & > ol {
     margin-top: ${theme.spacing.sm};
     font-size: ${theme.fontSizes.basePlus};
 
@@ -363,12 +384,13 @@ const SMarkdownStyles = styled.div`
       font-size: ${theme.fontSizes.md};
     }
   }
-  
+
   & > p:first-child {
     margin-top: 0;
   }
 
-  & > ul, & > ol {
+  & > ul,
+  & > ol {
     list-style-type: inherit;
     padding-left: 1.8rem;
   }
@@ -376,5 +398,4 @@ const SMarkdownStyles = styled.div`
   & a {
     text-decoration: underline;
   }
-`
-
+`;

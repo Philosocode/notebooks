@@ -38,8 +38,6 @@ export const SCheckboxLabel = styled.label`
   margin-top: ${theme.spacing.sm};
   padding-left: 2.1em;
   position: relative;
-  width: max-content;
-  max-width: 100%;
 
   ${theme.media.tabLand} {
     font-size: ${theme.fontSizes.basePlus};

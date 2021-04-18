@@ -69,7 +69,7 @@ export const SectionList: React.FC<IProps> = ({ notebookId }) => {
     <DragAndDropWrapper droppableId="section-list-droppable" handleDragEnd={handleDragEnd}>
       <SList>
         {notebookSections.length === 0 && (
-          <SHeadingSubSubtitle weight={500}>No notes found...</SHeadingSubSubtitle>
+          <SHeadingSubSubtitle weight={500}>No sections found...</SHeadingSubSubtitle>
         )}
         {notebookSections.map((section, index) => (
           <SectionListItem
@@ -92,5 +92,5 @@ export const SectionList: React.FC<IProps> = ({ notebookId }) => {
 };
 
 const SList = styled.ul`
-  margin-top: ${theme.spacing.md};
+  margin-top: ${theme.spacing.base};
 `;
