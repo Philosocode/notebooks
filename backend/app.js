@@ -19,6 +19,7 @@ app.use(cors({
 
 // serve static files
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "build")));
 
 // set security HTTP headers
 app.use(helmet());
@@ -46,6 +47,12 @@ app.use(compression());
 
 // router
 app.use("/api/v1", router);
+
+if (process.env.NODE_ENV === "production") {
+  app.get("/", (req,res) =>{
+    res.sendFile(path.join(__dirname , "build", "index.html" ));
+  });
+}
 
 // handle not found routes
 app.all("*", function (req, _, next) {
