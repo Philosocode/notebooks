@@ -22,11 +22,13 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "build")));
 
 // set security HTTP headers
-app.use(helmet({
-  defaultSrc: ["'self'"],
-  scriptSrc: ["'self'", "apis.google.com"],
-  objectSrc: ["'none'"],
-  upgradeInsecureRequests: []
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'", "apis.google.com"],
+    objectSrc: ["'none'"],
+    upgradeInsecureRequests: []
+  }
 }));
 
 // limit requests from same IP
