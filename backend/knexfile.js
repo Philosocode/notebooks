@@ -1,3 +1,5 @@
+require("dotenv").config({ path: __dirname + "../env/db.env" });
+
 module.exports = {
   development: {
     client: 'pg',
