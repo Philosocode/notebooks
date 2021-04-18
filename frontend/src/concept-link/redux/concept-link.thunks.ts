@@ -40,7 +40,7 @@ interface ICreateConceptSectionLinkResponse {
     };
   };
 }
-export const createConceptSection = createAsyncThunk(
+export const createConceptSectionLink = createAsyncThunk(
   "concept-section/createConceptSection",
   async function (payload: ICreateConceptSectionLinkPayload, thunkAPI) {
     const { conceptId, section } = payload;

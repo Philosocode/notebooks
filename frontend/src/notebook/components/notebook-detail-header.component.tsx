@@ -9,29 +9,29 @@ import { TagList } from "../../tag/components/tag-list.component";
 import { DetailHeader } from "../../shared/components/info/detail-header.component";
 
 interface IProps {
-  material: INotebook;
+  notebook: INotebook;
 }
-export const NotebookDetailHeader: React.FC<IProps> = ({ material }) => {
+export const NotebookDetailHeader: React.FC<IProps> = ({ notebook }) => {
   const dispatch = useDispatch();
   function showUpdateModal() {
     dispatch(
       showModal({
-        modalType: "update-material",
-        modalProps: { material },
+        modalType: "update-notebook",
+        modalProps: { notebook },
       })
     );
   }
 
   function handleDeleteTag(tag: string) {
-    dispatch(deleteTagFromNotebook({ tagName: tag, materialId: material.id }));
+    dispatch(deleteTagFromNotebook({ tagName: tag, notebookId: notebook.id }));
   }
 
   return (
     <DetailHeader
-      name={material.name}
-      updatedAt={material.updated_at}
+      name={notebook.name}
+      updatedAt={notebook.updated_at}
       showUpdateModal={showUpdateModal}
-      bottomSlot={<TagList tags={material.tags} handleDeleteTag={handleDeleteTag} />}
+      bottomSlot={<TagList tags={notebook.tags} handleDeleteTag={handleDeleteTag} />}
     />
   );
 }

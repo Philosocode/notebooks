@@ -9,7 +9,7 @@ import { sortEntitiesByKey } from "../../shared/utils/entity.util";
 import { useToggle } from "../../shared/hooks/use-toggle.hook";
 
 // components
-import { CreateConceptConceptLinkModal } from "../../concept-link/components/create-concept-link-modal.component";
+import { CreateConceptLinkModal } from "../../concept-link/components/create-concept-link-modal.component";
 import { FloatingCornerButton } from "shared/components/button/floating-corner-button.component";
 import { LinkGrid } from "shared/components/link/link-grid.component";
 
@@ -77,7 +77,7 @@ export const ConceptConceptLinks: React.FC<IProps> = ({ concept }) => {
       }
       <LinkGrid links={linkGridItems} handleDelete={handleLinkDelete} />
       <FloatingCornerButton handleClick={toggleCreateModalShowing} icon="plus" />
-      <CreateConceptConceptLinkModal
+      <CreateConceptLinkModal
         handleClose={toggleCreateModalShowing}
         handleCreate={handleLinkCreate}
         unlinkedEntities={unlinkedConcepts}

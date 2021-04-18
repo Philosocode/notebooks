@@ -5,7 +5,7 @@ import omit from "lodash/omit";
 import { ISectionState } from "./section.types";
 import { createNote, deleteNote, getNotes } from "note/redux/note.thunks";
 import { IRepositionEntityPayload } from "../../shared/types.shared";
-import { createConceptSectionLink, deleteConceptSectionLink, getConceptSectionLinks } from "../../concept-link/redux/concept-link.thunks";
+import { createConceptSectionLink, deleteConceptSectionLink, getConceptSectionLinks } from "concept-link/redux/concept-link.thunks";
 import { createFlashcard, deleteFlashcard, getFlashcards } from "flashcard/redux/flashcard.thunks";
 
 const initialState: ISectionState  = {

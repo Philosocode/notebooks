@@ -113,7 +113,7 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
                 handleDelete={handleDelete}
                 handleUpdate={handleUpdate}
                 index={index}
-                name={hook.name}
+                title={hook.name}
                 content={hook.content}
                 isExpanded={expandedHash[hook.id]}
                 toggleIsExpanded={toggleEntityExpansion}

@@ -10,7 +10,6 @@ import { selectIsLoggedIn } from "user/redux/user.selectors";
 import { theme } from "shared/styles/theme.style";
 import { SHeadingTitle } from "shared/styles/typography.style";
 import { SPageContentCenter } from "shared/styles/layout.style";
-import { showAndHideAlert } from "../../alert/redux/alert.thunks";
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
@@ -19,13 +18,6 @@ export const LoginPage = () => {
 
   async function handleGoogleSuccess(googleData: any) {
     dispatch(loginGoogle(googleData.tokenId));
-  }
-
-  function handleGoogleFailure() {
-    dispatch(showAndHideAlert({
-      type: "error",
-      message: "ERROR: Failed to sign in with Google",
-    }));
   }
 
   return (
@@ -38,7 +30,6 @@ export const LoginPage = () => {
           clientId={`${process.env.REACT_APP_OAUTH_CLIENT_ID}`}
           buttonText="Login With Google"
           onSuccess={handleGoogleSuccess}
-          onFailure={handleGoogleFailure}
           cookiePolicy={"single_host_origin"}
         />
       )}
