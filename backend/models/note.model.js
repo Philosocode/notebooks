@@ -56,7 +56,7 @@ async function getNote(note_id, connection=db) {
 }
 
 async function updateNote(section_id, note_id, updates, connection = db) {
-  // updates: title, content, position
+  // updates: name, content, position
   return connection.transaction(async trx => {
     const newPosition = updates.position;
 

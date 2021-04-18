@@ -56,7 +56,7 @@ async function getSection(section_id, connection=db) {
 }
 
 async function updateSection(notebook_id, section_id, updates, connection=db) {
-  // updates: title, content, position
+  // updates: name, content, position
   return connection.transaction(async trx => {
     const newPosition = updates.position;
     const { checklist, ...updatesWithoutChecklist } = updates;

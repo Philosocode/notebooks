@@ -16,15 +16,15 @@ module.exports = catchAsync(async function (req, res, next) {
   }
 
   // check if at least 1 update-able property included
-  const { title, content, position } = req.body;
-  if (!title && !content && typeof position !== "number") {
+  const { name, content, position } = req.body;
+  if (!name && !content && typeof position !== "number") {
     return next(
-      new AppError("Allowed properties for update: title, content, position.", 422)
+      new AppError("Allowed properties for update: name, content, position.", 422)
     );
   }
 
-  if (title?.trim() === "") {
-    return next(new AppError("Title must not be empty.", 422));
+  if (name?.trim() === "") {
+    return next(new AppError("Name must not be empty.", 422));
   }
 
   if (content?.trim() === "") {
@@ -34,7 +34,7 @@ module.exports = catchAsync(async function (req, res, next) {
   // clean user input
   const updates = {};
 
-  if (title)    updates.title = trimString(title.trim(), 100).trim();
+  if (name)     updates.name = trimString(name.trim(), 100).trim();
   if (content)  updates.content = content.trim();
 
   if (typeof position === "number") {

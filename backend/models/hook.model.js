@@ -12,7 +12,7 @@ module.exports = {
 // Referenced: https://medium.com/the-missing-bit/keeping-an-ordered-collection-in-postgresql-9da0348c4bbe
 async function createHook(
   concept_id,
-  title,
+  name,
   content,
   position,
   connection = db
@@ -23,7 +23,7 @@ async function createHook(
 
     // create hook
     return trx("hook").insert(
-      { title, content, concept_id, position }, ["*"]
+      { name, content, concept_id, position }, ["*"]
     );
   });
 
@@ -50,13 +50,13 @@ async function deleteHooks(concept_id, connection = db) {
 
 async function getHooks(concept_id, filterObj, connection = db) {
   return connection("hook")
-    .select("id", "title", "content", "created_at", "updated_at")
+    .select("id", "name", "content", "created_at", "updated_at")
     .where({ concept_id, ...filterObj })
     .orderBy("position");
 }
 
 async function updateHook(concept_id, hook_id, updates, connection = db) {
-  // updates: title, content, position
+  // updates: name, content, position
   return connection.transaction(async trx => {
     const newPosition = updates.position;
 
