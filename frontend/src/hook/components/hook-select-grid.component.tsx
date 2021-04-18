@@ -36,7 +36,7 @@ export const HookSelectGrid: React.FC<IProps> = ({ handleSelect, defaultHooks })
 
   function conceptHasHook(hook: string) {
     return conceptHooks?.some(
-      conceptHook => conceptHook.title.toLowerCase() === hook.trim().toLowerCase()
+      conceptHook => conceptHook.name.toLowerCase() === hook.trim().toLowerCase()
     );
   }
 

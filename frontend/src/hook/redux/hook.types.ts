@@ -5,7 +5,7 @@ export interface IHook {
   created_at: string;
   updated_at: string;
   id: string;
-  title: string;
+  name: string;
 }
 
 export interface IHookState {

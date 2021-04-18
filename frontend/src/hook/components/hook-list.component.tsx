@@ -37,7 +37,7 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
     sortMode,
     getSortIconCaret,
     handleSortClick,
-  } = useEntityFilterSort<IHook>(hooks, "title");
+  } = useEntityFilterSort<IHook>(hooks, "name");
 
   const {
     expandedHash,
@@ -68,8 +68,8 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
     }));
   }
 
-  function handleUpdate(hookId: string, title?: string, content?: string) {
-    const updates = { title, content };
+  function handleUpdate(hookId: string, name?: string, content?: string) {
+    const updates = { name, content };
     dispatch(updateHook({
       hookId,
       conceptId,
@@ -113,7 +113,7 @@ export const HookList: React.FC<IProps> = ({ conceptId, hooks }) => {
                 handleDelete={handleDelete}
                 handleUpdate={handleUpdate}
                 index={index}
-                title={hook.title}
+                name={hook.name}
                 content={hook.content}
                 isExpanded={expandedHash[hook.id]}
                 toggleIsExpanded={toggleEntityExpansion}

@@ -15,7 +15,7 @@ import { HookSelectModal } from "./hook-select-modal.component";
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SButtonGreen } from "shared/styles/button.style";
-import { SHookTitleTextarea } from "../styles/hook.style";
+import { SHookNameTextarea } from "../styles/hook.style";
 import { MarkdownEditor } from "../../shared/mde/markdown-editor.component";
 
 interface IProps {
@@ -23,27 +23,27 @@ interface IProps {
   numberOfHooks: number;
 }
 export const CreateHookForm: React.FC<IProps> = ({ conceptId, numberOfHooks }) => {
-  const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
   const [content, setContent] = useState("");
   const [hookSelectShowing, setHookSelectShowing] = useState(false);
 
   const dispatch = useDispatch();
 
-  function setRandomTitle() {
-    const lowerTrimmedTitle = title.trim().toLowerCase();
+  function setRandomName() {
+    const lowerTrimmedName = name.trim().toLowerCase();
 
     while (true) {
       const randomIndex = random(0, allHooksArray.length - 1);
       const randomHook = allHooksArray[randomIndex];
 
-      if (randomHook.toLowerCase() !== lowerTrimmedTitle) {
-        return setTitle(randomHook);
+      if (randomHook.toLowerCase() !== lowerTrimmedName) {
+        return setName(randomHook);
       }
     }
   }
 
   function formDisabled() {
-    return title.trim() === "" || content.trim() === "";
+    return name.trim() === "" || content.trim() === "";
   }
 
   function showHookSelectModal() {
@@ -59,29 +59,29 @@ export const CreateHookForm: React.FC<IProps> = ({ conceptId, numberOfHooks }) =
     dispatch(createHook({
       conceptId,
       content,
-      title,
+      name,
       position: nextPosition,
     }));
 
-    setTitle("");
+    setName("");
     setContent("");
   }
 
   return (
     <>
       <SHookCreateForm onSubmit={handleSubmit}>
-        <SHookTitleContainer>
-          <SHookTitleTextarea
-            placeholder="Enter hook title..."
-            onChange={(e) => setTitle(e.target.value)}
-            value={title}
+        <SHookNameContainer>
+          <SHookNameTextarea
+            placeholder="Enter hook name..."
+            onChange={(e) => setName(e.target.value)}
+            value={name}
             required
           />
-          <SHookTitleIcons>
-            <SHookTitleIcon icon={faLightbulb} onClick={showHookSelectModal} />
-            <SHookTitleIcon icon={faRandom} onClick={setRandomTitle} />
-          </SHookTitleIcons>
-        </SHookTitleContainer>
+          <SHookNameIcons>
+            <SHookNameIcon icon={faLightbulb} onClick={showHookSelectModal} />
+            <SHookNameIcon icon={faRandom} onClick={setRandomName} />
+          </SHookNameIcons>
+        </SHookNameContainer>
         <MarkdownEditor
           value={content}
           setValue={setContent}
@@ -94,7 +94,7 @@ export const CreateHookForm: React.FC<IProps> = ({ conceptId, numberOfHooks }) =
       <HookSelectModal
         modalShowing={hookSelectShowing}
         setModalShowing={setHookSelectShowing}
-        setHook={setTitle}
+        setHook={setName}
       />
     </>
   );
@@ -108,15 +108,15 @@ const SHookCreateForm = styled.form`
   }
 `;
 
-const SHookTitleContainer = styled.div`
+const SHookNameContainer = styled.div`
   position: relative;
 `;
 
-const SHookTitleIcons = styled.div`
+const SHookNameIcons = styled.div`
   font-size: 2.4rem;
 `;
 
-const SHookTitleIcon = styled(FontAwesomeIcon)`
+const SHookNameIcon = styled(FontAwesomeIcon)`
   cursor: pointer;
 
   &:hover {

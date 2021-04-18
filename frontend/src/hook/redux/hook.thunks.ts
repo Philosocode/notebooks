@@ -4,7 +4,7 @@ import { IHook } from "./hook.types";
 import { api } from "services/api.service";
 
 interface ICreateHookPayload {
-  title: string;
+  name: string;
   content: string;
   conceptId: string;
   position: number;
@@ -18,13 +18,13 @@ interface ICreateHookResponse {
 export const createHook = createAsyncThunk(
   "hook/createHook",
   async function (payload: ICreateHookPayload, thunkAPI) {
-    const { conceptId, content, position, title } = payload;
+    const { conceptId, content, position, name } = payload;
 
     try {
       const res = await api.post<ICreateHookResponse>(`/concepts/${conceptId}/hooks`, {
         content,
         position,
-        title,
+        name,
       });
       const createdHook = res.data.data.hook;
 
@@ -59,7 +59,7 @@ interface IUpdateHookPayload {
   conceptId: string;
   hookId: string;
   updates: {
-    title?: string;
+    name?: string;
     content?: string;
   }
 }

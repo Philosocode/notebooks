@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { theme } from "shared/styles/theme.style";
 import { STextareaBase } from "../../shared/styles/form.style";
 
-export const SHookTitleTextarea = styled(STextareaBase)`
+export const SHookNameTextarea = styled(STextareaBase)`
   border: none;
   border-bottom: 1px solid ${theme.colors.gray[300]};
   padding: 0;
