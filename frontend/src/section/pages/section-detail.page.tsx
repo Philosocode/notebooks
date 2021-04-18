@@ -3,17 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 // logic
-import { selectCurrentPart, selectPartHash } from "../redux/section.selectors";
-import { setCurrentPartId } from "../redux/section.slice";
-import { getPart } from "../redux/section.thunks";
+import { selectCurrentSection, selectSectionHash } from "../redux/section.selectors";
+import { setCurrentSectionId } from "../redux/section.slice";
+import { getSection } from "../redux/section.thunks";
 import { getNotes } from "../../note/redux/note.thunks";
 
 // components
 import { ConceptSectionLinks } from "../components/concept-section-links.component";
-import { PartDetailHeader } from "../components/section-detail-header.component";
+import { SectionDetailHeader } from "../components/section-detail-header.component";
 import { TabNames } from "../../shared/components/nav/tab-names.component";
 import { Tab } from "../../shared/components/nav/tab.component";
-import { PartChecklist } from "../components/section-checklist.component";
+import { SectionChecklist } from "../components/section-checklist.component";
 import { NoteList } from "../../note/components/note-list.component";
 import { FlashcardList } from "flashcard/components/flashcard-list.component";
 
@@ -25,8 +25,8 @@ interface IMatchParams {
 }
 export const SectionDetailPage: React.FC = () => {
   const dispatch = useDispatch();
-  const sectionHash = useSelector(selectPartHash);
-  const currentPart = useSelector(selectCurrentPart);
+  const sectionHash = useSelector(selectSectionHash);
+  const currentSection = useSelector(selectCurrentSection);
 
   const { sectionId } = useParams<IMatchParams>();
 
@@ -34,42 +34,42 @@ export const SectionDetailPage: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState(tabNames[0]);
 
   useEffect(() => {
-    if (currentPart?.id === sectionId) return;
+    if (currentSection?.id === sectionId) return;
 
     const sectionExists = sectionHash.hasOwnProperty(sectionId);
     if (sectionExists) {
-      dispatch(setCurrentPartId(sectionId));
+      dispatch(setCurrentSectionId(sectionId));
       setSelectedTab("Notes");
     } else {
-      dispatch(getPart(sectionId));
-      dispatch(setCurrentPartId(sectionId));
+      dispatch(getSection(sectionId));
+      dispatch(setCurrentSectionId(sectionId));
     }
-  }, [currentPart, sectionHash, sectionId, dispatch]);
+  }, [currentSection, sectionHash, sectionId, dispatch]);
 
   useEffect(() => {
-    if (!currentPart) return;
+    if (!currentSection) return;
 
-    if (!currentPart.noteIds) {
+    if (!currentSection.noteIds) {
       dispatch(getNotes(sectionId));
     }
-  }, [currentPart, dispatch, sectionId]);
+  }, [currentSection, dispatch, sectionId]);
 
-  if (!currentPart?.noteIds) return null;
+  if (!currentSection?.noteIds) return null;
   return (
     <SDetailPageContent>
-      <PartDetailHeader section={currentPart} />
+      <SectionDetailHeader section={currentSection} />
 
       <TabNames tabNames={tabNames} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       <div>
         <Tab title="Notes" selectedTab={selectedTab}>
-          <PartChecklist section={currentPart} />
-          <NoteList sectionId={currentPart.id} />
+          <SectionChecklist section={currentSection} />
+          <NoteList sectionId={currentSection.id} />
         </Tab>
         <Tab title="Flashcards" selectedTab={selectedTab}>
           <FlashcardList sectionId={sectionId} />
         </Tab>
         <Tab title="Concept Links" selectedTab={selectedTab}>
-          <ConceptSectionLinks section={currentPart} />
+          <ConceptSectionLinks section={currentSection} />
         </Tab>
       </div>
     </SDetailPageContent>
