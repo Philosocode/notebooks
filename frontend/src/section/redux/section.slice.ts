@@ -5,7 +5,7 @@ import omit from "lodash/omit";
 import { ISectionState } from "./section.types";
 import { createNote, deleteNote, getNotes } from "note/redux/note.thunks";
 import { IRepositionEntityPayload } from "../../shared/types.shared";
-import { createConceptSection, deleteConceptSection, getConceptSections } from "../../concept-link/redux/concept-link.thunks";
+import { createConceptSectionLink, deleteConceptSectionLink, getConceptSectionLinks } from "../../concept-link/redux/concept-link.thunks";
 import { createFlashcard, deleteFlashcard, getFlashcards } from "flashcard/redux/flashcard.thunks";
 
 const initialState: ISectionState  = {
@@ -130,15 +130,15 @@ const sectionSlice = createSlice({
       })
       
       /* Concept Sections */
-      .addCase(getConceptSections.fulfilled, (state, action) => {
-        const { sectionId, conceptSections } = action.payload;
+      .addCase(getConceptSectionLinks.fulfilled, (state, action) => {
+        const { sectionId, conceptSectionLinks } = action.payload;
 
         const section = state.sections[sectionId];
         if (!section) return;
 
-        section.conceptIds = conceptSections.map(conceptSection => conceptSection.concept_id);
+        section.conceptIds = conceptSectionLinks.map(conceptSectionLink => conceptSectionLink.concept_id);
       })
-      .addCase(createConceptSection.fulfilled, (state, action) => {
+      .addCase(createConceptSectionLink.fulfilled, (state, action) => {
         const { section, conceptId } = action.payload;
 
         const sectionToUpdate = state.sections[section.id];
@@ -146,7 +146,7 @@ const sectionSlice = createSlice({
 
         sectionToUpdate.conceptIds.push(conceptId);
       })
-      .addCase(deleteConceptSection.fulfilled, (state, action) => {
+      .addCase(deleteConceptSectionLink.fulfilled, (state, action) => {
         const { conceptId, section } = action.payload;
 
         const sectionToUpdate = state.sections[section.id];

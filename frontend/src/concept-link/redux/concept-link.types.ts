@@ -1,4 +1,4 @@
-export interface IConceptSection {
+export interface IConceptSectionLink {
   concept_id: string;
   section_id: string;
 }

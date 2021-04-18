@@ -1,25 +1,25 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { IConceptSection } from "./concept-link.types";
+import { IConceptSectionLink } from "./concept-link.types";
 import { api } from "services/api.service";
 import { ISection } from "section/redux/section.types";
 
 /* Concept Section */
-interface IGetConceptSectionsResponse {
+interface IGetConceptSectionLinksResponse {
   status: string;
   data: {
-    conceptSections: IConceptSection[];
+    conceptSectionLinks: IConceptSectionLink[];
   };
 }
-export const getConceptSections = createAsyncThunk(
-  "concept-section/getConceptSections",
+export const getConceptSectionLinks = createAsyncThunk(
+  "concept-section/getConceptSectionLinks",
   async function (sectionId: string, thunkAPI) {
     try {
-      const response = await api.get<IGetConceptSectionsResponse>(`/sections/${sectionId}/links`);
+      const response = await api.get<IGetConceptSectionLinksResponse>(`/sections/${sectionId}/links`);
 
       return {
         sectionId,
-        conceptSections: response.data.data.conceptSections,
+        conceptSectionLinks: response.data.data.conceptSectionLinks,
       };
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -27,14 +27,14 @@ export const getConceptSections = createAsyncThunk(
   }
 );
 
-interface ICreateConceptSectionPayload {
+interface ICreateConceptSectionLinkPayload {
   conceptId: string;
   section: ISection;
 }
-interface ICreateConceptSectionResponse {
+interface ICreateConceptSectionLinkResponse {
   status: string;
   data: {
-    conceptSection: {
+    conceptSectionLink: {
       conceptId: string;
       sectionId: string;
     };
@@ -42,11 +42,11 @@ interface ICreateConceptSectionResponse {
 }
 export const createConceptSection = createAsyncThunk(
   "concept-section/createConceptSection",
-  async function (payload: ICreateConceptSectionPayload, thunkAPI) {
+  async function (payload: ICreateConceptSectionLinkPayload, thunkAPI) {
     const { conceptId, section } = payload;
 
     try {
-      await api.post<ICreateConceptSectionResponse>(`/sections/${section.id}/links`, { conceptId });
+      await api.post<ICreateConceptSectionLinkResponse>(`/sections/${section.id}/links`, { conceptId });
 
       return payload;
     } catch (err) {
@@ -55,13 +55,13 @@ export const createConceptSection = createAsyncThunk(
   }
 );
 
-export interface IDeleteConceptSectionPayload {
+export interface IDeleteConceptSectionLinkPayload {
   conceptId: string;
   section: ISection;
 }
-export const deleteConceptSection = createAsyncThunk(
+export const deleteConceptSectionLink = createAsyncThunk(
   "concept-section/deleteConceptSection",
-  async function (payload: IDeleteConceptSectionPayload, thunkAPI) {
+  async function (payload: IDeleteConceptSectionLinkPayload, thunkAPI) {
     const { conceptId, section } = payload;
 
     try {
@@ -74,7 +74,7 @@ export const deleteConceptSection = createAsyncThunk(
   }
 );
 
-/* Concept Notebook */
+/* Concept Notebook Links */
 interface IGetNotebookLinksResponse {
   status: string;
   data: {

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from "react";
 
 import { ISection } from "../redux/section.types";
 import { useDispatch, useSelector } from "react-redux";
-import { createConceptSection, deleteConceptSection, getConceptSections } from "../../concept-link/redux/concept-link.thunks";
+import { createConceptSectionLink, deleteConceptSectionLink, getConceptSectionLinks } from "../../concept-link/redux/concept-link.thunks";
 import { selectConceptHash } from "../../concept/redux/concept.selectors";
 import { selectConceptsLoaded } from "../../shared/redux/init.selectors";
 import { getConcepts } from "../../concept/redux/concept.thunks";
@@ -33,19 +33,19 @@ export const ConceptSectionLinks: React.FC<IProps> = ({ section }) => {
 
   useEffect(() => {
     if (!section.conceptIds) {
-      dispatch(getConceptSections(section.id));
+      dispatch(getConceptSectionLinks(section.id));
     }
   }, [section, dispatch]);
 
   function handleCreate(conceptId: string) {
-    dispatch(createConceptSection({
+    dispatch(createConceptSectionLink({
       conceptId,
       section,
     }));
   }
 
   function handleDelete(_: string, conceptId: string) {
-    dispatch(deleteConceptSection({
+    dispatch(deleteConceptSectionLink({
       conceptId,
       section,
     }));
