@@ -6,15 +6,20 @@ app in development.
 2. In the `env` folder, change the name from `*.env.example` to `*.env`.
 Change the information in `db.env` as needed (e.g. password)
 3. At the root directory, run `docker-compose build` to install dependencies.
+4. In the backend folder (will update this later...):
+    - create a folder called `public`
+    - inside `public`, create a folder called `uploads`
+    - inside `uploads`, create a folder called `images`
+    - after the above instructions, this path should exist: `backend/public/uploads/images`
 
 ### Run Migrations & Seeds
-4. Start the db & backend containers: `docker-compose up -d backend`. This also starts the db container since the backend depends on it.
-5. Migrations: run `docker-compose exec backend sh -c "npx knex migrate:latest"`
-6. Seed: run `docker-compose exec backend sh -c "npx knex seed:run"`
-7. Run `docker-compose down` to stop running containers
+5. Start the db & backend containers: `docker-compose up -d backend`. This also starts the db container since the backend depends on it.
+6. Migrations: run `docker-compose exec backend sh -c "npx knex migrate:latest"`
+7. Seed: run `docker-compose exec backend sh -c "npx knex seed:run"`
+8. Run `docker-compose down` to stop running containers
 
 ### Start The App
-8. In the root directory:
+9. In the root directory:
   - if you have Node.js installed, you can run `npm start`
   - if not, run `docker-compose up --build -d` to start the app in detached mode
 
