@@ -285,8 +285,8 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
 
 const SContainer = styled.div`
   display: flex;
+  height: max-content;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
 `;
