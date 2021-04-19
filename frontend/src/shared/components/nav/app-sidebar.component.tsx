@@ -93,11 +93,15 @@ const SIcon = styled(FontAwesomeIcon)`
 `;
 
 const SName = styled.h3`
-  font-size: ${theme.fontSizes.xs};
+  font-size: 0.9rem;
   letter-spacing: 1px;
   margin-top: ${theme.spacing.xs};
   text-transform: uppercase;
   transition: color ${transitionAppend};
+  
+  ${theme.media.tabLand} {
+    font-size: ${theme.fontSizes.xs};
+  }
 `;
 
 const SidebarItemCss = css<ISelected>`

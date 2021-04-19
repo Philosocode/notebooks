@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectSidebarShowing, setSidebarShowing } from "shared/redux/global.slice";
 import { theme } from "shared/styles/theme.style";
 import { useLocation } from "react-router-dom";
+import { useIsMobile } from "../../hooks/use-is-mobile.hook";
 
 interface IProps {
   width: string;
@@ -13,13 +14,14 @@ export const SidebarWrapper: FC<IProps> = ({ children, width }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const sidebarShowing = useSelector(selectSidebarShowing);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     // hide sidebar when changing links on mobile
-    if (window.innerWidth <= 900) {
+    if (isMobile) {
       dispatch(setSidebarShowing(false));
     }
-  }, [dispatch, location.pathname]);
+  }, [dispatch, isMobile, location.pathname]);
 
   return (
     <SSidebar

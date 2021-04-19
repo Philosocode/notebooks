@@ -49,8 +49,11 @@ export const theme = {
   componentSizes: {
     navbarHeight: "5rem",
     appSidebarWidth: "11rem",
+    appSidebarWidthMobile: "8rem",
     tagSidebarWidth: "30rem",
+    tagSidebarWidthMobile: "20rem",
     librarySidebarWidth: "30rem",
+    librarySidebarWidthMobile: "20rem",
   },
   fonts: {},
   fontSizes: {

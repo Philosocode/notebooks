@@ -10,12 +10,14 @@ import { LOCAL_STORAGE_TOKEN_KEY } from "../constants.shared";
 import { IAuthToken } from "user/redux/user.types";
 import { login, logout } from "user/redux/user.slice";
 import { setSidebarShowing } from "../redux/global.slice";
+import { useIsMobile } from "./use-is-mobile.hook";
 
 export function useInit() {
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector(selectUser);
   const settingsLoaded = useSelector(selectSettingsLoaded);
+  const isMobile = useIsMobile();
 
   // load settings if logged in
   useEffect(() => {
@@ -38,10 +40,10 @@ export function useInit() {
   useEffect(() => {
     if (!user) return;
 
-    window.innerWidth <= 900
+    isMobile
       ? dispatch(setSidebarShowing(false))
       : dispatch(setSidebarShowing(true));
-  }, [user, dispatch]);
+  }, [user, isMobile, dispatch]);
 
   // automatically load user from local storage token
   useEffect(() => {

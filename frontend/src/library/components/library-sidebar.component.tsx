@@ -21,5 +21,9 @@ export const LibrarySidebar: React.FC = () => {
 };
 
 const SContent = styled.div`
-  padding: ${theme.spacing.base};
+  padding: ${theme.spacing.sm};
+  
+  ${theme.media.tabLand} {
+    padding: ${theme.spacing.base};
+  }
 `;

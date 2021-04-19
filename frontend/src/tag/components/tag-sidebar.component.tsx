@@ -5,6 +5,7 @@ import { TagSidebarItem } from "./tag-sidebar-item.component";
 import { theme } from "shared/styles/theme.style";
 import { useSelector } from "react-redux";
 import { selectSidebarShowing } from "../../shared/redux/global.slice";
+import { useIsMobile } from "../../shared/hooks/use-is-mobile.hook";
 
 interface IProps {
   tags: string[];
@@ -22,9 +23,10 @@ export const TagSidebar: React.FC<IProps> = ({
   setUncategorized
 }) => {
   const sidebarShowing = useSelector(selectSidebarShowing);
+  const isMobile = useIsMobile();
 
   return (
-    <STagSidebar sidebarShowing={sidebarShowing}>
+    <STagSidebar sidebarShowing={sidebarShowing} isMobile={isMobile}>
       <SHeading>Tags</SHeading>
       <STagList>
         {tags.map((t) => (
@@ -64,6 +66,7 @@ export const TagSidebar: React.FC<IProps> = ({
 
 interface STagSidebarProps {
   sidebarShowing: boolean;
+  isMobile: boolean;
 }
 const STagSidebar = styled.aside<STagSidebarProps>`
   background: ${theme.colors.white};
@@ -71,11 +74,25 @@ const STagSidebar = styled.aside<STagSidebarProps>`
   height: 100vh;
   max-height: 100vh;
   position: fixed;
-    left: ${theme.componentSizes.appSidebarWidth};
+    left: ${props => props.isMobile
+            ? theme.componentSizes.appSidebarWidthMobile
+            : theme.componentSizes.appSidebarWidth
+  };
   overflow-y: auto;
   transition: width ${theme.animations.transitionAppend}, transform ${theme.animations.transitionAppend};
   transform: ${props => props.sidebarShowing ? "translateX(0)" : `translateX(-30rem);` };
-  width: ${props => props.sidebarShowing ? "30rem" : 0};
+  width: ${props => {
+    if (!props.sidebarShowing) {
+      return 0;
+    }
+    
+    if (props.isMobile) {
+      return theme.componentSizes.tagSidebarWidthMobile;
+    } else {
+      return theme.componentSizes.tagSidebarWidth;
+    }
+  }};
+  
   max-width: calc(100vw - ${theme.componentSizes.appSidebarWidth});
   z-index: ${theme.zIndices.sidebar};
   
