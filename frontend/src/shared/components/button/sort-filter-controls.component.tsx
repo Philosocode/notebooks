@@ -105,7 +105,7 @@ interface SSortButtonProps {
   isSelected: boolean;
 }
 const SSortButton = styled.button<SSortButtonProps>`
-  background: ${props => props.isSelected && theme.colors.green[400]};
+  background: ${props => props.isSelected ? theme.colors.green[400] : theme.colors.gray[100]};
   color: ${props => props.isSelected && theme.colors.white};
   border: none;
   cursor: pointer;

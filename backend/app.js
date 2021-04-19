@@ -23,15 +23,19 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "build")));
 
 // set security HTTP headers
+const trustedDefault = ["'self'"];
+if (process.env.NODE_ENV !== "production") {
+  trustedDefault.push("localhost:*");
+};
 app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        "default-src": ["'self'", "localhost:*"],
+        "default-src": trustedDefault,
         "frame-src": ["'self'", "https://accounts.google.com"],
         "script-src": ["'self'", "apis.google.com"],
-        "img-src": ["'self'", "lh3.googleusercontent.com"],
+        "img-src": ["'self'", "*"],
       },
     },
   })
