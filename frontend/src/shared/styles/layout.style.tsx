@@ -5,7 +5,6 @@ import { theme } from "./theme.style";
 export const SMainContent = styled.main`
   margin-top: ${theme.componentSizes.navbarHeight};
   max-height: calc(100vh - ${theme.componentSizes.navbarHeight});
-  overflow: auto;
   width: 100%;
 `;
 

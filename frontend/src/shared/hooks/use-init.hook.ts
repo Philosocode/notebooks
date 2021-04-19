@@ -38,7 +38,7 @@ export function useInit() {
   useEffect(() => {
     if (!user) return;
 
-    window.innerWidth <= 600
+    window.innerWidth <= 900
       ? dispatch(setSidebarShowing(false))
       : dispatch(setSidebarShowing(true));
   }, [user, dispatch]);

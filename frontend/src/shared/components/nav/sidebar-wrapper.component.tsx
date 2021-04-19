@@ -16,7 +16,7 @@ export const SidebarWrapper: FC<IProps> = ({ children, width }) => {
 
   useEffect(() => {
     // hide sidebar when changing links on mobile
-    if (window.innerWidth <= 600) {
+    if (window.innerWidth <= 900) {
       dispatch(setSidebarShowing(false));
     }
   }, [dispatch, location.pathname]);
