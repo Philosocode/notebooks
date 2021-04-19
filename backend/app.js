@@ -7,17 +7,16 @@ const rateLimit = require("express-rate-limit");
 const xssClean = require("xss-clean");
 
 const router = require("./router");
-const AppError = require("./utils/app-error.util");
 const globalErrorHandler = require("./middlewares/global-error-handler.middleware");
 
 const app = express();
 
 // middlewares
-/*
-app.use(cors({
-  maxAge: 7200,
-}));
-*/
+app.use(
+  cors({
+    maxAge: 7200,
+  })
+);
 
 // serve static files
 app.use(express.static(path.join(__dirname, "public")));
@@ -29,10 +28,10 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-	"default-src": ["'self'", "localhost:*"],
-	"frame-src": ["'self'", "https://accounts.google.com"],
+        "default-src": ["'self'", "localhost:*"],
+        "frame-src": ["'self'", "https://accounts.google.com"],
         "script-src": ["'self'", "apis.google.com"],
-	"img-src": ["'self'", "lh3.googleusercontent.com"],
+        "img-src": ["'self'", "lh3.googleusercontent.com"],
       },
     },
   })
@@ -45,7 +44,7 @@ if (process.env.NODE_ENV === "production") {
     windowMs: 60 * 60 * 1000,
     message: "Too many requests from this IP, please try again in an hour!",
   });
-  
+
   app.use("/api", limiter);
 }
 
@@ -62,8 +61,8 @@ app.use(compression());
 // router
 app.use("/api/v1", router);
 
-app.get("*", (req,res) =>{
-  res.sendFile(path.join(__dirname , "build", "index.html" ));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 // global error handling MW
