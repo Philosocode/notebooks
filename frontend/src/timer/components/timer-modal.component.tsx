@@ -169,16 +169,13 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
   function getTimerDuration() {
     if (mode === "break") {
       if (breakCount === LONG_BREAK_COUNT) {
-        // return milliseconds({ minutes: settings.defaultLongBreakTime });
-        return milliseconds({ seconds: 5 });
+        return milliseconds({ minutes: settings.defaultLongBreakTime });
       } else {
-        // return milliseconds({ minutes: settings.defaultBreakTime });
-        return milliseconds({ seconds: 5 });
+        return milliseconds({ minutes: settings.defaultBreakTime });
       }
     }
     
-    // return milliseconds({ minutes: settings.defaultStudyTime });
-    return milliseconds({ seconds: 5 });
+    return milliseconds({ minutes: settings.defaultStudyTime });
   }
 
   function handlePause() {
