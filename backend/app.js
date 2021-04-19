@@ -13,23 +13,30 @@ const globalErrorHandler = require("./middlewares/global-error-handler.middlewar
 const app = express();
 
 // middlewares
+/*
 app.use(cors({
   maxAge: 7200,
 }));
+*/
 
 // serve static files
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "build")));
 
 // set security HTTP headers
-app.use(helmet.contentSecurityPolicy({
-  directives: {
-    defaultSrc: ["'self'"],
-    scriptSrc: ["'self'", "apis.google.com"],
-    objectSrc: ["'none'"],
-    upgradeInsecureRequests: []
-  }
-}));
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+	"default-src": ["'self'", "localhost:*"],
+	"frame-src": ["'self'", "https://accounts.google.com"],
+        "script-src": ["'self'", "apis.google.com"],
+	"img-src": ["'self'", "lh3.googleusercontent.com"],
+      },
+    },
+  })
+);
 
 // limit requests from same IP
 if (process.env.NODE_ENV === "production") {

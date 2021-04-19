@@ -1,4 +1,4 @@
-require("dotenv").config({ path: __dirname + "/./../env/db.env" });
+require("dotenv").config({ path: __dirname + "/../env/db.env" });
 
 module.exports = {
   development: {

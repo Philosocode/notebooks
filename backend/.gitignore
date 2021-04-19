@@ -1,5 +1,7 @@
 build
 
+Caddyfile
+
 public/uploads
 
 # OS X

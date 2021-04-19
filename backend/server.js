@@ -1,4 +1,4 @@
-require("dotenv").config({ path: __dirname + "../../env/backend.env" });
+require("dotenv").config({ path: __dirname + "/../env/backend.env" });
 
 const logger = require("./utils/logger.util");
 

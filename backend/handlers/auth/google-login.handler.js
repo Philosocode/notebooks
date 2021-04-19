@@ -36,6 +36,7 @@ module.exports = catchAsync(async function (req, res, next) {
   const userFromDb = await db("user").where({ google_id }).first();
 
   const user = { id: userFromDb.id, email, google_id, name, photo_url };
+
   const jwtToken = await createToken({ user });
 
   logger.info(`Google Login: ${email} [Google ID: ${google_id}]`);
