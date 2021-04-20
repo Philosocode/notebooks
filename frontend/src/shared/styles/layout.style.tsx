@@ -21,6 +21,7 @@ export const SPageContent = styled.div`
 `;
 
 export const SDetailPageContent = styled.div`
+  height: 100%;
   ${pageOverflowCSS};
   
   padding: ${theme.spacing.base} ${theme.spacing.base};
