@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 import { TagSidebarItem } from "./tag-sidebar-item.component";
 import { theme } from "shared/styles/theme.style";
-import { useSelector } from "react-redux";
-import { selectSidebarShowing } from "../../shared/redux/global.slice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectSidebarShowing, setSidebarShowing } from "../../shared/redux/global.slice";
 import { useIsMobile } from "../../shared/hooks/use-is-mobile.hook";
 
 interface IProps {
@@ -22,8 +22,25 @@ export const TagSidebar: React.FC<IProps> = ({
   setCurrentTag,
   setUncategorized
 }) => {
+  const dispatch = useDispatch();
   const sidebarShowing = useSelector(selectSidebarShowing);
   const isMobile = useIsMobile();
+
+  function handleTagClick(tag: string) {
+    setCurrentTag(tag);
+    hideMobileSidebar();
+  }
+
+  function handleUncategorizedClick(_: string) {
+    setUncategorized("");
+    hideMobileSidebar();
+  }
+
+  function hideMobileSidebar() {
+    if (isMobile && sidebarShowing) {
+      dispatch(setSidebarShowing(false));
+    }
+  }
 
   return (
     <STagSidebar sidebarShowing={sidebarShowing} isMobile={isMobile}>
@@ -44,7 +61,7 @@ export const TagSidebar: React.FC<IProps> = ({
 
         <TagSidebarItem
           isSelected={!isUncategorized && currentTag === ""}
-          handleClick={setCurrentTag}
+          handleClick={handleTagClick}
           tag=""
           icon="layer-group"
         >
@@ -53,7 +70,7 @@ export const TagSidebar: React.FC<IProps> = ({
 
         <TagSidebarItem
           isSelected={isUncategorized}
-          handleClick={setUncategorized}
+          handleClick={handleUncategorizedClick}
           icon="question-circle"
         >
           uncategorized
