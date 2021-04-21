@@ -1,4 +1,4 @@
-const { getMaxPosition } = require("../../models/common.model");
+const { getMaxPosition } = require("../../common/common.model");
 const db = require("../../db/db");
 
 exports.getValidInsertPosition = async function (

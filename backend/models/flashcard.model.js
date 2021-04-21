@@ -1,5 +1,5 @@
 const db = require("../db/db");
-const { shiftPositions, getMaxPosition } = require("./common.model");
+const { shiftPositions, getMaxPosition } = require("../common/common.model");
 
 module.exports = {
   createFlashcard,

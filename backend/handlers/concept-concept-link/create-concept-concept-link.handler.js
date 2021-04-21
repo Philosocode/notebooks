@@ -1,7 +1,7 @@
 const AppError = require("../../utils/app-error.util");
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
-const { entityExists } = require("../../models/common.model");
+const { entityExists } = require("../../common/common.model");
 const { conceptConceptConceptLinkExists, createConceptConceptLink } = require("../../models/concept-concept-link.model");
 
 module.exports = catchAsync(async function (req, res, next) {

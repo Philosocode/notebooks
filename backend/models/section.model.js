@@ -1,5 +1,5 @@
 const db = require("../db/db");
-const { shiftPositions, getMaxPosition } = require("./common.model");
+const { shiftPositions, getMaxPosition } = require("../common/common.model");
 const { defaultSectionChecklist } = require("../handlers/section/section.common");
 const { deleteNotes, deleteNotesForNotebook } = require("./note.model");
 const { deleteConceptSectionLinksForSection, deleteConceptSectionLinksForNotebook } = require("./concept-section-link.model");

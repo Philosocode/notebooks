@@ -3,6 +3,7 @@ const express = require("express");
 // Middleware
 const protect = require("./middlewares/protect.middleware");
 const { entityExistsMiddleware } = require("./middlewares/entity-exists.middleware");
+const { validate } = require("./common/common.validation");
 const userOwnsSectionMiddleware = require("./middlewares/user-owns-section.middleware");
 
 const conceptExistsMiddleware = entityExistsMiddleware("concept");
@@ -17,6 +18,7 @@ const getConcepts = require("./concept/get-concepts.handler");
 const createConcept = require("./concept/create-concept.handler");
 const deleteConcept = require("./concept/delete-concept.handler");
 const updateConcept = require("./concept/update-concept.handler");
+const { createConceptValidationRules } = require("./concept/concept.validation");
 
 // Concept Tags
 const getTagsForConcept = require("./handlers/concept-tag/get-tags-for-concept");
@@ -147,7 +149,7 @@ router.route("/concepts/links/:linkId")
 // Concepts
 router.route("/concepts")
   .get(getConcepts)
-  .post(createConcept)
+  .post(createConceptValidationRules(), validate, createConcept)
 
 router.route("/concepts/:conceptId")
    .get(conceptExistsMiddleware, getConcept)

@@ -1,7 +1,7 @@
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
 const { deleteHook } = require("../../models/hook.model");
-const { entityExists } = require("../../models/common.model");
+const { entityExists } = require("../../common/common.model");
 const AppError = require("../../utils/app-error.util");
 
 module.exports = catchAsync(async function (req, res, next) {

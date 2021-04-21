@@ -1,7 +1,7 @@
 const AppError = require("../utils/app-error.util");
 const catchAsync = require("./catch-async.middleware");
 const { capitalizeFirstLetter } = require("../utils/string.util");
-const { entityExists } = require("../models/common.model");
+const { entityExists } = require("../common/common.model");
 
 // Ensure an entity for request parameter exists
 // - must use `entityId` as the request parameter

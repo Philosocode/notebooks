@@ -1,5 +1,5 @@
 const db = require("../db/db");
-const { shiftPositions } = require("./common.model");
+const { shiftPositions } = require("../common/common.model");
 
 module.exports = {
   createHook,

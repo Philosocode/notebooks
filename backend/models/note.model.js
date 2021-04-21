@@ -1,5 +1,5 @@
 const db = require("../db/db");
-const { shiftPositions, getValidInsertPosition, getMaxPosition } = require("./common.model");
+const { shiftPositions, getValidInsertPosition, getMaxPosition } = require("../common/common.model");
 
 module.exports = {
   createNote,

@@ -1,10 +1,10 @@
 const AppError = require("../../utils/app-error.util");
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
-const { entityExists } = require("../../models/common.model");
+const { entityExists } = require("../../common/common.model");
 const { updateNote } = require("../../models/note.model");
 const { trimString } = require("../../utils/string.util");
-const { getValidInsertPosition } = require("../../models/common.model");
+const { getValidInsertPosition } = require("../../common/common.model");
 
 module.exports = catchAsync(async function (req, res, next) {
   const { sectionId, noteId } = req.params;

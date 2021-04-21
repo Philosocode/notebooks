@@ -2,7 +2,7 @@ const AppError = require("../../utils/app-error.util");
 const sendResponse = require("../response.handler");
 const catchAsync = require("../../middlewares/catch-async.middleware");
 const { createNotebook } = require("../../models/notebook.model");
-const { entityExists } = require("../../models/common.model");
+const { entityExists } = require("../../common/common.model");
 
 module.exports = catchAsync(async function (req, res, next) {
   const userId = req.user.id;
