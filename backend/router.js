@@ -12,11 +12,11 @@ const notebookExistsMiddleware = entityExistsMiddleware("notebook");
 const googleLogin = require("./handlers/auth/google-login.handler");
 
 // Concept
-const getConcept = require("./handlers/concept/get-concept.handler");
-const getConcepts = require("./handlers/concept/get-concepts.handler");
-const createConcept = require("./handlers/concept/create-concept.handler");
-const deleteConcept = require("./handlers/concept/delete-concept.handler");
-const updateConcept = require("./handlers/concept/update-concept.handler");
+const getConcept = require("./concept/get-concept.handler");
+const getConcepts = require("./concept/get-concepts.handler");
+const createConcept = require("./concept/create-concept.handler");
+const deleteConcept = require("./concept/delete-concept.handler");
+const updateConcept = require("./concept/update-concept.handler");
 
 // Concept Tags
 const getTagsForConcept = require("./handlers/concept-tag/get-tags-for-concept");

@@ -1,7 +1,7 @@
-const sendResponse = require("../response.handler");
-const catchAsync = require("../../middlewares/catch-async.middleware");
-const { getConcepts } = require("../../models/concept.model");
-const { mergeEntityWithTags } = require("../tag/tag.common");
+const sendResponse = require("../handlers/response.handler");
+const catchAsync = require("../middlewares/catch-async.middleware");
+const { getConcepts } = require("./concept.model");
+const { mergeEntityWithTags } = require("../handlers/tag/tag.common");
 
 module.exports = catchAsync(async function (req, res) {
   const userId = req.user.id;

@@ -1,8 +1,8 @@
 const db = require("../db/db");
-const { deleteConceptConceptLinksForConcept } = require("./concept-concept-link.model");
-const { addTagsToEntity, updateTagsForEntity } = require("./entity-tag.model");
-const { deleteHooks } = require("./hook.model");
-const { deleteConceptSectionLinksForConcept } = require("./concept-section-link.model");
+const { deleteConceptConceptLinksForConcept } = require("../models/concept-concept-link.model");
+const { addTagsToEntity, updateTagsForEntity } = require("../models/entity-tag.model");
+const { deleteHooks } = require("../models/hook.model");
+const { deleteConceptSectionLinksForConcept } = require("../models/concept-section-link.model");
 
 module.exports = {
   createConcept,

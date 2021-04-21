@@ -1,7 +1,7 @@
-const AppError = require("../../utils/app-error.util");
-const sendResponse = require("../response.handler");
-const catchAsync = require("../../middlewares/catch-async.middleware");
-const { updateConcept } = require("../../models/concept.model");
+const AppError = require("../utils/app-error.util");
+const sendResponse = require("../handlers/response.handler");
+const catchAsync = require("../middlewares/catch-async.middleware");
+const { updateConcept } = require("./concept.model");
 
 module.exports = catchAsync(async function (req, res, next) {
   const { conceptId } = req.params;

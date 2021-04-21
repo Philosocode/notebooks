@@ -1,8 +1,8 @@
-const AppError = require("../../utils/app-error.util");
-const sendResponse = require("../response.handler");
-const catchAsync = require("../../middlewares/catch-async.middleware");
-const { createConcept } = require("../../models/concept.model");
-const { entityExists } = require("../../models/common.model");
+const AppError = require("../utils/app-error.util");
+const sendResponse = require("../handlers/response.handler");
+const catchAsync = require("../middlewares/catch-async.middleware");
+const { createConcept } = require("./concept.model");
+const { entityExists } = require("../models/common.model");
 
 module.exports = catchAsync(async function (req, res, next) {
   const userId = req.user.id;
