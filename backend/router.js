@@ -18,7 +18,10 @@ const getConcepts = require("./concept/get-concepts.handler");
 const createConcept = require("./concept/create-concept.handler");
 const deleteConcept = require("./concept/delete-concept.handler");
 const updateConcept = require("./concept/update-concept.handler");
-const { createConceptValidationRules } = require("./concept/concept.validation");
+const {
+  createConceptValidationRules,
+  updateConceptValidationRules
+} = require("./concept/concept.validation");
 
 // Concept Tags
 const getTagsForConcept = require("./handlers/concept-tag/get-tags-for-concept");
@@ -153,7 +156,7 @@ router.route("/concepts")
 
 router.route("/concepts/:conceptId")
    .get(conceptExistsMiddleware, getConcept)
-   .patch(conceptExistsMiddleware, updateConcept)
+   .patch(conceptExistsMiddleware, updateConceptValidationRules(), validate, updateConcept)
    .delete(conceptExistsMiddleware, deleteConcept)
 
 router.route("/concepts/:conceptId/links")
