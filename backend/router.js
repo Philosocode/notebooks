@@ -10,7 +10,7 @@ const conceptExistsMiddleware = entityExistsMiddleware("concept");
 const notebookExistsMiddleware = entityExistsMiddleware("notebook");
 
 // Auth
-const googleLogin = require("./handlers/auth/google-login.handler");
+const googleLogin = require("./auth/google-login.handler");
 
 // Concept
 const getConcept = require("./concept/get-concept.handler");
