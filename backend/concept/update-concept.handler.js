@@ -1,29 +1,11 @@
-const AppError = require("../utils/app-error.util");
 const sendResponse = require("../handlers/response.handler");
 const catchAsync = require("../middlewares/catch-async.middleware");
 const { updateConcept } = require("./concept.model");
 
-module.exports = catchAsync(async function (req, res, next) {
+module.exports = catchAsync(async function (req, res) {
   const { conceptId } = req.params;
 
-  // check if at least 1 update-able property included
   const { name, tags } = req.body;
-  if (!name && !tags) {
-    return next(
-      new AppError("Allowed properties for update: name, tags.", 422)
-    );
-  }
-
-  if (name?.trim() === "") {
-    return next(new AppError("New name must not be empty.", 422));
-  }
-
-  // tags must be an array
-  if (tags && !Array.isArray(tags)) {
-    return next(
-      new AppError("Tags must be an array of strings.", 422)
-    );
-  }
 
   // ensure tags are lowercase
   const lowercaseTags = tags?.map(tn => tn.trim().toLowerCase());
