@@ -1,4 +1,4 @@
-const { defaultSettings } = require("../../handlers/user/user.common");
+const { defaultSettings } = require("../../user/user.common");
 
 exports.up = function (knex) {
   return knex.schema.createTable("user", (tbl) => {

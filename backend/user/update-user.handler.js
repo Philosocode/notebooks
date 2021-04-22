@@ -1,8 +1,8 @@
-const AppError = require("../../utils/app-error.util");
-const sendResponse = require("../response.handler");
-const catchAsync = require("../../middlewares/catch-async.middleware");
+const AppError = require("../utils/app-error.util");
+const sendResponse = require("../handlers/response.handler");
+const catchAsync = require("../middlewares/catch-async.middleware");
 const { settingsKeys, defaultSettings } = require("./user.common");
-const { updateUserSettings } = require("../../models/user.model");
+const { updateUserSettings } = require("./user.model");
 
 module.exports = catchAsync(async function (req, res, next) {
   const { settings } = req.body;

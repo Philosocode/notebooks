@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const AppError = require("../utils/app-error.util");
 const catchAsync = require("../middlewares/catch-async.middleware");
-const { upsertUser } = require("../models/user.model");
+const { upsertUser } = require("../user/user.model");
 const logger = require("../utils/logger.util");
 const db = require("../db/db");
 

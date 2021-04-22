@@ -1,5 +1,5 @@
-const { getUser } = require("../../models/user.model");
-const sendResponse = require("../response.handler");
+const { getUser } = require("./user.model");
+const sendResponse = require("../handlers/response.handler");
 
 module.exports = async function (req, res) {
   const userId = req.user.id;

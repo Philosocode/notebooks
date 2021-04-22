@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 
-const { getGoogleUser } = require("../models/user.model");
+const { getGoogleUser } = require("../user/user.model");
 const catchAsync = require("./catch-async.middleware");
 const AppError = require("../utils/app-error.util");
 

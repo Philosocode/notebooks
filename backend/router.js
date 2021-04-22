@@ -107,8 +107,8 @@ const updateTag = require("./handlers/tag/update-tag.handler");
 const deleteTag = require("./handlers/tag/delete-tag.handler");
 
 // User
-const getUser = require("./handlers/user/get-user.handler");
-const updateUser = require("./handlers/user/update-user.handler");
+const getUser = require("./user/get-user.handler");
+const updateUser = require("./user/update-user.handler");
 
 // Uploads
 const uploadImageHandler = require("./handlers/upload/upload-image.handler");
