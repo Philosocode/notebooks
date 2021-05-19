@@ -12,11 +12,7 @@ const globalErrorHandler = require("./middlewares/global-error-handler.middlewar
 const app = express();
 
 // middlewares
-app.use(
-  cors({
-    maxAge: 7200,
-  })
-);
+app.use(cors({ maxAge: 7200 }));
 
 // serve static files
 app.use(express.static(path.join(__dirname, "public")));

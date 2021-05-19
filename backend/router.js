@@ -9,6 +9,8 @@ const userOwnsSectionMiddleware = require("./middlewares/user-owns-section.middl
 const conceptExistsMiddleware = entityExistsMiddleware("concept");
 const notebookExistsMiddleware = entityExistsMiddleware("notebook");
 
+const logRequestMiddleware = require("./middlewares/log-request.middleware");
+
 // Auth
 const googleLogin = require("./auth/google-login.handler");
 
@@ -126,6 +128,7 @@ router.post("/auth/google", googleLogin);
    PROTECTED ROUTES
    ====================== */
 router.use(protect);
+router.use(logRequestMiddleware);
 
 // User
 router.route("/users/:userId")
