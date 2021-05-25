@@ -16,8 +16,9 @@ import { NavbarProfileMenu } from "./navbar-profile-menu.component";
 
 // styles
 import { theme } from "shared/styles/theme.style";
-import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle, faQuestionCircle, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { RandomHookModal } from "../../../modal/components/random-hook-modal.component";
+import { IMenuAction, Menu } from "../menu/menu.component";
 
 export const Navbar: React.FC = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,11 @@ export const Navbar: React.FC = () => {
   const [menuShowing, toggleMenu] = useToggle(false);
   const [randomHookModalShowing, toggleRandomHookModal] = useToggle(false);
   const [helpModalShowing, toggleHelpModal] = useToggle(false);
+
+  const menuActions: IMenuAction[] = [
+    { name: "Random Hook", icon: "cog", action: toggleRandomHookModal },
+    { name: "I'm Stuck", icon: faInfoCircle, action: toggleHelpModal },
+  ];
 
   const LibraryLink = <li><SNavLink to="/library">Library</SNavLink></li>;
 
@@ -63,7 +69,14 @@ export const Navbar: React.FC = () => {
     <SNav>
       { appLocation !== "other" && <SMenuToggle icon="bars" onClick={handleToggleClick} /> }
       <SNavList>
-        { user && <SStuckButton icon={faQuestionCircle} onClick={toggleRandomHookModal} /> }
+        { user && (
+          <div>
+            <SStuckButton icon={faQuestionCircle} onClick={toggleMenu} />
+            <SMenuContainer>
+              <Menu actions={menuActions} menuShowing={menuShowing} toggleMenu={toggleMenu} />
+            </SMenuContainer>
+          </div>
+        )}
         { user ? getLoggedInLinks() : getLoggedOutLinks() }
         { user && <NavbarProfileMenu user={user} /> }
       </SNavList>
@@ -101,7 +114,6 @@ const SMenuToggle = styled(FontAwesomeIcon)`
 const SStuckButton = styled(FontAwesomeIcon)`
   cursor: pointer;
   font-size: 2.5rem;
-  margin-right: ${theme.spacing.base};
   
   &:hover {
     color: ${theme.colors.green["300"]};
@@ -137,4 +149,9 @@ const SNavLink = styled(NavLink).attrs({
 
 const SStudyLink = styled(Link)`
   font-weight: ${(props: { $activeLink: boolean }) => props.$activeLink ? "bold" : "400"};
+`;
+
+const SMenuContainer = styled.div`
+  position: relative;
+  top: 3px;
 `;
