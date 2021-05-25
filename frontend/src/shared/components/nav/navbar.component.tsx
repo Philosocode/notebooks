@@ -16,13 +16,16 @@ import { NavbarProfileMenu } from "./navbar-profile-menu.component";
 
 // styles
 import { theme } from "shared/styles/theme.style";
-import { SButtonGreen } from "shared/styles/button.style";
+import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { RandomHookModal } from "../../../modal/components/random-hook-modal.component";
 
 export const Navbar: React.FC = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const appLocation = useAppLocation();
 
+  const [menuShowing, toggleMenu] = useToggle(false);
+  const [randomHookModalShowing, toggleRandomHookModal] = useToggle(false);
   const [helpModalShowing, toggleHelpModal] = useToggle(false);
 
   const LibraryLink = <li><SNavLink to="/library">Library</SNavLink></li>;
@@ -60,11 +63,12 @@ export const Navbar: React.FC = () => {
     <SNav>
       { appLocation !== "other" && <SMenuToggle icon="bars" onClick={handleToggleClick} /> }
       <SNavList>
-        { user && <SStuckButton onClick={toggleHelpModal}>I'm Stuck</SStuckButton> }
+        { user && <SStuckButton icon={faQuestionCircle} onClick={toggleRandomHookModal} /> }
         { user ? getLoggedInLinks() : getLoggedOutLinks() }
         { user && <NavbarProfileMenu user={user} /> }
       </SNavList>
       <HelpModal handleClose={toggleHelpModal} isShowing={helpModalShowing} />
+      <RandomHookModal handleClose={toggleRandomHookModal} isShowing={randomHookModalShowing} />
     </SNav>
   );
 };
@@ -94,20 +98,16 @@ const SMenuToggle = styled(FontAwesomeIcon)`
   }
 `;
 
-const SStuckButton = styled(SButtonGreen)`
-  box-shadow: none;
+const SStuckButton = styled(FontAwesomeIcon)`
+  cursor: pointer;
+  font-size: 2.5rem;
   margin-right: ${theme.spacing.base};
-  font-size: ${theme.fontSizes.sm};
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  padding: 0.5em;
   
-  ${theme.media.phoneOnly} {
-    font-size: ${theme.fontSizes.xs};
-    padding: 0.6em;
+  &:hover {
+    color: ${theme.colors.green["300"]};
   }
 `;
+
 const SNavList = styled.ul`
   display: flex;
     justify-content: flex-end;

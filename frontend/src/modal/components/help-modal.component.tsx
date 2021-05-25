@@ -1,13 +1,7 @@
 import React from "react";
-import styled from "styled-components";
 
-import { useRandom } from "../../shared/hooks/use-random.hook";
-
-import { ModalWrapper } from "./modal-wrapper.component";
-
-import { theme } from "../../shared/styles/theme.style";
-import { SAnchorTag, SHeadingSubtitle } from "shared/styles/typography.style";
-import { CircleIcon } from "../../shared/components/button/circle-icon.component";
+import { RandomModal } from "./random-modal.component";
+import { SAnchorTag } from "shared/styles/typography.style";
 
 const duckUrl = `https://en.wikipedia.org/wiki/Rubber_duck_debugging`;
 const meditationUrl = `https://www.candoideas.com/blog/why-productive-meditation-should-be-on-your-to-do-list`;
@@ -64,47 +58,5 @@ interface IProps {
   isShowing: boolean;
 }
 export const HelpModal: React.FC<IProps> = ({ handleClose, isShowing }) => {
-  const [item, getRandomItem] = useRandom(items, items[0]);
-
-  function handleClick() {
-    getRandomItem();
-  }
-
-  return (
-    <ModalWrapper
-      handleClose={handleClose}
-      isShowing={isShowing}
-    >
-      <SHeadingSubtitle>
-        Get Un-stuck
-      </SHeadingSubtitle>
-      <SIconContainer>
-        <CircleIcon handleClick={handleClick} icon="redo" />
-      </SIconContainer>
-      <STextContainer>
-        {item}
-      </STextContainer>
-    </ModalWrapper>
-  );
+  return <RandomModal items={items} isShowing={isShowing} title="Get Un-stuck" handleClose={handleClose} />;
 };
-
-const SIconContainer = styled.div`
-  display: inline-block;
-  transform: translateX(-0.5em);
-`;
-
-const STextContainer = styled.div`
-  background: ${theme.colors.gray[100]};
-  padding: ${theme.spacing.sm};
-  margin-top: ${theme.spacing.sm};
-  
-  ${theme.media.tabLand} {
-    font-size: ${theme.fontSizes.basePlus};
-  }
-  
-  & > ol,
-  & > ul {
-    list-style-type: disc;
-    padding-left: ${theme.spacing.base};
-  }
-`;
