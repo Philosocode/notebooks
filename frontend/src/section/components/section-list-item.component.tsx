@@ -76,8 +76,12 @@ const SContainer = styled(Link)`
     align-items: center;
     justify-content: space-between;
   margin-top: ${theme.spacing.base};
-  padding: ${theme.spacing.base};
+  padding: ${theme.spacing.sm};
   max-width: 80rem;
+  
+  ${theme.media.tabPort} {
+    padding: ${theme.spacing.base};
+  }
 `;
 
 const SName = styled.h3`
