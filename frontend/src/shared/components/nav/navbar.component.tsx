@@ -1,8 +1,8 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
 
 // logic
 import { selectUser } from "user/redux/user.selectors";
@@ -13,53 +13,19 @@ import { toggleSidebar } from "shared/redux/global.slice";
 // components
 import { HelpModal } from "modal/components/help-modal.component";
 import { NavbarProfileMenu } from "./navbar-profile-menu.component";
+import { RandomHookModal } from "../../../modal/components/random-hook-modal.component";
 
 // styles
 import { theme } from "shared/styles/theme.style";
-import { faLightbulb, faQuestion, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
-import { RandomHookModal } from "../../../modal/components/random-hook-modal.component";
-import { IMenuAction, Menu } from "../menu/menu.component";
+import { SButtonGreen } from "../../styles/button.style";
 
 export const Navbar: React.FC = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const appLocation = useAppLocation();
 
-  const [menuShowing, toggleMenu] = useToggle(false);
   const [randomHookModalShowing, toggleRandomHookModal] = useToggle(false);
   const [helpModalShowing, toggleHelpModal] = useToggle(false);
-
-  const menuActions: IMenuAction[] = [
-    { name: "Random Hook", icon: faLightbulb, action: toggleRandomHookModal },
-    { name: "I'm Stuck", icon: faQuestion, action: toggleHelpModal },
-  ];
-
-  const LibraryLink = <li><SNavLink to="/library">Library</SNavLink></li>;
-
-  function getLoggedInLinks() {
-    return (
-      <>
-        <li>
-          <SStudyLink
-            $activeLink={appLocation !== "library"}
-            to="/notebooks"
-          >Study</SStudyLink>
-        </li>
-        {LibraryLink}
-      </>
-    );
-  }
-
-  function getLoggedOutLinks() {
-    return (
-      <>
-        <li>
-          <SNavLink to="/login">Login</SNavLink>
-        </li>
-        {LibraryLink}
-      </>
-    );
-  }
 
   function handleToggleClick() {
     dispatch(toggleSidebar());
@@ -70,15 +36,12 @@ export const Navbar: React.FC = () => {
       { appLocation !== "other" && <SMenuToggle icon="bars" onClick={handleToggleClick} /> }
       <SNavList>
         { user && (
-          <SStuckButtonContainer>
-            <SStuckButton icon={faQuestionCircle} onClick={toggleMenu} />
-            <SMenuContainer>
-              <Menu actions={menuActions} menuShowing={menuShowing} toggleMenu={toggleMenu} />
-            </SMenuContainer>
-          </SStuckButtonContainer>
+          <>
+            <SRandomHookButton icon={faLightbulb} onClick={toggleRandomHookModal} />
+            <SStuckButton onClick={toggleHelpModal}>I'm Stuck</SStuckButton>
+            <NavbarProfileMenu user={user} />
+          </>
         )}
-        { user ? getLoggedInLinks() : getLoggedOutLinks() }
-        { user && <NavbarProfileMenu user={user} /> }
       </SNavList>
       <HelpModal handleClose={toggleHelpModal} isShowing={helpModalShowing} />
       <RandomHookModal handleClose={toggleRandomHookModal} isShowing={randomHookModalShowing} />
@@ -111,16 +74,28 @@ const SMenuToggle = styled(FontAwesomeIcon)`
   }
 `;
 
-const SStuckButtonContainer = styled.div`
-  display: flex;
-`;
-
-const SStuckButton = styled(FontAwesomeIcon)`
+const SRandomHookButton = styled(FontAwesomeIcon)`
+  color: ${theme.colors.gray["700"]};
   cursor: pointer;
-  font-size: 2.5rem;
+  font-size: 2rem;
   
   &:hover {
     color: ${theme.colors.green["300"]};
+  }
+`;
+
+const SStuckButton = styled(SButtonGreen)`
+  box-shadow: none;
+  margin-right: ${theme.spacing.base};
+  font-size: ${theme.fontSizes.sm};
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 0.5em;
+
+  ${theme.media.phoneOnly} {
+    font-size: ${theme.fontSizes.xs};
+    padding: 0.6em;
   }
 `;
 
@@ -131,30 +106,11 @@ const SNavList = styled.ul`
   position: relative;
   
   & > *:not(:last-child) {
-    margin-right: 2rem;
-  }
-`;
-
-const SLinkStyles = css`
-  color: black;
-  cursor: pointer;
-
-  &.active {
-    font-weight: bold;
+    margin-right: 3rem;
   }
 `;
 
 // https://spectrum.chat/styled-components/help/how-to-use-sc-with-nav-activeclassname~8f753cea-75c3-4524-8207-fd0216026665?m=MTUxNzc1MzI1MjY5MA==
-const SNavLink = styled(NavLink).attrs({
-  activeClassName: "active",
-})`
-  ${SLinkStyles}
-`;
-
-const SStudyLink = styled(Link)`
-  font-weight: ${(props: { $activeLink: boolean }) => props.$activeLink ? "bold" : "400"};
-`;
-
 const SMenuContainer = styled.div`
   position: relative;
   top: 3rem;
