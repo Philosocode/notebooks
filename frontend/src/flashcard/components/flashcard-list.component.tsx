@@ -9,6 +9,7 @@ import { IFlashcard } from "flashcard/redux/flashcard.types";
 import { selectFlashcardsForSection } from "../redux/flashcard.selectors";
 import { deleteFlashcard, getFlashcards, updateFlashcard, updateFlashcardPosition } from "../redux/flashcard.thunks";
 import { repositionFlashcard } from "section/redux/section.slice";
+import { showModal } from "../../modal/redux/modal.slice";
 import { useExpandHash } from "../../shared/hooks/use-expand-hash.hook";
 
 // components
@@ -21,7 +22,6 @@ import { EditableContentBox } from "../../shared/components/info/editable-conten
 // styles
 import { theme } from "shared/styles/theme.style";
 import { SHeadingSubSubtitle } from "shared/styles/typography.style";
-import { showModal } from "../../modal/redux/modal.slice";
 import { SContentBoxList } from "../../shared/components/info/content-box.style";
 
 interface IProps {
@@ -151,6 +151,11 @@ interface IMastered {
 }
 const SIcon = styled(CircleIcon)<IMastered>`
   color: ${props => props.mastered ? theme.colors.green[300] : theme.colors.gray[500]};
-  font-size: ${theme.fontSizes.base};
+  font-size: 1.4rem;
   margin-left: 3px;
+  margin-right: -5px;
+  
+  ${theme.media.tabPort} {
+    font-size: 1.6rem;
+  }
 `;

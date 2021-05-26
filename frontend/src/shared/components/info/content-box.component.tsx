@@ -78,7 +78,7 @@ interface IExpanded {
 const SContainer = styled.li<IExpanded>`
   background: ${theme.colors.offWhite};
   box-shadow: ${theme.boxShadows.light};
-  padding: ${theme.spacing.xs} ${theme.spacing.sm};
+  padding: 0 ${theme.spacing.sm};
   list-style-type: none;
   text-align: left;
   
