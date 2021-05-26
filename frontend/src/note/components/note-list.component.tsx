@@ -144,16 +144,16 @@ const SNoItemsHeading = styled(SHeadingSubSubtitle)`
 
 const SMenuContainer = styled.div`
   position: fixed;
-    bottom: 22rem;
-    right: 16rem;
+    bottom: 21rem;
+    right: 15rem;
 
   ${theme.media.tabPort} {
-    bottom: 25rem;
-    right: 19rem;
+    bottom: 24rem;
+    right: 17rem;
     
   }
   ${theme.media.tabLand} {
-    bottom: 26rem;
-    right: 22rem;
+    bottom: 25rem;
+    right: 19rem;
   }
 `;

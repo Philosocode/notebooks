@@ -84,6 +84,7 @@ export const theme = {
     lg: `${BASE_SPACING_SIZE * 3}rem`,
     xl: `${BASE_SPACING_SIZE * 4}rem`,
     sideGap: "2.5%",
+    listBottomPadding: "7rem",
   },
   timing: {
     alertShowTime: 3000,

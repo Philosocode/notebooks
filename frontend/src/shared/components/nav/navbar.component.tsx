@@ -109,10 +109,3 @@ const SNavList = styled.ul`
     margin-right: 3rem;
   }
 `;
-
-// https://spectrum.chat/styled-components/help/how-to-use-sc-with-nav-activeclassname~8f753cea-75c3-4524-8207-fd0216026665?m=MTUxNzc1MzI1MjY5MA==
-const SMenuContainer = styled.div`
-  position: relative;
-  top: 3rem;
-  left: -3rem;
-`;

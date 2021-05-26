@@ -93,4 +93,5 @@ export const SectionList: React.FC<IProps> = ({ notebookId }) => {
 
 const SList = styled.ul`
   margin-top: ${theme.spacing.base};
+  padding-bottom: ${theme.spacing.listBottomPadding};
 `;
