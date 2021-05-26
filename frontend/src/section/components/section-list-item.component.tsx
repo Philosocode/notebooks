@@ -76,7 +76,7 @@ const SContainer = styled(Link)`
     align-items: center;
     justify-content: space-between;
   margin-top: ${theme.spacing.base};
-  padding: ${theme.spacing.sm};
+  padding: ${theme.spacing.sm} ${theme.spacing.base};
   max-width: 80rem;
   
   ${theme.media.tabPort} {
@@ -86,6 +86,7 @@ const SContainer = styled(Link)`
 
 const SName = styled.h3`
   font-size: ${theme.fontSizes.basePlus};
+  font-weight: 500;
   
   ${theme.media.tabLand} {
     font-size: ${theme.fontSizes.md};

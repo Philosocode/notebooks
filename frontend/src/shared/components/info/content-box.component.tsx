@@ -111,14 +111,10 @@ const SHeaderColumn = styled.div`
 `;
 
 const STitle = styled.h3`
-  font-size: ${theme.fontSizes.sm};
+  font-size: ${theme.fontSizes.base};
   font-weight: 500;
   margin-left: ${theme.spacing.sm};
   margin-right: ${theme.spacing.sm};
-  
-  ${theme.media.tabLand} {
-    font-size: ${theme.fontSizes.base};
-  }
 `;
 
 const SPosition = styled.div`
