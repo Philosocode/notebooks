@@ -43,6 +43,7 @@ export const EditableContentBox: React.FC<IProps> = ({
       content={content}
       handleTitleChange={handleChange}
       handleContentChange={setContent}
+      initialTab="write"
       buttonSlot={
         <>
           <SButtonGreen disabled={buttonDisabled()} onClick={handleUpdateClick}>Update</SButtonGreen>
