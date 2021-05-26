@@ -16,7 +16,7 @@ import { NavbarProfileMenu } from "./navbar-profile-menu.component";
 
 // styles
 import { theme } from "shared/styles/theme.style";
-import { faInfoCircle, faQuestionCircle, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faLightbulb, faQuestion, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { RandomHookModal } from "../../../modal/components/random-hook-modal.component";
 import { IMenuAction, Menu } from "../menu/menu.component";
 
@@ -30,8 +30,8 @@ export const Navbar: React.FC = () => {
   const [helpModalShowing, toggleHelpModal] = useToggle(false);
 
   const menuActions: IMenuAction[] = [
-    { name: "Random Hook", icon: "cog", action: toggleRandomHookModal },
-    { name: "I'm Stuck", icon: faInfoCircle, action: toggleHelpModal },
+    { name: "Random Hook", icon: faLightbulb, action: toggleRandomHookModal },
+    { name: "I'm Stuck", icon: faQuestion, action: toggleHelpModal },
   ];
 
   const LibraryLink = <li><SNavLink to="/library">Library</SNavLink></li>;
