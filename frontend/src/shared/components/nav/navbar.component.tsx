@@ -70,12 +70,12 @@ export const Navbar: React.FC = () => {
       { appLocation !== "other" && <SMenuToggle icon="bars" onClick={handleToggleClick} /> }
       <SNavList>
         { user && (
-          <div>
+          <SStuckButtonContainer>
             <SStuckButton icon={faQuestionCircle} onClick={toggleMenu} />
             <SMenuContainer>
               <Menu actions={menuActions} menuShowing={menuShowing} toggleMenu={toggleMenu} />
             </SMenuContainer>
-          </div>
+          </SStuckButtonContainer>
         )}
         { user ? getLoggedInLinks() : getLoggedOutLinks() }
         { user && <NavbarProfileMenu user={user} /> }
@@ -109,6 +109,10 @@ const SMenuToggle = styled(FontAwesomeIcon)`
   ${theme.media.tabPort} {
     left: 3.5rem;
   }
+`;
+
+const SStuckButtonContainer = styled.div`
+  display: flex;
 `;
 
 const SStuckButton = styled(FontAwesomeIcon)`
@@ -153,5 +157,6 @@ const SStudyLink = styled(Link)`
 
 const SMenuContainer = styled.div`
   position: relative;
-  top: 3px;
+  top: 3rem;
+  left: -3rem;
 `;
