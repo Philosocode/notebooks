@@ -58,7 +58,7 @@ export const NotebooksPage: React.FC = () => {
     dispatch(
       showModal({ modalType: "create-notebook" })
     );
-  };
+  }
 
   return (
     <SPage>

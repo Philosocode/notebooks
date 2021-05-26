@@ -23,6 +23,7 @@ import { WelcomeWizardModal } from "./modal/components/welcome-wizard-modal.comp
 
 // styles
 import { SMainContent } from "shared/styles/layout.style";
+import { theme } from "./shared/styles/theme.style";
 
 export function App() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -84,4 +85,5 @@ export function App() {
 
 const SAppContainer = styled.div`
   display: flex;
+  min-height: calc(100vh - ${theme.componentSizes.navbarHeight});
 `;
