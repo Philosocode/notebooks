@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { faLightbulb, faRandom } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import random from "lodash/random";
 import styled from "styled-components";
 
 // logic
-import { createHook } from "hook/redux/hook.thunks";
 import { allHooksArray } from "../data/hooks.data";
 
 // components
@@ -19,15 +17,12 @@ import { SHookNameTextarea } from "../styles/hook.style";
 import { MarkdownEditor } from "../../shared/mde/markdown-editor.component";
 
 interface IProps {
-  conceptId: string;
-  numberOfHooks: number;
+  handleCreate: (name: string, content: string) => void;
 }
-export const CreateHookForm: React.FC<IProps> = ({ conceptId, numberOfHooks }) => {
+export const CreateHookForm: React.FC<IProps> = ({ handleCreate }) => {
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
   const [hookSelectShowing, setHookSelectShowing] = useState(false);
-
-  const dispatch = useDispatch();
 
   function setRandomName() {
     const lowerTrimmedName = name.trim().toLowerCase();
@@ -54,14 +49,7 @@ export const CreateHookForm: React.FC<IProps> = ({ conceptId, numberOfHooks }) =
     event.preventDefault();
     if (formDisabled()) return;
 
-    const nextPosition = numberOfHooks + 1;
-
-    dispatch(createHook({
-      conceptId,
-      content,
-      name,
-      position: nextPosition,
-    }));
+    handleCreate(name, content);
 
     setName("");
     setContent("");

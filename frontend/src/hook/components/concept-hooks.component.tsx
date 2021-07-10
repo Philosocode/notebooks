@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 // logic
 import { IConcept } from "../../concept/redux/concept.types";
-import { getHooks } from "hook/redux/hook.thunks";
+import { createHook, getHooks } from "hook/redux/hook.thunks";
 import { selectConceptHooks } from "concept/redux/concept.selectors";
 
 // components
@@ -27,13 +27,23 @@ export const ConceptHooks: React.FC<IProps> = ({ concept }) => {
     }
   }, [concept, dispatch]);
 
+  function handleCreate(name: string, content: string) {
+    if (!conceptHooks) return;
+
+    const nextPosition = conceptHooks.length + 1;
+
+    dispatch(createHook({
+      conceptId: concept.id,
+      content,
+      name,
+      position: nextPosition,
+    }));
+  }
+
   if (!conceptHooks) return null;
   return (
     <>
-      <CreateHookForm
-        conceptId={concept.id}
-        numberOfHooks={conceptHooks.length}
-      />
+      <CreateHookForm handleCreate={handleCreate} />
       <SDivider />
       <HookList conceptId={concept.id} hooks={conceptHooks} />
     </>
