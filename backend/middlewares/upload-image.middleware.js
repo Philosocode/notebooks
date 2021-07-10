@@ -28,7 +28,6 @@ exports.resizeImage = catchAsync(async (req, _, next) => {
 
   req.file.filename = `${req.user.id}-${Date.now()}.jpeg`;
 
-  console.log(req.query);
   const isTemporary = req.query.temporary;
 
   let filePath = `public/uploads/images/${req.file.filename}`;

@@ -61,8 +61,6 @@ export const SettingsModal: React.FC<IProps> = ({
       updates["defaultLongBreakTime"] = +updates["defaultLongBreakTime"];
     }
 
-    console.log("UPDATES TO SEND", updates);
-
     dispatch(updateUserSettings({ userId: "x", updates }));
 
     toggleModal();
