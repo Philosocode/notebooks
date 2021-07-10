@@ -22,12 +22,14 @@ interface IProps {
   initialTab?: TMarkdownEditorTab;
   setValue?: (value: string) => void;
   placeholder?: string;
+  imagesAreTemporary?: boolean;
 }
 export const MarkdownEditor: React.FC<IProps> = ({
   initialTab,
   value,
   setValue,
   placeholder,
+  imagesAreTemporary,
 }) => {
   const [selectedTab, setSelectedTab] = useState<TMarkdownEditorTab>(initialTab ?? "preview");
 
@@ -40,8 +42,11 @@ export const MarkdownEditor: React.FC<IProps> = ({
     const dataBlob = new Blob([data], { type: "image/jpeg" });
     formData.append("image", dataBlob);
 
+    let postUrl = "/images";
+    if (imagesAreTemporary) postUrl += "?temporary";
+
     // https://github.com/andrerpena/react-mde/pull/268#issuecomment-707563996
-    const response = await api.post("/images", formData, {
+    const response = await api.post(postUrl, formData, {
       headers: {
         "Content-Type": `multipart/form-data`,
       }
