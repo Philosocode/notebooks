@@ -101,7 +101,6 @@ export const ConceptsPage: React.FC = () => {
 
 const SPage = styled.div`
   display: flex;
-  padding-bottom: ${theme.spacing.listBottomPadding};
 `;
 
 const SConceptSection = styled.section`

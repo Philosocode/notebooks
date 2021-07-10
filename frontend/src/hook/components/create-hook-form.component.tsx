@@ -18,8 +18,9 @@ import { MarkdownEditor } from "../../shared/mde/markdown-editor.component";
 
 interface IProps {
   handleCreate: (name: string, content: string) => void;
+  className?: string;
 }
-export const CreateHookForm: React.FC<IProps> = ({ handleCreate }) => {
+export const CreateHookForm: React.FC<IProps> = ({ className, handleCreate }) => {
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
   const [hookSelectShowing, setHookSelectShowing] = useState(false);
@@ -56,7 +57,7 @@ export const CreateHookForm: React.FC<IProps> = ({ handleCreate }) => {
   }
 
   return (
-    <>
+    <div className={className}>
       <SHookCreateForm onSubmit={handleSubmit}>
         <SHookNameContainer>
           <SHookNameTextarea
@@ -84,16 +85,12 @@ export const CreateHookForm: React.FC<IProps> = ({ handleCreate }) => {
         setModalShowing={setHookSelectShowing}
         setHook={setName}
       />
-    </>
+    </div>
   );
 };
 
 const SHookCreateForm = styled.form`
-  max-width: 80rem;
-  
-  ${theme.media.tabLand} {
-    margin-top: ${theme.spacing.md};
-  }
+  max-width: 80rem; 
 `;
 
 const SHookNameContainer = styled.div`

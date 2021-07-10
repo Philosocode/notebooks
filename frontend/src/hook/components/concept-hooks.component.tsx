@@ -43,12 +43,18 @@ export const ConceptHooks: React.FC<IProps> = ({ concept }) => {
   if (!conceptHooks) return null;
   return (
     <>
-      <CreateHookForm handleCreate={handleCreate} />
+      <SCreateHookForm handleCreate={handleCreate} />
       <SDivider />
       <HookList conceptId={concept.id} hooks={conceptHooks} />
     </>
   );
 };
+
+const SCreateHookForm = styled(CreateHookForm)`
+  ${theme.media.tabLand} {
+    margin-top: ${theme.spacing.md};
+  }
+`;
 
 const SDivider = styled.div`
   background: ${theme.colors.black};

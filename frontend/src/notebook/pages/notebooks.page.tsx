@@ -95,7 +95,6 @@ export const NotebooksPage: React.FC = () => {
 
 const SPage = styled.div`
   display: flex;
-  padding-bottom: ${theme.spacing.listBottomPadding};
 `;
 
 const SSection = styled.section`

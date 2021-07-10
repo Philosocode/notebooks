@@ -6,6 +6,7 @@ import { IConcept } from "../redux/concept.types";
 
 // components
 import { ConceptListItem } from "concept/components/concept-list-item.component";
+import { theme } from "../../shared/styles/theme.style";
 
 interface IProps {
   concepts: IConcept[];
@@ -26,4 +27,5 @@ const SConceptList = styled.ul`
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  padding-bottom: ${theme.spacing.listBottomPadding};
 `;

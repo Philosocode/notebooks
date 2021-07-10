@@ -6,13 +6,13 @@ export function useStep(min: number, max: number, initialValue?: number) {
   function increment() {
     if (step === max) return;
 
-    setStep(prevState =>  prevState + 1);
+    setStep((prevState) => prevState + 1);
   }
 
   function decrement() {
     if (step === min) return;
 
-    setStep(prevState => prevState - 1);
+    setStep((prevState) => prevState - 1);
   }
 
   return { step, setStep, increment, decrement };

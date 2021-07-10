@@ -76,8 +76,8 @@ const SContainer = styled(Link)`
     align-items: center;
     justify-content: space-between;
   margin-top: ${theme.spacing.base};
-  padding: ${theme.spacing.sm} ${theme.spacing.base};
-  max-width: 80rem;
+  padding: ${theme.spacing.sm} ${theme.spacing.sm};
+  max-width: 60rem;
   
   ${theme.media.tabPort} {
     padding: ${theme.spacing.base};
@@ -85,11 +85,11 @@ const SContainer = styled(Link)`
 `;
 
 const SName = styled.h3`
-  font-size: ${theme.fontSizes.basePlus};
+  font-size: ${theme.fontSizes.base};
   font-weight: 500;
   
   ${theme.media.tabLand} {
-    font-size: ${theme.fontSizes.md};
+    font-size: ${theme.fontSizes.basePlus};
   }
 `;
 

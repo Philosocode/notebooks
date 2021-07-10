@@ -10,6 +10,7 @@ import { NotebooksPage } from "notebook/pages/notebooks.page";
 import { NotebookDetailPage } from "notebook/pages/notebook-detail.page";
 import { SectionDetailPage } from "section/pages/section-detail.page";
 import { PracticePage } from "practice/pages/practice.page";
+import { WorkflowsPage } from "workflow/pages/workflows.page";
 
 interface IAppRoute<T = {}> {
   component: FC<T>;
@@ -68,6 +69,12 @@ const practice: IAppRoute = {
   isPrivate: true,
 };
 
+const workflows: IAppRoute = {
+  component: WorkflowsPage,
+  path: "/workflows",
+  isPrivate: true,
+};
+
 export const appRoutes = [
   login,
   library,
@@ -78,4 +85,5 @@ export const appRoutes = [
   notebookDetail,
   sectionDetail,
   practice,
+  workflows,
 ];

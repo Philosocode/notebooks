@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import { INotebook } from "../redux/notebook.types";
 import { NotebookListItem } from "./notebook-list-item.component";
+import { theme } from "../../shared/styles/theme.style";
 
 interface IProps {
   notebooks: INotebook[];
@@ -23,4 +24,5 @@ const SNotebookList = styled.ul`
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  padding-bottom: ${theme.spacing.listBottomPadding};
 `;

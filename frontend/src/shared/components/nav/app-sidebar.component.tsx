@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import { faLightbulb, faStar } from "@fortawesome/free-regular-svg-icons";
-import { faBook, faStopwatch } from "@fortawesome/free-solid-svg-icons";
+import { faBook, faStopwatch, faStream } from "@fortawesome/free-solid-svg-icons";
 
 import { showModal } from "timer/redux/timer.slice";
 import { setPracticeState } from "practice/redux/practice.slice";
@@ -68,6 +68,10 @@ export const AppSidebar: React.FC = () => {
         <SIcon icon={faStar} />
         <SName>Practice</SName>
       </SSidebarItem>
+      <SSidebarLink to="/workflows">
+        <SIcon icon={faStream} />
+        <SName>Workflows</SName>
+      </SSidebarLink>
     </SContent>
   )
  };
