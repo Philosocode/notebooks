@@ -28,11 +28,17 @@ exports.resizeImage = catchAsync(async (req, _, next) => {
 
   req.file.filename = `${req.user.id}-${Date.now()}.jpeg`;
 
+  console.log(req.query);
+  const isTemporary = req.query.temporary;
+
+  let filePath = `public/uploads/images/${req.file.filename}`;
+  if (isTemporary) filePath = `public/uploads/temp/${req.file.filename}`
+
   await sharp(req.file.buffer)
     .resize({ width: 600 })
     .toFormat("jpeg")
     .jpeg({ quality: 90 })
-    .toFile(`public/uploads/images/${req.file.filename}`);
+    .toFile(filePath);
 
   next();
 });

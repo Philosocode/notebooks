@@ -85,6 +85,7 @@ export const StepTwo: React.FC<IProps> = ({ handleNext }) => {
             handleDelete={handleDelete}
             isExpanded={true}
             toggleIsExpanded={() => {}}
+            imagesAreTemporary
           />
         ))}
       </SHooks>

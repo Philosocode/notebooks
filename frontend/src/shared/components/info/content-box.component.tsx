@@ -17,6 +17,7 @@ export interface IContentBoxProps {
   initialTab?: TMarkdownEditorTab;
   headerSlot?: React.ReactNode;
   buttonSlot?: React.ReactNode;
+  imagesAreTemporary?: boolean;
   handleTitleChange?: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   handleContentChange?: (value: string) => void;
 }
@@ -30,6 +31,7 @@ export const ContentBox: React.FC<IContentBoxProps> = ({
   initialTab,
   headerSlot,
   buttonSlot,
+  imagesAreTemporary,
   handleTitleChange,
   handleContentChange,
 }) => {
@@ -60,6 +62,7 @@ export const ContentBox: React.FC<IContentBoxProps> = ({
               setValue={handleContentChange}
               placeholder="Enter content"
               initialTab={initialTab}
+              imagesAreTemporary={imagesAreTemporary}
             />
             <SButtons>
               {buttonSlot}

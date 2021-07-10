@@ -43,7 +43,7 @@ export const MarkdownEditor: React.FC<IProps> = ({
     formData.append("image", dataBlob);
 
     let postUrl = "/images";
-    if (imagesAreTemporary) postUrl += "?temporary";
+    if (imagesAreTemporary) postUrl += "?temporary=true";
 
     // https://github.com/andrerpena/react-mde/pull/268#issuecomment-707563996
     const response = await api.post(postUrl, formData, {
