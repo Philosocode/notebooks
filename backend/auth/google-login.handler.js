@@ -1,11 +1,12 @@
 const { OAuth2Client } = require("google-auth-library");
-const jwt = require("jsonwebtoken");
 
 const AppError = require("../utils/app-error.util");
 const catchAsync = require("../middlewares/catch-async.middleware");
-const { upsertUser } = require("../user/user.model");
-const logger = require("../utils/logger.util");
 const db = require("../db/db");
+const logger = require("../utils/logger.util");
+const { sendResponse } = require("../common/send-response.util");
+const { upsertUser } = require("../user/user.model");
+const { createToken } = require("../utils/auth.util");
 
 const CLIENT_ID = process.env.OAUTH_CLIENT_ID;
 const client = new OAuth2Client(CLIENT_ID);
@@ -41,18 +42,5 @@ module.exports = catchAsync(async function (req, res, next) {
 
   logger.info(`Google Login: ${email} [Google ID: ${google_id}]`);
 
-  res.status(200).json({
-    status: "success",
-    data: {
-      token: jwtToken,
-      user,
-    },
-  });
+  sendResponse(res, 200, { token: jwtToken, user });
 });
-
-async function createToken(payload) {
-  return jwt.sign(payload, process.env.JWT_SECRET, {
-    // e.g. 90d
-    expiresIn: process.env.JWT_EXPIRES_IN + "d",
-  });
-}

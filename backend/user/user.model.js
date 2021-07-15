@@ -9,8 +9,10 @@ module.exports = {
   updateUserSettings,
 };
 
-async function createUser(name, email, hashedPassword, connection=db) {
-  return; 
+async function createUser(name, email, hashedPassword, connection = db) {
+  return connection("user")
+    .insert({ name, email, password: hashedPassword })
+    .returning("id");
 }
 
 async function getUser(user_id) {
@@ -25,7 +27,7 @@ async function getGoogleUser(google_id) {
   return db("user").where("google_id", google_id).first();
 }
 
-async function upsertUser(email, google_id, name, photo_url, connection=db) {
+async function upsertUser(email, google_id, name, photo_url, connection = db) {
   return connection("user")
     .insert({
       email,
@@ -37,7 +39,7 @@ async function upsertUser(email, google_id, name, photo_url, connection=db) {
     .merge();
 }
 
-async function updateUserSettings(id, settings, connection=db) {
+async function updateUserSettings(id, settings, connection = db) {
   // patch settings properties rather than completely replacing it
   return connection.raw(
     `UPDATE "user" SET settings = settings || ? WHERE id = ?`,
