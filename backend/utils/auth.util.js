@@ -8,13 +8,11 @@ exports.createToken = async function(payload) {
   });
 }
 
-exports.hashPassword = function(password) {
-  return bcrypt.hash(password, 12);
+exports.hashPassword = async function(password) {
+  const salt = await bcrypt.genSalt(12);
+  return bcrypt.hash(password, salt);
 }
 
-// FROM: https://flaviocopes.com/how-to-uppercase-first-letter-javascript/
-exports.verifyPassword = function(text) {
-  if (typeof text !== 'string') return "";
-
-  return text.charAt(0).toUpperCase() + text.slice(1);
+exports.verifyPassword = async function(password1, password2) {
+  return bcrypt.compare(password1, password2);
 }

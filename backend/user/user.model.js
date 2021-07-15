@@ -15,8 +15,8 @@ async function createUser(name, email, hashedPassword, connection = db) {
     .returning("id");
 }
 
-async function getUser(user_id) {
-  return db("user").where({ id: user_id }).first();
+async function getUser(filterObj, connection = db) {
+  return connection("user").where(filterObj).first();
 }
 
 async function getUsers() {

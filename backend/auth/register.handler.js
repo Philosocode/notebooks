@@ -5,11 +5,19 @@ const { entityExists } = require("../common/common.model");
 const { createToken, hashPassword } = require("../utils/auth.util");
 const { sendResponse } = require("../common/send-response.util");
 
-module.exports = catchAsync(async function register(req, res, next) {
-  const { name, email, password } = req.body;
+module.exports = catchAsync(async function register(req, res) {
+  let { name, email, password } = req.body;
+
+  name = name.trim();
+  email = email.trim();
+  password = password.trim();
+
+  if (!name || !email || !password) {
+    return sendResponse(res, 422, null, "Please include a name, email, and password");
+  }
 
   // TODO: Properly validate password
-  if (!password.trim() || password.trim().length < 8) {
+  if (password.trim().length < 8) {
     return sendResponse(res, 422, null, "Password must be at least 8 characters long");
   }
 
@@ -21,7 +29,7 @@ module.exports = catchAsync(async function register(req, res, next) {
   }
 
   // hash the password
-  const hashedPassword = hashPassword(password);
+  const hashedPassword = await hashPassword(password);
 
   // create the user
   const rows = await createUser(name, email, hashedPassword);
@@ -31,9 +39,7 @@ module.exports = catchAsync(async function register(req, res, next) {
   const user = { id: userId, name, email };
   const token = await createToken(user);
 
-  console.log("TOKEN", token);
-
-  logger.info(`Email/Password Login: Name: ${name}, Email: ${email}`);
+  logger.info(`Email/Password Registration: Name: ${name}, Email: ${email}`);
 
   sendResponse(res, 200, {
     user,
