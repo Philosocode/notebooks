@@ -1,6 +1,7 @@
 import React from "react";
 
 import { useStep } from "shared/hooks/use-step.hook";
+import { SHeadingSubtitle } from "shared/styles/typography.style";
 
 import { StepOne } from "./step-1.component";
 import { StepTwo } from "./step-2.component";
@@ -12,6 +13,7 @@ export const ConsumeWorkflow: React.FC = () => {
 
   return (
     <div>
+      <SHeadingSubtitle>Workflow: Reading / Watching</SHeadingSubtitle>
       { step === 1 && <StepOne handleNext={increment} /> }
       { step === 2 && <StepTwo handleNext={increment} /> }
       { step === 3 && <StepThree handleReset={() => setStep(1)} /> }

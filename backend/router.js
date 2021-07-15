@@ -13,6 +13,8 @@ const logRequestMiddleware = require("./middlewares/log-request.middleware");
 
 // Auth
 const googleLogin = require("./auth/google-login.handler");
+const register = require("./auth/register.handler");
+const login = require("./auth/login.handler");
 
 // Concept
 const getConcept = require("./concept/get-concept.handler");
@@ -123,6 +125,8 @@ const router = express.Router();
    ====================== */
 // Auth
 router.post("/auth/google", googleLogin);
+router.post("/auth/register", register);
+router.post("/auth/login", login);
 
 /* ======================
    PROTECTED ROUTES

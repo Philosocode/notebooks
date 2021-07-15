@@ -73,7 +73,7 @@ export const StepTwo: React.FC<IProps> = ({ handleNext }) => {
       <SCreateHookForm handleCreate={handleCreate} />
       <SButton onClick={handleNext}>Next</SButton>
 
-      <SHooks>
+      <SHookList>
         {Object.values(hooks).map((hook, index) => (
           <EditableContentBox
             key={hook.id}
@@ -88,7 +88,7 @@ export const StepTwo: React.FC<IProps> = ({ handleNext }) => {
             imagesAreTemporary
           />
         ))}
-      </SHooks>
+      </SHookList>
     </div>
   );
 };
@@ -97,6 +97,6 @@ const SCreateHookForm = styled(CreateHookForm)`
   margin-top: ${theme.spacing.base};
 `;
 
-const SHooks = styled.div`
+const SHookList = styled.div`
   margin-top: ${theme.spacing.md};
 `;

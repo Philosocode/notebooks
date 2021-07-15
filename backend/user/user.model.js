@@ -1,12 +1,17 @@
 const db = require("../db/db");
 
 module.exports = {
+  createUser,
   getGoogleUser,
   getUser,
   getUsers,
   upsertUser,
   updateUserSettings,
 };
+
+async function createUser(name, email, hashedPassword, connection=db) {
+  return; 
+}
 
 async function getUser(user_id) {
   return db("user").where({ id: user_id }).first();
