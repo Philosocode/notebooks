@@ -5,7 +5,7 @@ import styled from "styled-components";
 import GoogleLogin from "react-google-login";
 
 import { selectIsLoggedIn } from "user/redux/user.selectors";
-import { loginEmail, loginGoogle } from "user/redux/user.thunks";
+import { loginEmail, loginGoogle, register } from "user/redux/user.thunks";
 import { useForm } from "shared/hooks/use-form.hook";
 import { convertToTitleCase } from "shared/utils/string.util";
 
@@ -35,7 +35,11 @@ export const AuthForm: React.FC<IProps> = ({ mode }) => {
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
-    dispatch(loginEmail({ email, password }));
+    if (mode === "login") {
+      dispatch(loginEmail({ email, password }));
+    } else {
+      dispatch(register({ name, email, password }));
+    }
   }
 
   function submitDisabled() {

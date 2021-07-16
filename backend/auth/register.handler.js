@@ -37,7 +37,7 @@ module.exports = catchAsync(async function register(req, res) {
 
   // send data back
   const user = { id: userId, name, email };
-  const token = await createToken(user);
+  const token = await createToken({ user });
 
   logger.info(`Email/Password Registration: Name: ${name}, Email: ${email}`);
 

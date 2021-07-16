@@ -11,7 +11,7 @@ export const Sidebar: React.FC = () => {
   const { pathname } = useLocation();
   const isMobile = useIsMobile();
 
-  if (pathname.includes("login")) return null;
+  if (pathname.includes("login") || pathname.includes("register")) return null;
 
   let sidebarWidth: string;
   let SidebarContent: React.FC;

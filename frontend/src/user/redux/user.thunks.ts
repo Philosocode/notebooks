@@ -67,6 +67,30 @@ export const loginEmail = createAsyncThunk(
   }
 )
 
+interface IRegisterPayload {
+  name: string;
+  email: string;
+  password: string;
+}
+export const register = createAsyncThunk(
+  "auth/register",
+  async function (payload: IRegisterPayload, thunkAPI) {
+    try {
+      const res = await api.post<ILoginResponse>("/auth/register", payload);
+
+      thunkAPI.dispatch(login(res.data.data));
+
+      return res.data.data;
+    } catch (err) {
+      thunkAPI.dispatch(showAndHideAlert({
+        message: "Email already exists. Please try again",
+        type: "warning",
+      }));
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+)
+
 interface IGetUserSettingsResponse {
   status: string;
   data: {
