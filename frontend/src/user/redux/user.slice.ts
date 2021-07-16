@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AnyAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { IUserState } from "./user.types";
 import { ILoginPayload } from "./user.types";
@@ -11,6 +11,14 @@ const initialState: IUserState = {
   settings: undefined,
   token: undefined,
 };
+
+function saveTokenToStorageAction(action: AnyAction) {
+  return [
+    loginGoogle.fulfilled.type,
+    loginEmail.fulfilled.type,
+    register.fulfilled.type
+  ].includes(action.type);
+}
 
 const userSlice = createSlice({
   name: "user",
@@ -31,21 +39,6 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loginGoogle.fulfilled, (state, action) => {
-        const { token } = action.payload;
-
-        localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
-      })
-      .addCase(loginEmail.fulfilled, (state, action) => {
-        const { token } = action.payload;
-
-        localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
-      })
-      .addCase(register.fulfilled, (state, action) => {
-        const { token } = action.payload;
-
-        localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
-      })
       .addCase(getUserSettings.fulfilled, (state, action) => {
         state.settings = action.payload;
       })
@@ -59,6 +52,11 @@ const userSlice = createSlice({
         }
 
         state.settings = updatedSettings;
+      })
+      .addMatcher(saveTokenToStorageAction, (state, action) => {
+        const { token } = action.payload;
+  
+        localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
       })
   }
 });
