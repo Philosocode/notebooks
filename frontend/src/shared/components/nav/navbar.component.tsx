@@ -33,18 +33,27 @@ export const Navbar: React.FC = () => {
 
   return (
     <SNav>
-      { appLocation !== "other" && <SMenuToggle icon="bars" onClick={handleToggleClick} /> }
+      {appLocation !== "auth" && (
+        <SMenuToggle icon="bars" onClick={handleToggleClick} />
+      )}
       <SNavList>
-        { user && (
+        {user && (
           <>
-            <SRandomHookButton icon={faLightbulb} onClick={toggleRandomHookModal} />
+            <SRandomHookButton
+              icon={faLightbulb}
+              onClick={toggleRandomHookModal}
+            />
             <SStuckButton onClick={toggleHelpModal}>I'm Stuck</SStuckButton>
             <NavbarProfileMenu user={user} />
           </>
         )}
       </SNavList>
       <HelpModal handleClose={toggleHelpModal} isShowing={helpModalShowing} />
-      <RandomHookModal handleClose={toggleRandomHookModal} isShowing={randomHookModalShowing} />
+      <RandomHookModal
+        handleClose={toggleRandomHookModal}
+        isShowing={randomHookModalShowing}
+      />
+      {appLocation === "auth" && <SNavList></SNavList>}
     </SNav>
   );
 };
@@ -57,9 +66,9 @@ const SNav = styled.nav`
   height: ${theme.componentSizes.navbarHeight};
   padding: 0 ${theme.spacing.sideGap};
   position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
   z-index: ${theme.zIndices.nav};
 `;
 
@@ -67,8 +76,8 @@ const SMenuToggle = styled(FontAwesomeIcon)`
   cursor: pointer;
   font-size: 2.5rem;
   position: absolute;
-    left: 1rem;
-  
+  left: 1rem;
+
   ${theme.media.tabPort} {
     left: 3.5rem;
   }
@@ -78,7 +87,7 @@ const SRandomHookButton = styled(FontAwesomeIcon)`
   color: ${theme.colors.gray["700"]};
   cursor: pointer;
   font-size: 2rem;
-  
+
   &:hover {
     color: ${theme.colors.green["300"]};
   }
@@ -101,10 +110,10 @@ const SStuckButton = styled(SButtonGreen)`
 
 const SNavList = styled.ul`
   display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  justify-content: flex-end;
+  align-items: center;
   position: relative;
-  
+
   & > *:not(:last-child) {
     margin-right: 3rem;
   }

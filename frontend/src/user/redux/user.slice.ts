@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUserState } from "./user.types";
 import { ILoginPayload } from "./user.types";
 import { LOCAL_STORAGE_TOKEN_KEY } from "../../shared/constants.shared";
-import { getUserSettings, updateUserSettings } from "./user.thunks";
+import { getUserSettings, loginEmail, updateUserSettings } from "./user.thunks";
 import { loginGoogle } from "./user.thunks";
 
 const initialState: IUserState = {
@@ -32,6 +32,11 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginGoogle.fulfilled, (state, action) => {
+        const { token } = action.payload;
+
+        localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
+      })
+      .addCase(loginEmail.fulfilled, (state, action) => {
         const { token } = action.payload;
 
         localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);

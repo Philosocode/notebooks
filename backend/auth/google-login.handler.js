@@ -5,7 +5,7 @@ const catchAsync = require("../middlewares/catch-async.middleware");
 const db = require("../db/db");
 const logger = require("../utils/logger.util");
 const { sendResponse } = require("../common/send-response.util");
-const { upsertUser } = require("../user/user.model");
+const { upsertUser, getUser } = require("../user/user.model");
 const { createToken } = require("../utils/auth.util");
 
 const CLIENT_ID = process.env.OAUTH_CLIENT_ID;
@@ -23,7 +23,8 @@ module.exports = catchAsync(async function (req, res, next) {
   } catch {
     return next(new AppError("Failed to verify oauth id token", 400));
   }
-
+  
+  
   // sub = unique user Google ID
   const {
     sub: google_id,
@@ -32,9 +33,15 @@ module.exports = catchAsync(async function (req, res, next) {
     picture: photo_url,
   } = ticket.getPayload();
 
+  // if user registered with email and password, stop the from continuing
+  let userFromDb = await getUser({ email: email.toLowerCase() });
+  if (userFromDb?.password) {
+    return sendResponse(res, 200, null, "Try logging in with email and password");
+  }
+
   await upsertUser(email, google_id, name, photo_url);
 
-  const userFromDb = await db("user").where({ google_id }).first();
+  userFromDb = await getUser({ google_id });
 
   const user = { id: userFromDb.id, email, google_id, name, photo_url };
 

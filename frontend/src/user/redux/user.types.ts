@@ -3,7 +3,7 @@ export interface IUser {
   email: string;
   google_id: string;
   name: string;
-  photo_url: string;
+  photo_url?: string;
 }
 
 export interface IUserSettings {

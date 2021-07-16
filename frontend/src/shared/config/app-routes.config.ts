@@ -2,6 +2,7 @@ import { FC } from "react";
 import { RouteComponentProps } from "react-router-dom";
 
 import { LoginPage } from "auth/pages/login.page";
+import { RegisterPage } from "auth/pages/register.page";
 import { LibraryPage } from "library/pages/library.page";
 import { LibraryDetailPage } from "library/pages/library-detail.page";
 import { ConceptDetailPage } from "concept/pages/concept-detail.page";
@@ -21,6 +22,11 @@ interface IAppRoute<T = {}> {
 const login: IAppRoute = {
   component: LoginPage,
   path: "/login",
+};
+
+const register: IAppRoute = {
+  component: RegisterPage,
+  path: "/register",
 };
 
 const library: IAppRoute = {
@@ -77,6 +83,7 @@ const workflows: IAppRoute = {
 
 export const appRoutes = [
   login,
+  register,
   library,
   libraryDetail,
   concepts,

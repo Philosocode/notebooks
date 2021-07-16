@@ -9,7 +9,7 @@ module.exports = catchAsync(async function register(req, res) {
   let { name, email, password } = req.body;
 
   name = name.trim();
-  email = email.trim();
+  email = email.trim().toLowerCase();
   password = password.trim();
 
   if (!name || !email || !password) {

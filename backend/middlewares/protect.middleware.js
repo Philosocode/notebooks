@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 
-const { getGoogleUser } = require("../user/user.model");
+const { getUser } = require("../user/user.model");
 const catchAsync = require("./catch-async.middleware");
 const AppError = require("../utils/app-error.util");
 
@@ -26,7 +26,7 @@ module.exports = catchAsync(async function protect(req, res, next) {
   }
 
   // Find user
-  const user = await getGoogleUser(decoded.user.google_id);
+  const user = await getUser({ id: decoded.user.id });
   if (!user) {
     return next(
       new AppError("Can't find user for token.", 401)
