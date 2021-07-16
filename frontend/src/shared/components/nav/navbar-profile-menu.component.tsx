@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { faInfoCircle, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle, faSignOutAlt, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 // logic
 import { IUser } from "user/redux/user.types";
@@ -16,6 +16,7 @@ import { SettingsModal } from "user/components/settings-modal.component";
 // styles
 import { theme } from "../../styles/theme.style";
 import { updateUserSettings } from "../../../user/redux/user.thunks";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface IProps {
   user: IUser;
@@ -27,12 +28,14 @@ export const NavbarProfileMenu: React.FC<IProps> = ({ user }) => {
   const settings = useSelector(selectSettings);
 
   function handleTutorial() {
-    dispatch(updateUserSettings({
-      userId: "test",
-      updates: {
-        showWelcomeWizard: true,
-      }
-    }));
+    dispatch(
+      updateUserSettings({
+        userId: "test",
+        updates: {
+          showWelcomeWizard: true,
+        },
+      })
+    );
   }
 
   function handleLogout() {
@@ -49,20 +52,33 @@ export const NavbarProfileMenu: React.FC<IProps> = ({ user }) => {
   return (
     <>
       <SProfilePictureContainer>
-        <SProfilePicture src={user.photo_url} alt={user.name} onClick={toggleMenuShowing} />
+        {user.photo_url ? (
+          <SProfilePicture
+            src={user.photo_url}
+            alt={user.name}
+            onClick={toggleMenuShowing}
+          />
+        ) : (
+          <SProfileIcon
+            icon={faUserCircle}
+            onClick={toggleMenuShowing}
+          />
+        )}
         <SMenuContainer>
-          <Menu actions={menuActions} toggleMenu={toggleMenuShowing} menuShowing={menuShowing} />
+          <Menu
+            actions={menuActions}
+            toggleMenu={toggleMenuShowing}
+            menuShowing={menuShowing}
+          />
         </SMenuContainer>
       </SProfilePictureContainer>
-      {
-        settings && (
-          <SettingsModal
-            modalShowing={settingsModalShowing}
-            toggleModal={toggleSettingsModal}
-            currentSettings={settings}
-          />
-        )
-      }
+      {settings && (
+        <SettingsModal
+          modalShowing={settingsModalShowing}
+          toggleModal={toggleSettingsModal}
+          currentSettings={settings}
+        />
+      )}
     </>
   );
 };
@@ -70,8 +86,8 @@ export const NavbarProfileMenu: React.FC<IProps> = ({ user }) => {
 const SProfilePictureContainer = styled.li`
   cursor: pointer;
   display: flex;
-    justify-content: center;
-    align-items: center;
+  justify-content: center;
+  align-items: center;
   position: relative;
 `;
 
@@ -81,10 +97,14 @@ const SProfilePicture = styled.img`
   width: 3rem;
 `;
 
+const SProfileIcon = styled(FontAwesomeIcon)`
+  font-size: 2.7rem;
+`;
+
 const SMenuContainer = styled.div`
   position: absolute;
-    top: 3.5rem;
-    right: 11rem;
+  top: 3.5rem;
+  right: 11rem;
 
   ${theme.media.tabLand} {
     right: 12rem;

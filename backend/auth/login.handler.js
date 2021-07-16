@@ -19,7 +19,7 @@ module.exports = catchAsync(async function register(req, res) {
     // if so, prevent login
     return sendResponse(res, 200, null, "Try logging in with Google");
   }
-  
+
   // verify passwords match
   const passwordFromDb = userForEmail.password;
   const passwordsMatch = await verifyPassword(password, passwordFromDb);
@@ -32,16 +32,13 @@ module.exports = catchAsync(async function register(req, res) {
     email,
     photo_url: userForEmail.photo_url ?? "",
   };
-  const token = await createToken(user);
+  const token = await createToken({ user });
 
   logger.info(
     `Email/Password Login: Name: ${userForEmail.name}, Email: ${email}`
   );
 
-  sendResponse(res, 200, {
-    user,
-    token,
-  });
+  sendResponse(res, 200, { user, token });
 });
 
 function invalidCredentials(res) {
