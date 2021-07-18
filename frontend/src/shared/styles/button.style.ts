@@ -21,13 +21,14 @@ export const SButton = styled.button`
     outline: 1px solid ${theme.colors.gray[500]};
   }
 
+  &:hover {
+    background: ${theme.colors.gray[200]};
+  }
+
   &:disabled {
     cursor: not-allowed;
     background: ${theme.colors.gray[400]};
     color: white;
-  }
-  
-  &:hover {
   }
 `;
 

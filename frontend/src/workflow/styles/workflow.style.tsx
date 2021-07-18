@@ -9,5 +9,5 @@ export const SWorkflowHeading = styled(SHeadingSubSubtitle)`
 `;
 
 export const SButton = styled(SButtonGreen)`
-  margin-top: ${theme.spacing.base};a
+  margin-top: ${theme.spacing.base};
 `;
