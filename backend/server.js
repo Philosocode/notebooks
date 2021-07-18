@@ -1,3 +1,5 @@
+const db = require("./db/db");
+
 require("dotenv").config({ path: __dirname + "/../env/backend.env" });
 
 const logger = require("./utils/logger.util");
@@ -10,7 +12,7 @@ process.on('uncaughtException', err => {
   process.exit(1);
 });
 
-const app = require("./app");
+const app = require("./app")(db);
 
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
