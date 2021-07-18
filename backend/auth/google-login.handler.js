@@ -6,7 +6,7 @@ const db = require("../db/db");
 const logger = require("../utils/logger.util");
 const { sendResponse } = require("../common/send-response.util");
 const { upsertUser, getUser } = require("../user/user.model");
-const { createToken } = require("../utils/auth.util");
+const { createToken } = require("./auth.util");
 
 const CLIENT_ID = process.env.OAUTH_CLIENT_ID;
 const client = new OAuth2Client(CLIENT_ID);

@@ -1,8 +1,8 @@
 const seedData = [
   {
-    google_id: "yggdrasil",
     name: "Yggdrasil Learner",
     email: "yggdrasil@gmail.com",
+    password: "password",
     photo_url: "photo_url",
   },
 ];

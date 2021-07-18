@@ -62,6 +62,7 @@ module.exports = (database) => {
   app.use(compression());
   
   // router
+  app.use("/test", (_, res) => { res.status(200).send("Hello World") });
   app.use("/api/v1", router);
   
   if (process.env.NODE_ENV === "production") {

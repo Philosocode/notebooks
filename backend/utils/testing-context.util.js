@@ -25,6 +25,8 @@ const knexOptions = (user, password) => {
       database: process.env.POSTGRES_TEST_DB,
       charset: "utf8",
     },
+    migrations: { directory: "./db/migrations" },
+    seeds: { directory: "./db/seeds" },
   };
 };
 
@@ -61,10 +63,7 @@ class TestingContext {
     const knexPool = require("knex")(knexOptions(roleName, roleName));
 
     // Run migrations in the new schema
-    await knexPool.migrate.latest({
-      schemaName: roleName,
-      directory: __dirname + "/../db/migrations",
-    });
+    await knexPool.migrate.latest({ schemaName: roleName });
 
     return new TestingContext(knexPool, roleName);
   }

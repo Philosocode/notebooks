@@ -1,6 +1,6 @@
 const catchAsync = require("../middlewares/catch-async.middleware");
 const logger = require("../utils/logger.util");
-const { createToken, verifyPassword } = require("../utils/auth.util");
+const { createToken, verifyPassword } = require("./auth.util");
 const { getUser } = require("../user/user.model");
 const { sendResponse } = require("../common/send-response.util");
 
@@ -11,7 +11,7 @@ module.exports = catchAsync(async function register(req, res) {
   if (!email) return invalidCredentials(res);
 
   // check if user exists
-  const userForEmail = await getUser({ email });
+  const userForEmail = await getUser({ email }, req.app.get("db"));
   if (!userForEmail) return invalidCredentials(res);
 
   // check if user is a Google user

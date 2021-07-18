@@ -2,7 +2,7 @@ const catchAsync = require("../middlewares/catch-async.middleware");
 const logger = require("../utils/logger.util");
 const { createUser } = require("../user/user.model");
 const { entityExists } = require("../common/common.model");
-const { createToken, hashPassword } = require("../utils/auth.util");
+const { createToken, hashPassword } = require("./auth.util");
 const { sendResponse } = require("../common/send-response.util");
 
 module.exports = catchAsync(async function register(req, res) {
