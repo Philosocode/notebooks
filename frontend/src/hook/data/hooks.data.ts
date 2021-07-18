@@ -1,3 +1,12 @@
+export const commonHooks = [
+  "How do I express this in my own words?",
+  "How do I explain this so a 5 year old can understand?",
+  "Can I think of (simple) concrete examples for this?",
+  "What are the key things I need to remember?",
+  "What does this remind me of?",
+  "Can I think of a simile, analogy, or metaphor?",
+];
+
 export const connectHooks = [
   "Can I think of a simile, analogy, or metaphor?",
   "What does this remind me of?",
@@ -40,6 +49,7 @@ export const allHooksArray = [
 ];
 
 export const allHooksHash = {
+  common: commonHooks,
   connect: connectHooks,
   memorize: memorizeHooks,
   process: processHooks,

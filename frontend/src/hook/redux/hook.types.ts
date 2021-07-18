@@ -1,4 +1,4 @@
-export type THookType = "connect" | "memorize" | "process";
+export type THookType = "common" | "connect" | "memorize" | "process";
 
 export interface IHook {
   content: string;

@@ -10,13 +10,19 @@ import { selectConceptHooks } from "concept/redux/concept.selectors";
 // styles
 import { theme } from "../../shared/styles/theme.style";
 import { SInputBorderless } from "shared/styles/form.style";
-import { SHeadingSubSubtitle, SRegularText } from "shared/styles/typography.style";
+import {
+  SHeadingSubSubtitle,
+  SRegularText,
+} from "shared/styles/typography.style";
 
 interface IProps {
   defaultHooks: string[];
   handleSelect: (hook: string) => void;
 }
-export const HookSelectGrid: React.FC<IProps> = ({ handleSelect, defaultHooks }) => {
+export const HookSelectGrid: React.FC<IProps> = ({
+  handleSelect,
+  defaultHooks,
+}) => {
   const [filterText, setFilterText] = useState("");
   const conceptHooks = useSelector(selectConceptHooks);
 
@@ -36,7 +42,8 @@ export const HookSelectGrid: React.FC<IProps> = ({ handleSelect, defaultHooks })
 
   function conceptHasHook(hook: string) {
     return conceptHooks?.some(
-      conceptHook => conceptHook.name.toLowerCase() === hook.trim().toLowerCase()
+      (conceptHook) =>
+        conceptHook.name.toLowerCase() === hook.trim().toLowerCase()
     );
   }
 
@@ -44,16 +51,15 @@ export const HookSelectGrid: React.FC<IProps> = ({ handleSelect, defaultHooks })
     <div>
       <SInput onChange={handleInputChange} placeholder="Type to filter hooks" />
       <SHookGrid>
-        { getFilteredHooks().length === 0 && (
-          <SHeadingSubSubtitle style={{ fontWeight: 500 }}>No hooks found.</SHeadingSubSubtitle>
+        {getFilteredHooks().length === 0 && (
+          <SHeadingSubSubtitle style={{ fontWeight: 500 }}>
+            No hooks found.
+          </SHeadingSubSubtitle>
         )}
         {getFilteredHooks().map((hook) => (
-          <SHookCard
-            key={hook}
-            onClick={() => handleSelect(hook)}
-          >
+          <SHookCard key={hook} onClick={() => handleSelect(hook)}>
             <SRegularText weight={500}>{hook}</SRegularText>
-            { conceptHasHook(hook) && <SHookCardIcon icon={faCheck} /> }
+            {conceptHasHook(hook) && <SHookCardIcon icon={faCheck} />}
           </SHookCard>
         ))}
       </SHookGrid>
@@ -68,13 +74,13 @@ const SInput = styled(SInputBorderless)`
 
 const SHookGrid = styled.div`
   margin-top: ${theme.spacing.base};
-  
+
   ${theme.media.tabPort} {
     margin-top: ${theme.spacing.sm};
     display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
-      justify-items: space-between;
-      gap: ${theme.spacing.base};
+    grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+    justify-items: space-between;
+    gap: ${theme.spacing.base};
   }
 `;
 
@@ -88,7 +94,7 @@ const SHookCard = styled.div`
   margin-top: ${theme.spacing.base};
   padding: ${theme.spacing.sm};
   position: relative;
-  
+
   &:hover {
     background: ${theme.colors.green[400]};
     color: ${theme.colors.white};
@@ -97,6 +103,6 @@ const SHookCard = styled.div`
 
 const SHookCardIcon = styled(FontAwesomeIcon)`
   position: absolute;
-    bottom: 7px;
-    right: 7px;
+  bottom: 7px;
+  right: 7px;
 `;

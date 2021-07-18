@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import {
   faBrain,
+  faFireAlt,
   faMemory,
   faNetworkWired,
 } from "@fortawesome/free-solid-svg-icons";
@@ -18,6 +19,7 @@ export const HookTypes: React.FC<IProps> = ({
   handleSelectHookType,
 }) => {
   const hookTypes: { name: THookType; icon: IconProp }[] = [
+    { name: "common", icon: faFireAlt },
     { name: "process", icon: faBrain },
     { name: "connect", icon: faNetworkWired },
     { name: "memorize", icon: faMemory },
@@ -42,8 +44,10 @@ const SHookTypes = styled.ul`
   margin-top: ${theme.spacing.base};
   
   ${theme.media.tabPort} {
-    display: flex;
-      justify-content: space-between;
+    display: grid;
+      grid-template-columns: 1fr 1fr;
+      row-gap: ${theme.spacing.base};
+      column-gap: ${theme.spacing.md};
   }
 `;
 
