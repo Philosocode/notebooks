@@ -9,6 +9,7 @@
     "start:backend": "docker-compose up --build backend",
     "build": "docker-compose build",
     "stop": "docker-compose down",
+    "backend:test": "docker-compose exec backend npx jest",
     "db:connect": "docker-compose exec db bash -c 'psql -U postgres yggdrasil'",
     "db:migrate": "docker-compose exec backend npx knex migrate:latest",
     "db:rollback": "docker-compose exec backend npx knex migrate:rollback",

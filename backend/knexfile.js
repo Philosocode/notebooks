@@ -1,4 +1,6 @@
-require("dotenv").config({ path: __dirname + "/../env/db.env" });
+const dotenv = require("dotenv");
+dotenv.config({ path: __dirname + "/../env/db.env" });
+dotenv.config({ path: __dirname + "/../env/backend.env" });
 
 module.exports = {
   development: {
@@ -27,7 +29,7 @@ module.exports = {
   production: {
     client: "pg",
     connection: {
-      host: process.env.DB_HOST,
+      host: "localhost",
       user: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
