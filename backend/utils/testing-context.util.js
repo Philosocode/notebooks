@@ -74,10 +74,6 @@ class TestingContext {
     this.db = db;
   }
 
-  async reset(tables) {
-    return this.db.raw(`TRUNCATE ${tables.join(", ")}`);
-  }
-
   async close() {
     // Disconnect from PG
     await this.db.destroy();
