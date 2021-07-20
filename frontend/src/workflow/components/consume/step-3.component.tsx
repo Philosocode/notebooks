@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { MarkdownEditor } from "shared/mde/markdown-editor.component";
+import { SRegularText } from "shared/styles/typography.style";
 
 import { SButton, SWorkflowHeading } from "../../styles/workflow.style";
 
@@ -15,6 +16,9 @@ export const StepThree: React.FC<IProps> = ({ handleReset }) => {
   return (
     <div>
       <SWorkflowHeading>Session Summary</SWorkflowHeading>
+      <SRegularText>
+        Summarize what you learned during the entire study session.
+      </SRegularText>
       <MarkdownEditor
         value={summaryText}
         setValue={setSummaryText}
