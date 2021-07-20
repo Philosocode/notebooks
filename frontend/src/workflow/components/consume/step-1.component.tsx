@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 import { LabelCheckbox } from "shared/components/form/label-checkbox.component";
 import { useStep } from "shared/hooks/use-step.hook";
+import { useToggle } from "shared/hooks/use-toggle.hook";
 import { MarkdownEditor } from "shared/mde/markdown-editor.component";
 import { selectTimerState } from "timer/redux/timer.selectors";
 import { SButton, SWorkflowHeading } from "../../styles/workflow.style";
@@ -18,7 +19,6 @@ const mindsetItems = [
 ];
 
 const preStudyItems = [
-  "Start the study timer (click on 'Timer' in the left sidebar)",
   "Skim through the material. Pay attention to headings, images, & questions",
   "If available: read / watch the summary",
   "If new material: find and attempt the practice problems",
@@ -52,12 +52,13 @@ const maxStep = 4;
 
 export const StepOne: React.FC<IProps> = ({ handleNext }) => {
   const [summaryText, setSummaryText] = useState("");
-  const { step, increment } = useStep(1, 3);
+  const { step, increment } = useStep(1, 4);
   const [values, setValues] = useState({
     ...initialMindsetState,
     ...initialPreStudyState,
   });
-
+  const [timerSet, toggleTimerSet] = useToggle(false);
+  
   const { runningState } = useSelector(selectTimerState);
 
   useEffect(() => {
@@ -67,11 +68,19 @@ export const StepOne: React.FC<IProps> = ({ handleNext }) => {
 
     if (
       (step === 1 && numChecks >= 3) ||
-      (step === 2 && numChecks >= 7) ||
-      (step === 3 && runningState === "running")) {
+      (step === 2 && timerSet) ||
+      (step === 3 && numChecks >= 6)) {
       increment();
     }
-  }, [values, step, increment, runningState]);
+  }, [values, step, increment, timerSet]);
+
+  useEffect(() => {
+    if (timerSet) return;
+
+    if (runningState === "running") {
+      toggleTimerSet();
+    }
+  });
 
   // disable if there's an unchecked checkbox or summary text empty
   const formDisabled =
@@ -109,12 +118,26 @@ export const StepOne: React.FC<IProps> = ({ handleNext }) => {
               id={stepName}
               name={stepName}
               onChange={handleCheckboxChange}
-              checked={values[stepName]}
+              checked={values.timerSet}
             />
           );
         })}
 
         {step >= 2 && (
+          <>
+            <SWorkflowHeading>Start Timer</SWorkflowHeading>
+            <LabelCheckbox
+              key="timerSet"
+              htmlFor="timerSet"
+              text="Start the study timer (click on 'Timer' in the left sidebar)"
+              id="timerSet"
+              name="timerSet"
+              checked={timerSet}
+            />
+          </>
+        )}
+
+        {step >= 3 && (
           <>
             <SWorkflowHeading>Pre-Study</SWorkflowHeading>
             {preStudyItems.map((item, index) => {
@@ -135,7 +158,7 @@ export const StepOne: React.FC<IProps> = ({ handleNext }) => {
           </>
         )}
 
-        {step >= 3 && (
+        {step >= 4 && (
           <>
             <MarkdownEditor
               value={summaryText}
