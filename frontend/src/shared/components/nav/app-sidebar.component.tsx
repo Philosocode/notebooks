@@ -13,6 +13,8 @@ import { selectTimerModalShowing } from "timer/redux/timer.selectors";
 
 import { theme } from "shared/styles/theme.style";
 import { TFlashcardSource } from "practice/redux/practice.types";
+import { setSidebarShowing } from "shared/redux/global.slice";
+import { useIsMobile } from "shared/hooks/use-is-mobile.hook";
 
 export const AppSidebar: React.FC = () => { 
   const dispatch = useDispatch();
@@ -20,8 +22,10 @@ export const AppSidebar: React.FC = () => {
   const timerModalShowing = useSelector(selectTimerModalShowing);
   const location = useLocation();
   const appLocation = useAppLocation();
+  const isMobile = useIsMobile();
 
   function showTimer() {
+    if (isMobile) dispatch(setSidebarShowing(false));
     dispatch(showModal())
   }
 

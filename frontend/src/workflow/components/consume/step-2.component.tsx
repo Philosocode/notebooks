@@ -297,10 +297,16 @@ const SStudyBlockCounter = styled.div`
   display: flex;
     align-items: center;
     justify-content: space-between;
-  height: 5rem;
+  
   position: absolute;
-    top: -5rem;
+  height: 4rem;
+    top: -2rem;
     right: 0;
+
+  ${theme.media.tabPort} {
+    height: 5rem;
+    top: -5rem;
+  }
 `;
 
 const SCreateHookForm = styled(CreateHookForm)`

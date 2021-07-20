@@ -101,14 +101,18 @@ export const TimerModal: React.FC<IProps> = ({ settings }) => {
     if (mode === "break") {
         handleBreakStart();
     }
-    else if (inputValues["topic2"].trim() === "") {
-      handleSingleTopicStart();
-    }
-    else if (mode === "switch") {
-      handleSecondTopicStart();
-    }
     else {
-      handleFirstTopicStart();
+      if (inputValues["topic2"].trim() === "") {
+        handleSingleTopicStart();
+      }
+      else if (mode === "switch") {
+        handleSecondTopicStart();
+      }
+      else {
+        handleFirstTopicStart();
+      }
+
+      dispatch(hideModal());
     }
   }
 
