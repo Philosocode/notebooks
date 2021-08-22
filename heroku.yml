@@ -9,5 +9,5 @@ build:
     frontend: frontend/Dockerfile
 
 run:
-  backend: npm start
-  frontend: npm start
+  backend: cd backend && npm start
+  frontend: cd frontend && npm start
