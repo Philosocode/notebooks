@@ -2,11 +2,11 @@ import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CSSTransition } from "react-transition-group";
+import styled from "styled-components";
 
 import { TAppState } from "shared/redux/store";
 import { TAlertType } from "alert/redux/alert.types";
 import { theme } from "shared/styles/theme.style";
-import styled from "styled-components";
 import { clearAlert } from "alert/redux/alert.slice";
 
 function getColour(type: TAlertType) {

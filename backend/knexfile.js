@@ -29,11 +29,8 @@ module.exports = {
   production: {
     client: "pg",
     connection: {
-      host: "localhost",
-      user: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DB,
-      charset: "utf8",
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false },
     },
     pool: {
       min: 2,

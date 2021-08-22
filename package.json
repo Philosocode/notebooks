@@ -1,5 +1,5 @@
 {
-  "name": "yggdrasil-app",
+  "name": "ygg-notebooks",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,8 +13,7 @@
     "db:connect": "docker-compose exec db bash -c 'psql -U postgres yggdrasil'",
     "db:migrate": "docker-compose exec backend npx knex migrate:latest",
     "db:rollback": "docker-compose exec backend npx knex migrate:rollback",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": ""
+    "heroku-postbuild": "cd backend && npm install && cd ../frontend && npm install --production=false && npm run build && mv build ../backend"
   },
   "keywords": [],
   "author": "",
