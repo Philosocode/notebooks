@@ -13,7 +13,6 @@
     "db:connect": "docker-compose exec db bash -c 'psql -U postgres yggdrasil'",
     "db:migrate": "docker-compose exec backend npx knex migrate:latest",
     "db:rollback": "docker-compose exec backend npx knex migrate:rollback",
-    "heroku-prebuild": "cd frontend && npm install && npm run build && mv build ../backend && cd .. && cd backend && npm install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
