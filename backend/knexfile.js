@@ -1,35 +1,38 @@
-const dotenv = require("dotenv");
-dotenv.config({ path: __dirname + "/../env/db.env" });
-dotenv.config({ path: __dirname + "/../env/backend.env" });
+const dotenv = require('dotenv')
+dotenv.config({ path: __dirname + '/../env/backend.env' })
 
 module.exports = {
   development: {
-    client: "pg",
+    client: 'pg',
     connection: {
-      host: process.env.DB_HOST,
+      host: 'localhost',
       user: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      charset: "utf8",
+      charset: 'utf8',
     },
-    migrations: { directory: "./db/migrations" },
-    seeds: { directory: "./db/seeds" },
+    migrations: { directory: './db/migrations' },
+    seeds: { directory: './db/seeds' },
   },
   test: {
-    client: "pg",
+    client: 'pg',
     connection: {
-      host: process.env.DB_HOST,
+      host: 'localhost',
       user: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_TEST_DB,
-      charset: "utf8",
+      charset: 'utf8',
     },
-    migrations: { directory: "./db/migrations" },
+    migrations: { directory: './db/migrations' },
   },
   production: {
-    client: "pg",
+    client: 'pg',
     connection: {
-      connectionString: process.env.DATABASE_URL,
+      host: 'localhost',
+      user: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_TEST_DB,
+      charset: 'utf8',
       ssl: { rejectUnauthorized: false },
     },
     pool: {
@@ -37,8 +40,8 @@ module.exports = {
       max: 10,
     },
     migrations: {
-      directory: "./db/migrations",
-      tableName: "knex_migrations",
+      directory: './db/migrations',
+      tableName: 'knex_migrations',
     },
   },
   onUpdateTrigger: (table) => `
@@ -47,4 +50,4 @@ module.exports = {
     FOR EACH ROW
     EXECUTE PROCEDURE on_update_timestamp();
   `,
-};
+}

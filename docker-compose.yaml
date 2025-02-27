@@ -1,13 +1,13 @@
-version: "3.8"
+version: '3.8'
 
 volumes:
   data:
 
 services:
   db:
-    image: "postgres:13.1-alpine"
+    image: 'postgres:13.1-alpine'
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       # named volume
       - data:/var/lib/postgresql/data
@@ -19,7 +19,7 @@ services:
   backend:
     build: ./backend
     ports:
-      - "5000:5000"
+      - '5001:5001'
     volumes:
       # bind mount for source code
       - ./backend:/app
@@ -33,8 +33,8 @@ services:
 
   frontend:
     build: ./frontend
-    ports: 
-      - "3000:3000"
+    ports:
+      - '3000:3000'
     # -it. Needed for React dev server
     stdin_open: true
     tty: true

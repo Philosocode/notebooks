@@ -1,3 +1,6 @@
 [tools]
 node = "18"
 python = "3.9"
+
+[env]
+SSH_TARGET = 'test@123.456.789.012'
